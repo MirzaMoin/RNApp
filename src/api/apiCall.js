@@ -21,7 +21,7 @@ export function makeRequest(url, type = 'get', data = {}, header = {}) {
       .post(url, data, {headers: reqHeader})
       .then(response => {
         console.log('Response - ' + url + ' TYPE- ' + type);
-        return Promise.resolve(response);
+        return Promise.resolve(response.data);
       })
       .catch(err => {
         console.log('Error - ' + url + ' TYPE- ' + type, err);
@@ -32,7 +32,7 @@ export function makeRequest(url, type = 'get', data = {}, header = {}) {
       .delete(url, {headers: reqHeader})
       .then(response => {
         console.log('Response - ' + url + ' TYPE- ' + type);
-        return Promise.resolve(response);
+        return Promise.resolve(response.data);
       })
       .catch(err => {
         console.log('Error - ' + url + ' TYPE- ' + type, err);
@@ -43,7 +43,7 @@ export function makeRequest(url, type = 'get', data = {}, header = {}) {
       .patch(url, data, {headers: reqHeader})
       .then(response => {
         console.log('Response - ' + url + ' TYPE- ' + type);
-        return Promise.resolve(response);
+        return Promise.resolve(response.data);
       })
       .catch(err => {
         console.log('Error - ' + url + ' TYPE- ' + type, err);

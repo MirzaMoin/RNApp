@@ -17,9 +17,13 @@ import {
   KeyboardAvoidingView,
   Platform,
   AsyncStorage,
+  Alert,
 } from 'react-native';
 import {CheckBox} from 'react-native-elements';
 import TextInput from 'react-native-textinput-with-icons';
+import {makeRequest} from './../api/apiCall';
+import APIConstant from './../api/apiConstant';
+import { ActivityIndicator } from 'react-native';
 
 export default class LoginScreen extends Component {
   static navigationOptions = {
@@ -35,14 +39,116 @@ export default class LoginScreen extends Component {
       isShowSignUp: false,
       isRememberPassword: false,
       isShowForgotPassword: false,
+      userName: '',
+      password: '',
     };
+    this._getStoredData();
   }
 
-  _storeData = async () => {
+  _getStoredData = async () => {
     try {
-      await AsyncStorage.setItem('isLogin', JSON.stringify(true));
+      var userName, password, isRemeber;
+      await AsyncStorage.getItem('isRemember', (err, value) => {
+        if (err) {
+          this.props.navigation.navigate('Auth');
+        } else {
+          const val = JSON.parse(value);
+          if (val != null && val != undefined && val) {
+            isRemeber = val;
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('password', (err, value) => {
+        if (err) {
+          this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            password = value;
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('userName', (err, value) => {
+        if (err) {
+          this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            userName = value;
+          }
+        }
+      });
+      this.setState({
+        userName: userName,
+        password: password,
+        isRememberPassword: isRemeber,
+      })
+
+      console.log(`start ${userName} ${password} ${isRemeber}`)
+
     } catch (error) {
       // Error saving data
+    }
+  };
+
+  _callLogin = () => {
+    let req = {
+      rewardProgramToken: 'USNo1wRUjql8MvH1QL8ga024m1J02m',
+      userName: this.state.userName,
+      password: this.state.password,
+    };
+    console.log('Request :'+JSON.stringify(req))
+
+    makeRequest(
+      APIConstant.BASE_URL + APIConstant.LOGIN,
+      'post',
+      req
+    )
+      .then(response => {
+        console.log(JSON.stringify(response));
+        this.setState({isLoadingLogin: false});
+        if(response.statusCode == 0) {
+          Alert.alert('Oppss...', response.statusMessage);
+        } else {
+          console.log('fadsfadf');
+          this._storeLoginData(response.responsedata);
+        }
+
+        /*this._storeData();
+        this.props.navigation.navigate('Main');*/
+        
+      })
+      .catch(error => console.log('error : ' + error));
+  };
+
+  _storeLoginData = async response => {
+    try{
+      await AsyncStorage.setItem('isLogin', JSON.stringify(true));
+      if(this.state.isRememberPassword){
+        await AsyncStorage.setItem('userName', this.state.userName);
+        await AsyncStorage.setItem('password', this.state.password);
+        await AsyncStorage.setItem('isRemember', JSON.stringify(true));
+        console.log('storeing data');
+      } else {
+        await AsyncStorage.setItem('userName', '');
+        await AsyncStorage.setItem('password', '');
+        await AsyncStorage.setItem('isRemember', JSON.stringify(false));
+        console.log('not');
+      }
+      await AsyncStorage.setItem('userID',response.contactData.contactID);
+      await AsyncStorage.setItem('pointBalance',response.contactData.pointBalance.toString());
+      await AsyncStorage.setItem('reedemablePoints',response.contactData.reedemablePoints.toString());
+      await AsyncStorage.setItem('firstName',response.contactData.firstName);
+      await AsyncStorage.setItem('emailAddress',response.contactData.emailAddress);
+      await AsyncStorage.setItem('profilePitcure',response.contactData.profilePitcure);
+
+      if(response.contactData.isRequiredPasswordChanged) {
+        // redirect to change password
+      } else {
+        this.props.navigation.navigate('Main');
+      }
+    }catch (error) {
+      console.log(error)
     }
   };
 
@@ -64,6 +170,13 @@ export default class LoginScreen extends Component {
             selectionColor={'#ffffff'}
             activeColor="#ffffff"
             rippleColor="rgba(255,255,255,2)"
+            value={this.state.userName}
+            error={this.state.userNameError}
+            onChangeText={text => {
+              this.setState({
+                userName: text
+              });
+            }}
           />
 
           <TextInput
@@ -89,10 +202,21 @@ export default class LoginScreen extends Component {
             rippleColor="rgba(255,255,255,70)"
             activeColor="#ffffff"
             onPressRightIcon={this._onShowPasswordClick}
+            value={this.state.password}
+            error={this.state.passwordError}
+            onChangeText={text => {
+              this.setState({
+                password: text
+              });
+            }}
           />
 
           <CheckBox
             title="Remember Password"
+            containerStyle={{backgroundColor: 'transparent', borderWidth: 0, justifyContent: 'flex-start'}}
+            textStyle={{color: 'white'}}
+            checkedColor={'white'}
+            uncheckedColor={'white'}
             checked={this.state.isRememberPassword}
             onPress={() =>
               this.setState({
@@ -100,20 +224,44 @@ export default class LoginScreen extends Component {
               })
             }
           />
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              // this.props.navigation.navigate('App')
-              this._storeData();
-              this.props.navigation.navigate('Main');
-            }}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
+          {this._renderLoginButton()}
+          
         </View>
       );
     }
   };
+
+  _renderLoginButton = () => {
+    if(this.state.isLoadingLogin){
+      return(
+        <ActivityIndicator color={'white'} size={30}/>
+      );
+    } else {
+      return (
+        <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              // this.props.navigation.navigate('App')
+              if(this.state.userName){
+                if(this.state.password){
+                  this.setState({passwordError: '', isLoadingLogin: true});
+                  this._callLogin()
+                } else {
+                  this.setState({
+                    passwordError: 'Enter Passsword',
+                    userNameError: '',
+                  })
+                }
+              } else {
+                this.setState({userNameError: 'Please Enter Valid email'});
+              }
+              
+            }}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+      );
+    }
+  }
 
   _showSignUp = () => {
     if (this.state.isShowSignUp) {
@@ -326,6 +474,7 @@ export default class LoginScreen extends Component {
           </View>
           <View style={styles.baseScrollView}>
             <ScrollView
+              keyboardShouldPersistTaps={true}
               showsVerticalScrollIndicator={false}
               bounces={false}
               contentContainerStyle={{

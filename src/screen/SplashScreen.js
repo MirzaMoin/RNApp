@@ -8,6 +8,7 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Image, AsyncStorage} from 'react-native';
+import apiConstant from '../api/apiConstant';
 
 export default class SplashScreen extends Component {
   static navigationOptions = {
@@ -37,7 +38,23 @@ export default class SplashScreen extends Component {
     }
   };
 
+  _storeBOData = async () => {
+    try{
+      await AsyncStorage.setItem(
+        'webformID',
+        '8cf8bde6-22a6-43c8-a581-e3e2f53ed9e4'
+      );
+      await AsyncStorage.setItem(
+        'RPID',
+        '8cf8bde6-22a6-43c8-a581-e3e2f53ed9e4'
+      );
+    } catch (error){
+      console.log('error while store data : '+error)
+    }
+  }
+
   componentWillMount() {
+    this._storeBOData();
     this._getLoginData();
   }
 
@@ -55,8 +72,7 @@ export default class SplashScreen extends Component {
           <Image
             style={styles.profileContainer}
             source={{
-              uri:
-                'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
+              uri: apiConstant.USER_IMAGE,
             }}
             resizeMode="cover"
           />

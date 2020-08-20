@@ -45,7 +45,7 @@ export default class NotificationScreen extends Component {
 
   getNotificationList = () => {
     makeRequest(
-      APIConstant.BASE_URL + APIConstant.USERS + '&page=' + this.state.page,
+      APIConstant.USERS + '&page=' + this.state.page,
       'get',
     )
       .then(response => {
