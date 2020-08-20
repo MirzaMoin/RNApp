@@ -25,6 +25,8 @@ import {makeRequest} from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import { ActivityIndicator } from 'react-native';
 import {isValidEmail, isValidPhoneNo} from './../utils/utility';
+import DatePicker from 'react-native-datepicker'
+import MDIcon from 'react-native-vector-icons/MaterialIcons';
 
 export default class LoginScreen extends Component {
   static navigationOptions = {
@@ -447,14 +449,62 @@ _renderSignupButton = () => {
     }
   }
 
-  _showSignUp = () => {
-    const {fieldsData, customData, locationData} = this.state.webFromResponse;
-    if (this.state.isShowSignUp) {
+  _renderDrivingLinces = fieldsData => {
+    if(this._visibleFields.indexOf(fieldsData.driverLicenseRequired) > -1){
       return (
-        <View>
-          {this._renderMemberCardID(fieldsData)}
-          <TextInput
-            label="Full Name"
+        <TextInput
+            label={fieldsData.driverLicense || 'Driving License'}
+            labelColor="#ffffff"
+            leftIcon="car"
+            leftIconSize={20}
+            containerWidth={300}
+            leftIconType="material"
+            underlineColor="#ffffff"
+            color="#ffffff"
+            labelActiveColor="#ffffff"
+            leftIconColor="#ffffff"
+            selectionColor={'#ffffff'}
+            activeColor="#ffffff"
+            rippleColor="rgba(255,255,255,2)"
+            error={this.state.signupError.driverLicense}
+            onChangeText={text=>{
+              if(text){
+                const st = this.state.signup;
+                this.setState({
+                  signup: {
+                    ...st,
+                    driverLicense: text,
+                  },
+                });
+                const stER = this.state.signupError;
+                  this.setState({
+                    signupError: {
+                      ...stER,
+                      driverLicense: '',
+                    },
+                  });
+              } else {
+                if(this._requireFields.indexOf(fieldsData.memberCardIDRequired) > -1 && text.length() >= fieldsData.minRange && text.length() <= fieldsData.maxRange){
+                  const st = this.state.signupError;
+                  this.setState({
+                    signupError: {
+                      ...st,
+                      driverLicense: `Enter Valid ${fieldsData.driverLicense || 'Driving License'}`
+                    },
+                  });
+                }
+              }
+            }}
+          />
+      )
+    }
+  }
+
+  _renderFirstName = fieldsData => {
+    if(this._visibleFields.indexOf(fieldsData.firstNameRequired) > -1){
+      return (
+        <TextInput
+            label={fieldsData.firstNameLabel || 'First Name'}
             labelColor="#ffffff"
             leftIcon="account"
             leftIconSize={20}
@@ -467,12 +517,47 @@ _renderSignupButton = () => {
             selectionColor={'#ffffff'}
             activeColor="#ffffff"
             rippleColor="rgba(255,255,255,2)"
+            error={this.state.signupError.firstName}
+            onChangeText={text=>{
+              if(text){
+                const st = this.state.signup;
+                this.setState({
+                  signup: {
+                    ...st,
+                    firstName: text,
+                  },
+                });
+                const stER = this.state.signupError;
+                  this.setState({
+                    signupError: {
+                      ...stER,
+                      firstName: '',
+                    },
+                  });
+              } else {
+                if(this._requireFields.indexOf(fieldsData.firstNameRequired) > -1){
+                  const st = this.state.signupError;
+                  this.setState({
+                    signupError: {
+                      ...st,
+                      firstName: `Enter Valid ${fieldsData.firstNameLabel || 'First Name'}`
+                    },
+                  });
+                }
+              }
+            }}
           />
+      )
+    }
+  }
 
-          <TextInput
-            label="Mobile Number"
+  _renderLastName = fieldsData => {
+    if(this._visibleFields.indexOf(fieldsData.lastNameRequired) > -1){
+      return (
+        <TextInput
+            label={fieldsData.lastNameLabel || 'Last Name'}
             labelColor="#ffffff"
-            leftIcon="phone"
+            leftIcon="account"
             leftIconSize={20}
             containerWidth={300}
             leftIconType="material"
@@ -483,10 +568,45 @@ _renderSignupButton = () => {
             selectionColor={'#ffffff'}
             activeColor="#ffffff"
             rippleColor="rgba(255,255,255,2)"
+            error={this.state.signupError.lastName}
+            onChangeText={text=>{
+              if(text){
+                const st = this.state.signup;
+                this.setState({
+                  signup: {
+                    ...st,
+                    lastName: text,
+                  },
+                });
+                const stER = this.state.signupError;
+                  this.setState({
+                    signupError: {
+                      ...stER,
+                      lastName: '',
+                    },
+                  });
+              } else {
+                if(this._requireFields.indexOf(fieldsData.lastNameRequired) > -1){
+                  const st = this.state.signupError;
+                  this.setState({
+                    signupError: {
+                      ...st,
+                      lastName: `Enter Valid ${fieldsData.lastNameLabel || 'First Name'}`
+                    },
+                  });
+                }
+              }
+            }}
           />
+      )
+    }
+  }
 
-          <TextInput
-            label="Email address"
+  _renderEmail = fieldsData => {
+    if(this._visibleFields.indexOf(fieldsData.emailRequired) > -1){
+      return (
+        <TextInput
+            label={fieldsData.emailLabel || 'Email'}
             labelColor="#ffffff"
             leftIcon="email"
             leftIconSize={20}
@@ -499,10 +619,63 @@ _renderSignupButton = () => {
             selectionColor={'#ffffff'}
             activeColor="#ffffff"
             rippleColor="rgba(255,255,255,2)"
+            error={this.state.signupError.email}
+            onChangeText={text=>{
+              if(text){
+                const st = this.state.signup;
+                this.setState({
+                  signup: {
+                    ...st,
+                    email: text,
+                  },
+                });
+              }
+            }}
           />
+      )
+    }
+  }
 
+  _renderPhone = fieldsData => {
+    if(this._visibleFields.indexOf(fieldsData.mobileRequired) > -1){
+      return (
+        <TextInput
+            label={fieldsData.mobileLabel || 'Mobile'}
+            labelColor="#ffffff"
+            leftIcon="phone"
+            leftIconSize={20}
+            containerWidth={300}
+            leftIconType="material"
+            underlineColor="#ffffff"
+            color="#ffffff"
+            labelActiveColor="#ffffff"
+            leftIconColor="#ffffff"
+            selectionColor={'#ffffff'}
+            activeColor="#ffffff"
+            rippleColor="rgba(255,255,255,2)"
+            error={this.state.signupError.mobile}
+            onChangeText={text=>{
+              if(text){
+                const st = this.state.signup;
+                this.setState({
+                  signup: {
+                    ...st,
+                    mobile: text,
+                  },
+                });
+              }
+            }}
+          />
+      )
+    }
+  }
+
+  _renderPassword = fieldsData => {
+    if(this._visibleFields.indexOf(fieldsData.passwordRequired) > -1){
+      return (
+        <View>
           <TextInput
-            label="Password"
+            label={fieldsData.passwordLabel || 'Password'}
             leftIcon="key"
             leftIconSize={20}
             containerWidth={300}
@@ -524,10 +697,22 @@ _renderSignupButton = () => {
             rippleColor="rgba(255,255,255,70)"
             activeColor="#ffffff"
             onPressRightIcon={this._onShowPasswordClick}
+            error={this.state.signupError.password}
+            onChangeText={text=>{
+              if(text){
+                const st = this.state.signup;
+                this.setState({
+                  signup: {
+                    ...st,
+                    password: text,
+                  },
+                });
+              }
+            }}
           />
 
           <TextInput
-            label="Confirm Password"
+            label={`Confirm ${fieldsData.passwordLabel || 'Password'}`}
             leftIcon="key"
             leftIconSize={20}
             containerWidth={300}
@@ -551,12 +736,140 @@ _renderSignupButton = () => {
             rippleColor="rgba(255,255,255,70)"
             activeColor="#ffffff"
             onPressRightIcon={this._onShowConfirmPasswordClick}
+            error={this.state.signupError.confirmPassword}
+            onChangeText={text=>{
+              if(text){
+                const st = this.state.signup;
+                this.setState({
+                  signup: {
+                    ...st,
+                    confirmPassword: text,
+                  },
+                });
+              }
+            }}
           />
+        </View>
+      )
+    }
+  }
 
-          <TextInput
-            label="address"
+  _renderAddress2 = fieldsData => {
+    if(this._visibleFields.indexOf(fieldsData.address2required) > -1){
+      return (
+        <TextInput
+            label={fieldsData.address2 || 'Address line 2'}
             labelColor="#ffffff"
             leftIcon="home"
+            leftIconSize={20}
+            containerWidth={300}
+            multiline={true}
+            minHeight={100}
+            maxHeight={100}
+            leftIconType="material"
+            underlineColor="#ffffff"
+            color="#ffffff"
+            labelActiveColor="#ffffff"
+            leftIconColor="#ffffff"
+            selectionColor={'#ffffff'}
+            activeColor="#ffffff"
+            rippleColor="rgba(255,255,255,2)"
+            error={this.state.signupError.address2}
+            onChangeText={text=>{
+              if(text){
+                const st = this.state.signup;
+                this.setState({
+                  signup: {
+                    ...st,
+                    address2: text,
+                  },
+                });
+              }
+            }}
+          />
+      )
+    }
+  }
+
+  _renderAddress3 = fieldsData => {
+    if(this._visibleFields.indexOf(fieldsData.address3required) > -1){
+      return (
+        <TextInput
+            label={fieldsData.address3 || 'Address line 3'}
+            labelColor="#ffffff"
+            leftIcon="home"
+            leftIconSize={20}
+            containerWidth={300}
+            multiline={true}
+            minHeight={100}
+            maxHeight={100}
+            leftIconType="material"
+            underlineColor="#ffffff"
+            color="#ffffff"
+            labelActiveColor="#ffffff"
+            leftIconColor="#ffffff"
+            selectionColor={'#ffffff'}
+            activeColor="#ffffff"
+            rippleColor="rgba(255,255,255,2)"
+            error={this.state.signupError.address3}
+            onChangeText={text=>{
+              if(text){
+                const st = this.state.signup;
+                this.setState({
+                  signup: {
+                    ...st,
+                    address3: text,
+                  },
+                });
+              }
+            }}
+          />
+      )
+    }
+  }
+
+  _renderAddress = fieldsData => {
+    if(this._visibleFields.indexOf(fieldsData.collectEndUserAddressRequired) > -1){
+      return (
+        <View>
+          <TextInput
+            label={fieldsData.collectEndUserAddressLabel || 'Address'}
+            labelColor="#ffffff"
+            leftIcon="home"
+            leftIconSize={20}
+            containerWidth={300}
+            multiline={true}
+            minHeight={100}
+            maxHeight={100}
+            leftIconType="material"
+            underlineColor="#ffffff"
+            color="#ffffff"
+            labelActiveColor="#ffffff"
+            leftIconColor="#ffffff"
+            selectionColor={'#ffffff'}
+            activeColor="#ffffff"
+            rippleColor="rgba(255,255,255,2)"
+            error={this.state.signupError.address}
+            onChangeText={text=>{
+              if(text){
+                const st = this.state.signup;
+                this.setState({
+                  signup: {
+                    ...st,
+                    address: text,
+                  },
+                });
+              }
+            }}
+          />
+
+          {this._renderAddress2(fieldsData)}
+          {this._renderAddress3(fieldsData)}
+
+          <TextInput
+            label={'City'}
+            labelColor="#ffffff"
+            leftIcon="city"
             leftIconSize={20}
             containerWidth={300}
             leftIconType="material"
@@ -567,7 +880,117 @@ _renderSignupButton = () => {
             selectionColor={'#ffffff'}
             activeColor="#ffffff"
             rippleColor="rgba(255,255,255,2)"
+            error={this.state.signupError.city}
+            onChangeText={text=>{
+              if(text){
+                const st = this.state.signup;
+                this.setState({
+                  signup: {
+                    ...st,
+                    city: text,
+                  },
+                });
+              }
+            }}
           />
+
+          <TextInput
+            label={'State'}
+            labelColor="#ffffff"
+            leftIcon="domain"
+            leftIconSize={20}
+            containerWidth={300}
+            leftIconType="material"
+            underlineColor="#ffffff"
+            color="#ffffff"
+            labelActiveColor="#ffffff"
+            leftIconColor="#ffffff"
+            selectionColor={'#ffffff'}
+            activeColor="#ffffff"
+            rippleColor="rgba(255,255,255,2)"
+            error={this.state.signupError.state}
+            onChangeText={text=>{
+              if(text){
+                const st = this.state.signup;
+                this.setState({
+                  signup: {
+                    ...st,
+                    state: text,
+                  },
+                });
+              }
+            }}
+          />
+
+          <TextInput
+            label={'Postal Code'}
+            labelColor="#ffffff"
+            leftIcon="mailbox"
+            leftIconSize={20}
+            containerWidth={300}
+            leftIconType="material"
+            underlineColor="#ffffff"
+            color="#ffffff"
+            labelActiveColor="#ffffff"
+            leftIconColor="#ffffff"
+            selectionColor={'#ffffff'}
+            activeColor="#ffffff"
+            rippleColor="rgba(255,255,255,2)"
+            error={this.state.signupError.postalcode}
+            onChangeText={text=>{
+              if(text){
+                const st = this.state.signup;
+                this.setState({
+                  signup: {
+                    ...st,
+                    postalcode: text,
+                  },
+                });
+              }
+            }}
+          />
+        </View>
+      )
+    }
+  }
+
+  _renderBirthDate = fieldsData => {
+    return (
+      <DatePicker
+        style={{width: 200}}
+        date={this.state.date}
+        mode="date"
+        placeholder="select date"
+        format="YYYY-MM-DD"
+        minDate="2016-05-01"
+        maxDate="2016-06-01"
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        iconComponent={()=>{
+          <MDIcon name={'account'}/>
+        }}
+        iconSource={()=>{
+          <MDIcon name={'account'}/>
+        }}
+        onDateChange={(date) => {this.setState({date: date})}}
+      />
+    );
+  }
+
+  _showSignUp = () => {
+    const {fieldsData, customData, locationData} = this.state.webFromResponse;
+    if (this.state.isShowSignUp) {
+      return (
+        <View>
+          {this._renderMemberCardID(fieldsData)}
+          {this._renderDrivingLinces(fieldsData)}
+          {this._renderFirstName(fieldsData)}
+          {this._renderLastName(fieldsData)}          
+          {this._renderEmail(fieldsData)}
+          {this._renderPhone(fieldsData)}
+          {this._renderPassword(fieldsData)}
+          {this._renderAddress(fieldsData)}
+          {this._renderBirthDate(fieldsData)}
         </View>
       );
     }
