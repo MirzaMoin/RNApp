@@ -24,6 +24,7 @@ import TextInput from 'react-native-textinput-with-icons';
 import {makeRequest} from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import { ActivityIndicator } from 'react-native';
+import {isValidEmail, isValidPhoneNo} from './../utils/utility';
 
 export default class LoginScreen extends Component {
   static navigationOptions = {
@@ -41,6 +42,8 @@ export default class LoginScreen extends Component {
       isShowForgotPassword: false,
       userName: '',
       password: '',
+      forgotPassword: '',
+      webformID: '',
     };
     this._getStoredData();
   }
@@ -48,9 +51,22 @@ export default class LoginScreen extends Component {
   _getStoredData = async () => {
     try {
       var userName, password, isRemeber;
+      await AsyncStorage.getItem('webformID', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            this.setState({
+              webformID: value,
+            })
+          }
+        }
+      });
+
       await AsyncStorage.getItem('isRemember', (err, value) => {
         if (err) {
-          this.props.navigation.navigate('Auth');
+          //this.props.navigation.navigate('Auth');
         } else {
           const val = JSON.parse(value);
           if (val != null && val != undefined && val) {
@@ -61,7 +77,7 @@ export default class LoginScreen extends Component {
 
       await AsyncStorage.getItem('password', (err, value) => {
         if (err) {
-          this.props.navigation.navigate('Auth');
+          //this.props.navigation.navigate('Auth');
         } else {
           if (value) {
             password = value;
@@ -71,7 +87,7 @@ export default class LoginScreen extends Component {
 
       await AsyncStorage.getItem('userName', (err, value) => {
         if (err) {
-          this.props.navigation.navigate('Auth');
+          //this.props.navigation.navigate('Auth');
         } else {
           if (value) {
             userName = value;
@@ -93,7 +109,7 @@ export default class LoginScreen extends Component {
 
   _callLogin = () => {
     let req = {
-      rewardProgramToken: 'USNo1wRUjql8MvH1QL8ga024m1J02m',
+      rewardProgramToken: APIConstant.RPTOKEN,
       userName: this.state.userName,
       password: this.state.password,
     };
@@ -153,6 +169,27 @@ export default class LoginScreen extends Component {
     }catch (error) {
       console.log(error)
     }
+  };
+
+  _callForgotPassword = () => {
+    makeRequest(
+      `${APIConstant.BASE_URL}${APIConstant.FORGET_PASSWORD}?RPToken=${APIConstant.RPTOKEN}&WebFormID=${this.state.webformID}&EmailAddressOrMobileNo=${this.state.forgotPassword}`,
+      'get',
+    )
+      .then(response => {
+        console.log(JSON.stringify(response));
+        this.setState({isLoadingForgot: false});
+        if(response.statusCode == 0) {
+          Alert.alert('Oppss...', response.statusMessage);
+        } else {
+          Alert.alert('Success', response.statusMessage);
+        }
+
+        /*this._storeData();
+        this.props.navigation.navigate('Main');*/
+        
+      })
+      .catch(error => console.log('error : ' + error));
   };
 
   _showLogin = () => {
@@ -412,15 +449,46 @@ export default class LoginScreen extends Component {
             selectionColor={'#ffffff'}
             activeColor="#ffffff"
             rippleColor="rgba(255,255,255,2)"
+            error={this.state.forgotPasswordError}
+            onChangeText={text => {
+              this.setState({
+                forgotPassword: text
+              });
+            }}
           />
 
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Submit</Text>
-          </TouchableOpacity>
+          {this._renderForgotButton()}
         </View>
       );
     }
   };
+
+  _renderForgotButton = () => {
+    if(this.state.isLoadingForgot){
+      return(
+        <ActivityIndicator color={'white'} size={30}/>
+      );
+    } else {
+      return (
+        <TouchableOpacity style={styles.button}
+            onPress={()=>{
+              if(isValidEmail(this.state.forgotPassword) || isValidPhoneNo(this.state.forgotPassword)){
+                this._callForgotPassword();
+                this.setState({
+                  forgotPasswordError: '',
+                  isLoadingForgot: true
+                })
+              }else{
+                this.setState({
+                  forgotPasswordError: 'Please valida user email or mobile'
+                })
+              }
+            }}>
+            <Text style={styles.buttonText}>Send Password</Text>
+          </TouchableOpacity>
+      );
+    }
+  }
 
   _onShowPasswordClick = () => {
     this.setState({isShowPassword: !this.state.isShowPassword});
