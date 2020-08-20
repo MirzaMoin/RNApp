@@ -80,7 +80,7 @@ class NavigationDrawerStructure extends Component {
   }
 }
 
-// Logout data here
+// Logout data here new change
 class LogoutItem extends Component {
   render(){
     return (
