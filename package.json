@@ -1,0 +1,58 @@
+{
+  "name": "rrbeacon",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@estimote/react-native-proximity": "^0.6.0",
+    "@mdi/font": "^3.5.95",
+    "@react-native-community/viewpager": "^3.3.0",
+    "axios": "^0.19.2",
+    "react": "16.9.0",
+    "react-native": "0.61.5",
+    "react-native-background-timer": "^2.1.1",
+    "react-native-drawer-layout": "^2.0.0",
+    "react-native-elements": "^1.2.7",
+    "react-native-fbsdk": "^1.1.2",
+    "react-native-gesture-handler": "^1.5.2",
+    "react-native-image-zoom-viewer": "^2.2.27",
+    "react-native-linkedin-sdk": "0.0.9",
+    "react-native-maps": "github:react-native-community/react-native-maps#d6f89bd",
+    "react-native-modal-dropdown": "^0.7.0",
+    "react-native-raw-bottom-sheet": "^2.0.6",
+    "react-native-read-more-text": "^1.1.2",
+    "react-native-reanimated": "^1.4.0",
+    "react-native-screens": "^2.0.0-alpha.18",
+    "react-native-scrollable-tab-view": "^1.0.0",
+    "react-native-share": "^3.0.0",
+    "react-native-simple-toast": "^1.0.0",
+    "react-native-star-rating": "^1.1.0",
+    "react-native-step-indicator": "0.0.11",
+    "react-native-swipeout": "^2.3.6",
+    "react-native-textinput-with-icons": "^1.0.18",
+    "react-native-vector-icons": "^6.6.0",
+    "react-native-video": "^4.4.5",
+    "react-navigation": "^4.0.10",
+    "react-navigation-drawer": "^2.3.3",
+    "react-navigation-stack": "^1.10.3"
+  },
+  "devDependencies": {
+    "@babel/core": "7.9.0",
+    "@babel/runtime": "7.9.0",
+    "@react-native-community/eslint-config": "0.0.5",
+    "babel-jest": "24.9.0",
+    "eslint": "6.8.0",
+    "jest": "24.9.0",
+    "metro-react-native-babel-preset": "0.56.4",
+    "react-test-renderer": "16.9.0"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
