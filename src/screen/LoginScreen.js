@@ -44,6 +44,9 @@ export default class LoginScreen extends Component {
       password: '',
       forgotPassword: '',
       webformID: '',
+      minutes: 1,
+      seconds: 0,
+      isTimer: false,
     };
     this._getStoredData();
   }
@@ -106,6 +109,37 @@ export default class LoginScreen extends Component {
       // Error saving data
     }
   };
+
+  _startTimer=()=> {
+    this.myInterval = setInterval(() => {
+        const { seconds, minutes } = this.state
+
+        if (seconds > 0) {
+            this.setState(({ seconds }) => ({
+                seconds: seconds - 1
+            }))
+        }
+        if (seconds === 0) {
+            if (minutes === 0) {
+                clearInterval(this.myInterval)
+                this.setState({isTimer: false})
+            } else {
+                this.setState(({ minutes }) => ({
+                    minutes: minutes - 1,
+                    seconds: 59
+                }))
+            }
+        } 
+    }, 1000)
+}
+
+_stopTimer = () => {
+  clearInterval(this.myInterval)
+}
+
+componentWillUnmount() {
+    clearInterval(this.myInterval)
+}
 
   _callLogin = () => {
     let req = {
@@ -172,13 +206,14 @@ export default class LoginScreen extends Component {
   };
 
   _callForgotPassword = () => {
+    this._startTimer();
     makeRequest(
       `${APIConstant.BASE_URL}${APIConstant.FORGET_PASSWORD}?RPToken=${APIConstant.RPTOKEN}&WebFormID=${this.state.webformID}&EmailAddressOrMobileNo=${this.state.forgotPassword}`,
       'get',
     )
       .then(response => {
         console.log(JSON.stringify(response));
-        this.setState({isLoadingForgot: false});
+        this.setState({isLoadingForgot: false, isTimer: true});
         if(response.statusCode == 0) {
           Alert.alert('Oppss...', response.statusMessage);
         } else {
@@ -457,6 +492,8 @@ export default class LoginScreen extends Component {
             }}
           />
 
+          <Text style={{fontSize: 16, color: 'white', padding: 5, alignSelf: 'center'}}>Please wait {this.state.minutes} : {this.state.seconds}</Text>
+
           {this._renderForgotButton()}
         </View>
       );
@@ -470,7 +507,9 @@ export default class LoginScreen extends Component {
       );
     } else {
       return (
-        <TouchableOpacity style={styles.button}
+        <TouchableOpacity
+            style={[styles.button,{backgroundColor: this.state.isTimer ? '#1d5799' : '#6b9fdb'}]}
+            disabled={this.state.isTimer}
             onPress={()=>{
               if(isValidEmail(this.state.forgotPassword) || isValidPhoneNo(this.state.forgotPassword)){
                 this._callForgotPassword();
