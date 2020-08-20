@@ -47,10 +47,14 @@ export default class LoginScreen extends Component {
       minutes: 1,
       seconds: 0,
       isTimer: false,
+      webFromResponse: {},
+      signup: {},
+      signupError: {},
     };
     this._getStoredData();
   }
 
+  // get stored user name and password
   _getStoredData = async () => {
     try {
       var userName, password, isRemeber;
@@ -110,6 +114,7 @@ export default class LoginScreen extends Component {
     }
   };
 
+  // start forgot password timer
   _startTimer=()=> {
     this.myInterval = setInterval(() => {
         const { seconds, minutes } = this.state
@@ -131,16 +136,20 @@ export default class LoginScreen extends Component {
             }
         } 
     }, 1000)
-}
+  }
 
+  // stop timer
 _stopTimer = () => {
   clearInterval(this.myInterval)
 }
 
+//stop timer on unmount
 componentWillUnmount() {
     clearInterval(this.myInterval)
 }
 
+
+  // calling login API
   _callLogin = () => {
     let req = {
       rewardProgramToken: APIConstant.RPTOKEN,
@@ -171,6 +180,7 @@ componentWillUnmount() {
       .catch(error => console.log('error : ' + error));
   };
 
+  // Store Login data
   _storeLoginData = async response => {
     try{
       await AsyncStorage.setItem('isLogin', JSON.stringify(true));
@@ -205,6 +215,7 @@ componentWillUnmount() {
     }
   };
 
+  // CAlling Forgot Password API
   _callForgotPassword = () => {
     this._startTimer();
     makeRequest(
@@ -227,6 +238,36 @@ componentWillUnmount() {
       .catch(error => console.log('error : ' + error));
   };
 
+  // webform data to show signup form
+  _callWebFormData = () => {
+    makeRequest(
+      `${APIConstant.BASE_URL}${APIConstant.GET_WEBFORMFIELD_DATA}?RewardProgramID=78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20&WebFormId=${this.state.webformID}`,
+      'get',
+    )
+      .then(response => {
+        console.log(JSON.stringify(response));
+        this.setState({isLoadingForgot: false, isTimer: true});
+        if(response.statusCode == 0) {
+          Alert.alert('Oppss...', response.statusMessage);
+        } else {
+          this.setState({
+            isLoadingSignupform: false,
+            webFromResponse: response.responsedata,
+            isShowSignUp: !this.state.isShowSignUp,
+          })
+        }
+      })
+      .catch(error => console.log('error : ' + error));
+  };
+
+  _requireFields = [
+    'requiredonsignup',
+  ];
+  _visibleFields = [
+    ...this._requireFields,
+    'notrequiredonsignup'
+  ];
+  
   _showLogin = () => {
     if (this.state.isShowLogin) {
       return (
@@ -309,7 +350,7 @@ componentWillUnmount() {
   _renderLoginButton = () => {
     if(this.state.isLoadingLogin){
       return(
-        <ActivityIndicator color={'white'} size={30}/>
+        <ActivityIndicator style={{margin: 10}} color={'white'} size={36}/>
       );
     } else {
       return (
@@ -338,10 +379,80 @@ componentWillUnmount() {
     }
   }
 
+_renderSignupButton = () => {
+  if(this.state.isLoadingSignupform){
+    return(
+      <ActivityIndicator style={{margin: 10}} color={'white'} size={36}/>
+    );
+  } else {
+    return (
+      <TouchableOpacity
+        style={styles.button}
+        onPress={this._onSignUpClick}>
+        <Text style={styles.buttonText}>{this.state.isShowSignUp ? 'Register' : 'SIGN ME UP'}</Text>
+      </TouchableOpacity>
+
+    );
+  }
+}
+
+  _renderMemberCardID = fieldsData => {
+    if(this._visibleFields.indexOf(fieldsData.memberCardIDRequired) > -1){
+      return (
+        <TextInput
+            label={fieldsData.memberCardIDLabel || 'Member Card ID'}
+            labelColor="#ffffff"
+            leftIcon="credit-card"
+            leftIconSize={20}
+            containerWidth={300}
+            leftIconType="material"
+            underlineColor="#ffffff"
+            color="#ffffff"
+            labelActiveColor="#ffffff"
+            leftIconColor="#ffffff"
+            selectionColor={'#ffffff'}
+            activeColor="#ffffff"
+            rippleColor="rgba(255,255,255,2)"
+            error={this.state.signupError.memberCardID}
+            onChangeText={text=>{
+              if(text){
+                const st = this.state.signup;
+                this.setState({
+                  signup: {
+                    ...st,
+                    memberCardID: text,
+                  },
+                });
+                const stER = this.state.signupError;
+                  this.setState({
+                    signupError: {
+                      ...stER,
+                      memberCardID: '',
+                    },
+                  });
+              } else {
+                if(this._requireFields.indexOf(fieldsData.memberCardIDRequired) > -1){
+                  const st = this.state.signupError;
+                  this.setState({
+                    signupError: {
+                      ...st,
+                      memberCardID: `Enter Valid ${fieldsData.memberCardIDLabel || 'Memeber Card ID'}`
+                    },
+                  });
+                }
+              }
+            }}
+          />
+      )
+    }
+  }
+
   _showSignUp = () => {
+    const {fieldsData, customData, locationData} = this.state.webFromResponse;
     if (this.state.isShowSignUp) {
       return (
         <View>
+          {this._renderMemberCardID(fieldsData)}
           <TextInput
             label="Full Name"
             labelColor="#ffffff"
@@ -457,10 +568,6 @@ componentWillUnmount() {
             activeColor="#ffffff"
             rippleColor="rgba(255,255,255,2)"
           />
-
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>
         </View>
       );
     }
@@ -503,7 +610,7 @@ componentWillUnmount() {
   _renderForgotButton = () => {
     if(this.state.isLoadingForgot){
       return(
-        <ActivityIndicator color={'white'} size={30}/>
+        <ActivityIndicator style={{margin: 10}} color={'white'} size={36}/>
       );
     } else {
       return (
@@ -515,7 +622,9 @@ componentWillUnmount() {
                 this._callForgotPassword();
                 this.setState({
                   forgotPasswordError: '',
-                  isLoadingForgot: true
+                  isLoadingForgot: true,
+                  minutes: 1,
+                  seconds: 0,
                 })
               }else{
                 this.setState({
@@ -547,12 +656,17 @@ componentWillUnmount() {
   };
 
   _onSignUpClick = () => {
-    this.setState({
-      isShowLogin: false,
-      isShowSignUp: !this.state.isShowSignUp,
-      isShowPassword: true,
-      isShowForgotPassword: false,
-    });
+    if(this.state.isShowSignUp){
+      // apply signup process
+    } else {
+      this.setState({
+        isShowLogin: false,
+        isLoadingSignupform: true,
+        isShowPassword: true,
+        isShowForgotPassword: false,
+      });
+      this._callWebFormData();
+    }
   };
 
   _onForgotPasswordClick = () => {
@@ -600,12 +714,8 @@ componentWillUnmount() {
                 <Text style={styles.textStyle2}>
                   Beacome a rewards member and get perks no one else does
                 </Text>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={this._onSignUpClick}>
-                  <Text style={styles.buttonText}>SIGN ME UP</Text>
-                </TouchableOpacity>
                 {this._showSignUp()}
+                {this._renderSignupButton()}
                 <TouchableOpacity
                   style={styles.button}
                   onPress={this._onLoginClick}>

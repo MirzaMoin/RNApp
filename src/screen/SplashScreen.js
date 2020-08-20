@@ -46,7 +46,7 @@ export default class SplashScreen extends Component {
       );
       await AsyncStorage.setItem(
         'RPID',
-        '8cf8bde6-22a6-43c8-a581-e3e2f53ed9e4'
+        '78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20'
       );
     } catch (error){
       console.log('error while store data : '+error)
