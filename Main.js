@@ -128,14 +128,98 @@ class NavigationComponentRight extends Component {
   }
 }
 
-const CreateDrawerComponent = props => (
-  <SafeAreaView style={{flex: 1}}>
-    <View style={{flex: 1}}>
-      <Image
+class DrawerHeaderComponent extends Component {
+
+  constructor(){
+    super();
+    this.state={}
+  }
+
+  _getStoredData = async () => {
+    try {
+      var fName, lName, profile, email;
+      await AsyncStorage.getItem('profilePitcure', (err, value) => {
+        if (err) {
+          this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            profile = value;
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('firstName', (err, value) => {
+        if (err) {
+          this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            fName = value;
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('lastName', (err, value) => {
+        if (err) {
+          this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            lName = value;
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('emailAddress', (err, value) => {
+        if (err) {
+          this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            email = value;
+          }
+        }
+      });
+
+      this.setState({
+        name: `${fName} ${lName}`,
+        email: email,
+        userImage: profile,
+      })
+
+      console.log(`draweer ${fName} ${lName} ${èmail} ${profile}`)
+
+    } catch (error) {
+      // Error saving data
+    }
+  };
+
+  componentWillMount(){
+    this._getStoredData();
+  }
+
+  componentDidMount() {
+    //Here is the Trick
+    const { navigation } = this.props;
+    //Adding an event listner om focus
+    //So whenever the screen will have focus it will set the state to zero
+    this.focusListener = navigation.addListener('didFocus', () => {
+        //this.setState({ count: 0 });
+        console.log('úpdateeeee')
+    });
+  }
+
+  componentWillUnmount() {
+    // Remove the event listener before removing the screen from the stack
+    this.focusListener.remove();
+  };
+
+  render() {
+    return (
+      <View style={{flexDirection: 'column'}}>
+        <Image
         style={{height: 150}}
         source={{
           uri:
-            'https://www.atlassian.design/server/images/avatars/avatar-96.png',
+            this.state.userImage || '',
         }}
       />
       <Text
@@ -146,9 +230,27 @@ const CreateDrawerComponent = props => (
           paddingTop: 5,
           fontSize: 10,
         }}>
-        Hi Hardik! scoll arround your reward profile & look for near ways to
-        earn and redeem rewards. More custom text, more custom ...
+        {this.state.name}
       </Text>
+      <Text
+        style={{
+          paddingLeft: 15,
+          textAlign: 'center',
+          paddingRight: 15,
+          paddingTop: 5,
+          fontSize: 10,
+        }}>
+        {this.state.email}
+      </Text>
+      </View>
+    );
+  }
+}
+
+const CreateDrawerComponent = props => (
+  <SafeAreaView style={{flex: 1}}>
+    <View style={{flex: 1}}>
+      <DrawerHeaderComponent navigation={props.navigation} />
       <ScrollView style={{flex: 1}}>
         <DrawerItems {...props} />
         {/*<LogoutItem navigationProps={props}/>*/}

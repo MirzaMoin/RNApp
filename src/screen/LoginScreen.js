@@ -139,13 +139,16 @@ export default class LoginScreen extends Component {
       await AsyncStorage.setItem('pointBalance',response.contactData.pointBalance.toString());
       await AsyncStorage.setItem('reedemablePoints',response.contactData.reedemablePoints.toString());
       await AsyncStorage.setItem('firstName',response.contactData.firstName);
+      await AsyncStorage.setItem('lastName',response.contactData.lastName);
       await AsyncStorage.setItem('emailAddress',response.contactData.emailAddress);
       await AsyncStorage.setItem('profilePitcure',response.contactData.profilePitcure);
 
       if(response.contactData.isRequiredPasswordChanged) {
         // redirect to change password
       } else {
-        this.props.navigation.navigate('Main');
+        this.props.navigation.navigate('Main',{
+          loginData: response,
+        });
       }
     }catch (error) {
       console.log(error)
