@@ -23,6 +23,7 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import { MenuProvider } from 'react-native-popup-menu';
 
 const App: () => React$Node = () => {
   return (

@@ -27,6 +27,15 @@ import { ActivityIndicator } from 'react-native';
 import {isValidEmail, isValidPhoneNo} from './../utils/utility';
 import DatePicker from 'react-native-datepicker'
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import { MenuProvider } from 'react-native-popup-menu';
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
+import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 
 export default class LoginScreen extends Component {
   static navigationOptions = {
@@ -1006,6 +1015,245 @@ _renderSignupButton = () => {
     }
   }
 
+  _renderAnniversary = fieldsData => {
+    if(this._visibleFields.indexOf(fieldsData.anniversaryRequired) > -1){
+      return (
+        <View style={{flexDirection: 'column', width: '100%', marginTop: 5, marginBottom: 5}}>
+          {this._renderLabel(this.state.signup.anniversary, fieldsData.anniversaryLabel || 'Anniversary Date')}
+          <DatePicker
+            date={this.state.signup.anniversary}
+            mode="date"
+            placeholder={fieldsData.anniversaryLabel || "select date"}
+            format="YYYY-MM-DD"
+            maxDate={new Date()}
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            iconComponent={<MDIcon name={'group'} style={{fontSize: 22, color: 'white', marginRight: 10}} />}
+            customStyles={{
+              placeholderText:{
+                fontSize: 15,
+                color: 'white'
+              },
+              dateText: {
+                fontSize: 17,
+                color: 'white'
+              }
+            }}
+            onDateChange={(date) => {
+              const st = this.state.signup;
+              this.setState({
+                signup: {
+                  ...st,
+                  anniversary: date,
+                }
+              })
+            }}
+          />
+          <View style={{height: 1, width: '100%', backgroundColor: 'white'}}/>
+        </View>
+      );
+    }
+  }
+
+  _renderGender = fieldsData => {
+    if(this._visibleFields.indexOf(fieldsData.genderRequired)>-1){
+      return(
+        <View style={{marginVertical: 10}}>
+          {this._renderLabel(this.state.signup.gender,fieldsData.genderLabel || 'Gender')}
+          <View style={{flexDirection: 'row', alignContent: 'center', marginVertical: 5}}>
+            <MDIcon name={'group'} style={{fontSize: 22, color: 'white', marginRight: 10}} />
+            <Menu
+              onSelect={value => {
+                const st= this.state.signup;
+                this.setState({
+                  signup: {
+                    ...st,
+                    gender: value,
+                  }
+                })
+              }}>
+              <MenuTrigger customStyles={{triggerText:{fontSize: 16, color: 'white'}}} text={this.state.signup.gender || fieldsData.genderLabel || 'Gender'} />
+              <MenuOptions>
+                <MenuOption value='Male' text='Male' />
+                <MenuOption value='Female' text='Female' />
+              </MenuOptions>
+            </Menu>
+          </View>
+          <View style={{height: 1, width: '100%', backgroundColor: 'white'}}/>
+        </View>
+      );
+    }
+  }
+
+  onSelectedItemsChange = selectedItems => {
+    const st = this.state.signup;
+    this.setState({ 
+      signup: {
+        ...st,
+        location: selectedItems[0],
+      },
+    });
+    console.log('selected : '+JSON.stringify(selectedItems))
+  };
+
+  _renderLocation = (fieldsData, locationData) => {
+    if(this._visibleFields.indexOf(fieldsData.myLocationRequired) > -1){
+      var item = [];
+    locationData.map(location=>{
+      var it = {
+        id: location.addressID,
+        name: location.locationName 
+      }
+      item.push(it);
+    });
+    return (
+      <View>
+        <SectionedMultiSelect
+          items={item}
+          uniqueKey="id"
+          //selectText="Choose some things..."
+          renderSelectText={()=>{
+            var title = fieldsData.myLocationLabel || 'My Location';
+            if(this.state.signup.location){
+              item.map(i=>{
+                if(i.id === this.state.signup.location){
+                  title = i.name;
+                }
+              })
+            }
+            return (
+              <View style={{width: '100%', marginLeft: -10, marginTop: -10}}>
+                {this._renderLabel(this.state.signup.location, 'Location')}
+                <View style={{flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10}}>
+                  <MDIcon name={'place'} style={{fontSize: 24, color: 'white', marginRight: 10,}} />
+                  <Text style={{color: 'white', flex: 1, fontSize: 16}}>{title}</Text>
+                </View>
+              </View>
+            )
+          }}
+          showChips={true}
+          single={true}
+          selectToggleIconComponent={()=>{
+            return <MDIcon name={'keyboard-arrow-down'} style={{fontSize: 24, color: 'white'}} />
+          }}
+          selectedIconComponent={()=>{
+            return (<MDIcon name={'check'} style={{fontSize: 20, color: 'black', marginRight: 10,}} />);
+          }}
+          onSelectedItemsChange={this.onSelectedItemsChange}
+          selectedItems={this.state.selectedItems}
+        />
+        <View style={{height: 1, width: '100%', backgroundColor: 'white', marginTop: -25, marginBottom: 10}}/>
+      </View>
+    )
+    }
+  }
+
+  _renderContactPermission = fieldsData => {
+    if(this._visibleFields.indexOf(fieldsData.contactPermissionRequired) > -1) {
+      return(
+        <View>
+          <View style={{backgroundColor: '#6b9fdb', padding: 10, justifyContent: 'center', alignContent: 'center', alignItems: 'center', marginVertical: 5}}>
+            <Text style={{fontSize: 16, color: 'white', alignItems: 'center'}}>{fieldsData.contactPermissionLabel || 'Contact Permission'}</Text>
+          </View>
+          <View style={{flexDirection: 'row', marginVertical: 5, marginTop: 10}}>
+            <Text style={{fontSize: 16, color: 'white', flex: 3}}>Allow Email</Text>
+            <View style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}>
+              <Menu
+                onSelect={value => {
+                  const st= this.state.signup;
+                  this.setState({
+                    signup: {
+                      ...st,
+                      allowedEmail: value,
+                    }
+                  })
+                }}>
+                <MenuTrigger customStyles={{triggerText:{fontSize: 16, color: 'white', alignSelf: 'center'}}} text={this.state.signup.allowedEmail || 'No'} />
+                <MenuOptions>
+                  <MenuOption value='Yes' text='Yes' />
+                  <MenuOption value='No' text='No' />
+                </MenuOptions>
+              </Menu>
+              <View style={{height: 1, width: '100%', backgroundColor: 'white'}}/>
+            </View>
+          </View>
+  
+          <View style={{flexDirection: 'row', marginVertical: 5, marginTop: 10}}>
+            <Text style={{fontSize: 16, color: 'white', flex: 3}}>Allow SMS</Text>
+            <View style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}>
+              <Menu
+                onSelect={value => {
+                  const st= this.state.signup;
+                  this.setState({
+                    signup: {
+                      ...st,
+                      allowedSMS: value,
+                    }
+                  })
+                }}>
+                <MenuTrigger customStyles={{triggerText:{fontSize: 16, color: 'white', alignSelf: 'center'}}} text={this.state.signup.allowedEmail || 'No'} />
+                <MenuOptions>
+                  <MenuOption value='Yes' text='Yes' />
+                  <MenuOption value='No' text='No' />
+                </MenuOptions>
+              </Menu>
+              <View style={{height: 1, width: '100%', backgroundColor: 'white'}}/>
+            </View>
+          </View>
+  
+          <View style={{flexDirection: 'row', marginVertical: 5, marginTop: 10}}>
+            <Text style={{fontSize: 16, color: 'white', flex: 3}}>Allow Email</Text>
+            <View style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}>
+              <Menu
+                onSelect={value => {
+                  const st= this.state.signup;
+                  this.setState({
+                    signup: {
+                      ...st,
+                      preferedMedia: value,
+                    }
+                  })
+                }}>
+                <MenuTrigger customStyles={{triggerText:{fontSize: 16, color: 'white', alignSelf: 'center'}}} text={this.state.signup.allowedEmail || 'No'} />
+                <MenuOptions>
+                  <MenuOption value='Email' text='Email' />
+                  <MenuOption value='SMS' text='SMS' />
+                </MenuOptions>
+              </Menu>
+              <View style={{height: 1, width: '100%', backgroundColor: 'white'}}/>
+            </View>
+          </View>
+        </View>
+      );
+    }
+  }
+
+  _renderTOS = fieldsData => {
+    if(this._visibleFields.indexOf(fieldsData.tosAgreementRequired) > -1){
+      return (
+        <CheckBox
+            title={fieldsData.tosAgreement}
+            containerStyle={{backgroundColor: 'transparent', borderWidth: 0, justifyContent: 'flex-start', fontSize: 20}}
+            textStyle={{color: 'white'}}
+            checkedColor={'white'}
+            uncheckedColor={'white'}
+            size={24}
+            checked={this.state.signup.isTOS}
+            onPress={() =>{
+              const st = this.state.signup;
+                this.setState({
+                  signup: {
+                    ...st,
+                    isTOS: !this.state.signup.isTOS,
+                  }
+                })
+              }
+            }
+          />
+      )
+    }
+  }
+
   _showSignUp = () => {
     const {fieldsData, customData, locationData} = this.state.webFromResponse;
     if (this.state.isShowSignUp) {
@@ -1020,6 +1268,11 @@ _renderSignupButton = () => {
           {this._renderPassword(fieldsData)}
           {this._renderAddress(fieldsData)}
           {this._renderBirthDate(fieldsData)}
+          {this._renderAnniversary(fieldsData)}
+          {this._renderGender(fieldsData)}
+          {this._renderLocation(fieldsData, locationData)}
+          {this._renderContactPermission(fieldsData)}
+          {this._renderTOS(fieldsData)}
         </View>
       );
     }
@@ -1132,7 +1385,8 @@ _renderSignupButton = () => {
 
   render() {
     return (
-      <KeyboardAvoidingView
+      <MenuProvider>
+        <KeyboardAvoidingView
         style={styles.baseContainer}
         behavior="padding"
         enabled={Platform.OS === 'ios' ? true : false}>
@@ -1193,6 +1447,7 @@ _renderSignupButton = () => {
           </View>
         </View>
       </KeyboardAvoidingView>
+      </MenuProvider>
     );
   }
 }

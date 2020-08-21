@@ -40,6 +40,7 @@ import Screen1 from './pages/Screen1';
 import Screen2 from './pages/Screen2';
 import Screen3 from './pages/Screen3';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
+import { MenuProvider } from 'react-native-popup-menu';
 
 RNEP.locationPermission.request().then(permission => {
   if (permission != RNEP.locationPermission.DENIED) {
