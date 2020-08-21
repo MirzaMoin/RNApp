@@ -54,7 +54,11 @@ export default class LoginScreen extends Component {
       signupError: {},
     };
     this._getStoredData();
+    var today = new Date();
+    this._maxDate=(today.getFullYear() -12) + "-"+ parseInt(today.getMonth()+1) +"-"+ today.getDate();
   }
+
+  _maxDate = '';
 
   // get stored user name and password
   _getStoredData = async () => {
@@ -954,34 +958,59 @@ _renderSignupButton = () => {
     }
   }
 
+  _renderLabel = (value, label) => {
+    if(value) {
+      return (
+      <Text style={{marginLeft: 26, color: 'white', fontSize: 14, marginBottom: -8}}>{label}</Text>
+      )
+    }
+  }
+
   _renderBirthDate = fieldsData => {
-    return (
-      <DatePicker
-        style={{width: 200}}
-        date={this.state.date}
-        mode="date"
-        placeholder="select date"
-        format="YYYY-MM-DD"
-        minDate="2016-05-01"
-        maxDate="2016-06-01"
-        confirmBtnText="Confirm"
-        cancelBtnText="Cancel"
-        iconComponent={()=>{
-          <MDIcon name={'account'}/>
-        }}
-        iconSource={()=>{
-          <MDIcon name={'account'}/>
-        }}
-        onDateChange={(date) => {this.setState({date: date})}}
-      />
-    );
+    if(this._visibleFields.indexOf(fieldsData.birthdateRequired) > -1){
+      return (
+        <View style={{flexDirection: 'column', width: '100%', marginTop: 5, marginBottom: 5}}>
+          {this._renderLabel(this.state.signup.birthdate, fieldsData.birthdateLabel || 'Birth Date')}
+          <DatePicker
+            date={this.state.signup.birthdate}
+            mode="date"
+            placeholder={fieldsData.birthdateLabel || "select date"}
+            format="YYYY-MM-DD"
+            maxDate={this._maxDate}
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            iconComponent={<MDIcon name={'cake'} style={{fontSize: 22, color: 'white', marginRight: 10}} />}
+            customStyles={{
+              placeholderText:{
+                fontSize: 15,
+                color: 'white'
+              },
+              dateText: {
+                fontSize: 17,
+                color: 'white'
+              }
+            }}
+            onDateChange={(date) => {
+              const st = this.state.signup;
+              this.setState({
+                signup: {
+                  ...st,
+                  birthdate: date,
+                }
+              })
+            }}
+          />
+          <View style={{height: 1, width: '100%', backgroundColor: 'white'}}/>
+        </View>
+      );
+    }
   }
 
   _showSignUp = () => {
     const {fieldsData, customData, locationData} = this.state.webFromResponse;
     if (this.state.isShowSignUp) {
       return (
-        <View>
+        <View style={{flexDirection: 'column', width: '90%'}}>
           {this._renderMemberCardID(fieldsData)}
           {this._renderDrivingLinces(fieldsData)}
           {this._renderFirstName(fieldsData)}
