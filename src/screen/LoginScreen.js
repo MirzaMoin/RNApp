@@ -36,6 +36,7 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+import Toast from 'react-native-root-toast';
 
 export default class LoginScreen extends Component {
   static navigationOptions = {
@@ -59,12 +60,25 @@ export default class LoginScreen extends Component {
       seconds: 0,
       isTimer: false,
       webFromResponse: {},
-      signup: {},
+      signup: {
+        customData: {},
+      },
       signupError: {},
     };
     this._getStoredData();
     var today = new Date();
     this._maxDate=(today.getFullYear() -12) + "-"+ parseInt(today.getMonth()+1) +"-"+ today.getDate();
+  }
+
+  _showToast = message => {
+    Toast.show(message, {
+      duration: Toast.durations.LONG,
+      position: Toast.positions.CENTER,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+  });
   }
 
   _maxDate = '';
@@ -273,6 +287,324 @@ componentWillUnmount() {
         }
       })
       .catch(error => console.log('error : ' + error));
+  };
+
+  _callSignup = () => {
+    const request ={
+      contactID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      isEmailOptinConfirm: "string",
+      signUpType: 0,
+      useOfferID: 0,
+      smsProvider: "string",
+      totalRequiredField: "string",
+      isSMSOptinConfirm: "string",
+      firstName: this.state.signup.firstname || null,
+      lastName: this.state.signup.lastName || null,
+      address: this.state.signup.address || null,
+      city: this.state.signup.city || null ,
+      state: this.state.signup.state || null,
+      zipCode: this.state.signup.postalcode || null,
+      gender: this.state.signup.gender || null,
+      mobilePhone: this.state.signup.mobile || null,
+      emailAddress: this.state.signup.email,
+      emailFormat: "HTML",
+      birthDate: this.state.signup.birthdate,
+      anniversary: this.state.signup.anniversary,
+      isAllowEmail: this.state.signup.allowedEmail ? true : false,
+      isAllowSMS: this.state.signup.allowedSMS ? true : false,
+      isAllowPostalMail: this.state.signup.allowedMail ? true : false,
+      preferredMediaType: this.state.signup.preferedMedia || null,
+      password: this.state.signup.password || null,
+      confirmPassword: this.state.signup.confirmPassword || null,
+      memberCardID: this.state.signup.memberCardID || null,
+      driverLicense: this.state.signup.driverLicense || null,
+      addressID: this.state.signup.location || null,
+      rewardProgramIDNew: APIConstant.RPTOKEN,
+      address2: this.state.signup.address2 || null,
+      address3: this.state.signup.address3 || null,
+      isAllowPush: true,
+      webFormID: this.state.webformID,
+      customFiledsValue: this.state.signup.customData,
+      contactListID: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    }
+  }
+
+  // validating form
+  _prepareSignup = () => {
+    const {fieldsData, customData, locationData} = this.state.webFromResponse;
+    var isCall = true;
+    if(this._requireFields.indexOf(fieldsData.memberCardIDRequired) > -1){
+      if(this.state.signup.memberCardID){
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            memberCardID: '',
+          }
+        });
+      } else {
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            memberCardID: `Please enter ${fieldsData.memberCardIDLabel || 'Member Card ID'}`
+          }
+        });
+        isCall=false;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.driverLicenseRequired) > -1){
+      if(this.state.signup.driverLicense){
+        if(this.state.signup.driverLicense.length() >= fieldsData.minRange && this.state.signup.driverLicense.length() <= fieldsData.maxRange) {
+          this.setState({
+            signupError: {
+              ...this.state.signupError,
+              driverLicense: ''
+            }
+          });
+        } else {
+          this.setState({
+            signupError: {
+              ...this.state.signupError,
+              driverLicense: `${fieldsData.driverLicense || 'Driver License'} value must contain ${fieldsData.minRange} to ${fieldsData.maxRange} character`
+            }
+          });
+          isCall=false;
+        }
+      } else {
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            driverLicense: '',
+          }
+        });
+        isCall=false;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.firstNameRequired) > -1){
+      if(this.state.signup.firstName){
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            firstName: '',
+          }
+        });
+      } else {
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            firstName: `Please enter ${fieldsData.firstNameLabel || 'First Name'}`
+          }
+        });
+        isCall=false;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.lastNameRequired) > -1){
+      if(this.state.signup.lastName){
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            lastName: '',
+          }
+        });
+      } else {
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            lastName: `Please enter ${fieldsData.lastNameLabel || 'Last Name'}`
+          }
+        });
+        isCall=false;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.emailRequired) > -1){
+      if(this.state.signup.email && isValidEmail(this.state.signup.email)){
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            email: '',
+          }
+        });
+      } else {
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            email: `Please enter ${fieldsData.emailLabel || 'Email'}`
+          }
+        });
+        isCall=false;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.mobileRequired) > -1){
+      if(this.state.signup.mobile && isValidPhoneNo(this.state.signup.mobile)){
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            mobile: '',
+          }
+        });
+      } else {
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            mobile: `Please enter ${fieldsData.mobileLabel || 'Mobile'}`
+          }
+        });
+        isCall=false;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.collectEndUserAddressRequired) > -1){
+      if(this.state.signup.address){
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            address: '',
+          }
+        });
+      } else {
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            address: `Please enter Address`
+          }
+        });
+        isCall=false;
+      }
+
+      if(this.state.signup.city){
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            city: '',
+          }
+        });
+      } else {
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            city: `Please enter City`
+          }
+        });
+        isCall=false;
+      }
+
+      if(this.state.signup.state){
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            state: '',
+          }
+        });
+      } else {
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            state: `Please enter State`
+          }
+        });
+        isCall=false;
+      }
+
+      if(this.state.signup.postalcode){
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            postalcode: '',
+          }
+        });
+      } else {
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            postalcode: `Please enter Postal Code`
+          }
+        });
+        isCall=false;
+      }
+    }
+    
+    if(this._requireFields.indexOf(fieldsData.address2required) > -1){
+      if(this.state.signup.address2){
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            address2: '',
+          }
+        });
+      } else {
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            address2: `Please enter ${fieldsData.address2 || 'Address2'}`
+          }
+        });
+        isCall=false;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.address3required) > -1){
+      if(this.state.signup.address3){
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            address3: '',
+          }
+        });
+      } else {
+        this.setState({
+          signupError: {
+            ...this.state.signupError,
+            address3: `Please enter ${fieldsData.address3 || 'Address3'}`
+          }
+        });
+        isCall=false;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.myLocationRequired) > -1){
+      if(!this.state.signup.location || this.state.signup.location === '' || this.state.signup.location === undefined){
+        this._showToast(`Please select ${fieldsData.myLocationLabel || 'Location'}`);
+        return;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.birthdateRequired) > -1){
+      if(!this.state.signup.birthdate || this.state.signup.birthdate === '' || this.state.signup.birthdate === undefined){
+        this._showToast(`Please select ${fieldsData.birthdateLabel || 'Birth Date'}`);
+        return;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.anniversaryRequired) > -1){
+      if(!this.state.signup.anniversary || this.state.signup.anniversary === '' || this.state.signup.anniversary === undefined){
+        this._showToast(`Please select ${fieldsData.anniversaryLabel || 'Anniversary'}`);
+        return;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.genderRequired) > -1){
+      if(!this.state.signup.gender || this.state.signup.gender === '' || this.state.signup.gender === undefined){
+        this._showToast(`Please select ${fieldsData.genderLabel || 'Gender'}`);
+        return;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.tosAgreementRequired) > -1){
+      if(!this.state.signup.isTOS){
+        this._showToast(`Please check ${fieldsData.tosAgreement || 'Terms of Service'}`);
+        return;
+      }
+    }
+
+    if(isCall){
+      // call signup API
+    } else {
+      // show alert about some field is remain to enter
+    }
   };
 
   _requireFields = [
@@ -846,7 +1178,7 @@ _renderSignupButton = () => {
       return (
         <View>
           <TextInput
-            label={fieldsData.collectEndUserAddressLabel || 'Address'}
+            label={'Address'}
             labelColor="#ffffff"
             leftIcon="home"
             leftIconSize={20}
@@ -1254,6 +1586,18 @@ _renderSignupButton = () => {
     }
   }
 
+  _renderCustomData = customData => {
+    if(customData){
+      return(
+        <View>
+          {customData.map(customField => {
+            
+          })}
+        </View>
+      )
+    }
+  }
+
   _showSignUp = () => {
     const {fieldsData, customData, locationData} = this.state.webFromResponse;
     if (this.state.isShowSignUp) {
@@ -1267,10 +1611,11 @@ _renderSignupButton = () => {
           {this._renderPhone(fieldsData)}
           {this._renderPassword(fieldsData)}
           {this._renderAddress(fieldsData)}
+          {this._renderLocation(fieldsData, locationData)}
           {this._renderBirthDate(fieldsData)}
           {this._renderAnniversary(fieldsData)}
           {this._renderGender(fieldsData)}
-          {this._renderLocation(fieldsData, locationData)}
+          {this._renderCustomData(customData)}
           {this._renderContactPermission(fieldsData)}
           {this._renderTOS(fieldsData)}
         </View>
@@ -1363,6 +1708,7 @@ _renderSignupButton = () => {
   _onSignUpClick = () => {
     if(this.state.isShowSignUp){
       // apply signup process
+      this._prepareSignup();
     } else {
       this.setState({
         isShowLogin: false,
