@@ -296,12 +296,12 @@ _stopTimer = () => {
 
     const request ={
       contactID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      isEmailOptinConfirm: '',
+      isEmailOptinConfirm: null,
       signUpType: 0,
       useOfferID: 0,
-      smsProvider: '',
-      totalRequiredField: '',
-      isSMSOptinConfirm: '',
+      smsProvider: null,
+      totalRequiredField: null,
+      isSMSOptinConfirm: null,
       firstName: this.state.signup.firstname || null,
       lastName: this.state.signup.lastName || null,
       address: this.state.signup.address || null,
@@ -328,8 +328,8 @@ _stopTimer = () => {
       address3: this.state.signup.address3 || null,
       isAllowPush: true,
       webFormID: this.state.webformID,
-      customFiledsValue: this.state.signup.customData,
-      contactListID: '',
+      customFiledsValue: JSON.stringify(this.state.signup.customData),
+      contactListID: '78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20',
     }
 
     console.log(`Request: ${JSON.stringify(request)}`);
@@ -344,16 +344,31 @@ _stopTimer = () => {
         if(response.statusCode == 0) {
           Alert.alert('Oppss...', response.statusMessage);
         } else {
-          console.log('fadsfadf');
-          //this._storeLoginData(response.responsedata);
+          this._storeSignupData(response.responsedata);
         }
-
-        /*this._storeData();
-        this.props.navigation.navigate('Main');*/
-        
       })
-      .catch(error => console.log('error : ' + error));
+      .catch(error =>{
+        Alert.alert('Oppss...', 'Something went wrong.');
+        this.setState({isLoadingSignupform: false});
+      });
   }
+
+  // Store Login data
+  _storeSignupData = async response => {
+    try{
+      await AsyncStorage.setItem('isLogin', JSON.stringify(true));
+      await AsyncStorage.setItem('userID',response.contactData.contactID);
+      await AsyncStorage.setItem('firstName', this.state.signup.firstName || '');
+      await AsyncStorage.setItem('lastName', this.state.signup.lastName || '');
+      await AsyncStorage.setItem('emailAddress',response.contactData.emailAddress);
+
+      this.props.navigation.navigate('Main',{
+        loginData: response,
+      });
+    }catch (error) {
+      console.log(error)
+    }
+  };
 
   // validating form
   _prepareSignup = () => {
@@ -361,8 +376,7 @@ _stopTimer = () => {
     var isCall = true;
     var signupError = {};
     var customError = {};
-    console.log('start new validation');
-    debugger;
+    //debugger;
     if(this._requireFields.indexOf(fieldsData.memberCardIDRequired) > -1){
       if(this.state.signup.memberCardID){
         signupError = {
@@ -585,7 +599,7 @@ _stopTimer = () => {
     }
 
     customData.map(field=>{
-      if(this._requireFields.indexOf(field.requiredType) > -1){
+      if(this._requireFields.indexOf(field.requiredType) > -1 || this.state.signup.customData[field.customFieldID]){
         if(this.state.signup.customData[field.customFieldID]) {
           // hase value
           if(field.minLength > 0 && field.maxLength > 0){
