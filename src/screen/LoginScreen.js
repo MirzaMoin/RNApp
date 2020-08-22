@@ -361,6 +361,10 @@ _stopTimer = () => {
       await AsyncStorage.setItem('firstName', this.state.signup.firstName || '');
       await AsyncStorage.setItem('lastName', this.state.signup.lastName || '');
       await AsyncStorage.setItem('emailAddress',response.contactData.emailAddress);
+      
+      await AsyncStorage.setItem('pointBalance','0');
+      await AsyncStorage.setItem('reedemablePoints','0');
+      await AsyncStorage.setItem('profilePitcure','');
 
       this.props.navigation.navigate('Main',{
         loginData: response,
