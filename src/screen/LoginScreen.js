@@ -64,6 +64,7 @@ export default class LoginScreen extends Component {
         customData: {},
       },
       signupError: {},
+      customerror: {},
     };
     this._getStoredData();
     var today = new Date();
@@ -354,7 +355,7 @@ componentWillUnmount() {
 
     if(this._requireFields.indexOf(fieldsData.driverLicenseRequired) > -1){
       if(this.state.signup.driverLicense){
-        if(this.state.signup.driverLicense.length() >= fieldsData.minRange && this.state.signup.driverLicense.length() <= fieldsData.maxRange) {
+        if(this.state.signup.driverLicense.length >= fieldsData.minRange && this.state.signup.driverLicense.length <= fieldsData.maxRange) {
           this.setState({
             signupError: {
               ...this.state.signupError,
@@ -374,10 +375,9 @@ componentWillUnmount() {
         this.setState({
           signupError: {
             ...this.state.signupError,
-            driverLicense: '',
+            driverLicense: `Please enter ${fieldsData.driverLicense || 'Driver License'}`
           }
         });
-        isCall=false;
       }
     }
 
@@ -600,10 +600,50 @@ componentWillUnmount() {
       }
     }
 
+    customData.map(field=>{
+      if(this._requireFields.indexOf(field.requiredType) > -1){
+        if(this.state.signup.customData[field.customFieldID]) {
+          // hase value
+          if(field.controlTypeID >= 1 && field.controlTypeID <= 3) {
+            var value = this.state.signup.customData[field.customFieldID];
+            if(value.length >= field.minLength && value.length <= field.maxLength) {
+              this.setState({
+                customerror: {
+                  ...this.state.customerror,
+                  [field.customFieldID]: '',
+                }
+              })
+            } else {
+              this.setState({
+                customerror: {
+                  ...this.state.customerror,
+                  [field.customFieldID]: `${field.fieldLabel} must contains ${field.minLength} to ${field.maxLength} charecter`,
+                }
+              })
+            }
+          }
+        } else {
+          // not value
+          if(field.controlTypeID >= 1 && field.controlTypeID <= 3) {
+            this.setState({
+              customerror: {
+                ...this.state.customerror,
+                [field.customFieldID]: `Please Enter ${field.fieldLabel}`
+              }
+            })
+          } else {
+            this._showToast(`Please select value of ${field.fieldLabel}`);
+          }
+          isCall = false;
+        }
+      }
+    });
+
     if(isCall){
       // call signup API
+      this._callSignup();
     } else {
-      // show alert about some field is remain to enter
+      this._showToast(`Please Select all required values`);
     }
   };
 
@@ -1474,7 +1514,7 @@ _renderSignupButton = () => {
             return (<MDIcon name={'check'} style={{fontSize: 20, color: 'black', marginRight: 10,}} />);
           }}
           onSelectedItemsChange={this.onSelectedItemsChange}
-          selectedItems={[this.state.selectedItems]}
+          selectedItems={[this.state.signup.location]}
         />
         <View style={{height: 1, width: '100%', backgroundColor: 'white', marginTop: -25, marginBottom: 10}}/>
       </View>
@@ -1593,230 +1633,269 @@ _renderSignupButton = () => {
       return(
         <View>
           {customData.map(field => {
-            if (field.controlTypeID >= 1 && field.controlTypeID <= 3) {
-              // text field
-              // 1 -text, 2- multiline, 3- number,
-              return (
-                <TextInput
-                  label={field.fieldLabel}
-                  labelColor="#ffffff"
-                  leftIcon="receipt"
-                  keyboardType={field.controlTypeID == 3 ? 'numeric' : ''}
-                  multiline={field.controlTypeID == 2}
-                  leftIconSize={20}
-                  containerWidth={300}
-                  minHeight={field.controlTypeID == 2 ? 100 : undefined}
-                  maxHeight={field.controlTypeID == 2 ? 100 : undefined}
-                  leftIconType="material"
-                  underlineColor="#ffffff"
-                  color="#ffffff"
-                  labelActiveColor="#ffffff"
-                  leftIconColor="#ffffff"
-                  selectionColor={'#ffffff'}
-                  activeColor="#ffffff"
-                  rippleColor="rgba(255,255,255,2)"
-                  //error={this.state.signupError.postalcode}
-                  onChangeText={text=>{
-                    if(text){
-                      const st = this.state.signup.customData;
-                      this.setState({
-                        signup: {
-                          ...this.state.signup,
-                          customData: {
-                            ...this.state.signup.customData,
-                            [field.customFieldID]: text,
+            if(this._visibleFields.indexOf(field.requiredType) > -1){
+              if (field.controlTypeID >= 1 && field.controlTypeID <= 3) {
+                // text field
+                // 1 -text, 2- multiline, 3- number,
+                return (
+                  <TextInput
+                    label={field.fieldLabel}
+                    labelColor="#ffffff"
+                    leftIcon="receipt"
+                    keyboardType={field.controlTypeID == 3 ? 'numeric' : ''}
+                    multiline={field.controlTypeID == 2}
+                    leftIconSize={20}
+                    containerWidth={300}
+                    minHeight={field.controlTypeID == 2 ? 100 : undefined}
+                    maxHeight={field.controlTypeID == 2 ? 100 : undefined}
+                    leftIconType="material"
+                    underlineColor="#ffffff"
+                    color="#ffffff"
+                    labelActiveColor="#ffffff"
+                    leftIconColor="#ffffff"
+                    selectionColor={'#ffffff'}
+                    activeColor="#ffffff"
+                    rippleColor="rgba(255,255,255,2)"
+                    error={this.state.customerror[field.customFieldID]}
+                    onChangeText={text=>{
+                      if(text){
+                        const st = this.state.signup.customData;
+                        this.setState({
+                          signup: {
+                            ...this.state.signup,
+                            customData: {
+                              ...this.state.signup.customData,
+                              [field.customFieldID]: text,
+                            }
+                          },
+                        });
+                      }
+                    }}
+                  />
+                );
+              } else if (field.controlTypeID == 4) {
+                // picklist
+                var item = [];
+                var possibleValue = JSON.parse(field.possibleValue);
+                possibleValue.map(value=>{
+                  var it = {
+                    id: value,
+                    name: value 
+                  }
+                  item.push(it);
+                });
+                return (
+                  <View>
+                    <SectionedMultiSelect
+                      items={item}
+                      uniqueKey="id"
+                      renderSelectText={()=>{
+                        var title = field.fieldLabel || 'Pick';
+                        if(this.state.signup.customData[field.customFieldID]){
+                          item.map(i=>{
+                            if(i.id === this.state.signup.customData[field.customFieldID]){
+                              title = i.name;
+                            }
+                          })
+                        }
+                        return (
+                          <View style={{width: '100%', marginLeft: -10, marginTop: -10}}>
+                            {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
+                            <View style={{flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10}}>
+                              <MDIcon name={'list'} style={{fontSize: 24, color: 'white', marginRight: 10,}} />
+                              <Text style={{color: 'white', flex: 1, fontSize: 16}}>{title}</Text>
+                            </View>
+                          </View>
+                        )
+                      }}
+                      showChips={true}
+                      single={true}
+                      selectToggleIconComponent={()=>{
+                        return <MDIcon name={'keyboard-arrow-down'} style={{fontSize: 24, color: 'white'}} />
+                      }}
+                      selectedIconComponent={()=>{
+                        return (<MDIcon name={'check'} style={{fontSize: 20, color: 'black', marginRight: 10,}} />);
+                      }}
+                      onSelectedItemsChange={(selectedItems) => {
+                        this.setState({
+                          signup: {
+                            ...this.state.signup,
+                            customData: {
+                              ...this.state.signup.customData,
+                              [field.customFieldID]: selectedItems[0],
+                            }
                           }
+                        })
+                      }}
+                      selectedItems={[this.state.signup.customData[field.customFieldID]]}
+                    />
+                    <View style={{height: 1, width: '100%', backgroundColor: 'white', marginTop: -25, marginBottom: 10}}/>
+                  </View>
+                )
+              } else if (field.controlTypeID == 5) {
+                // check box list
+                var item = [];
+                var possibleValue = JSON.parse(field.possibleValue);
+                possibleValue.map(value=>{
+                  var it = {
+                    id: value,
+                    name: value 
+                  }
+                  item.push(it);
+                });
+                return (
+                  <View>
+                    <SectionedMultiSelect
+                      items={item}
+                      uniqueKey="id"
+                      renderSelectText={()=>{
+                        var title = field.fieldLabel || 'Pick';
+                        if(this.state.signup.customData[field.customFieldID]){
+                          item.map(i=>{
+                            if(i.id === this.state.signup.customData[field.customFieldID][0]){
+                              var items = this.state.signup.customData[field.customFieldID].length;
+                              title = `${i.name} ${items > 1 ?  `and ${items -1 } more ` : '' }`;
+                            }
+                          })
+                        }
+                        return (
+                          <View style={{width: '100%', marginLeft: -10, marginTop: -10}}>
+                            {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
+                            <View style={{flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10}}>
+                              <Icon name={'check-square-o'} style={{fontSize: 20, color: 'white', marginRight: 10,}} />
+                              <Text style={{color: 'white', flex: 1, fontSize: 16}}>{title}</Text>
+                            </View>
+                          </View>
+                        )
+                      }}
+                      selectToggleIconComponent={()=>{
+                        return <MDIcon name={'keyboard-arrow-down'} style={{fontSize: 24, color: 'white'}} />
+                      }}
+                      selectedIconComponent={()=>{
+                        return (<Icon name={'check-square-o'} style={{fontSize: 20, color: 'black', marginRight: 10,}} />);
+                      }}
+                      unselectedIconComponent={()=>{
+                        return (<Icon name={'square-o'}  style={{fontSize: 20, color: 'black', marginRight: 10,}} />)
+                      }}
+                      showChips={false}
+                      onSelectedItemsChange={(selectedItems) => {
+                        this.setState({
+                          signup: {
+                            ...this.state.signup,
+                            customData: {
+                              ...this.state.signup.customData,
+                              [field.customFieldID]: selectedItems,
+                            }
+                          }
+                        })
+                      }}
+                      selectedItems={this.state.signup.customData[field.customFieldID]}
+                    />
+                    <View style={{height: 1, width: '100%', backgroundColor: 'white', marginTop: -25, marginBottom: 10}}/>
+                  </View>
+                )
+              } else if (field.controlTypeID == 6) {
+                // radio list
+                var item = [];
+                var possibleValue = JSON.parse(field.possibleValue);
+                possibleValue.map(value=>{
+                  var it = {
+                    id: value,
+                    name: value 
+                  }
+                  item.push(it);
+                });
+                return (
+                  <View>
+                    <SectionedMultiSelect
+                      items={item}
+                      uniqueKey="id"
+                      renderSelectText={()=>{
+                        var title = field.fieldLabel || 'Pick';
+                        if(this.state.signup.customData[field.customFieldID]){
+                          item.map(i=>{
+                            if(i.id === this.state.signup.customData[field.customFieldID]){
+                              title = i.name;
+                            }
+                          })
+                        }
+                        return (
+                          <View style={{width: '100%', marginLeft: -10, marginTop: -10}}>
+                            {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
+                            <View style={{flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10}}>
+                              <MDIcon name={'radio-button-checked'} style={{fontSize: 24, color: 'white', marginRight: 10,}} />
+                              <Text style={{color: 'white', flex: 1, fontSize: 16}}>{title}</Text>
+                            </View>
+                          </View>
+                        )
+                      }}
+                      showChips={false}
+                      single={true}
+                      selectToggleIconComponent={()=>{
+                        return <MDIcon name={'keyboard-arrow-down'} style={{fontSize: 24, color: 'white'}} />
+                      }}
+                      selectedIconComponent={()=>{
+                        return (<MDIcon name={'radio-button-checked'} style={{fontSize: 20, color: 'black', marginRight: 10,}} />);
+                      }}
+                      unselectedIconComponent={()=>{
+                        return (<MDIcon name={'radio-button-unchecked'} style={{fontSize: 20, color: 'black', marginRight: 10,}} />);
+                      }}
+                      onSelectedItemsChange={(selectedItems) => {
+                        this.setState({
+                          signup: {
+                            ...this.state.signup,
+                            customData: {
+                              ...this.state.signup.customData,
+                              [field.customFieldID]: selectedItems[0],
+                            }
+                          }
+                        })
+                      }}
+                      selectedItems={[this.state.signup.customData[field.customFieldID]]}
+                    />
+                    <View style={{height: 1, width: '100%', backgroundColor: 'white', marginTop: -25, marginBottom: 10}}/>
+                  </View>
+                )
+              } else if (field.controlTypeID == 7) {
+                // date picker
+                return (
+                  <View style={{flexDirection: 'column', width: '100%', marginTop: 5, marginBottom: 5}}>
+                    {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
+                    <DatePicker
+                      date={this.state.signup.customData[field.customFieldID]}
+                      mode="date"
+                      placeholder={field.fieldLabel || "select date"}
+                      format="YYYY-MM-DD"
+                      //maxDate={this._maxDate}
+                      confirmBtnText="Confirm"
+                      cancelBtnText="Cancel"
+                      iconComponent={<MDIcon name={'date-range'} style={{fontSize: 22, color: 'white', marginRight: 10}} />}
+                      customStyles={{
+                        placeholderText:{
+                          fontSize: 15,
+                          color: 'white'
                         },
-                      });
-                    }
-                  }}
-                />
-              );
-            } else if (field.controlTypeID == 4) {
-              // picklist
-              var item = [];
-              var possibleValue = JSON.parse(field.possibleValue);
-              possibleValue.map(value=>{
-                var it = {
-                  id: value,
-                  name: value 
-                }
-                item.push(it);
-              });
-              return (
-                <View>
-                  <SectionedMultiSelect
-                    items={item}
-                    uniqueKey="id"
-                    renderSelectText={()=>{
-                      var title = field.fieldLabel || 'Pick';
-                      if(this.state.signup.customData[field.customFieldID]){
-                        item.map(i=>{
-                          if(i.id === this.state.signup.customData[field.customFieldID]){
-                            title = i.name;
+                        dateText: {
+                          fontSize: 17,
+                          color: 'white'
+                        }
+                      }}
+                      onDateChange={(date) => {
+                        this.setState({
+                          signup: {
+                            ...this.state.signup,
+                            customData: {
+                              ...this.state.signup.customData,
+                              [field.customFieldID]: date,
+                            }
                           }
                         })
-                      }
-                      return (
-                        <View style={{width: '100%', marginLeft: -10, marginTop: -10}}>
-                          {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
-                          <View style={{flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10}}>
-                            <MDIcon name={'list'} style={{fontSize: 24, color: 'white', marginRight: 10,}} />
-                            <Text style={{color: 'white', flex: 1, fontSize: 16}}>{title}</Text>
-                          </View>
-                        </View>
-                      )
-                    }}
-                    showChips={true}
-                    single={true}
-                    selectToggleIconComponent={()=>{
-                      return <MDIcon name={'keyboard-arrow-down'} style={{fontSize: 24, color: 'white'}} />
-                    }}
-                    selectedIconComponent={()=>{
-                      return (<MDIcon name={'check'} style={{fontSize: 20, color: 'black', marginRight: 10,}} />);
-                    }}
-                    onSelectedItemsChange={(selectedItems) => {
-                      this.setState({
-                        signup: {
-                          ...this.state.signup,
-                          customData: {
-                            ...this.state.signup.customData,
-                            [field.customFieldID]: selectedItems[0],
-                          }
-                        }
-                      })
-                    }}
-                    selectedItems={[this.state.signup.customData[field.customFieldID]]}
-                  />
-                  <View style={{height: 1, width: '100%', backgroundColor: 'white', marginTop: -25, marginBottom: 10}}/>
-                </View>
-              )
-            } else if (field.controlTypeID == 5) {
-              // check box list
-              var item = [];
-              var possibleValue = JSON.parse(field.possibleValue);
-              possibleValue.map(value=>{
-                var it = {
-                  id: value,
-                  name: value 
-                }
-                item.push(it);
-              });
-              return (
-                <View>
-                  <SectionedMultiSelect
-                    items={item}
-                    uniqueKey="id"
-                    renderSelectText={()=>{
-                      var title = field.fieldLabel || 'Pick';
-                      if(this.state.signup.customData[field.customFieldID]){
-                        item.map(i=>{
-                          if(i.id === this.state.signup.customData[field.customFieldID][0]){
-                            var items = this.state.signup.customData[field.customFieldID].length;
-                            title = `${i.name} ${items > 1 ?  `and ${items -1 } more ` : '' }`;
-                          }
-                        })
-                      }
-                      return (
-                        <View style={{width: '100%', marginLeft: -10, marginTop: -10}}>
-                          {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
-                          <View style={{flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10}}>
-                            <Icon name={'check-square-o'} style={{fontSize: 20, color: 'white', marginRight: 10,}} />
-                            <Text style={{color: 'white', flex: 1, fontSize: 16}}>{title}</Text>
-                          </View>
-                        </View>
-                      )
-                    }}
-                    selectToggleIconComponent={()=>{
-                      return <MDIcon name={'keyboard-arrow-down'} style={{fontSize: 24, color: 'white'}} />
-                    }}
-                    selectedIconComponent={()=>{
-                      return (<Icon name={'check-square-o'} style={{fontSize: 20, color: 'black', marginRight: 10,}} />);
-                    }}
-                    unselectedIconComponent={()=>{
-                      return (<Icon name={'square-o'}  style={{fontSize: 20, color: 'black', marginRight: 10,}} />)
-                    }}
-                    showChips={false}
-                    onSelectedItemsChange={(selectedItems) => {
-                      this.setState({
-                        signup: {
-                          ...this.state.signup,
-                          customData: {
-                            ...this.state.signup.customData,
-                            [field.customFieldID]: selectedItems,
-                          }
-                        }
-                      })
-                    }}
-                    selectedItems={this.state.signup.customData[field.customFieldID]}
-                  />
-                  <View style={{height: 1, width: '100%', backgroundColor: 'white', marginTop: -25, marginBottom: 10}}/>
-                </View>
-              )
-            } else if (field.controlTypeID == 6) {
-              // radio list
-              var item = [];
-              var possibleValue = JSON.parse(field.possibleValue);
-              possibleValue.map(value=>{
-                var it = {
-                  id: value,
-                  name: value 
-                }
-                item.push(it);
-              });
-              return (
-                <View>
-                  <SectionedMultiSelect
-                    items={item}
-                    uniqueKey="id"
-                    renderSelectText={()=>{
-                      var title = field.fieldLabel || 'Pick';
-                      if(this.state.signup.customData[field.customFieldID]){
-                        item.map(i=>{
-                          if(i.id === this.state.signup.customData[field.customFieldID]){
-                            title = i.name;
-                          }
-                        })
-                      }
-                      return (
-                        <View style={{width: '100%', marginLeft: -10, marginTop: -10}}>
-                          {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
-                          <View style={{flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10}}>
-                            <MDIcon name={'radio-button-checked'} style={{fontSize: 24, color: 'white', marginRight: 10,}} />
-                            <Text style={{color: 'white', flex: 1, fontSize: 16}}>{title}</Text>
-                          </View>
-                        </View>
-                      )
-                    }}
-                    showChips={false}
-                    single={true}
-                    selectToggleIconComponent={()=>{
-                      return <MDIcon name={'keyboard-arrow-down'} style={{fontSize: 24, color: 'white'}} />
-                    }}
-                    selectedIconComponent={()=>{
-                      return (<MDIcon name={'radio-button-checked'} style={{fontSize: 20, color: 'black', marginRight: 10,}} />);
-                    }}
-                    unselectedIconComponent={()=>{
-                      return (<MDIcon name={'radio-button-unchecked'} style={{fontSize: 20, color: 'black', marginRight: 10,}} />);
-                    }}
-                    onSelectedItemsChange={(selectedItems) => {
-                      this.setState({
-                        signup: {
-                          ...this.state.signup,
-                          customData: {
-                            ...this.state.signup.customData,
-                            [field.customFieldID]: selectedItems[0],
-                          }
-                        }
-                      })
-                    }}
-                    selectedItems={[this.state.signup.customData[field.customFieldID]]}
-                  />
-                  <View style={{height: 1, width: '100%', backgroundColor: 'white', marginTop: -25, marginBottom: 10}}/>
-                </View>
-              )
-            } else if (field.controlTypeID == 7) {
-              // date picker
+                      }}
+                    />
+                    <View style={{height: 1, width: '100%', backgroundColor: 'white'}}/>
+                  </View>
+                );
+              }
             }
           })}
         </View>
