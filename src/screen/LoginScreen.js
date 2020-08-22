@@ -173,10 +173,10 @@ _stopTimer = () => {
   clearInterval(this.myInterval)
 }
 
-//stop timer on unmount
-componentWillUnmount() {
-    clearInterval(this.myInterval)
-}
+  //stop timer on unmount
+  componentWillUnmount() {
+      clearInterval(this.myInterval)
+  }
 
 
   // calling login API
@@ -275,8 +275,8 @@ componentWillUnmount() {
       'get',
     )
       .then(response => {
-        console.log(JSON.stringify(response));
-        this.setState({isLoadingForgot: false, isTimer: true});
+        //console.log(JSON.stringify(response));
+        //this.setState({isLoadingForgot: false, isTimer: true});
         if(response.statusCode == 0) {
           Alert.alert('Oppss...', response.statusMessage);
         } else {
@@ -291,14 +291,17 @@ componentWillUnmount() {
   };
 
   _callSignup = () => {
+
+    this.setState({isLoadingSignupform: true});
+
     const request ={
       contactID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      isEmailOptinConfirm: "string",
+      isEmailOptinConfirm: '',
       signUpType: 0,
       useOfferID: 0,
-      smsProvider: "string",
-      totalRequiredField: "string",
-      isSMSOptinConfirm: "string",
+      smsProvider: '',
+      totalRequiredField: '',
+      isSMSOptinConfirm: '',
       firstName: this.state.signup.firstname || null,
       lastName: this.state.signup.lastName || null,
       address: this.state.signup.address || null,
@@ -320,250 +323,231 @@ componentWillUnmount() {
       memberCardID: this.state.signup.memberCardID || null,
       driverLicense: this.state.signup.driverLicense || null,
       addressID: this.state.signup.location || null,
-      rewardProgramIDNew: APIConstant.RPTOKEN,
+      rewardProgramIDNew: '78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20',
       address2: this.state.signup.address2 || null,
       address3: this.state.signup.address3 || null,
       isAllowPush: true,
       webFormID: this.state.webformID,
       customFiledsValue: this.state.signup.customData,
-      contactListID: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+      contactListID: '',
     }
+
+    console.log(`Request: ${JSON.stringify(request)}`);
+    makeRequest(
+      APIConstant.BASE_URL + APIConstant.SIGNUP,
+      'post',
+      request
+    )
+      .then(response => {
+        console.log(JSON.stringify(response));
+        this.setState({isLoadingSignupform: false});
+        if(response.statusCode == 0) {
+          Alert.alert('Oppss...', response.statusMessage);
+        } else {
+          console.log('fadsfadf');
+          //this._storeLoginData(response.responsedata);
+        }
+
+        /*this._storeData();
+        this.props.navigation.navigate('Main');*/
+        
+      })
+      .catch(error => console.log('error : ' + error));
   }
 
   // validating form
   _prepareSignup = () => {
     const {fieldsData, customData, locationData} = this.state.webFromResponse;
     var isCall = true;
+    var signupError = {};
+    var customError = {};
+    console.log('start new validation');
+    debugger;
     if(this._requireFields.indexOf(fieldsData.memberCardIDRequired) > -1){
       if(this.state.signup.memberCardID){
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            memberCardID: '',
-          }
-        });
+        signupError = {
+          ...signupError,
+          memberCardID: '',
+        }
       } else {
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            memberCardID: `Please enter ${fieldsData.memberCardIDLabel || 'Member Card ID'}`
-          }
-        });
+        signupError = {
+          ...signupError,
+          memberCardID: `Please enter ${fieldsData.memberCardIDLabel || 'Member Card ID'}`
+        }
         isCall=false;
       }
     }
 
     if(this._requireFields.indexOf(fieldsData.driverLicenseRequired) > -1){
       if(this.state.signup.driverLicense){
-        if(this.state.signup.driverLicense.length >= fieldsData.minRange && this.state.signup.driverLicense.length <= fieldsData.maxRange) {
-          this.setState({
-            signupError: {
-              ...this.state.signupError,
-              driverLicense: ''
-            }
-          });
+        if((fieldsData.maxRange == null || fieldsData.minRange == null) || (this.state.signup.driverLicense.length >= fieldsData.minRange && this.state.signup.driverLicense.length <= fieldsData.maxRange)) {
+          signupError= {
+            ...signupError,
+            driverLicense: '',
+          };
         } else {
-          this.setState({
-            signupError: {
-              ...this.state.signupError,
-              driverLicense: `${fieldsData.driverLicense || 'Driver License'} value must contain ${fieldsData.minRange} to ${fieldsData.maxRange} character`
-            }
-          });
+          signupError= {
+            ...signupError,
+            driverLicense: `${fieldsData.driverLicense || 'Driver License'} value must contain ${fieldsData.minRange} to ${fieldsData.maxRange} character`
+          }
           isCall=false;
         }
       } else {
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            driverLicense: `Please enter ${fieldsData.driverLicense || 'Driver License'}`
-          }
-        });
+        signupError= {
+          ...signupError,
+          driverLicense: `Please enter ${fieldsData.driverLicense || 'Driver License'}`
+        }
+        isCall = false;
       }
     }
 
     if(this._requireFields.indexOf(fieldsData.firstNameRequired) > -1){
       if(this.state.signup.firstName){
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            firstName: '',
-          }
-        });
+        signupError= {
+          ...signupError,
+          firstName: '',
+        }
       } else {
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            firstName: `Please enter ${fieldsData.firstNameLabel || 'First Name'}`
-          }
-        });
+        signupError= {
+          ...signupError,
+          firstName: `Please enter ${fieldsData.firstNameLabel || 'First Name'}`
+        }
         isCall=false;
       }
     }
 
     if(this._requireFields.indexOf(fieldsData.lastNameRequired) > -1){
       if(this.state.signup.lastName){
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            lastName: '',
-          }
-        });
+        signupError= {
+          ...signupError,
+          lastName: '',
+        }
       } else {
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            lastName: `Please enter ${fieldsData.lastNameLabel || 'Last Name'}`
-          }
-        });
+        signupError = {
+          ...signupError,
+          lastName: `Please enter ${fieldsData.lastNameLabel || 'Last Name'}`
+        }
         isCall=false;
       }
     }
 
-    if(this._requireFields.indexOf(fieldsData.emailRequired) > -1){
+    if(this._requireFields.indexOf(fieldsData.emailRequired) > -1 || this.state.signup.email.length > 0) {
       if(this.state.signup.email && isValidEmail(this.state.signup.email)){
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            email: '',
-          }
-        });
+        signupError= {
+          ...signupError,
+          email: '',
+        }
       } else {
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            email: `Please enter ${fieldsData.emailLabel || 'Email'}`
-          }
-        });
+        signupError = {
+          ...signupError,
+          email: `Please enter ${fieldsData.emailLabel || 'Email'}`
+        }
         isCall=false;
       }
     }
 
-    if(this._requireFields.indexOf(fieldsData.mobileRequired) > -1){
+    if(this._requireFields.indexOf(fieldsData.mobileRequired) > -1 || this.state.signup.mobile){
       if(this.state.signup.mobile && isValidPhoneNo(this.state.signup.mobile)){
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            mobile: '',
-          }
-        });
+        signupError= {
+          ...signupError,
+          mobile: '',
+        }
       } else {
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            mobile: `Please enter ${fieldsData.mobileLabel || 'Mobile'}`
-          }
-        });
+        signupError= {
+          ...signupError,
+          mobile: `Please enter ${fieldsData.mobileLabel || 'Mobile'}`
+        }
         isCall=false;
       }
     }
 
     if(this._requireFields.indexOf(fieldsData.collectEndUserAddressRequired) > -1){
       if(this.state.signup.address){
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            address: '',
-          }
-        });
+        signupError= {
+          ...signupError,
+          address: '',
+        }
       } else {
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            address: `Please enter Address`
-          }
-        });
+        signupError= {
+          ...signupError,
+          address: `Please enter Address`
+        }
         isCall=false;
       }
 
       if(this.state.signup.city){
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            city: '',
-          }
-        });
+        signupError= {
+          ...signupError,
+          city: '',
+        }
       } else {
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            city: `Please enter City`
-          }
-        });
+        signupError= {
+          ...signupError,
+          city: `Please enter City`
+        }
         isCall=false;
       }
 
       if(this.state.signup.state){
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            state: '',
-          }
-        });
+        signupError= {
+          ...signupError,
+          state: '',
+        }
       } else {
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            state: `Please enter State`
-          }
-        });
+        signupError= {
+          ...signupError,
+          state: `Please enter State`
+        }
         isCall=false;
       }
 
       if(this.state.signup.postalcode){
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            postalcode: '',
-          }
-        });
+        signupError= {
+          ...signupError,
+          postalcode: '',
+        }
       } else {
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            postalcode: `Please enter Postal Code`
-          }
-        });
+        signupError= {
+          ...signupError,
+          postalcode: `Please enter Postal Code`
+        }
         isCall=false;
       }
     }
     
     if(this._requireFields.indexOf(fieldsData.address2required) > -1){
       if(this.state.signup.address2){
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            address2: '',
-          }
-        });
+        signupError= {
+          ...signupError,
+          address2: '',
+        }
       } else {
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            address2: `Please enter ${fieldsData.address2 || 'Address2'}`
-          }
-        });
+        signupError= {
+          ...signupError,
+          address2: `Please enter ${fieldsData.address2 || 'Address2'}`
+        }
         isCall=false;
       }
     }
 
     if(this._requireFields.indexOf(fieldsData.address3required) > -1){
       if(this.state.signup.address3){
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            address3: '',
-          }
-        });
+        signupError= {
+          ...signupError,
+          address3: '',
+        }
       } else {
-        this.setState({
-          signupError: {
-            ...this.state.signupError,
-            address3: `Please enter ${fieldsData.address3 || 'Address3'}`
-          }
-        });
+        signupError= {
+          ...signupError,
+          address3: `Please enter ${fieldsData.address3 || 'Address3'}`
+        }
         isCall=false;
       }
     }
+
+    this.setState({
+      signupError: signupError,
+    });
 
     if(this._requireFields.indexOf(fieldsData.myLocationRequired) > -1){
       if(!this.state.signup.location || this.state.signup.location === '' || this.state.signup.location === undefined){
@@ -604,40 +588,47 @@ componentWillUnmount() {
       if(this._requireFields.indexOf(field.requiredType) > -1){
         if(this.state.signup.customData[field.customFieldID]) {
           // hase value
-          if(field.controlTypeID >= 1 && field.controlTypeID <= 3) {
-            var value = this.state.signup.customData[field.customFieldID];
-            if(value.length >= field.minLength && value.length <= field.maxLength) {
-              this.setState({
-                customerror: {
-                  ...this.state.customerror,
+          if(field.minLength > 0 && field.maxLength > 0){
+            if(field.controlTypeID >= 1 && field.controlTypeID <= 3) {
+              var value = this.state.signup.customData[field.customFieldID];
+              if(value.length >= field.minLength && value.length <= field.maxLength) {
+                customError= {
+                  ...customError,
                   [field.customFieldID]: '',
                 }
-              })
-            } else {
-              this.setState({
-                customerror: {
-                  ...this.state.customerror,
+              } else {
+                customError= {
+                  ...customError,
                   [field.customFieldID]: `${field.fieldLabel} must contains ${field.minLength} to ${field.maxLength} charecter`,
                 }
-              })
+                isCall = false;
+              }
+            }
+          } else {
+            customError= {
+              ...customError,
+              [field.customFieldID]: '',
             }
           }
         } else {
           // not value
           if(field.controlTypeID >= 1 && field.controlTypeID <= 3) {
-            this.setState({
-              customerror: {
-                ...this.state.customerror,
-                [field.customFieldID]: `Please Enter ${field.fieldLabel}`
-              }
-            })
+            customError= {
+              ...customError,
+              [field.customFieldID]: `Please Enter ${field.fieldLabel}`
+            }
           } else {
             this._showToast(`Please select value of ${field.fieldLabel}`);
           }
           isCall = false;
+          console.log('custom value');
         }
       }
     });
+
+    this.setState({
+      customerror: customError,
+    })
 
     if(isCall){
       // call signup API
@@ -1565,7 +1556,7 @@ _renderSignupButton = () => {
                     }
                   })
                 }}>
-                <MenuTrigger customStyles={{triggerText:{fontSize: 16, color: 'white', alignSelf: 'center'}}} text={this.state.signup.allowedEmail || 'No'} />
+                <MenuTrigger customStyles={{triggerText:{fontSize: 16, color: 'white', alignSelf: 'center'}}} text={this.state.signup.allowedSMS || 'No'} />
                 <MenuOptions>
                   <MenuOption value='Yes' text='Yes' />
                   <MenuOption value='No' text='No' />
@@ -1576,7 +1567,7 @@ _renderSignupButton = () => {
           </View>
   
           <View style={{flexDirection: 'row', marginVertical: 5, marginTop: 10}}>
-            <Text style={{fontSize: 16, color: 'white', flex: 3}}>Allow Email</Text>
+            <Text style={{fontSize: 16, color: 'white', flex: 3}}>Allow Prefered Media</Text>
             <View style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}>
               <Menu
                 onSelect={value => {
@@ -1588,7 +1579,7 @@ _renderSignupButton = () => {
                     }
                   })
                 }}>
-                <MenuTrigger customStyles={{triggerText:{fontSize: 16, color: 'white', alignSelf: 'center'}}} text={this.state.signup.allowedEmail || 'No'} />
+                <MenuTrigger customStyles={{triggerText:{fontSize: 16, color: 'white', alignSelf: 'center'}}} text={this.state.signup.preferedMedia || 'Email'} />
                 <MenuOptions>
                   <MenuOption value='Email' text='Email' />
                   <MenuOption value='SMS' text='SMS' />
