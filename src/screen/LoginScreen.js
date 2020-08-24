@@ -1583,7 +1583,6 @@ _renderSignupButton = () => {
               <View style={{height: 1, width: '100%', backgroundColor: 'white'}}/>
             </View>
           </View>
-
           <View style={{flexDirection: 'row', marginVertical: 5, marginTop: 10}}>
             <Text style={{fontSize: 16, color: 'white', flex: 3}}>Allow Prefered Media</Text>
             <View style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}>
