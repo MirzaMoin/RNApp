@@ -32,6 +32,8 @@ import {
 } from 'react-native-popup-menu';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import Toast from 'react-native-root-toast';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import ImagePicker from 'react-native-image-picker';
 
 export class ProfileScreen extends Component {
   constructor() {
@@ -193,6 +195,42 @@ export class ProfileScreen extends Component {
     'notrequiredonsignup',
     'notrequired'
   ];
+
+  _handleImageClick = () => {
+    
+    const options = {
+      title: 'Select Profile Image',
+      storageOptions: {
+        path: 'images',
+      },
+    };
+     
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response.path);
+     
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        ImageCropPicker.openCropper({
+          path: `file://${response.path}`,
+          width: 500,
+          height: 500,
+          cropping: true,
+          cropperCircleOverlay: true,
+        }).then(image => {
+          console.log(image);
+          this.setState({
+            profileImagePath: image.path, 
+          })
+        });
+        
+      }
+    });
+  }
 
   _handleContactMenu = (isFromTextInput) => {
     var isAllowEmail = this.state.signup.allowedEmail || false;
@@ -1276,6 +1314,26 @@ export class ProfileScreen extends Component {
     }
   }
 
+  _renderProfile = fieldsData => {
+    if(this._visibleFields.indexOf(fieldsData.profilePictureRequired) > -1) {
+      return(
+        <TouchableOpacity
+          onPress={()=>{
+            this._handleImageClick();
+          }}>
+          <Image
+          style={styles.profileContainer}
+          source={{
+            uri: this.state.profileImagePath ||
+              'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
+          }}
+          resizeMode="cover"
+        />
+        </TouchableOpacity>
+      )
+    }
+  }
+
   _showForm = () => {
     if (this.state.isLoadingSignupform) {
       return (
@@ -1294,14 +1352,7 @@ export class ProfileScreen extends Component {
           <View style={styles.mainContainer}>
           <Text style={[styles.title]}>Member Detail</Text>
           <View style={styles.subContainer}>
-            <Image
-              style={styles.profileContainer}
-              source={{
-                uri:
-                  'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
-              }}
-              resizeMode="cover"
-            />
+            {this._renderProfile(fieldsData)}
             {this._renderFirstName(fieldsData)}
             {this._renderLastName(fieldsData)}          
             {this._renderEmail(fieldsData)}
