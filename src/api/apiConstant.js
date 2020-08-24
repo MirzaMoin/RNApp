@@ -8,5 +8,6 @@ module.exports = {
   GET_WEBFORMFIELD_DATA: 'UserProfile/GetFormFields',
   LOGIN: 'UserProfile/LogIn',
   FORGET_PASSWORD: 'UserProfile/ForgotPassword',
-  SIGNUP: 'UserProfile/SignUp'
+  SIGNUP: 'UserProfile/SignUp',
+  GET_CONTACT_DATA: 'UserProfile/GetContactData',
 };

@@ -65,6 +65,9 @@ export default class LoginScreen extends Component {
       },
       signupError: {},
       customerror: {},
+      isDisableEmailMenu: true,
+      isDisableSMSMenu: true,
+      isDisablePreferedMenu: true,
     };
     this._getStoredData();
     var today = new Date();
@@ -131,11 +134,14 @@ export default class LoginScreen extends Component {
           }
         }
       });
-      this.setState({
-        userName: userName,
-        password: password,
-        isRememberPassword: isRemeber,
-      })
+      
+      if(isRemeber){
+        this.setState({
+          userName: userName,
+          password: password,
+          isRememberPassword: isRemeber,
+        })
+      }
 
       console.log(`start ${userName} ${password} ${isRemeber}`)
 
@@ -285,6 +291,7 @@ _stopTimer = () => {
             webFromResponse: response.responsedata,
             isShowSignUp: !this.state.isShowSignUp,
           })
+          this._handleContactMenu();
         }
       })
       .catch(error => console.log('error : ' + error));
@@ -302,7 +309,7 @@ _stopTimer = () => {
       smsProvider: null,
       totalRequiredField: null,
       isSMSOptinConfirm: null,
-      firstName: this.state.signup.firstname || null,
+      firstName: this.state.signup.firstName || null,
       lastName: this.state.signup.lastName || null,
       address: this.state.signup.address || null,
       city: this.state.signup.city || null ,
@@ -373,6 +380,62 @@ _stopTimer = () => {
       console.log(error)
     }
   };
+
+  //Manage menu selection
+  _handleContactMenu = (isFromTextInput) => {
+    var isAllowEmail = this.state.signup.allowedEmail || false;
+    var isAllowSMS = this.state.signup.allowedSMS || false;
+    var preferedMedia = this.state.signup.preferedMedia || 'SMS';
+    var isDisableEmailMenu = true;
+    var isDisableSMSMenu = true;
+    var isDisablePreferedMenu = true;
+
+    if (isValidPhoneNo(this.state.signup.mobile)) {
+      if(isFromTextInput){
+        isAllowSMS = true;
+      }
+      isDisableSMSMenu = false;
+    } else {
+      isAllowSMS = false;
+      isDisableSMSMenu = true;
+    }
+
+    if (isValidEmail(this.state.signup.email)) {
+      if(isFromTextInput) {
+        isAllowEmail = true;
+      }
+      isDisableEmailMenu = false;
+    } else {
+      isAllowSMS = false;
+      isDisableSMSMenu = true; 
+    }
+
+    if(isAllowEmail && isAllowSMS) {
+      isDisablePreferedMenu = false;
+    } else if (isAllowEmail) {
+      isDisablePreferedMenu = true;
+      preferedMedia = 'Email';
+    } else if (isAllowSMS) {
+      isDisablePreferedMenu = true;
+      preferedMedia = 'SMS';
+    } else {
+      isDisablePreferedMenu = true;
+      preferedMedia = 'SMS';
+    }
+
+    // setting value
+    this.setState({
+      isDisableEmailMenu: isDisableEmailMenu,
+      isDisableSMSMenu: isDisableSMSMenu,
+      isDisablePreferedMenu: isDisablePreferedMenu,
+      signup: {
+        ...this.state.signup,
+        allowedEmail: isAllowEmail,
+        allowedSMS: isAllowSMS,
+        preferedMedia: preferedMedia,
+      }
+    })
+  }
 
   // validating form
   _prepareSignup = () => {
@@ -775,22 +838,22 @@ _stopTimer = () => {
     }
   }
 
-_renderSignupButton = () => {
-  if(this.state.isLoadingSignupform){
-    return(
-      <ActivityIndicator style={{margin: 10}} color={'white'} size={36}/>
-    );
-  } else {
-    return (
-      <TouchableOpacity
-        style={styles.button}
-        onPress={this._onSignUpClick}>
-        <Text style={styles.buttonText}>{this.state.isShowSignUp ? 'Register' : 'SIGN ME UP'}</Text>
-      </TouchableOpacity>
+  _renderSignupButton = () => {
+    if(this.state.isLoadingSignupform){
+      return(
+        <ActivityIndicator style={{margin: 10}} color={'white'} size={36}/>
+      );
+    } else {
+      return (
+        <TouchableOpacity
+          style={styles.button}
+          onPress={this._onSignUpClick}>
+          <Text style={styles.buttonText}>{this.state.isShowSignUp ? 'Register' : 'SIGN ME UP'}</Text>
+        </TouchableOpacity>
 
-    );
+      );
+    }
   }
-}
 
   _renderMemberCardID = fieldsData => {
     if(this._visibleFields.indexOf(fieldsData.memberCardIDRequired) > -1){
@@ -1015,15 +1078,42 @@ _renderSignupButton = () => {
             rippleColor="rgba(255,255,255,2)"
             error={this.state.signupError.email}
             onChangeText={text=>{
-              if(text){
-                const st = this.state.signup;
-                this.setState({
-                  signup: {
-                    ...st,
-                    email: text,
-                  },
-                });
+              this.setState({
+                signup: {
+                  ...this.state.signup,
+                  email: text,
+                }
+              }, () => this._handleContactMenu(true))
+              /*var isAllowEmail = false;
+              var isDisableEmailMenu = true;
+              var error = '';
+              var pref = 'SMS';
+              if(this._requireFields.indexOf(fieldsData.emailRequired) > -1 ||text){
+                if (isValidEmail(this.state.signup.email)) {
+                  isAllowEmail = true;
+                  isDisableEmailMenu = false;
+                  error = '';
+                  pref = this.state.signup.allowedSMS ? this.state.signup.preferedMedia : 'Email';
+                } else {
+                  isAllowEmail = false;
+                  isDisableEmailMenu = true; 
+                  error = `Please enter valid ${fieldsData.emailLabel || 'Email'}`;
+                  pref = sms
+                }                
               }
+              this.setState({
+                isDisableEmailMenu: isDisableEmailMenu,
+                signup: {
+                  ...this.state.signup,
+                  email: text,
+                  allowedEmail: isAllowEmail,
+                  preferedMedia: pref,
+                },
+                signupError: {
+                  ...this.state.signupError,
+                  email: error
+                }
+              });*/
             }}
           />
       )
@@ -1057,7 +1147,7 @@ _renderSignupButton = () => {
                     ...st,
                     mobile: text,
                   },
-                });
+                }, () => this._handleContactMenu(true));
               }
             }}
           />
@@ -1361,7 +1451,7 @@ _renderSignupButton = () => {
   _renderBirthDate = fieldsData => {
     if(this._visibleFields.indexOf(fieldsData.birthdateRequired) > -1){
       return (
-        <View style={{flexDirection: 'column', width: '100%', marginTop: 5, marginBottom: 5}}>
+        <View style={{flexDirection: 'column', marginTop: 5, marginBottom: 5}}>
           {this._renderLabel(this.state.signup.birthdate, fieldsData.birthdateLabel || 'Birth Date')}
           <DatePicker
             date={this.state.signup.birthdate}
@@ -1392,7 +1482,7 @@ _renderSignupButton = () => {
               })
             }}
           />
-          <View style={{height: 1, width: '100%', backgroundColor: 'white'}}/>
+          <View style={{height: 1, backgroundColor: 'white'}}/>
         </View>
       );
     }
@@ -1401,7 +1491,7 @@ _renderSignupButton = () => {
   _renderAnniversary = fieldsData => {
     if(this._visibleFields.indexOf(fieldsData.anniversaryRequired) > -1){
       return (
-        <View style={{flexDirection: 'column', width: '100%', marginTop: 5, marginBottom: 5}}>
+        <View style={{flexDirection: 'column', marginTop: 5, marginBottom: 5}}>
           {this._renderLabel(this.state.signup.anniversary, fieldsData.anniversaryLabel || 'Anniversary Date')}
           <DatePicker
             date={this.state.signup.anniversary}
@@ -1432,7 +1522,7 @@ _renderSignupButton = () => {
               })
             }}
           />
-          <View style={{height: 1, width: '100%', backgroundColor: 'white'}}/>
+          <View style={{height: 1, backgroundColor: 'white'}}/>
         </View>
       );
     }
@@ -1462,7 +1552,7 @@ _renderSignupButton = () => {
               </MenuOptions>
             </Menu>
           </View>
-          <View style={{height: 1, width: '100%', backgroundColor: 'white'}}/>
+          <View style={{height: 1, backgroundColor: 'white'}}/>
         </View>
       );
     }
@@ -1505,7 +1595,7 @@ _renderSignupButton = () => {
               })
             }
             return (
-              <View style={{width: '100%', marginLeft: -10, marginTop: -10}}>
+              <View style={{marginLeft: -10, marginTop: -10, flex: 1}}>
                 {this._renderLabel(this.state.signup.location, 'Location')}
                 <View style={{flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10}}>
                   <MDIcon name={'place'} style={{fontSize: 24, color: 'white', marginRight: 10,}} />
@@ -1525,7 +1615,7 @@ _renderSignupButton = () => {
           onSelectedItemsChange={this.onSelectedItemsChange}
           selectedItems={[this.state.signup.location]}
         />
-        <View style={{height: 1, width: '100%', backgroundColor: 'white', marginTop: -25, marginBottom: 10}}/>
+        <View style={{height: 1, backgroundColor: 'white', marginTop: -25, marginBottom: 10}}/>
       </View>
     )
     }
@@ -1549,12 +1639,15 @@ _renderSignupButton = () => {
                       ...st,
                       allowedEmail: value,
                     }
-                  })
+                  }, () => this._handleContactMenu())
                 }}>
-                <MenuTrigger customStyles={{triggerText:{fontSize: 16, color: 'white', alignSelf: 'center'}}} text={this.state.signup.allowedEmail || 'No'} />
+                <MenuTrigger 
+                  disabled={this.state.isDisableEmailMenu}
+                  customStyles={{triggerText:{fontSize: 16, color: 'white', alignSelf: 'center'}}} text={this.state.signup.allowedEmail ? 'Yes' : 'No'} 
+                />
                 <MenuOptions>
-                  <MenuOption value='Yes' text='Yes' />
-                  <MenuOption value='No' text='No' />
+                  <MenuOption value={true} text='Yes' />
+                  <MenuOption value={false} text='No' />
                 </MenuOptions>
               </Menu>
               <View style={{height: 1, width: '100%', backgroundColor: 'white'}}/>
@@ -1572,12 +1665,15 @@ _renderSignupButton = () => {
                       ...st,
                       allowedSMS: value,
                     }
-                  })
+                  },() => this._handleContactMenu())
                 }}>
-                <MenuTrigger customStyles={{triggerText:{fontSize: 16, color: 'white', alignSelf: 'center'}}} text={this.state.signup.allowedSMS || 'No'} />
+                <MenuTrigger
+                  disabled={this.state.isDisableSMSMenu}
+                  customStyles={{triggerText:{fontSize: 16, color: 'white', alignSelf: 'center'}}} text={this.state.signup.allowedSMS ? 'Yes' : 'No'} 
+                />
                 <MenuOptions>
-                  <MenuOption value='Yes' text='Yes' />
-                  <MenuOption value='No' text='No' />
+                  <MenuOption value={true} text='Yes' />
+                  <MenuOption value={false} text='No' />
                 </MenuOptions>
               </Menu>
               <View style={{height: 1, width: '100%', backgroundColor: 'white'}}/>
@@ -1596,7 +1692,10 @@ _renderSignupButton = () => {
                     }
                   })
                 }}>
-                <MenuTrigger customStyles={{triggerText:{fontSize: 16, color: 'white', alignSelf: 'center'}}} text={this.state.signup.preferedMedia || 'Email'} />
+                <MenuTrigger
+                  disabled={this.state.isDisablePreferedMenu}
+                  customStyles={{triggerText:{fontSize: 16, color: 'white', alignSelf: 'center'}}} text={this.state.signup.preferedMedia}
+                />
                 <MenuOptions>
                   <MenuOption value='Email' text='Email' />
                   <MenuOption value='SMS' text='SMS' />
@@ -1639,7 +1738,7 @@ _renderSignupButton = () => {
   _renderCustomData = customData => {
     if(customData){
       return(
-        <View>
+        <View style={{width: 300}}>
           {customData.map(field => {
             if(this._visibleFields.indexOf(field.requiredType) > -1){
               if (field.controlTypeID >= 1 && field.controlTypeID <= 3) {
@@ -1707,7 +1806,7 @@ _renderSignupButton = () => {
                           })
                         }
                         return (
-                          <View style={{width: '100%', marginLeft: -10, marginTop: -10}}>
+                          <View style={{flex: 1, marginLeft: -10, marginTop: -10}}>
                             {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
                             <View style={{flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10}}>
                               <MDIcon name={'list'} style={{fontSize: 24, color: 'white', marginRight: 10,}} />
@@ -1737,7 +1836,7 @@ _renderSignupButton = () => {
                       }}
                       selectedItems={[this.state.signup.customData[field.customFieldID]]}
                     />
-                    <View style={{height: 1, width: '100%', backgroundColor: 'white', marginTop: -25, marginBottom: 10}}/>
+                    <View style={{height: 1, backgroundColor: 'white', marginTop: -25, marginBottom: 10}}/>
                   </View>
                 )
               } else if (field.controlTypeID == 5) {
@@ -1767,7 +1866,7 @@ _renderSignupButton = () => {
                           })
                         }
                         return (
-                          <View style={{width: '100%', marginLeft: -10, marginTop: -10}}>
+                          <View style={{flex: 1, marginLeft: -10, marginTop: -10}}>
                             {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
                             <View style={{flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10}}>
                               <Icon name={'check-square-o'} style={{fontSize: 20, color: 'white', marginRight: 10,}} />
@@ -1799,7 +1898,7 @@ _renderSignupButton = () => {
                       }}
                       selectedItems={this.state.signup.customData[field.customFieldID]}
                     />
-                    <View style={{height: 1, width: '100%', backgroundColor: 'white', marginTop: -25, marginBottom: 10}}/>
+                    <View style={{height: 1, backgroundColor: 'white', marginTop: -25, marginBottom: 10}}/>
                   </View>
                 )
               } else if (field.controlTypeID == 6) {
@@ -1828,7 +1927,7 @@ _renderSignupButton = () => {
                           })
                         }
                         return (
-                          <View style={{width: '100%', marginLeft: -10, marginTop: -10}}>
+                          <View style={{flex: 1, marginLeft: -10, marginTop: -10}}>
                             {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
                             <View style={{flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10}}>
                               <MDIcon name={'radio-button-checked'} style={{fontSize: 24, color: 'white', marginRight: 10,}} />
@@ -1861,13 +1960,13 @@ _renderSignupButton = () => {
                       }}
                       selectedItems={[this.state.signup.customData[field.customFieldID]]}
                     />
-                    <View style={{height: 1, width: '100%', backgroundColor: 'white', marginTop: -25, marginBottom: 10}}/>
+                    <View style={{height: 1, backgroundColor: 'white', marginTop: -25, marginBottom: 10}}/>
                   </View>
                 )
               } else if (field.controlTypeID == 7) {
                 // date picker
                 return (
-                  <View style={{flexDirection: 'column', width: '100%', marginTop: 5, marginBottom: 5}}>
+                  <View style={{flexDirection: 'column', marginTop: 5, marginBottom: 5}}>
                     {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
                     <DatePicker
                       date={this.state.signup.customData[field.customFieldID]}
@@ -1900,7 +1999,7 @@ _renderSignupButton = () => {
                         })
                       }}
                     />
-                    <View style={{height: 1, width: '100%', backgroundColor: 'white'}}/>
+                    <View style={{height: 1, width: 300, backgroundColor: 'white'}}/>
                   </View>
                 );
               }
@@ -1915,7 +2014,7 @@ _renderSignupButton = () => {
     const {fieldsData, customData, locationData} = this.state.webFromResponse;
     if (this.state.isShowSignUp) {
       return (
-        <View style={{flexDirection: 'column', width: '90%'}}>
+        <View style={{flexDirection: 'column', width: 300}}>
           {this._renderMemberCardID(fieldsData)}
           {this._renderDrivingLinces(fieldsData)}
           {this._renderFirstName(fieldsData)}
