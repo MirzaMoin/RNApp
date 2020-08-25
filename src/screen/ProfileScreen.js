@@ -1810,7 +1810,9 @@ export class ProfileScreen extends Component {
         <TouchableOpacity
           onPress={()=>{
             this._handleImageClick();
-          }}>
+          }}
+          style={{marginBottom: 10}}
+          >
           <Image
           style={styles.profileContainer}
           source={{
@@ -2026,7 +2028,7 @@ export class ProfileScreen extends Component {
 
   _renderSaveButton = () => {
     if (this.state.isUpdatingProfile) {
-      return <ActivityIndicator size={'large'} />
+      return <ActivityIndicator size={'large'} style={{marginBottom: 10}} />
     } else {
       return (
         <View style={styles.subContainer}>

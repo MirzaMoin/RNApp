@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   AsyncStorage,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
@@ -139,21 +140,28 @@ class DrawerHeaderComponent extends Component {
 
   _getStoredData = async () => {
     try {
+      console.log(`start : ${Dimensions.get('screen').width}`)
       var fName, lName, profile, email;
+      var isUpdateState = false;
       await AsyncStorage.getItem('profilePitcure', (err, value) => {
         if (err) {
-          this.props.navigation.navigate('Auth');
+          //this.props.navigation.navigate('Auth');
         } else {
           //const val = JSON.parse(value);
           if (value) {
             profile = value;
+            if(value === this.state.userImage){
+              isUpdateState = false;
+            } else {
+              isUpdateState = true;
+            }
           }
         }
       });
 
       await AsyncStorage.getItem('firstName', (err, value) => {
         if (err) {
-          this.props.navigation.navigate('Auth');
+          //this.props.navigation.navigate('Auth');
         } else {
           if (value) {
             fName = value;
@@ -163,7 +171,7 @@ class DrawerHeaderComponent extends Component {
 
       await AsyncStorage.getItem('lastName', (err, value) => {
         if (err) {
-          this.props.navigation.navigate('Auth');
+          //this.props.navigation.navigate('Auth');
         } else {
           if (value) {
             lName = value;
@@ -173,7 +181,7 @@ class DrawerHeaderComponent extends Component {
 
       await AsyncStorage.getItem('emailAddress', (err, value) => {
         if (err) {
-          this.props.navigation.navigate('Auth');
+          //this.props.navigation.navigate('Auth');
         } else {
           if (value) {
             email = value;
@@ -181,48 +189,54 @@ class DrawerHeaderComponent extends Component {
         }
       });
 
-      this.setState({
+      if(
+        this.state.email === email &&
+        this.state.name === `${fName} ${lName}` &&
+        this.state.userImage === profile
+      ) {
+        console.log('Same Data')
+      } else {
+        console.log('new data');
+        this.setState({
+          name: `${fName} ${lName}`,
+          email: email,
+          userImage: profile,
+        });
+      }
+
+      /*this.setState({
         name: `${fName} ${lName}`,
         email: email,
         userImage: profile,
-      })
-
-      console.log(`draweer ${fName} ${lName} ${èmail} ${profile}`)
+      })*/
 
     } catch (error) {
       // Error saving data
+      console.log(`Drawer HeaderComponent: ${error}`)
     }
   };
 
-  componentWillMount(){
-    this._getStoredData();
-  }
-
-  componentDidMount() {
-    //Here is the Trick
-    const { navigation } = this.props;
-    //Adding an event listner om focus
-    //So whenever the screen will have focus it will set the state to zero
-    this.focusListener = navigation.addListener('didFocus', () => {
-        //this.setState({ count: 0 });
-        console.log('úpdateeeee')
-    });
-  }
-
-  componentWillUnmount() {
-    // Remove the event listener before removing the screen from the stack
-    this.focusListener.remove();
+  onPageLayout = (event) => {
+    const { width, height } = event.nativeEvent.layout;
+    console.log(`ON LAYOUT ${width} ${height}`);
+    //this.setState({width, height})
+    if(!(this.state.width)){
+      this.setState({
+        width: width,
+      });
+    }
   };
 
   render() {
+    this._getStoredData();
     return (
-      <View style={{flexDirection: 'column'}}>
+      <View style={{flexDirection: 'column'}} ref={(ref) => (this.viewParent = ref)} onLayout={this.onPageLayout}>
         <Image
-        style={{height: 150}}
-        source={{
-          uri:
-            this.state.userImage || '',
-        }}
+          style={{width: this.state.width || '100%', height: this.state.width || 200}}
+          source={{
+            uri:
+              this.state.userImage || '',
+          }}
       />
       <Text
         style={{
@@ -230,7 +244,7 @@ class DrawerHeaderComponent extends Component {
           textAlign: 'center',
           paddingRight: 15,
           paddingTop: 5,
-          fontSize: 10,
+          fontSize: 16,
         }}>
         {this.state.name}
       </Text>
@@ -240,7 +254,8 @@ class DrawerHeaderComponent extends Component {
           textAlign: 'center',
           paddingRight: 15,
           paddingTop: 5,
-          fontSize: 10,
+          fontSize: 14,
+          paddingBottom: 5,
         }}>
         {this.state.email}
       </Text>
@@ -252,8 +267,8 @@ class DrawerHeaderComponent extends Component {
 const CreateDrawerComponent = props => (
   <SafeAreaView style={{flex: 1}}>
     <View style={{flex: 1}}>
-      <DrawerHeaderComponent navigation={props.navigation} />
       <ScrollView style={{flex: 1}}>
+        <DrawerHeaderComponent navigation={props.navigation} />
         <DrawerItems {...props} />
         {/*<LogoutItem navigationProps={props}/>*/}
         <TouchableNativeFeedback

@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
@@ -16,7 +17,7 @@ export default class HomeScreen extends Component {
   };
 
   constructor() {
-    console.log('Constructor called');
+    console.log(`Constructor called HOME ${Dimensions.get('screen').width}`);
     super();
     this.state = {
       title: 'HomeScreen',
