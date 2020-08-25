@@ -559,7 +559,7 @@ export class ProfileScreen extends Component {
       rootID: this.state.contactData.rootID,
       phone: this.state.contactData.phone,
       mobilePhone: this.state.signup.mobile,
-      emailAddress: this.state.email,
+      emailAddress: this.state.signup.email,
       emailFormat: this.state.contactData.emailFormat,
       confirmationStatus: this.state.contactData.confirmationStatus,
       activityStatus: this.state.contactData.activityStatus,

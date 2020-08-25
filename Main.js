@@ -28,6 +28,7 @@ import LocationScreen from './src/screen/LocationScreen';
 import TakeSurveyScreen from './src/screen/TakeSurveyScreen';
 import SurveyFormScreen from './src/screen/SurveyFormScreen';
 import ProfileScreen from './src/screen/ProfileScreen';
+import ChangePasswordScreen from './src/screen/ChangePasswordScreen';
 import {WayToEarnScreen} from './src/screen/WaysToEarnScreen';
 import * as RNEP from '@estimote/react-native-proximity';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
@@ -38,7 +39,7 @@ import {
 
 import Screen1 from './pages/Screen1';
 import Screen2 from './pages/Screen2';
-import Screen3 from './pages/Screen3';
+
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 import { MenuProvider } from 'react-native-popup-menu';
 
@@ -297,12 +298,12 @@ const Screen2_StackNavigator = createStackNavigator({
   },
 });
 
-const Screen3_StackNavigator = createStackNavigator({
+const ChangePasswordStackNavigator = createStackNavigator({
   //All the screen from the Screen3 will be indexed here
-  Third: {
-    screen: Screen3,
+  changePassword: {
+    screen: ChangePasswordScreen,
     navigationOptions: ({navigation}) => ({
-      title: 'Settings',
+      title: 'Change Password',
       headerTitleStyle: {
         color: 'white',
         marginLeft: -7,
@@ -692,16 +693,6 @@ const DrawerNavigatorExample = createDrawerNavigator(
         ),
       },
     },
-    Screen3: {
-      //Title
-      screen: Screen3_StackNavigator,
-      navigationOptions: {
-        drawerLabel: 'Setting',
-        drawerIcon: ({tintColor}) => (
-          <MDIcon style={{fontSize: 18}} name={'settings'} />
-        ),
-      },
-    },
     Transaction: {
       screen: Transaction_Navigator,
       navigationOptions: {
@@ -766,10 +757,21 @@ const DrawerNavigatorExample = createDrawerNavigator(
         drawerIcon: () => <MDIcon style={{fontSize: 18}} name={'edit'} />,
       },
     },
+    changePassword: {
+      //Title
+      screen: ChangePasswordStackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Change Password',
+        drawerIcon: ({tintColor}) => (
+          <MDIcon style={{fontSize: 18}} name={'lock'} />
+        ),
+      },
+    },
   },
   {
     contentComponent: CreateDrawerComponent,
     drawerType: 'push-screen',
+    edgeWidth: 3,
   },
 );
 

@@ -13,4 +13,5 @@ module.exports = {
   GET_CONTACT_DATA: 'UserProfile/GetContactData',
   UPLOAD_PROFILE_IMAGE: 'UserProfile/ProfilePictureUpload',
   UPDATE_USER_PROFILE: 'UserProfile/UserProfileUpdate',
+  CHANGE_PASSWORD: 'UserProfile/ChangePassword',
 };

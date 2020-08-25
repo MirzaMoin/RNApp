@@ -208,10 +208,6 @@ _stopTimer = () => {
           console.log('fadsfadf');
           this._storeLoginData(response.responsedata);
         }
-
-        /*this._storeData();
-        this.props.navigation.navigate('Main');*/
-        
       })
       .catch(error => console.log('error : ' + error));
   };
@@ -232,15 +228,17 @@ _stopTimer = () => {
         console.log('not');
       }
       await AsyncStorage.setItem('userID',response.contactData.contactID);
-      await AsyncStorage.setItem('pointBalance',response.contactData.pointBalance.toString());
-      await AsyncStorage.setItem('reedemablePoints',response.contactData.reedemablePoints.toString());
-      await AsyncStorage.setItem('firstName',response.contactData.firstName);
-      await AsyncStorage.setItem('lastName',response.contactData.lastName);
-      await AsyncStorage.setItem('emailAddress',response.contactData.emailAddress);
-      await AsyncStorage.setItem('profilePitcure',response.contactData.profilePitcure);
+      await AsyncStorage.setItem('pointBalance', response.contactData.pointBalance ? response.contactData.pointBalance.toString() : '');
+      await AsyncStorage.setItem('reedemablePoints', response.contactData.reedemablePoints ? response.contactData.reedemablePoints.toString() : '');
+      await AsyncStorage.setItem('firstName',response.contactData.firstName || '');
+      await AsyncStorage.setItem('lastName',response.contactData.lastName || '');
+      await AsyncStorage.setItem('emailAddress',response.contactData.emailAddress || '');
+      await AsyncStorage.setItem('profilePitcure',response.contactData.profilePitcure || '');
 
       if(response.contactData.isRequiredPasswordChanged) {
         // redirect to change password
+        console.log('going chang pass')
+        this.props.navigation.navigate('changePassword');
       } else {
         this.props.navigation.navigate('Main',{
           loginData: response,
