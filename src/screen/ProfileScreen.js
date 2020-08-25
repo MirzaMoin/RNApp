@@ -44,12 +44,14 @@ export class ProfileScreen extends Component {
       webFromResponse: {},
       signup: {
         customData: {},
+        additionalBirthDates: [],
       },
       signupError: {},
       customerror: {},
       isDisableEmailMenu: true,
       isDisableSMSMenu: true,
       isDisablePreferedMenu: true,
+      additionalDates: [],
     };
     
   }
@@ -66,7 +68,6 @@ export class ProfileScreen extends Component {
   }
 
   componentWillMount(){
-    console.log('calling')
     this._getStoredData();
   }
 
@@ -96,7 +97,6 @@ export class ProfileScreen extends Component {
               webformID: value,
             },() => this._callGetUserData())
           } else {
-            console.log('no data')
           }
         }
       });
@@ -119,6 +119,7 @@ export class ProfileScreen extends Component {
         } else {
           const {contactData} = response.responsedata;
           const request ={
+            profileImage: contactData.profilePitcure,
             contactID: contactData.contactID,
             isEmailOptinConfirm: contactData.isEmailOptinConfirm,
             signUpType: contactData.signUpType,
@@ -154,11 +155,12 @@ export class ProfileScreen extends Component {
             webFormID: this.state.webformID,
             customData: JSON.parse(contactData.customFiledsValue),
             contactListID: contactData.contactListID,
+            additionalBirthDates: JSON.parse(contactData.additionalBirthDates),
           }
           //console.log(JSON.stringify(request));
           this.setState({
             signup: request
-          },() => console.log(`Profile : ${JSON.stringify(this.state.signup)}`))
+          });
           this._callWebFormData();
         }
       })
@@ -171,7 +173,7 @@ export class ProfileScreen extends Component {
       'get',
     )
       .then(response => {
-        console.log(JSON.stringify(response));
+        //console.log(JSON.stringify(response));
         //this.setState({isLoadingForgot: false, isTimer: true});
         if(response.statusCode == 0) {
           Alert.alert('Oppss...', response.statusMessage);
@@ -196,6 +198,302 @@ export class ProfileScreen extends Component {
     'notrequired'
   ];
 
+  // validating form
+  _prepareSignup = () => {
+    const {fieldsData, customData, locationData} = this.state.webFromResponse;
+    var isCall = true;
+    var signupError = {};
+    var customError = {};
+    //debugger;
+    if(this._requireFields.indexOf(fieldsData.memberCardIDRequired) > -1){
+      if(this.state.signup.memberCardID){
+        signupError = {
+          ...signupError,
+          memberCardID: '',
+        }
+      } else {
+        signupError = {
+          ...signupError,
+          memberCardID: `Please enter ${fieldsData.memberCardIDLabel || 'Member Card ID'}`
+        }
+        isCall=false;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.driverLicenseRequired) > -1){
+      if(this.state.signup.driverLicense){
+        if((fieldsData.maxRange == null || fieldsData.minRange == null) || (this.state.signup.driverLicense.length >= fieldsData.minRange && this.state.signup.driverLicense.length <= fieldsData.maxRange)) {
+          signupError= {
+            ...signupError,
+            driverLicense: '',
+          };
+        } else {
+          signupError= {
+            ...signupError,
+            driverLicense: `${fieldsData.driverLicense || 'Driver License'} value must contain ${fieldsData.minRange} to ${fieldsData.maxRange} character`
+          }
+          isCall=false;
+        }
+      } else {
+        signupError= {
+          ...signupError,
+          driverLicense: `Please enter ${fieldsData.driverLicense || 'Driver License'}`
+        }
+        isCall = false;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.firstNameRequired) > -1){
+      if(this.state.signup.firstName){
+        signupError= {
+          ...signupError,
+          firstName: '',
+        }
+      } else {
+        signupError= {
+          ...signupError,
+          firstName: `Please enter ${fieldsData.firstNameLabel || 'First Name'}`
+        }
+        isCall=false;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.lastNameRequired) > -1){
+      if(this.state.signup.lastName){
+        signupError= {
+          ...signupError,
+          lastName: '',
+        }
+      } else {
+        signupError = {
+          ...signupError,
+          lastName: `Please enter ${fieldsData.lastNameLabel || 'Last Name'}`
+        }
+        isCall=false;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.emailRequired) > -1 || this.state.signup.email.length > 0) {
+      if(this.state.signup.email && isValidEmail(this.state.signup.email)){
+        signupError= {
+          ...signupError,
+          email: '',
+        }
+      } else {
+        signupError = {
+          ...signupError,
+          email: `Please enter ${fieldsData.emailLabel || 'Email'}`
+        }
+        isCall=false;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.mobileRequired) > -1 || this.state.signup.mobile){
+      if(this.state.signup.mobile && isValidPhoneNo(this.state.signup.mobile)){
+        signupError= {
+          ...signupError,
+          mobile: '',
+        }
+      } else {
+        signupError= {
+          ...signupError,
+          mobile: `Please enter ${fieldsData.mobileLabel || 'Mobile'}`
+        }
+        isCall=false;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.collectEndUserAddressRequired) > -1){
+      if(this.state.signup.address){
+        signupError= {
+          ...signupError,
+          address: '',
+        }
+      } else {
+        signupError= {
+          ...signupError,
+          address: `Please enter Address`
+        }
+        isCall=false;
+      }
+
+      if(this.state.signup.city){
+        signupError= {
+          ...signupError,
+          city: '',
+        }
+      } else {
+        signupError= {
+          ...signupError,
+          city: `Please enter City`
+        }
+        isCall=false;
+      }
+
+      if(this.state.signup.state){
+        signupError= {
+          ...signupError,
+          state: '',
+        }
+      } else {
+        signupError= {
+          ...signupError,
+          state: `Please enter State`
+        }
+        isCall=false;
+      }
+
+      if(this.state.signup.postalcode){
+        signupError= {
+          ...signupError,
+          postalcode: '',
+        }
+      } else {
+        signupError= {
+          ...signupError,
+          postalcode: `Please enter Postal Code`
+        }
+        isCall=false;
+      }
+    }
+    
+    if(this._requireFields.indexOf(fieldsData.address2required) > -1){
+      if(this.state.signup.address2){
+        signupError= {
+          ...signupError,
+          address2: '',
+        }
+      } else {
+        signupError= {
+          ...signupError,
+          address2: `Please enter ${fieldsData.address2 || 'Address2'}`
+        }
+        isCall=false;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.address3required) > -1){
+      if(this.state.signup.address3){
+        signupError= {
+          ...signupError,
+          address3: '',
+        }
+      } else {
+        signupError= {
+          ...signupError,
+          address3: `Please enter ${fieldsData.address3 || 'Address3'}`
+        }
+        isCall=false;
+      }
+    }
+
+    this.setState({
+      signupError: signupError,
+    });
+
+    if(this._requireFields.indexOf(fieldsData.profilePictureRequired) > -1){
+      if(!this.state.signup.profielImage || this.state.signup.profielImage === '' || this.state.signup.profielImage === undefined){
+        this._showToast(`Please select ${fieldsData.profilePictureLabel || 'Profile Image'}`);
+        return;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.myLocationRequired) > -1){
+      if(!this.state.signup.location || this.state.signup.location === '' || this.state.signup.location === undefined){
+        this._showToast(`Please select ${fieldsData.myLocationLabel || 'Location'}`);
+        return;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.birthdateRequired) > -1){
+      if(!this.state.signup.birthdate || this.state.signup.birthdate === '' || this.state.signup.birthdate === undefined){
+        this._showToast(`Please select ${fieldsData.birthdateLabel || 'Birth Date'}`);
+        return;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.anniversaryRequired) > -1){
+      if(!this.state.signup.anniversary || this.state.signup.anniversary === '' || this.state.signup.anniversary === undefined){
+        this._showToast(`Please select ${fieldsData.anniversaryLabel || 'Anniversary'}`);
+        return;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.genderRequired) > -1){
+      if(!this.state.signup.gender || this.state.signup.gender === '' || this.state.signup.gender === undefined){
+        this._showToast(`Please select ${fieldsData.genderLabel || 'Gender'}`);
+        return;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.tosAgreementRequired) > -1){
+      if(!this.state.signup.isTOS){
+        this._showToast(`Please check ${fieldsData.tosAgreement || 'Terms of Service'}`);
+        return;
+      }
+    }
+
+    if(this._requireFields.indexOf(fieldsData.additionalBirthdayRequired) > -1){
+      if(this.state.signup.additionalBirthDates.length == 0){
+        this._showToast(`Please add ${fieldsData.additionalBirthdaysLabel || 'Addinal Birthday'}`);
+        return;
+      }
+    }
+
+    customData.map(field=>{
+      if(this._requireFields.indexOf(field.requiredType) > -1 || this.state.signup.customData[field.customFieldID]){
+        if(this.state.signup.customData[field.customFieldID]) {
+          // hase value
+          if(field.minLength > 0 && field.maxLength > 0){
+            if(field.controlTypeID >= 1 && field.controlTypeID <= 3) {
+              var value = this.state.signup.customData[field.customFieldID];
+              if(value.length >= field.minLength && value.length <= field.maxLength) {
+                customError= {
+                  ...customError,
+                  [field.customFieldID]: '',
+                }
+              } else {
+                customError= {
+                  ...customError,
+                  [field.customFieldID]: `${field.fieldLabel} must contains ${field.minLength} to ${field.maxLength} charecter`,
+                }
+                isCall = false;
+              }
+            }
+          } else {
+            customError= {
+              ...customError,
+              [field.customFieldID]: '',
+            }
+          }
+        } else {
+          // not value
+          if(field.controlTypeID >= 1 && field.controlTypeID <= 3) {
+            customError= {
+              ...customError,
+              [field.customFieldID]: `Please Enter ${field.fieldLabel}`
+            }
+          } else {
+            this._showToast(`Please select value of ${field.fieldLabel}`);
+          }
+          isCall = false;
+          //console.log('custom value');
+        }
+      }
+    });
+
+    this.setState({
+      customerror: customError,
+    })
+
+    if(isCall){
+      // call signup API
+      this._callSignup();
+    } else {
+      this._showToast(`Please Select all required values`);
+    }
+  };
+
   _handleImageClick = () => {
     
     const options = {
@@ -206,7 +504,7 @@ export class ProfileScreen extends Component {
     };
      
     ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response.path);
+      //console.log('Response = ', response.path);
      
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -896,7 +1194,7 @@ export class ProfileScreen extends Component {
         location: selectedItems[0],
       },
     });
-    console.log('selected : '+JSON.stringify(selectedItems))
+    //console.log('selected : '+JSON.stringify(selectedItems))
   };
 
   _renderLocation = (fieldsData, locationData) => {
@@ -1316,6 +1614,7 @@ export class ProfileScreen extends Component {
 
   _renderProfile = fieldsData => {
     if(this._visibleFields.indexOf(fieldsData.profilePictureRequired) > -1) {
+      //console.log(`Profiel image state: ${this.state.signup.profileImage}`)
       return(
         <TouchableOpacity
           onPress={()=>{
@@ -1324,12 +1623,164 @@ export class ProfileScreen extends Component {
           <Image
           style={styles.profileContainer}
           source={{
-            uri: this.state.profileImagePath ||
+            uri: this.state.profileImagePath || this.state.signup.profileImage ||
               'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
           }}
           resizeMode="cover"
         />
         </TouchableOpacity>
+      )
+    }
+  }
+
+  _renderAdditionalDates = fieldsData => {
+    if(this._visibleFields.indexOf(fieldsData.additionalBirthdayRequired) > -1) {
+      var fields = [];
+      if(this.state.signup.additionalBirthDates){
+        this.state.signup.additionalBirthDates.map( (field, index) => {
+          //console.log(`Map dyanmic value ${Object.keys(field)} : ${field[Object.keys(field)]}`)
+          fields.push(
+            <View style={{flexDirection: 'row', width: 300}}>
+              <View style={{width: 250, flexDirection: 'column', marginTop: 5, marginBottom: 5}}>
+                {this._renderLabel(field.AdditionalDate, field.AdditionalName)}
+                <DatePicker
+                  date={field.AdditionalDate}
+                  mode="date"
+                  placeholder={field.AdditionalName}
+                  format="YYYY-MM-DD"
+                  confirmBtnText="Confirm"
+                  cancelBtnText="Cancel"
+                  iconComponent={<MDIcon name={'date-range'} style={{fontSize: 22, color: 'gray', marginRight: 10}} />}
+                  customStyles={{
+                    placeholderText:{
+                      fontSize: 15,
+                      color: 'gray'
+                    },
+                    dateText: {
+                      fontSize: 17,
+                      color: 'gray'
+                    }
+                  }}
+                  onDateChange={(date) => {
+                    var dates = [...this.state.signup.additionalBirthDates];
+                    dates[index] = {
+                      AdditionalName: field.AdditionalName,
+                      AdditionalDate: date,
+                    }
+    
+                    this.setState({
+                      signup: {
+                        ...this.state.signup,
+                        additionalBirthDates: dates,
+                      }
+                    })
+                  }}
+                />
+                <View style={{height: 1, width: 300, backgroundColor: 'gray'}}/>
+              </View>  
+              <TouchableOpacity
+                style={{flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center'}}
+                onPress={() => {
+                  var dates = this.state.signup.additionalBirthDates;
+                  console.log(`Selected Item : ${dates.indexOf(field)}`)
+                  dates.splice(index, 1);
+                  console.log(`Delted dates : ${JSON.stringify(dates)}`)
+                  this.setState({
+                    signup: {
+                      ...this.state.signup,
+                      additionalBirthDates: dates,
+                    }
+                  },()=>{console.log(`After Delete : ${this.state.additionalDates}`)});
+                }}>
+                <MDIcon name={'delete'} style={{fontSize: 24, margin: 5}} />
+              </TouchableOpacity>
+            </View>
+          )
+        })
+      }
+      return(
+        <View>
+          <Text style={styles.title}>{fieldsData.additionalBirthdaysLabel}</Text>
+          <View style={styles.subContainer}>
+            {fields}
+            <View style={{width: 300, flexDirection: 'column', marginTop: 5, marginBottom: 5}}>
+              <TextInput
+                label={'Name'}
+                labelColor="gray"
+                leftIcon="account"
+                leftIconSize={20}
+                containerWidth={300}
+                leftIconType="material"
+                underlineColor="gray"
+                color="gray"
+                labelActiveColor="gray"
+                leftIconColor="gray"
+                selectionColor={'gray'}
+                activeColor="gray"
+                rippleColor="rgba(255,255,255,2)"
+                value={this.state.tmp}
+                error={this.state.tmpError}
+                onChangeText={text=>{
+                  if(text){
+                    this.setState({
+                      tmp: text,
+                    });
+                  }
+                }}
+              />
+            <DatePicker
+              mode="date"
+              placeholder={`Birth Date`}
+              format="YYYY-MM-DD"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              onOpenModal={() => {
+                if(!this.state.tmp){
+                  this._showToast('Please enter name first')
+                  return;
+                }
+              }}
+              iconComponent={<MDIcon name={'date-range'} style={{fontSize: 22, color: 'gray', marginRight: 10}} />}
+              customStyles={{
+                placeholderText:{
+                  fontSize: 15,
+                  color: 'gray'
+                },
+                dateText: {
+                  fontSize: 17,
+                  color: 'gray'
+                }
+              }}
+              onDateChange={(date) => {
+                if(this.state.tmp){
+                  var dates = this.state.additionalDates;
+                  console.log(`wile Adding : ${JSON.stringify(dates)}`)
+                  const newItem = {
+                    AdditionalName: this.state.tmp,
+                    AdditionalDate: date
+                  };
+                  dates.push(newItem);
+                  console.log(`After Adding : ${JSON.stringify(dates)}`)
+                  this.setState({
+                    tmp: '',
+                    tmpError: '',
+                    signup: {
+                      ...this.state.signup,
+                      additionalBirthDates: dates
+                    }
+                  })
+                } else {
+                  this._showToast('Please enter name before select date')
+                  this.setState({
+                    tmpError: 'Please enter name first',
+                  })
+                }
+              }}
+            />
+            <View style={{height: 1, width: 300, backgroundColor: 'gray'}}/>
+          </View>
+          </View>
+        </View>
       )
     }
   }
@@ -1362,15 +1813,16 @@ export class ProfileScreen extends Component {
             {this._renderLocation(fieldsData, locationData)}
             {this._renderGender(fieldsData)}
           </View>
-          <Text style={styles.title}>Member Address</Text>
+          {((this._visibleFields.indexOf(fieldsData.collectEndUserAddressRequired) > -1) || (this._visibleFields.indexOf(fieldsData.address2required) > -1) || (this._visibleFields.indexOf(fieldsData.address3) > -1)) && <Text style={styles.title}>Member Address</Text>}
           <View style={styles.subContainer}>
           {this._renderAddress(fieldsData)} 
           </View>
-          <Text style={styles.title}>Important Dates</Text>
+          {((this._visibleFields.indexOf(fieldsData.birthdateRequired) > -1) || (this._visibleFields.indexOf(fieldsData.anniversaryRequired) > -1)) && <Text style={styles.title}>Important Dates</Text>}
           <View style={styles.subContainer}>
             {this._renderBirthDate(fieldsData)}
             {this._renderAnniversary(fieldsData)}
           </View>
+          {this._renderAdditionalDates(fieldsData)}
           <Text style={styles.title}>More Information</Text>
           <View style={styles.subContainer}>
           {this._renderCustomData(customData)}
@@ -1395,7 +1847,7 @@ export class ProfileScreen extends Component {
   render() {
     const {width} = Dimensions.get('window');
     const _maxWidth = width - (width * 20) / 100;
-    console.log('Width : ' + width + ' : max : ' + _maxWidth);
+    //console.log('Width : ' + width + ' : max : ' + _maxWidth);
     return (
       <MenuProvider>
         <KeyboardAvoidingView
