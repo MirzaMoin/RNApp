@@ -1721,11 +1721,9 @@ export class ProfileScreen extends Component {
                 value={this.state.tmp}
                 error={this.state.tmpError}
                 onChangeText={text=>{
-                  if(text){
-                    this.setState({
-                      tmp: text,
-                    });
-                  }
+                  this.setState({
+                    tmp: text,
+                  });
                 }}
               />
             <DatePicker
