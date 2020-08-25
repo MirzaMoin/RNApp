@@ -11,7 +11,8 @@ import {
   ScrollView,
   Dimensions,
   Picker,
-  AsyncStorage
+  AsyncStorage,
+  Alert,
 } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import TextInput from 'react-native-textinput-with-icons';
@@ -159,7 +160,8 @@ export class ProfileScreen extends Component {
           }
           //console.log(JSON.stringify(request));
           this.setState({
-            signup: request
+            signup: request,
+            contactData,
           });
           this._callWebFormData();
         }
@@ -199,7 +201,7 @@ export class ProfileScreen extends Component {
   ];
 
   // validating form
-  _prepareSignup = () => {
+  _prepareForm = () => {
     const {fieldsData, customData, locationData} = this.state.webFromResponse;
     var isCall = true;
     var signupError = {};
@@ -392,7 +394,7 @@ export class ProfileScreen extends Component {
     });
 
     if(this._requireFields.indexOf(fieldsData.profilePictureRequired) > -1){
-      if(!this.state.signup.profielImage || this.state.signup.profielImage === '' || this.state.signup.profielImage === undefined){
+      if(this.state.signup.profileImage == '' && !this.state.profileImageFile){
         this._showToast(`Please select ${fieldsData.profilePictureLabel || 'Profile Image'}`);
         return;
       }
@@ -488,11 +490,201 @@ export class ProfileScreen extends Component {
 
     if(isCall){
       // call signup API
-      this._callSignup();
+      this.setState({
+        isUpdatingProfile: true,
+      })
+      if (this.state.profileImageFile) {
+        this._updateProfileImage();
+      } else {
+        this._callUpdateUserProfile(this.state.signup.profileImage)
+      }
     } else {
       this._showToast(`Please Select all required values`);
     }
   };
+
+  _updateProfileImage = () => {
+    const data = new FormData();
+
+    const headers= {
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data;'    
+    }
+
+    const image = this.state.profileImageFile;
+    console.log(`Upload Image : ${this.state.userID}_${new Date().getTime()}`)
+
+    data.append("ProfilePictureData", {
+      name: `${this.state.userID}_${new Date().getTime()}`,
+      type: image.mime,
+      uri:
+        Platform.OS === "android" ? image.path : image.path.replace("file://", "")
+    });
+
+    data.append('RewardProgramID',APIConstant.RPID);
+    data.append('ContactID',this.state.userID);
+
+    makeRequest(
+      APIConstant.BASE_URL + APIConstant.UPLOAD_PROFILE_IMAGE,
+      'post',
+      data
+    ).then(response => {
+      console.log(JSON.stringify(response));
+      //this.setState({isLoadingSignupform: false});
+     if(response.statusCode == 0) {
+        Alert.alert('Oppss...', response.statusMessage);
+        this.setState({isUpdatingProfile: false,})
+      } else {
+        //this._storeSignupData(response.responsedata);
+        this._callUpdateUserProfile(response.responsedata);
+      }
+    }).catch(error =>{
+      console.log('error: '+error)
+      Alert.alert('Oppss...', 'Something went wrong.');
+      this.setState({isLoadingSignupform: false});
+    });
+  }
+
+  _callUpdateUserProfile = userProfile => {
+    const requrest = {
+      contactID: this.state.userID,
+      contactListID: this.state.signup.contactListID,
+      firstName: this.state.signup.firstName,
+      lastName: this.state.signup.lastName,
+      address: this.state.signup.address,
+      city: this.state.signup.city,
+      state: this.state.signup.state,
+      zipCode: this.state.signup.postalcode,
+      gender: this.state.signup.gender,
+      rootID: this.state.contactData.rootID,
+      phone: this.state.contactData.phone,
+      mobilePhone: this.state.signup.mobile,
+      emailAddress: this.state.email,
+      emailFormat: this.state.contactData.emailFormat,
+      confirmationStatus: this.state.contactData.confirmationStatus,
+      activityStatus: this.state.contactData.activityStatus,
+      customFiledsValue: JSON.stringify(this.state.signup.customData),
+      birthDate: this.state.signup.birthdate,
+      anniversary: this.state.signup.anniversary,
+      pointBalance: this.state.contactData.pointBalance,
+      totalSpent: this.state.contactData.totalSpent,
+      lastVisitDate: this.state.contactData.lastVisitDate,
+      familyMemberBDay: JSON.stringify(this.state.signup.AdditionalDate),
+      overrideTriggerID: this.state.contactData.overrideTriggerID,
+      isActive: this.state.contactData.isActive,
+      isDelete: this.state.contactData.isDelete,
+      createdBy: this.state.contactData.createdBy,
+      modifiedBy: this.state.contactData.modifiedBy,
+      createdDate: this.state.contactData.createdDate,
+      modifiedDate: this.state.contactData.modifiedDate,
+      subscribeKey: this.state.contactData.subscribeKey,
+      subscribeDate: this.state.contactData.subscribeDate,
+      isProfileComplete: this.state.contactData.isProfileComplete,
+      additionalBirthDates: JSON.stringify(this.state.signup.additionalBirthDates),
+      isAddToAutoresponder: this.state.contactData.isAddToAutoresponder,
+      isAllowEmail: this.state.signup.allowedEmail,
+      isAllowSMS: this.state.signup.allowedSMS,
+      isAllowPostalMail: this.state.contactData.isAllowPostalMail,
+      preferredMediaType: this.state.signup.preferedMedia,
+      referelContactID: this.state.contactData.referelContactID,
+      isOverrideSent: this.state.contactData.isOverrideSent,
+      isFBUser: this.state.contactData.isFBUser,
+      userName: this.state.contactData.userName,
+      password: this.state.contactData.password,
+      listJoinDate: this.state.contactData.listJoinDate,
+      qualificationPoints: this.state.contactData.qualificationPoints,
+      reedemablePoints: this.state.contactData.reedemablePoints,
+      isAllowFacebookBonusPoints: this.state.contactData.isAllowFacebookBonusPoints,
+      fbUserId: this.state.contactData.fbUserId,
+      fbUserAccessToken: this.state.contactData.fbUserAccessToken,
+      fbTokenExpirationDate: this.state.contactData.fbTokenExpirationDate,
+      fbMessageIndex: this.state.contactData.fbMessageIndex,
+      isThankYouEmailByWeForm: this.state.contactData.isThankYouEmailByWeForm,
+      isImported: this.state.contactData.isImported,
+      isAfterImportShowRPG: this.state.contactData.isAfterImportShowRPG,
+      pointBalanceAtImport: this.state.contactData.pointBalanceAtImport,
+      rqp: this.state.contactData.rqp,
+      memberCardID: this.state.signup.memberCardID,
+      vipLevel: this.state.contactData.vipLevel,
+      contactLevelExpirationDigit: this.state.contactData.contactLevelExpirationDigit,
+      contactLevelExpirationWord: this.state.contactLevelExpirationWord,
+      contactLevelExpirationTotal: this.state.contactData.contactLevelExpirationTotal,
+      vipMemberJoiningDate: this.state.contactData.vipMemberJoiningDate,
+      isVIPLevelExpired: this.state.isVIPLevelExpired,
+      sharedContactID: this.state.contactData.sharedContactID,
+      isPrimaryContact: this.state.isPrimaryContact,
+      isAfterReferDoAnyTx: this.state.contactData.isAfterReferDoAnyTx,
+      vipLevelColour: this.state.contactData.vipLevelColour,
+      driverLicense: this.state.signup.driverLicense,
+      addressID: this.state.signup.location,
+      lastSentRotateNumber: this.state.contactData.lastSentRotateNumber,
+      smsConfirmationStatus: this.state.contactData.smsConfirmationStatus,
+      limeOptionStatus: this.state.contactData.limeOptionStatus,
+      hasReferredFriendJoined: this.state.contactData.hasReferredFriendJoined,
+      isBirthdayDayEdited: this.state.contactData.isBirthdayDayEdited,
+      isAnniversaryEdited: this.state.contactData.isAnniversaryEdited,
+      isNoNeedToSetAutoresponder: this.state.contactData.isNoNeedToSetAutoresponder,
+      signupType: this.state.contactData.signUpType,
+      signUpWebform: this.state.contactData.signUpWebform,
+      isOptOut: this.state.contactData.isOptOut,
+      languageID: this.state.contactData.languageID,
+      rewardProgramIDNew: APIConstant.RPID,
+      profilePitcure: userProfile,
+      address2: this.state.signup.address2,
+      address3: this.state.signup.address3,
+      leaderBoardName: this.state.contactData.leaderBoardName,
+      profileCompletionPoints: this.state.contactData.profileCompletionPoints,
+      isAddressVerify: this.state.contactData.isAddressVerify,
+      isBeaconAppLogin: this.state.contactData.isBeaconAppLogin,
+      vistaPassword: this.state.contactData.vistaPassword,
+      isAllowPush: this.state.contactData.isAllowPush,
+      gcmDeviceToken: this.state.contactData.gcmDeviceToken,
+      deviceType: this.state.contactData.deviceType,
+      hubSpotId: this.state.contactData.hubSpotId,
+      amountSum: this.state.contactData.amountSum,
+      fullName: this.state.contactData.fullName,
+      country: this.state.signup.country,
+      countryID: this.state.contactData.countryID,
+      contactListPointValue: this.state.contactData.contactListPointValue,
+      rewardProgramName: this.state.contactData.rewardProgramName,
+      isMultiTieredRewardsType: this.state.contactData.isMultiTieredRewardsType,
+      isPaidVIPRewardsType: this.state.contactData.isPaidVIPRewardsType,
+      isAllowCheckInPoints: this.state.contactData.isAllowCheckInPoints,
+      facebookReferralPoints: this.state.facebookReferralPoints,
+      txCount: this.state.contactData.txCount
+    }
+
+    console.log(`Update Request : ${JSON.stringify(requrest)}`);
+    
+
+    makeRequest(
+      APIConstant.BASE_URL + APIConstant.UPDATE_USER_PROFILE,
+      'post',
+      requrest
+    )
+      .then(response => {
+        console.log(JSON.stringify(response));
+        this.setState({isUpdatingProfile: false,})
+        if(response.statusCode == 0) {
+          Alert.alert('Oppss...', response.statusMessage);
+        } else {
+          Alert.alert('Success', 'Profile Data Updated');
+          this._storeUpdateData(userProfile);
+        }
+      })
+      .catch(error =>{
+        Alert.alert('Oppss...', 'Something went wrong.');
+        this.setState({isLoadingSignupform: false});
+      });
+    
+  }
+
+  _storeUpdateData = async userProfile => {
+    await AsyncStorage.setItem('firstName', this.state.signup.firstName);
+    await AsyncStorage.setItem('lastName', this.state.signup.lastName);
+    await AsyncStorage.setItem('emailAddress', this.state.signup.email);
+    await AsyncStorage.setItem('profilePitcure', userProfile);
+  }
 
   _handleImageClick = () => {
     
@@ -504,8 +696,6 @@ export class ProfileScreen extends Component {
     };
      
     ImagePicker.showImagePicker(options, (response) => {
-      //console.log('Response = ', response.path);
-     
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
@@ -522,8 +712,9 @@ export class ProfileScreen extends Component {
         }).then(image => {
           console.log(image);
           this.setState({
-            profileImagePath: image.path, 
-          })
+            profileImagePath: image.path,
+            profileImageFile: image,
+          });
         });
         
       }
@@ -595,7 +786,7 @@ export class ProfileScreen extends Component {
             leftIcon="credit-card"
             leftIconSize={20}
             containerWidth={300}
-            leftIconType="material"
+            leftIconnType="material"
             underlineColor="gray"
             color="gray"
             labelActiveColor="gray"
@@ -1826,21 +2017,30 @@ export class ProfileScreen extends Component {
           {this._renderCustomData(customData)}
           </View>
           {this._renderContactPermission(fieldsData)}
-          
-          <View style={styles.subContainer}>
-            <TouchableOpacity
-              underlayColor="#030a91"
-              activeOpacity={0.8}
-              style={styles.button}
-              onPress={() => this._validateData()}>
-              <Text style={styles.buttonText}>Save</Text>
-            </TouchableOpacity>
-          </View>
+          {this._renderSaveButton()}
         </View>
       </ScrollView>
       );
     }
   };
+
+  _renderSaveButton = () => {
+    if (this.state.isUpdatingProfile) {
+      return <ActivityIndicator size={'large'} />
+    } else {
+      return (
+        <View style={styles.subContainer}>
+          <TouchableOpacity
+            underlayColor="#030a91"
+            activeOpacity={0.8}
+            style={styles.button}
+            onPress={() => this._prepareForm()}>
+            <Text style={styles.buttonText}>Save</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+  }
 
   render() {
     const {width} = Dimensions.get('window');
