@@ -30,6 +30,7 @@ import TakeSurveyScreen from './src/screen/TakeSurveyScreen';
 import SurveyFormScreen from './src/screen/SurveyFormScreen';
 import ProfileScreen from './src/screen/ProfileScreen';
 import ChangePasswordScreen from './src/screen/ChangePasswordScreen';
+import RPGScreen from './src/screen/RPGScreen';
 import {WayToEarnScreen} from './src/screen/WaysToEarnScreen';
 import * as RNEP from '@estimote/react-native-proximity';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
@@ -314,6 +315,25 @@ const ChangePasswordStackNavigator = createStackNavigator({
     screen: ChangePasswordScreen,
     navigationOptions: ({navigation}) => ({
       title: 'Change Password',
+      headerTitleStyle: {
+        color: 'white',
+        marginLeft: -7,
+      },
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <NavigationComponentRight navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#012340',
+      },
+    }),
+  },
+});
+
+const RPGScreenStackNavigation = createStackNavigator({
+  //All the screen from the Screen3 will be indexed here
+  rpgScreen: {
+    screen: RPGScreen,
+    navigationOptions: ({navigation}) => ({
+      title: 'Rewar Program Goal',
       headerTitleStyle: {
         color: 'white',
         marginLeft: -7,
@@ -678,6 +698,15 @@ const DrawerNavigatorExample = createDrawerNavigator(
       screen: FirstActivity_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Profile',
+        drawerIcon: ({tintColor}) => (
+          <MDIcon style={{fontSize: 18}} name={'local-offer'} />
+        ),
+      },
+    },
+    rpg: {
+      screen: RPGScreenStackNavigation,
+      navigationOptions: {
+        drawerLabel: 'Reward Entry Goal',
         drawerIcon: ({tintColor}) => (
           <MDIcon style={{fontSize: 18}} name={'local-offer'} />
         ),

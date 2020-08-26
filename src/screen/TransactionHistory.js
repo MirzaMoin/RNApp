@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {View, Text, Image, TouchableOpacity, FlatList} from 'react-native';
+import {View, Text, Image, TouchableOpacity, FlatList, AsyncStorage, Alert} from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {ScreenHeader} from '../widget/ScreenHeader';
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 export default class TransactionHistory extends Component {
   constructor() {
@@ -50,6 +52,66 @@ export default class TransactionHistory extends Component {
       balance: '42',
     },
   ];
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      this._getStoredData();
+    });
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove();
+  }
+
+  _getStoredData = async () => {
+    try {
+      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            this.setState({
+              isLoading: true,
+              userPoint: value,
+            })
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('webformID', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            this.setState({
+              webformID: value,
+            })
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('userID', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            this.setState({
+              userID: value,
+            }, () => this._callTransactionHistory())
+          }
+        }
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  _callTransactionHistory = () => {
+    
+  }
 
   render() {
     return (
