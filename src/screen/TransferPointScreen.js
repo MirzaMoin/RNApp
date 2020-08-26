@@ -3,35 +3,165 @@ import {
   View,
   Text,
   Image,
-  SafeAreaView,
   TouchableOpacity,
-  ImageBackground,
-  Platform,
-  KeyboardAvoidingView,
-  ScrollView,
-  Dimensions,
-  FlatList,
   TextInput,
-  Button,
+  Alert,
+  AsyncStorage,
+  ActivityIndicator,
 } from 'react-native';
-import RBSheet from 'react-native-raw-bottom-sheet';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {BottomNavigationTab} from './../widget/BottomNavigationTab';
+import {makeRequest} from './../api/apiCall';
+import APIConstant from './../api/apiConstant';
+import {ScreenHeader} from '../widget/ScreenHeader';
+import SwipeButton from 'rn-swipe-button';
 
 export default class TransferPointScreen extends Component {
+  static navigationOptions = {
+    header: null,
+  };
   constructor() {
     console.log('Constructor called');
     super();
     this.state = {
-      title: 'HomeScreen',
-      tabIndex: 1,
     };
   }
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      this.setState({ 
+        isLoading: true
+      });
+      this._getStoredData();
+    });
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove();
+  }
+
+  _getStoredData = async () => {
+    try {
+      await AsyncStorage.getItem('userID', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            this.setState({
+              userID: value,
+            })
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            this.setState({
+              userPoint: value,
+            })
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('webformID', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            this.setState({
+              webformID: value,
+            });
+          } else {
+          }
+        }
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  _prepareForm = () => {
+    var isCall = true;
+    if (this.state.transferAmount) {
+      this.setState({
+        transferAmountError: false,
+      });
+    } else {
+      this.setState({
+        transferAmountError: true
+      })
+      isCall = false;
+    }
+
+    if (this.state.transferTo) {
+      this.setState({
+        transferToError: false,
+      });
+    } else {
+      this.setState({
+        transferToError: true,
+      });
+      isCall = false;
+    }
+
+    if(isCall){
+      this.setState({isLoading: true})
+      this._callTransferPoint()
+    }
+  }
+
+  _callTransferPoint = () => {
+    const request = {
+      rewardProgramID: APIConstant.RPID,
+      contactID: this.state.userID,
+      transferPoints: this.state.transferAmount,
+      transferTo: this.state.transferTo
+    };
+
+    makeRequest(
+      `${APIConstant.BASE_URL}${APIConstant.TRANSFERT_POINT}`,
+      'post',
+      request,
+    )
+      .then(response => {
+        console.log(JSON.stringify(response));
+        this.setState({isLoading: false});
+        if(response.statusCode == 0) {
+          Alert.alert('Oppss...', response.statusMessage);
+        } else {
+          Alert.alert('Success', response.statusMessage);
+          this._processAfterTransfer()
+        }  
+      })
+      .catch(error => console.log('error : ' + error));
+  }
+
+  _processAfterTransfer = async () => {
+    var currentPoint = this.state.userPoint;
+    var transfer = this.state.transferAmount;
+    const newPoint = currentPoint - transfer;
+
+    await AsyncStorage.setItem('reedemablePoints', newPoint.toString());
+    this.setState({
+      userPoint: newPoint
+    })
+  }
+
+  _renderIcon = () => this.state.isLoading ? <ActivityIndicator color={'#012345'} /> : <MDIcon name="keyboard-arrow-right" size={30} />;
 
   render() {
     return (
       <View style={styles.mainContainer}>
+        <ScreenHeader
+          navigation={this.props.navigation}
+          title={'Transfer Point'}
+          userPoint={this.state.userPoint}/>
         <View style={{hegith: 150}}>
           <Image
             style={{height: 150}}
@@ -47,26 +177,30 @@ export default class TransferPointScreen extends Component {
           <Text
             style={{
               fontSize: 22,
-              fontWeight: 'bold',
               marginBottom: 20,
-              fontFamily: 'helvetica',
-              textAlign: 'center',
+              paddingLeft: 10,
             }}>
             How many are you transfering?
           </Text>
-          <Text style={{padding: 10}}>Enter Point Amount</Text>
+          <Text style={{padding: 5, paddingLeft: 10, color: this.state.transferAmountError ? 'red' : 'black'}}>Enter Point Amount</Text>
           <View
             style={{
               marginLeft: 10,
               marginRight: 10,
-              borderColor: 'rgba(153,153,153,0.5)',
+              borderColor: this.state.transferAmountError ? 'red' : 'rgba(153,153,153,0.5)',
               borderWidth: 2,
               padding: 10,
               borderRadius: 10,
             }}>
             <TextInput
-              style={{fontSize: 25, textAlign: 'center', fontWeight: 'bold'}}
-              placeholder="50 PTS"
+              style={{fontSize: 17, fontWeight: 'bold'}}
+              placeholder={`${this.state.userPoint || 50} PTS`}
+              keyboardType={'numeric'}
+              onChangeText={(text) => {
+                this.setState({
+                  transferAmount: text
+                })
+              }}
             />
           </View>
 
@@ -89,7 +223,6 @@ export default class TransferPointScreen extends Component {
               style={{
                 fontSize: 18,
                 backgroundColor: '#fff',
-                fontWeight: 'bold',
                 paddingLeft: 25,
                 paddingRight: 25,
               }}>
@@ -97,41 +230,50 @@ export default class TransferPointScreen extends Component {
             </Text>
           </View>
 
+          <Text
+            style={{padding: 5, paddingLeft: 10, color: this.state.transferToError ? 'red' : 'black'}}>
+            Enter User Details
+          </Text>
           <View
             style={{
               marginLeft: 10,
               marginRight: 10,
-              borderColor: 'rgba(153,153,153,0.5)',
+              borderColor: this.state.transferToError ? 'red' : 'rgba(153,153,153,0.5)',
               borderWidth: 2,
               padding: 10,
               borderRadius: 10,
             }}>
             <TextInput
-              style={{fontSize: 17, textAlign: 'center', fontWeight: 'bold'}}
+              style={{fontSize: 17, fontWeight: 'bold'}}
               placeholder="Email, mobile number or Member CardID"
+              onChangeText={(text) => {
+                this.setState({
+                  transferTo: text,
+                })
+              }}
             />
           </View>
 
-          <TouchableOpacity
-            style={{
-              width: 150,
+          <View style={{
               marginTop: 30,
-              alignSelf: 'flex-end',
               marginRight: 10,
             }}>
-            <Text
-              style={{
-                backgroundColor: '#012340',
-                textAlign: 'center',
-                fontFamily: 'helvetica',
-                fontSize: 16,
-                borderRadius: 10,
-                color: 'white',
-                padding: 15,
-              }}>
-              Transfer Point
-            </Text>
-          </TouchableOpacity>
+            <SwipeButton
+              thumbIconBackgroundColor="#FFFFFF"
+              containerStyle={{backgroundColor: '#012345'}}
+              swipeSuccessThreshold={90}
+              thumbIconComponent={this._renderIcon}
+              title="Slide to transfer"
+              titleColor={'white'}
+              railBackgroundColor={'#012345'}
+              railFillBackgroundColor={'green'}
+              shouldResetAfterSuccess
+              disabled={this.state.isLoading}
+              onSwipeSuccess={() => {
+                this._prepareForm()
+              }}
+            />
+          </View>
         </View>
         <BottomNavigationTab />
       </View>

@@ -17,7 +17,6 @@ export class ScreenHeader extends Component {
   }
 
   render() {
-    console.log(Header.HEIGHT);
     return (
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => {

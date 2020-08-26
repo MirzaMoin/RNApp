@@ -45,7 +45,7 @@ import Screen2 from './pages/Screen2';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 import { MenuProvider } from 'react-native-popup-menu';
 
-RNEP.locationPermission.request().then(permission => {
+/*RNEP.locationPermission.request().then(permission => {
   if (permission != RNEP.locationPermission.DENIED) {
     startProximityObserver();
   } else {
@@ -54,7 +54,7 @@ RNEP.locationPermission.request().then(permission => {
     console.log('estimote location permission : ' + permission);
     console.log('====================================');
   }
-});
+});*/
 
 const _storeLououtData = async () => {
   try {
@@ -505,7 +505,7 @@ const TransferPoint_Navigator = createStackNavigator({
   transaction: {
     screen: TransferPointScreen,
     navigationOptions: ({navigation}) => ({
-      title: 'Offers',
+      title: 'Transfer Point',
       headerTitleStyle: {
         color: 'white',
         marginLeft: -7,
@@ -750,12 +750,12 @@ const DrawerNavigatorExample = createDrawerNavigator(
         ),
       },
     },
-    Transfer: {
+    transferPoint: {
       screen: TransferPoint_Navigator,
       navigationOptions: {
-        drawerLabel: 'Point Transfer',
+        drawerLabel: 'Transfer Point',
         drawerIcon: ({tintColor}) => (
-          <MDIcon style={{fontSize: 18}} name={'history'} />
+          <MDIcon style={{fontSize: 18}} name={'swap-horiz'} />
         ),
       },
     },
