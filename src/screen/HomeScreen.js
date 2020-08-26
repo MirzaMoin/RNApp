@@ -7,13 +7,16 @@ import {
   TouchableOpacity,
   ImageBackground,
   Dimensions,
+  AsyncStorage,
 } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
+import ImageLoader from './../widget/ImageLoader';
+import { Header } from 'react-navigation-stack';
 
 export default class HomeScreen extends Component {
   static navigationOptions = {
-    title: 'Welcome',
+    header: null,
   };
 
   constructor() {
@@ -23,6 +26,79 @@ export default class HomeScreen extends Component {
       tabIndex: 0,
     };
   }
+
+  componentWillMount(){
+    this._getStoredData();
+  }
+
+  _getStoredData = async () => {
+    try {
+      var userID, webformID, firstName, lastName, profile;
+      await AsyncStorage.getItem('userID', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            userID= value
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('webformID', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            webformID = value
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('firstName', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            firstName = value;
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('lastName', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            lastName = value
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('profilePitcure', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            profile = value
+          }
+        }
+      });
+      this.setState({
+        userID: userID,
+        webformID: webformID,
+        userFullName: `${firstName} ${lastName}`,
+        userProfileImage: profile,
+      });
+    } catch (error) {
+      // Error saving data
+      console.log(error)
+    }
+  };
 
   _renderScreens = () => {
     switch (this.state.tabIndex) {
@@ -158,22 +234,19 @@ export default class HomeScreen extends Component {
     return (
       // eslint-disable-next-line react-native/no-inline-styles
       <SafeAreaView style={styles.mainContainer}>
-        {/* <ScreenHeader /> */}
-        {/* <View style={styles.headerContainer}>
-          <Image
-            style={styles.headerUserImage}
-            source={{
-              uri:
-                'https://www.atlassian.design/server/images/avatars/avatar-96.png',
-            }}
-            resizeMode="cover"
-          />
-          <Text style={styles.headerText}>
-            {/* {this.props.navigation.state.params.user} }
-            {this.state.title}
-          </Text>
-          <View style={styles.headerUserImage} />
-        </View> */}
+        <View style={styles.headerContainer}>
+        <TouchableOpacity onPress={() => {
+          this.props.navigation.openDrawer();
+        }}>
+        <MDIcon name={'menu'} style={styles.leftIcon}/>
+        </TouchableOpacity>
+        <Text style={styles.title}>Home</Text>
+        <ImageLoader 
+          title={this.state.userFullName}
+          src={this.state.userProfileImage}
+          rounded
+          style={styles.headerUserImage}/>
+      </View>
         <ImageBackground
           style={styles.backgroundImage}
           source={{
@@ -381,4 +454,32 @@ const styles = {
   listLabel: {
     fontSize: 16,
   },
+  headerContainer: {
+    height: Header.HEIGHT,
+    paddingHorizontal: 15,
+    alignContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    backgroundColor: '#012345',
+  },
+  leftIcon: {
+    color: 'white',
+    fontSize: 24,
+    alignItems: 'center',
+    padding: 15,
+    paddingLeft: 0
+  },
+  title: {
+    color: 'white',
+    fontSize: 18,
+    flex: 1,
+  },
+  point: {
+    color: 'white',
+    fontSize: 18,
+  },
+  pointTerm: {
+    color: 'white',
+    fontSize: 13,
+  }
 };
