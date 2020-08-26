@@ -17,7 +17,6 @@ export default class HomeScreen extends Component {
   };
 
   constructor() {
-    console.log(`Constructor called HOME ${Dimensions.get('screen').width}`);
     super();
     this.state = {
       title: 'HomeScreen',

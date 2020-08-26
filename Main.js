@@ -96,7 +96,6 @@ class LogoutItem extends Component {
             } catch (error) {
               // Error saving data
             }
-            console.log('right Navigation : ' + this.props);
             this.props.navigationProps.navigate('Auth');
           }}>
           <View style={{padding: 10, flexDirection: 'row', alignContent: 'center', paddingBottom: 20}}>
@@ -118,7 +117,6 @@ class NavigationComponentRight extends Component {
             // this.props.navigationProps.navigation.navigate('Screen1');
             debugger;
             _storeLououtData();
-            console.log('right Navigation : ' + this.props);
             this.props.navigationProps.navigate('Auth');
           }}>
           <MDIcon
@@ -140,7 +138,6 @@ class DrawerHeaderComponent extends Component {
 
   _getStoredData = async () => {
     try {
-      console.log(`start : ${Dimensions.get('screen').width}`)
       var fName, lName, profile, email;
       var isUpdateState = false;
       await AsyncStorage.getItem('profilePitcure', (err, value) => {
@@ -194,9 +191,8 @@ class DrawerHeaderComponent extends Component {
         this.state.name === `${fName} ${lName}` &&
         this.state.userImage === profile
       ) {
-        console.log('Same Data')
+        //console.log('Same Data')
       } else {
-        console.log('new data');
         this.setState({
           name: `${fName} ${lName}`,
           email: email,
@@ -218,7 +214,7 @@ class DrawerHeaderComponent extends Component {
 
   onPageLayout = (event) => {
     const { width, height } = event.nativeEvent.layout;
-    console.log(`ON LAYOUT ${width} ${height}`);
+    //console.log(`ON LAYOUT ${width} ${height}`);
     //this.setState({width, height})
     if(!(this.state.width)){
       this.setState({
@@ -280,7 +276,6 @@ const CreateDrawerComponent = props => (
             } catch (error) {
               // Error saving data
             }
-            console.log('right Navigation : ' + props);
             props.navigation.navigate('Auth');
           }}>
           <View style={{padding: 10, flexDirection: 'row', alignContent: 'center', paddingBottom: 20}}>
@@ -667,7 +662,7 @@ const FirstActivity_StackNavigator = createStackNavigator({
 
 const DrawerNavigatorExample = createDrawerNavigator(
   {
-    HomeScreen: {
+    homeScreen: {
       //Title
       screen: Home_StackNavigator,
       navigationOptions: {

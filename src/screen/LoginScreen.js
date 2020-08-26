@@ -238,7 +238,9 @@ _stopTimer = () => {
       if(response.contactData.isRequiredPasswordChanged) {
         // redirect to change password
         console.log('going chang pass')
-        this.props.navigation.navigate('changePassword');
+        this.props.navigation.navigate('changePassword', {
+          fromLogin: true,
+        });
       } else {
         this.props.navigation.navigate('Main',{
           loginData: response,

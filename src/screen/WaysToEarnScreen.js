@@ -1,5 +1,10 @@
 import React, {Component} from 'react';
-import {View, Text, Image, FlatList} from 'react-native';
+import {View, Text, Image, FlatList, AsyncStorage, ActivityIndicator} from 'react-native';
+import {makeRequest} from './../api/apiCall';
+import APIConstant from './../api/apiConstant';
+import MDIcon from 'react-native-vector-icons/MaterialIcons';
+import { ScrollView } from 'react-native-gesture-handler';
+import ReadMore from 'react-native-read-more-text';
 
 export class WayToEarnScreen extends Component {
   constructor() {
@@ -9,67 +14,74 @@ export class WayToEarnScreen extends Component {
       title: 'HomeScreen',
       tabIndex: 1,
       desc: -1,
+      screenData: {},
+      isLoading: true,
     };
+    this._showItem = 0;
   }
-  data = [
-    {
-      isVisibleOnPage: true,
-      icon: '',
-      title: 'Multiple Ways to Earn Points',
-      description:
-        'See how you can earn Entries & Bonus Entries quickly. --redeem Entries for inhouse gifts & rewards.Woohoo!',
-      subtitle: "In the last year you've earned",
-      point: '50',
-    },
-    {
-      isVisibleOnPage: true,
-      icon: 'https://alpha.roborewards.net/images/cashback.png',
-      title: 'Earn unlimited point on all purchases',
-      description:
-        'Earn 1 Entries on all purchases - there is no limit to the amount you can earn!',
-      subtitle: "In the last year you've earned",
-      point: '40',
-    },
-    {
-      isVisibleOnPage: true,
-      icon: 'https://alpha.roborewards.net/images/socialshare.png',
-      title: 'Earn points for each social share',
-      description:
-        'Earn Entries for each social share (excludes Pinterest). Each social share contains your referral link. If your friend joins the program through your link, you earn even more bonus Entries. Entries apply to cashback, gift cards, products, and The Leaderboard Competitions.',
-      subtitle: 'Your social share bonus points',
-      point: '10',
-    },
-    {
-      isVisibleOnPage: true,
-      icon: 'https://alpha.roborewards.net/images/cashback.png',
-      title: 'Earn points for each verified referral',
-      description:
-        'Earn Entries for each verified referral. A verified referral occurs when a new member joins the program through your personal referral link on the Share Now or Refer Now pages. Entries apply to cashback, gift cards, products, and The Leaderboard Competitions.',
-      subtitle: 'Your verified referral bonus points',
-      point: '35',
-    },
-    {
-      isVisibleOnPage: true,
-      icon: 'https://alpha.roborewards.net/images/survey-icon.png',
-      title: 'Earn points for each survey',
-      description:
-        'We appreciate your precious feedback & take it seriously. Earn Bonus Entry(s) for each completed survey.Entries are added to your Entry total for extra gifts & prizes!',
-      subtitle: 'Your Surveys bonus points',
-      point: '26',
-    },
-    {
-      isVisibleOnPage: true,
-      icon: 'https://alpha.roborewards.net/images/cashback.png',
-      title: 'Earn points for completing your profile',
-      description:
-        'Simple & Easy. Complete your profile & earn 25 bonus Entries to get you started on the right path. Once completed, earn bonus Entries will be immediately added to your account. Profile completions do not add Entries to The Leaderboard Competitions.',
-      subtitle: 'Your complete profile point',
-      point: '11',
-    },
-  ];
+
+  _showItem = 0;
+
+  componentWillMount(){
+    this._getStoredData();
+  }
+
+  _getStoredData = async () => {
+    try {
+      await AsyncStorage.getItem('userID', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            this.setState({
+              userID: value,
+            })
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('webformID', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            this.setState({
+              isLoading: true,
+              webformID: value,
+            },() => this._callGetWayToEarnScreenData())
+          } else {
+          }
+        }
+      });
+    } catch (error) {
+      // Error saving data
+      console.log(error)
+    }
+  };
+
+  _callGetWayToEarnScreenData = () => {
+    console.log('way to earn');
+    makeRequest(
+      `${APIConstant.BASE_URL}${APIConstant.GET_WAYTO_EARN_DATA}?RPToken=${APIConstant.RPTOKEN}&ContactId=${this.state.userID}&WebFormID=${this.state.webformID}`,
+      'get',
+    )
+      .then(response => {
+        if(response.statusCode == 0) {
+          Alert.alert('Oppss...', response.statusMessage);
+        } else {
+          this.setState({
+            screenData: response.responsedata,
+            isLoading: false,
+          });
+        }
+      })
+      .catch(error => console.log('error : ' + error));
+  }
 
   _showImageIcon = icon => {
-    if (icon != '') {
+    if (icon) {
       console.log('show Image : ' + icon);
       return (
         <Image
@@ -80,15 +92,38 @@ export class WayToEarnScreen extends Component {
           resizeMode="cover"
         />
       );
-    } else {
-      console.log('not show Image : ' + icon);
     }
   };
 
+  _renderTruncatedFooter = (handlePress) => {
+    return (
+      <Text style={{color: 'blue', marginTop: 5}} onPress={handlePress}>
+        Read more
+      </Text>
+    );
+  }
+ 
+  _renderRevealedFooter = (handlePress) => {
+    return (
+      <Text style={{color: 'blue', marginTop: 5}} onPress={handlePress}>
+        Show less
+      </Text>
+    );
+  }
+
   _showDescription = (index, text) => {
-    if (this.state.desc == index) {
+    /*if (this.state.desc == index) {
       return <Text style={styles.description}>{text}</Text>;
-    }
+    }*/
+    return <ReadMore
+        numberOfLines={1.5}
+        renderTruncatedFooter={this._renderTruncatedFooter}
+        renderRevealedFooter={this._renderRevealedFooter}
+      >
+      <Text style={styles.description}>
+        {text}
+      </Text>
+    </ReadMore>
   };
 
   _showExtraText = index => {
@@ -99,41 +134,37 @@ export class WayToEarnScreen extends Component {
     }
   };
 
-  _showRecentActivity = (index, item) => {
-    if (index > 0) {
-      return <Text style={styles.btnRecentActivity}>Recent Activity</Text>;
+  _handleClick = index => {
+    if(index == 6) { 
+      this.props.handleProfile();
     }
+  }
+
+  _showRecentActivity = (item) => {
+    if(item > 0)
+      return <Text onPress={()=>{
+        -this._handleClick(item)
+      }} style={styles.btnRecentActivity}>Recent Activity</Text>;
   };
 
   _renderItem = (item, index) => {
-    if (item.isVisibleOnPage) {
+    if (item.isVisible) {
+      this._showItem = this._showItem + 1;
       return (
         <View
           style={{
             padding: 15,
-            backgroundColor: index % 2 ? 'white' : 'rgba(153,153,153,0.2)',
+            backgroundColor: this._showItem % 2 ? 'white' : 'rgba(153,153,153,0.2)',
           }}>
           <View style={styles.titleContainer}>
-            {this._showImageIcon(item.icon)}
-            <Text style={styles.titleBase}>
-              <Text style={styles.title}>{item.title}</Text>
-              <Text
-                onPress={() => {
-                  this.setState({
-                    desc: index,
-                  });
-                }}
-                style={{color: 'blue'}}>
-                {' '}
-                {this._showExtraText(index)}
-              </Text>
-            </Text>
+            {this._showImageIcon(item.imageURL)}
+            <Text style={styles.title}>{item.title}</Text>
           </View>
-          {this._showDescription(index, item.description)}
+          {this._showDescription(this._showItem, item.description)}
           <Text style={styles.subTitle}>{item.subtitle}</Text>
           <View style={styles.footerContainer}>
             {this._showRecentActivity(index)}
-            <Text style={styles.pointCount}>{item.point}</Text>
+            <Text style={styles.pointCount}>{item.points}</Text>
             <Text style={styles.pointTerm}>PTS</Text>
           </View>
         </View>
@@ -142,9 +173,16 @@ export class WayToEarnScreen extends Component {
   };
 
   render() {
+    this._showItem = 0;
+    if(this.state.isLoading) {
+      return <View style={{flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size={'large'} />
+        </View>
+    }
     return (
       <View style={styles.mainContainer}>
-        <View style={{hegith: 150}}>
+        <ScrollView>
+          <View style={{hegith: 150}}>
           <Image
             style={{height: 150}}
             source={{
@@ -155,12 +193,15 @@ export class WayToEarnScreen extends Component {
           />
           <View style={styles.imageOverlay} />
         </View>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          scrollEnabled={this.data.length > 3}
-          data={this.data}
-          renderItem={({item, index}) => this._renderItem(item, index)}
-        />
+        
+          {this._renderItem(this.state.screenData.totalPoints, 0)}
+          {this._renderItem(this.state.screenData.purchasePoints, 1)}
+          {this._renderItem(this.state.screenData.socialShare, 2)}
+          {this._renderItem(this.state.screenData.referFriends, 3)}
+          {this._renderItem(this.state.screenData.leaderboard, 4)}
+          {this._renderItem(this.state.screenData.surveys, 5)}
+          {this._renderItem(this.state.screenData.completeProfile, 6)}
+        </ScrollView>
       </View>
     );
   }
@@ -180,10 +221,8 @@ const styles = {
   titleContainer: {
     flex: 1,
     flexDirection: 'row',
-  },
-  titleBase: {
-    flex: 1,
-    marginRight: 15,
+    marginBottom: 10,
+    marginRight: 10,
   },
   titleIcon: {
     height: 50,
@@ -191,27 +230,29 @@ const styles = {
     marginRight: 15,
   },
   title: {
-    fontFamily: 'helvetica',
-    fontSize: 22,
+    flex: 1,
+    fontSize: 21,
+    color: '#576b81',
   },
   description: {
     marginTop: 10,
     textAlign: 'justify',
     fontSize: 16,
-    fontFamily: 'helvetica',
+    color: '#576b81',
   },
   subTitle: {
     flex: 1,
     textAlign: 'right',
-    fontFamily: 'helvetica',
     fontSize: 15,
     paddingTop: 15,
   },
   btnRecentActivity: {
     padding: 5,
+    paddingHorizontal: 10,
     backgroundColor: '#4b92d2',
     fontWeight: 'bold',
     color: 'white',
+    borderRadius: 5,
   },
   pointCount: {
     textAlign: 'right',

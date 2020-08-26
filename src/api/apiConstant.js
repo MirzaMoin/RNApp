@@ -14,4 +14,5 @@ module.exports = {
   UPLOAD_PROFILE_IMAGE: 'UserProfile/ProfilePictureUpload',
   UPDATE_USER_PROFILE: 'UserProfile/UserProfileUpdate',
   CHANGE_PASSWORD: 'UserProfile/ChangePassword',
+  GET_WAYTO_EARN_DATA: 'UserAccountProfile/WayToEarnScreenData',
 };

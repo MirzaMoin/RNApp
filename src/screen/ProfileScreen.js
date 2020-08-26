@@ -512,7 +512,6 @@ export class ProfileScreen extends Component {
     }
 
     const image = this.state.profileImageFile;
-    console.log(`Upload Image : ${this.state.userID}_${new Date().getTime()}`)
 
     data.append("ProfilePictureData", {
       name: `${this.state.userID}_${new Date().getTime()}`,
@@ -529,7 +528,6 @@ export class ProfileScreen extends Component {
       'post',
       data
     ).then(response => {
-      console.log(JSON.stringify(response));
       //this.setState({isLoadingSignupform: false});
      if(response.statusCode == 0) {
         Alert.alert('Oppss...', response.statusMessage);
@@ -654,16 +652,12 @@ export class ProfileScreen extends Component {
       txCount: this.state.contactData.txCount
     }
 
-    console.log(`Update Request : ${JSON.stringify(requrest)}`);
-    
-
     makeRequest(
       APIConstant.BASE_URL + APIConstant.UPDATE_USER_PROFILE,
       'post',
       requrest
     )
       .then(response => {
-        console.log(JSON.stringify(response));
         this.setState({isUpdatingProfile: false,})
         if(response.statusCode == 0) {
           Alert.alert('Oppss...', response.statusMessage);
@@ -1875,15 +1869,13 @@ export class ProfileScreen extends Component {
                 style={{flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center'}}
                 onPress={() => {
                   var dates = this.state.signup.additionalBirthDates;
-                  console.log(`Selected Item : ${dates.indexOf(field)}`)
                   dates.splice(index, 1);
-                  console.log(`Delted dates : ${JSON.stringify(dates)}`)
                   this.setState({
                     signup: {
                       ...this.state.signup,
                       additionalBirthDates: dates,
                     }
-                  },()=>{console.log(`After Delete : ${this.state.additionalDates}`)});
+                  });
                 }}>
                 <MDIcon name={'delete'} style={{fontSize: 24, margin: 5}} />
               </TouchableOpacity>
@@ -1945,13 +1937,11 @@ export class ProfileScreen extends Component {
               onDateChange={(date) => {
                 if(this.state.tmp){
                   var dates = this.state.additionalDates;
-                  console.log(`wile Adding : ${JSON.stringify(dates)}`)
                   const newItem = {
                     AdditionalName: this.state.tmp,
                     AdditionalDate: date
                   };
                   dates.push(newItem);
-                  console.log(`After Adding : ${JSON.stringify(dates)}`)
                   this.setState({
                     tmp: '',
                     tmpError: '',

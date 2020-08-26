@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ImageBackground,
+  AsyncStorage,
 } from 'react-native';
 import {ScreenHeader} from '../widget/ScreenHeader';
 import {ProfileScreen} from './ProfileScreen';
@@ -18,56 +19,86 @@ import ScrollableTabView, {
 
 export default class TabScreen extends Component {
   static navigationOptions = {
-    // header: null,
+    header: null,
   };
 
   constructor() {
-    console.log('Constructor called');
     super();
     this.state = {
-      title: 'HomeScreen',
-      tabIndex: 1,
+      title: 'Profile',
+      tabIndex: 0,
+      userPoint: 0,
     };
+  }
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      this.setState({
+        title: 'Profile',
+        tabIndex: 0,
+      });
+      this._getStoredData();
+    });
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove();
+  }
+
+  _getStoredData = async () => {
+    try {
+      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            this.setState({
+              userPoint: value,
+            })
+          }
+        }
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  _handleProfileClick = () => {
+    this.setState({
+      tabIndex: 0,
+      title: 'Profile',
+    })
   }
 
   _renderScreens = () => {
     switch (this.state.tabIndex) {
       case 0:
-        console.log('0 lauded');
         return <ProfileScreen />;
       case 1:
-        console.log('1 lauded');
-        return <WayToEarnScreen />;
+        return <WayToEarnScreen handleProfile={this._handleProfileClick} />;
       case 2:
-        console.log('2 lauded');
         return <View />;
       case 3:
-        console.log('3 lauded');
         return <View />;
       case 4:
-        console.log('4 lauded');
         this.Standard.open();
         return;
       case 5:
-        console.log('5 lauded');
         return <View />;
       case 6:
-        console.log('6 lauded');
         return <View />;
       case 7:
-        console.log('7 lauded');
         return <View />;
       case 8:
-        console.log('8 lauded');
         return <View />;
       case 9:
-        console.log('9 lauded');
         return <View />;
       default:
-        console.log('default lauded');
         return <View />;
     }
   };
+  
   data = {
     lists: [
       {
@@ -163,6 +194,10 @@ export default class TabScreen extends Component {
   render() {
     return (
       <SafeAreaView style={styles.mainContainer}>
+        <ScreenHeader
+          navigation={this.props.navigation}
+          title={this.state.title}
+          userPoint={this.state.userPoint}/>
         <View style={{flex: 1}}>{this._renderScreens()}</View>
         <View style={styles.footerContainer}>
           <TouchableOpacity
@@ -346,7 +381,7 @@ const styles = {
   footerContainer: {
     height: 50,
     padding: 5,
-    backgroundColor: 'red',
+    backgroundColor: '#012345',
     alignItem: 'center',
     justifyContent: 'space-around',
     flexDirection: 'row',
