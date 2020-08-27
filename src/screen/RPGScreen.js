@@ -7,14 +7,13 @@ import {
     AsyncStorage,
     ActivityIndicator,
     Alert,
-    TouchableOpacity,
     ScrollView, FlatList
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
-import TextInput from 'react-native-textinput-with-icons';
 import {makeRequest} from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import {ScreenHeader} from '../widget/ScreenHeader';
+import ImageLoader from './../widget/ImageLoader';
 
 export default class RPGScreen extends Component {
   static navigationOptions = {
@@ -23,8 +22,7 @@ export default class RPGScreen extends Component {
    
   constructor() {
     super();
-    this.state = {
-    }
+    this.state = {}
   }
 
   componentDidMount() {
@@ -115,12 +113,11 @@ export default class RPGScreen extends Component {
                 <Text style={{fontSize: 18}}>{item.pointValue}</Text>
                 <Text>Entries</Text>
             </View>
-            <Image
-                style={{height: 60, width: 60, borderRadius: 10, marginHorizontal: 5}}
-                source={{
-                    uri: item.image
-                }}
-            />
+            <ImageLoader 
+              title={item.title}
+              src={item.image}
+              style={styles.offerImage}
+              titleStyle={{fontSize: 30}} />
             <View style={{flex: 1, height: 70, flexDirection: 'column', paddingLeft: 5}}>
             <Text style={{fontSize: 18,}}>{item.title}</Text>
             <Text numberOfLines={2} ellipsizeMode='tail' style={{fontSize: 15, color: 'rgba(153, 153, 153, 1)'}}>{item.details}</Text>
@@ -183,37 +180,43 @@ export default class RPGScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-    MainContainer: {
-        flex: 1,
-        paddingTop: 50,
-        alignItems: 'center',
-    },
-    button: {
-        minWidth: 120,
-        marginTop: 20,
-        borderRadius: 10,
-        alignSelf: 'center',
-        backgroundColor: '#012345',
-      },
-      picker: {
-        flex: 1,
-        height: 55,
-        alignContent: 'flex-end',
-        alignSelf: 'center',
-        justifyContent: 'center',
-        marginLeft: 10,
-      },
-      buttonText: {
-        color: 'white',
-        fontSize: 15,
-        textAlign: 'center',
-        margin: 8,
-        marginHorizontal: 15
-      },
-      imageOverlay: {
-        height: 150,
-        width: '100%',
-        position: 'absolute',
-        backgroundColor: 'rgba(0,0,0,0.35)',
-      },
+  MainContainer: {
+      flex: 1,
+      paddingTop: 50,
+      alignItems: 'center',
+  },
+  button: {
+    minWidth: 120,
+    marginTop: 20,
+    borderRadius: 10,
+    alignSelf: 'center',
+    backgroundColor: '#012345',
+  },
+  picker: {
+    flex: 1,
+    height: 55,
+    alignContent: 'flex-end',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginLeft: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 15,
+    textAlign: 'center',
+    margin: 8,
+    marginHorizontal: 15
+  },
+  imageOverlay: {
+    height: 150,
+    width: '100%',
+    position: 'absolute',
+    backgroundColor: 'rgba(0,0,0,0.35)',
+  },
+  offerImage: {
+    height: 60,
+    width: 60,
+    borderRadius: 10,
+    marginHorizontal: 5
+  }
 });

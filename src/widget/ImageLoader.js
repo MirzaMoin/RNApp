@@ -13,8 +13,8 @@ export default class ImageLoader extends Component {
      }
  }
 
- _renderPlaceHolder = () => {
-    if(this.state.isLoading) {
+ _renderPlaceHolder = isLoading => {
+    if(isLoading) {
         if(this.props.title) {
             var name = this.props.title.trim();
             const names = name.split(' ');
@@ -24,43 +24,59 @@ export default class ImageLoader extends Component {
               name = names[0].substring(0,2);
             }
             return (
-              <Avatar size={this.props.avatarSize || 'small'} rounded={this.props.rounded} title={name} />
+              <Avatar 
+                containerStyle={this.props.style || {}}
+                overlayContainerStyle={this.props.style ? [this.props.style, {marginLeft: 0}] : {}}
+                titleStyle={this.props.titleStyle || {}}
+                size={this.props.avatarSize || 'small'}
+                rounded={this.props.rounded} 
+                title={name} />
             );
         } else {
             return (
-              <Avatar size={this.props.avatarSize || 'small'} rounded={this.props.rounded} icon={{ name: 'person' }} />
+              <Avatar containerStyle={this.props.style || {}} size={this.props.avatarSize || 'small'} rounded={this.props.rounded} icon={{ name: 'person' }} />
             )
         }
     }
+ }
+
+ _renderImage = () => {
+   if (this.props.src) {
+      return(
+        <Image 
+          source={{
+              uri: this.props.src
+          }}
+          style={[
+              {borderRadius: this.props.rounded ? 100 : 0},
+              this.props.style || styles.image,
+          ]}
+          onLoadStart={()=>{
+              //console.log('image start')
+              this.setState({isLoading: true})
+          }}
+          onLoad={()=>{
+              //console.log('image loaded')
+              this.setState({isLoading: false}
+          )}}
+          onError={(error)=>{
+              //console.log(` inage Èrror: ${error}`)
+              this.setState({isLoading: true})
+          }}
+          resizeMode={'cover'}
+        />
+      );
+   } else {
+     return this._renderPlaceHolder(true);
+   }
  }
 
   render() { 
       console.log(`Ìmage props : ${JSON.stringify(this.props)} ${this.props.src}`)
     return (
       <View>
-          <Image 
-            source={{
-                uri: this.props.src
-            }}
-            style={[
-                this.props.style || styles.image,
-                {borderRadius: this.props.rounded ? 100 : 0}
-            ]}
-            onLoadStart={()=>{
-                console.log('image start')
-                this.setState({isLoading: true})
-            }}
-            onLoad={()=>{
-                console.log('image loaded')
-                this.setState({isLoading: false}
-            )}}
-            onError={(error)=>{
-                console.log(` inage Èrror: ${error}`)
-                this.setState({isLoading: true})
-            }}
-            resizeMode={'cover'}
-        />
-        {!this.state.isLoading && <View style={{position: 'absolute'}}>{this._renderPlaceHolder()}</View>}
+        {this._renderImage()}
+        {this.state.isLoading && <View style={[{position: 'absolute'}, this.props.style || styles.image]}>{this._renderPlaceHolder(this.state.isLoading)}</View>}
       </View>
     );
   }

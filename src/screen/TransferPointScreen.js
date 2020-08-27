@@ -30,9 +30,6 @@ export default class TransferPointScreen extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
-      this.setState({ 
-        isLoading: true
-      });
       this._getStoredData();
     });
   }

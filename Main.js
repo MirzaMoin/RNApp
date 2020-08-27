@@ -649,9 +649,9 @@ const TakeSurveyScreen_StackNavigator = createStackNavigator({
   },
 });
 
-const FirstActivity_StackNavigator = createStackNavigator({
+const ProfileTabScreenStackNavigator = createStackNavigator({
   //All the screen from the Screen1 will be indexed here
-  First: {
+  profileTabScreen: {
     screen: TabScreen,
     navigationOptions: ({navigation}) => ({
       title: 'Ways to Earn',
@@ -683,7 +683,6 @@ const FirstActivity_StackNavigator = createStackNavigator({
 const DrawerNavigatorExample = createDrawerNavigator(
   {
     homeScreen: {
-      //Title
       screen: Home_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Home',
@@ -692,14 +691,12 @@ const DrawerNavigatorExample = createDrawerNavigator(
         ),
       },
     },
-    //Drawer Optons and indexing
-    Screen1: {
-      //Title
-      screen: FirstActivity_StackNavigator,
+    profileTab: {
+      screen: ProfileTabScreenStackNavigator,
       navigationOptions: {
         drawerLabel: 'Profile',
         drawerIcon: ({tintColor}) => (
-          <MDIcon style={{fontSize: 18}} name={'local-offer'} />
+          <MDIcon style={{fontSize: 18}} name={'person'} />
         ),
       },
     },
@@ -708,7 +705,7 @@ const DrawerNavigatorExample = createDrawerNavigator(
       navigationOptions: {
         drawerLabel: 'Reward Entry Goal',
         drawerIcon: ({tintColor}) => (
-          <MDIcon style={{fontSize: 18}} name={'local-offer'} />
+          <MDIcon style={{fontSize: 18}} name={'star'} />
         ),
       },
     },
@@ -718,21 +715,11 @@ const DrawerNavigatorExample = createDrawerNavigator(
       navigationOptions: {
         drawerLabel: 'Notification',
         drawerIcon: ({tintColor}) => (
-          <MDIcon style={{fontSize: 18}} name={'local-offer'} />
+          <MDIcon style={{fontSize: 18}} name={'notifications'} />
         ),
       },
     },
-    Screen2: {
-      //Title
-      screen: Screen2_StackNavigator,
-      navigationOptions: {
-        drawerLabel: 'Transaction',
-        drawerIcon: ({tintColor}) => (
-          <MDIcon style={{fontSize: 18}} name={'lock'} />
-        ),
-      },
-    },
-    Transaction: {
+    transactionHistory: {
       screen: Transaction_Navigator,
       navigationOptions: {
         drawerLabel: 'Transaction History',
@@ -741,12 +728,12 @@ const DrawerNavigatorExample = createDrawerNavigator(
         ),
       },
     },
-    Offer: {
+    offer: {
       screen: Offer_Navigator,
       navigationOptions: {
         drawerLabel: 'Offers',
         drawerIcon: ({tintColor}) => (
-          <MDIcon style={{fontSize: 18}} name={'history'} />
+          <MDIcon style={{fontSize: 18}} name={'local-offer'} />
         ),
       },
     },
@@ -759,21 +746,21 @@ const DrawerNavigatorExample = createDrawerNavigator(
         ),
       },
     },
-    Refere: {
+    refereFriend: {
       screen: RefereFriend_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Refere Friend',
-        drawerIcon: () => <MDIcon style={{fontSize: 18}} name={'share'} />,
+        drawerIcon: () => <MDIcon style={{fontSize: 18}} name={'group-add'} />,
       },
     },
-    ContactUs: {
+    contactUs: {
       screen: ContactUs_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Contact Us',
-        drawerIcon: () => <MDIcon style={{fontSize: 18}} name={'share'} />,
+        drawerIcon: () => <MDIcon style={{fontSize: 18}} name={'phone'} />,
       },
     },
-    Location: {
+    locations: {
       screen: Location_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Location',
@@ -782,14 +769,14 @@ const DrawerNavigatorExample = createDrawerNavigator(
         ),
       },
     },
-    SocialShare: {
+    socialShare: {
       screen: SocialShare_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Social Share',
         drawerIcon: () => <MDIcon style={{fontSize: 18}} name={'share'} />,
       },
     },
-    TakeSurvey: {
+    takeSurvey: {
       screen: TakeSurveyScreen_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Take Survey',

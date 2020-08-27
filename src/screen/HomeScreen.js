@@ -241,11 +241,17 @@ export default class HomeScreen extends Component {
         <MDIcon name={'menu'} style={styles.leftIcon}/>
         </TouchableOpacity>
         <Text style={styles.title}>Home</Text>
-        <ImageLoader 
-          title={this.state.userFullName}
-          src={this.state.userProfileImage}
-          rounded
-          style={styles.headerUserImage}/>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={()=>{
+            this.props.navigation.navigate('profileTab')
+          }}>
+          <ImageLoader 
+            title={this.state.userFullName}
+            src={this.state.userProfileImage}
+            rounded
+            style={styles.headerUserImage}/>
+        </TouchableOpacity>
       </View>
         <ImageBackground
           style={styles.backgroundImage}

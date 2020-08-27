@@ -12,12 +12,14 @@ import {
   FlatList,
   Linking,
 } from 'react-native';
-import {BottomNavigationTab} from './../widget/BottomNavigationTab';
 import TextInput from 'react-native-textinput-with-icons';
 import MapView, {AnimatedRegion, Marker} from 'react-native-maps';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {Card} from 'react-native-elements';
+import {makeRequest} from './../api/apiCall';
+import APIConstant from './../api/apiConstant';
+import {ScreenHeader} from '../widget/ScreenHeader';
 
 export default class LocationScreen extends Component {
   constructor() {
