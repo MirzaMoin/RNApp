@@ -11,8 +11,11 @@ import {
   Dimensions,
   FlatList,
   Linking,
+  AsyncStorage,
+  ActivityIndicator,
+  StyleSheet,
+  TextInput
 } from 'react-native';
-import TextInput from 'react-native-textinput-with-icons';
 import MapView, {AnimatedRegion, Marker} from 'react-native-maps';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -20,12 +23,16 @@ import {Card} from 'react-native-elements';
 import {makeRequest} from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import {ScreenHeader} from '../widget/ScreenHeader';
+import GetLocation from 'react-native-get-location'
 
 export default class LocationScreen extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   constructor() {
     super();
     this.state = {
-      title: 'HomeScreen',
       sheetIcon: 'keyboard-arrow-up',
       sheetHeight: 330,
       isFullScreen: false,
@@ -37,42 +44,80 @@ export default class LocationScreen extends Component {
     };
   }
 
-  data = [
-    {
-      location: 'Primary Location',
-      address1: '104 E 4th st',
-      address2: 'Norrius city IL 96325',
-      linkTitle: 'roborewards.net',
-      link: 'https://www.roborewards.net',
-      region: {
-        latitude: 37.78825,
-        longitude: -122.4324,
-      },
-    },
-    {
-      location: 'Suvya Web',
-      address1: '302 Atlanta Shopping mall',
-      address2: 'Althan-Bhimrad Canal Road',
-      linkTitle: 'suvyaweb.com',
-      link: 'https://www.suvyaweb.com',
-      region: {
-        latitude: 21.1382122,
-        longitude: 72.7656166,
-      },
-    },
-    {
-      location: 'Hardik Patel',
-      address1: '302 Sunddaram Apartment',
-      address2: 'B/H Sargam Shopping center',
-      linkTitle: 'roborewards.net',
-      link: 'https://www.roborewards.net',
-      region: {
-        latitude: 21.5014799,
-        longitude: 73.2384527,
-      },
-    },
-  ];
-  //33.0640445,65.2065243
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      this._getCurrentLocation();
+      this.setState({
+        isLoading: true,
+      });
+      this._getStoredData();
+    });
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove();
+  }
+
+  _getStoredData = async () => {
+    try {
+      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            this.setState({
+              userPoint: value,
+            }, () => this._getLocationData())
+          }
+        }
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  _getCurrentLocation = () =>{
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+    })
+    .then(location => {
+      console.log(location);
+      this.setState({
+        currentLat: location.latitude,
+        currentLong: location.longitude
+      });
+    })
+    .catch(error => {
+        const { code, message } = error;
+        console.warn(code, message);
+    })
+  }
+
+   _getLocationData = () => {
+
+    makeRequest(
+      `${APIConstant.BASE_URL}${APIConstant.GET_LOCATION_DATA}?RewardProgramID=${APIConstant.RPID}`,
+      'get',
+    )
+      .then(response => {
+        console.log(JSON.stringify(response));
+        this.setState({isLoading: false});
+        if(response.statusCode == 0) {
+          Alert.alert('Oppss...', response.statusMessage);
+        } else {
+          this.setState({
+            dataSoure: response.responsedata.locationData,
+            locaiton: response.responsedata.locationData.lenght > 0 ? response.responsedata.locationData[0].locationName : '',
+            address: response.responsedata.locationData.lenght > 0 ? response.responsedata.locationData.storeAddress.address1 : '',
+            latitude: parseFloat(response.responsedata.locationData[0].storeAddress.latitude),
+            longitude: parseFloat(response.responsedata.locationData[0].storeAddress.longitude),
+          })
+        }  
+      })
+      .catch(error => console.log('error : ' + error));
+  }
 
   _openSheetFull = () => {
     // this.Standard.close();
@@ -97,14 +142,6 @@ export default class LocationScreen extends Component {
     }, 100);
   };
 
-  componentDidMount() {
-    this.setState({
-      dataSoure: this.data,
-      locaiton: this.data[0].locaiton,
-      address: this.data[0].address1 + this.data[0].address2,
-    });
-  }
-
   openLink = link => {
     Linking.canOpenURL(link).then(supported => {
       if (supported) {
@@ -115,48 +152,103 @@ export default class LocationScreen extends Component {
     });
   };
 
+  _showDirectionOnMap = address => {
+    var link = '';
+    if(Platform.OS == 'ios') {
+      link = '';
+    } else {
+      link = `https://www.google.com/maps/dir/?api=1&origin=${this.state.currentLat},${this.state.currentLong}&destination=${address.latitude},${address.longitude}`;
+    }
+    console.log(`Location : ${link}`)
+    Linking.canOpenURL(link).then(supported => {
+      if (supported) {
+        Linking.openURL(link);
+      } else {
+        console.log("Don't know how to open URI: " + this.props.url);
+      }
+    });
+  }
+
   renderRow = rowData => {
     return (
       <View style={styles.locationContainer}>
         <View style={{flexDirection: 'row'}}>
           <MDIcon name={'location-on'} style={styles.locationIcon} />
           <TouchableOpacity
-            onPress={() =>
-              this._changeLocation(
-                rowData.region.latitude,
-                rowData.region.longitude,
-                rowData.location,
-                rowData.address1,
-                rowData.address2,
-              )
-            }>
-            <Text style={styles.locationTitle}>{rowData.location}</Text>
+            onPress={() =>{
+              if(rowData.storeAddress.latitude && rowData.storeAddress.longitude){
+                this._changeLocation(
+                  rowData.storeAddress.latitude,
+                  rowData.storeAddress.longitude,
+                  rowData.storeAddress,
+                )
+              }
+            }}>
+            <Text style={styles.locationTitle}>{rowData.locationName}</Text>
           </TouchableOpacity>
         </View>
-        <View style={{flexDirection: 'row'}}>
-          <MDIcon name={'location-city'} style={{fontSize: 20}} />
-          <View style={{flex: 1, flexDirection: 'column'}}>
-            <Text style={styles.addressText}>{rowData.address1}</Text>
-            <Text style={styles.addressText}>{rowData.address2}</Text>
-          </View>
-        </View>
-        <View style={{flexDirection: 'row'}}>
-          <MDIcon name={'open-in-browser'} style={styles.locationIcon} />
-          <TouchableOpacity onPress={() => this.openLink(rowData.link)}>
-            <Text style={styles.addressText}>{rowData.linkTitle}</Text>
-          </TouchableOpacity>
-        </View>
+        {this._renderAddress(rowData.storeAddress)}
+        {this._parseWebURL(rowData.websiteUrl)}
+        {this._renderDirection(rowData.storeAddress)}
         <View style={styles.devider} />
       </View>
     );
   };
 
-  _changeLocation = (lat, long, locaiton, address1, address2) => {
+  _renderAddress = address => {
+    if(address) {
+      return (
+        <View style={{flexDirection: 'row'}}>
+          <MDIcon name={'location-city'} style={{fontSize: 20}} />
+          <View style={{flex: 1, flexDirection: 'column'}}>
+            {this._renderAddressLine(address.address1)}
+            {this._renderAddressLine(address.address2)}
+            {this._renderAddressLine(`${address.city} ${address.state} ${address.zipCode}`)}
+          </View>
+        </View>
+      )
+    }
+  }
+
+  _renderAddressLine = text => {
+    if(text) {
+      return(<Text style={styles.addressText}>{text}</Text>);
+    }
+  }
+
+  _parseWebURL = url => {
+    if(url) {
+      const url1 = url.replace('https://', '');
+      const urlNew = url1.replace('http://', '');
+      return (
+        <View style={{flexDirection: 'row'}}>
+          <MDIcon name={'open-in-browser'} style={styles.locationIcon} />
+          <TouchableOpacity onPress={() => this.openLink(url)}>
+            <Text style={styles.webTextText}>{urlNew}</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
+  }
+
+  _renderDirection = address => {
+    if(address.latitude && address.longitude) {
+      return (
+        <View style={{flexDirection: 'row'}}>
+          <MDIcon name={'directions'} style={styles.locationIcon} />
+          <TouchableOpacity onPress={() => this._showDirectionOnMap(address)}>
+            <Text style={styles.directionText}>Get Direction</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
+  }
+
+  _changeLocation = (lat, long, storeAddress) => {
     this.setState({
       latitude: lat,
       longitude: long,
-      location: locaiton,
-      address: address1 + address2,
+      address: `${storeAddress.address1}${storeAddress.address2}`,
     });
     const duration = 500;
     // this.marker._component.animateMarkerToCoordinate(
@@ -170,10 +262,34 @@ export default class LocationScreen extends Component {
     // );
   };
 
-  render() {
-    const {height} = Dimensions.get('window');
-    return (
-      <SafeAreaView style={{flex: 1}}>
+  _filterLocation = (text) => {
+    const filteredAssets = this.state.dataSoure.filter(location => location.locationName.toLowerCase().indexOf(text.toLowerCase()) !== -1);
+    this.setState({
+      filteredData: filteredAssets
+    });
+  }
+
+  _renderClearSearch = () => {
+    if(this.state.search){
+      return(
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={()=>this.setState({search: ''})}>
+          <MDIcon name={'close'} style={{fontSize: 24}} />
+        </TouchableOpacity>
+      )
+    }
+  }
+
+  _renderBody = () => {
+    if(this.state.isLoading) {
+      return (
+        <View style={{flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size={'large'} />
+        </View>
+      );
+    } else {
+      return (
         <View style={styles.mainContainer}>
           <MapView
             style={{flex: 1}}
@@ -224,6 +340,12 @@ export default class LocationScreen extends Component {
               this.Standard = ref;
             }}
             closeOnDragDown={true}
+            customStyles={{
+              container: {
+                borderTopLeftRadius: this.state.isFullScreen ? 0 : 15,
+                borderTopRightRadius: this.state.isFullScreen ? 0 : 15
+              }
+            }}
             height={this.state.sheetHeight}>
             <View style={styles.bottomSheetContainer}>
               <Text style={styles.bottomSheetTitle}>Locations</Text>
@@ -232,23 +354,56 @@ export default class LocationScreen extends Component {
                   <MDIcon name={this.state.sheetIcon} style={{fontSize: 30}} />
                 </TouchableOpacity>
               </View>
+              <View style={{flexDirection: 'row',paddingHorizontal: 10, marginVertical: 5, borderWidth: 2, borderRadius: 5, borderColor: 'rgba(153,153,153,1)', alignItems: 'center', marginTop: 10}}>
+                <MDIcon name={'search'} style={{fontSize: 24}} />
+                <TextInput
+                  placeholder="Location Name"
+                  style={{flex: 1}}
+                  onChangeText={(text) => {
+                    this.setState({
+                      search: text
+                    });
+                    this._filterLocation(text)
+                  }}/>
+                  {this._renderClearSearch()}
+              </View>
               <FlatList
                 style={{flex: 1}}
                 showsVerticalScrollIndicator={false}
-                scrollEnabled={this.data.length > 2}
-                data={this.state.dataSoure}
+                scrollEnabled={true}
+                ListEmptyComponent={()=>{
+                  return (
+                    <View style={{flex: 1, height: this.state.sheetHeight - 150, justifyContent: 'center', alignContent: 'center'}}>
+                      <Text style={{fontSize: 20, alignSelf: 'center'}}>No Location Found</Text>
+                    </View>
+                  );
+                }}
+                data={this.state.search ? this.state.filteredData : this.state.dataSoure}
                 renderItem={({item, index}) => this.renderRow(item)}
-                keyExtractor={item => item.location.toString()}
+                keyExtractor={item => item.addressId.toString()}
               />
             </View>
           </RBSheet>
         </View>
+      );
+    }
+  }
+
+  render() {
+    const {height} = Dimensions.get('window');
+    return (
+      <SafeAreaView style={{flex: 1}}>
+        <ScreenHeader
+          navigation={this.props.navigation}
+          title={'Locations'}
+          userPoint={this.state.userPoint}/>
+        {this._renderBody()}
       </SafeAreaView>
     );
   }
 }
 
-const styles = {
+const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     flexDirection: 'column-reverse',
@@ -281,6 +436,8 @@ const styles = {
   locationIcon: {fontSize: 20, alignSelf: 'center'},
   locationTitle: {paddingLeft: 15, fontSize: 22},
   addressText: {paddingLeft: 15, fontSize: 15},
+  webTextText: {paddingLeft: 15, fontSize: 15, color: 'blue'},
+  directionText: {paddingLeft: 15, fontSize: 15, color: 'green'},
   devider: {
     height: 1,
     marginTop: 10,
@@ -293,4 +450,4 @@ const styles = {
     alignSelf: 'flex-end',
     position: 'absolute',
   },
-};
+});

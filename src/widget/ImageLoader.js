@@ -72,7 +72,7 @@ export default class ImageLoader extends Component {
  }
 
   render() { 
-      console.log(`Ìmage props : ${JSON.stringify(this.props)} ${this.props.src}`)
+      //console.log(`Ìmage props : ${JSON.stringify(this.props)} ${this.props.src}`)
     return (
       <View>
         {this._renderImage()}

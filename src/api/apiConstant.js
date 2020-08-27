@@ -17,4 +17,5 @@ module.exports = {
   GET_WAYTO_EARN_DATA: 'UserAccountProfile/WayToEarnScreenData',
   GET_RPG_DATA: 'UserAccountProfile/RPGScreenData',
   TRANSFERT_POINT: 'UserProfile/TransferPoints',
+  GET_LOCATION_DATA: 'UserAccountProfile/GetLocationData',
 };
