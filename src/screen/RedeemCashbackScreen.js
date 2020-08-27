@@ -18,6 +18,7 @@ import {ScreenHeader} from '../widget/ScreenHeader';
 import SwipeButton from 'rn-swipe-button';
 import { Card } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
+import Toast from 'react-native-root-toast';
 
 export default class RedeemCashbackScreen extends Component {
   
@@ -26,12 +27,11 @@ export default class RedeemCashbackScreen extends Component {
   };
 
   constructor() {
-    console.log('Constructor called');
     super();
     this.state = {
         amount: 108,
         isAllowPartialCashbackRedemption: true,
-        isRequireWholeNumberRedemption: false,
+        isRequireWholeNumberRedemption: true,
     };
   }
 
@@ -90,6 +90,17 @@ export default class RedeemCashbackScreen extends Component {
     }
   };
 
+  _showToast = message => {
+    Toast.show(message, {
+      duration: Toast.durations.LONG,
+      position: Toast.positions.CENTER,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+  });
+  }
+
   _callGetRedeemCashback = () => {
     makeRequest(
         `${APIConstant.BASE_URL}${APIConstant.GET_CASHBACK_SCREEN_DATA}?RewardProgramID=${APIConstant.RPID}&ContactID=${this.state.userID}`,
@@ -113,44 +124,49 @@ export default class RedeemCashbackScreen extends Component {
 
   _prepareForm = () => {
     var isCall = true;
-    if (this.state.transferAmount) {
-      this.setState({
-        transferAmountError: false,
-      });
+    if(!this.state.isAllowPartialCashbackRedemption) {
+        this.setState({
+            otherAmount: this.state.amount,
+            isLoading: true,
+        }, ()=>this._callRedeemCashbackTransaction())
     } else {
-      this.setState({
-        transferAmountError: true
-      })
-      isCall = false;
-    }
 
-    if (this.state.transferTo) {
-      this.setState({
-        transferToError: false,
-      });
-    } else {
-      this.setState({
-        transferToError: true,
-      });
-      isCall = false;
-    }
-
-    if(isCall){
-      this.setState({isLoading: true})
-      this._callTransferPoint()
-    }
+        if (this.state.otherAmount) {
+            if(this.state.isRequireWholeNumberRedemption && this.state.otherAmount % 1 == 0) {
+                // need to enter full amount only
+                this.setState({otherAmounterror: false});
+            } else {
+                // able to redeem with point amount
+                this.setState({otherAmounterror: true});
+                this._showToast('Enter amount without point')
+                isCall = false
+            }
+          } else {
+            this.setState({
+              otherAmounterror: true
+            })
+            isCall = false;
+            this._showToast('Please enter amout')
+          }      
+          if(isCall){
+            this.setState({isLoading: true})
+            this._callRedeemCashbackTransaction()
+          }    
+    } 
   }
 
-  _callTransferPoint = () => {
+  _callRedeemCashbackTransaction = () => {
     const request = {
       rewardProgramID: APIConstant.RPID,
       contactID: this.state.userID,
-      transferPoints: this.state.transferAmount,
-      transferTo: this.state.transferTo
+      webFormID: this.state.webformID,
+      cashbackAmount: this.state.otherAmount
     };
 
+    console.log(`Reqeust : ${JSON.stringify(request)}`)
+
     makeRequest(
-      `${APIConstant.BASE_URL}${APIConstant.TRANSFERT_POINT}`,
+      `${APIConstant.BASE_URL}${APIConstant.REDEEM_CASHBACK}`,
       'post',
       request,
     )
@@ -161,20 +177,17 @@ export default class RedeemCashbackScreen extends Component {
           Alert.alert('Oppss...', response.statusMessage);
         } else {
           Alert.alert('Success', response.statusMessage);
-          this._processAfterTransfer()
+          this._processAfterTransfer(response.responsedata.reedemablePoints)
         }  
       })
       .catch(error => console.log('error : ' + error));
   }
 
-  _processAfterTransfer = async () => {
-    var currentPoint = this.state.userPoint;
-    var transfer = this.state.transferAmount;
-    const newPoint = currentPoint - transfer;
+  _processAfterTransfer = async point => {
 
-    await AsyncStorage.setItem('reedemablePoints', newPoint.toString());
+    await AsyncStorage.setItem('reedemablePoints', point.toString());
     this.setState({
-      userPoint: newPoint
+      userPoint: point
     })
   }
 
