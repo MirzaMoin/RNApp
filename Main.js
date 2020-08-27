@@ -23,6 +23,7 @@ import NotificationDetailScreen from './src/screen/NotificationDetailScreen';
 import TransactionHistory from './src/screen/TransactionHistory';
 import TransferPointScreen from './src/screen/TransferPointScreen';
 import RefereFriendScreen from './src/screen/RefereFriendScreen';
+import RedeemCashbackScreen from './src/screen/RedeemCashbackScreen';
 import OfferScreen from './src/screen/OfferScreen';
 import ContactUs from './src/screen/ContactUs';
 import LocationScreen from './src/screen/LocationScreen';
@@ -315,6 +316,25 @@ const ChangePasswordStackNavigator = createStackNavigator({
     screen: ChangePasswordScreen,
     navigationOptions: ({navigation}) => ({
       title: 'Change Password',
+      headerTitleStyle: {
+        color: 'white',
+        marginLeft: -7,
+      },
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <NavigationComponentRight navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#012340',
+      },
+    }),
+  },
+});
+
+const RedeemCashbackScreenStackNavigator = createStackNavigator({
+  //All the screen from the Screen3 will be indexed here
+  redeemCashback: {
+    screen: RedeemCashbackScreen,
+    navigationOptions: ({navigation}) => ({
+      title: 'Redeem Cashback',
       headerTitleStyle: {
         color: 'white',
         marginLeft: -7,
@@ -706,6 +726,15 @@ const DrawerNavigatorExample = createDrawerNavigator(
         drawerLabel: 'Reward Entry Goal',
         drawerIcon: ({tintColor}) => (
           <MDIcon style={{fontSize: 18}} name={'star'} />
+        ),
+      },
+    },
+    redeemCashback: {
+      screen: RedeemCashbackScreenStackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Redeem Cashback',
+        drawerIcon: ({tintColor}) => (
+          <MDIcon style={{fontSize: 18}} name={'redeem'} />
         ),
       },
     },

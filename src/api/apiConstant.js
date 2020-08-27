@@ -18,4 +18,6 @@ module.exports = {
   GET_RPG_DATA: 'UserAccountProfile/RPGScreenData',
   TRANSFERT_POINT: 'UserProfile/TransferPoints',
   GET_LOCATION_DATA: 'UserAccountProfile/GetLocationData',
+  GET_CASHBACK_SCREEN_DATA: 'UserProfile/CashbackAmount',
+  REDEEM_CASHBACK: '​UserProfile​/CashbackRedeem',
 };
