@@ -198,7 +198,7 @@ export default class ChangePassword extends Component {
           </TouchableOpacity>
         );
       }
-    }
+  }
 
   render() {
     return (

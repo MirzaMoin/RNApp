@@ -31,10 +31,12 @@ import TakeSurveyScreen from './src/screen/TakeSurveyScreen';
 import SurveyFormScreen from './src/screen/SurveyFormScreen';
 import ProfileScreen from './src/screen/ProfileScreen';
 import ChangePasswordScreen from './src/screen/ChangePasswordScreen';
+import UploadReceiptScreen from './src/screen/UploadRecieptScreen';
 import RPGScreen from './src/screen/RPGScreen';
 import {WayToEarnScreen} from './src/screen/WaysToEarnScreen';
 import * as RNEP from '@estimote/react-native-proximity';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {
   startProximityObserver,
   stopProximityObserver,
@@ -316,6 +318,25 @@ const ChangePasswordStackNavigator = createStackNavigator({
     screen: ChangePasswordScreen,
     navigationOptions: ({navigation}) => ({
       title: 'Change Password',
+      headerTitleStyle: {
+        color: 'white',
+        marginLeft: -7,
+      },
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <NavigationComponentRight navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#012340',
+      },
+    }),
+  },
+});
+
+const UploadReceiptStackNavigator = createStackNavigator({
+  //All the screen from the Screen3 will be indexed here
+  uploadReceipt: {
+    screen: UploadReceiptScreen,
+    navigationOptions: ({navigation}) => ({
+      title: 'Upload Receipt',
       headerTitleStyle: {
         color: 'white',
         marginLeft: -7,
@@ -772,6 +793,16 @@ const DrawerNavigatorExample = createDrawerNavigator(
         drawerLabel: 'Transfer Point',
         drawerIcon: ({tintColor}) => (
           <MDIcon style={{fontSize: 18}} name={'swap-horiz'} />
+        ),
+      },
+    },
+    uploadReceipt: {
+      //Title
+      screen: UploadReceiptStackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Upload Receipt',
+        drawerIcon: ({tintColor}) => (
+          <Icon style={{fontSize: 18}} name={'upload'} />
         ),
       },
     },

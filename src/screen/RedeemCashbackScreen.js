@@ -22,17 +22,13 @@ import Toast from 'react-native-root-toast';
 
 export default class RedeemCashbackScreen extends Component {
   
-    static navigationOptions = {
+static navigationOptions = {
     header: null,
   };
 
   constructor() {
     super();
-    this.state = {
-        amount: 108,
-        isAllowPartialCashbackRedemption: true,
-        isRequireWholeNumberRedemption: true,
-    };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -280,62 +276,60 @@ export default class RedeemCashbackScreen extends Component {
                 </View>
                 </TouchableOpacity>
                 {this._renderSuggession()}
-                <Card 
-                    containerStyle={{
-                        flex: 1,
-                        borderTopLeftRadius: 15,
-                        borderTopRightRadius: 15,
-                        marginBottom: 0,
-                    }}>
-                {this.state.isAllowPartialCashbackRedemption && <View>
-                    <Text
-                        style={{paddingLeft: 10, color: this.state.otherAmounterror ? 'red' : 'black'}}>
-                        Enter other amount
-                    </Text>
-                    <View
-                        style={{
-                            marginVertical: 10,
-                            borderColor: this.state.otherAmounterror ? 'red' : 'rgba(153,153,153,0.5)',
-                            borderWidth: 2,
-                            paddingHorizontal: 10,
-                            marginHorizontal: 5,
-                            borderRadius: 10,
-                            flexDirection: 'row'
-                        }}>
-                        <Text style={{alignSelf: 'center', fontSize: 16}}>$</Text>
-                        <TextInput
-                            style={{fontSize: 17, fontWeight: 'bold'}}
-                            keyboardType={'numeric'}
-                            value={`${this.state.otherAmount || ''}`}
-                            placeholder="Enter other amount"
-                            onChangeText={(text) => {
-                                this.setState({
-                                    otherAmount: text,
-                                })
-                            }}
-                        />
-                    </View></View>}
-                
-                <SwipeButton
-                    thumbIconBackgroundColor="#FFFFFF"
-                    containerStyle={{backgroundColor: '#012345'}}
-                    swipeSuccessThreshold={90}
-                    thumbIconComponent={this._renderIcon}
-                    title="Slide to Redeem"
-                    titleColor={'white'}
-                    railBackgroundColor={'#012345'}
-                    railFillBackgroundColor={'green'}
-                    shouldResetAfterSuccess
-                    disabled={this.state.isLoading}
-                    onSwipeSuccess={() => {
-                        this._prepareForm()
-                    }}
-                    />
-                </Card>
                 </View>
-                
             </View>
         </ScrollView>
+        <Card 
+            containerStyle={{
+                borderTopLeftRadius: 15,
+                borderTopRightRadius: 15,
+                marginBottom: 0,
+                marginHorizontal: 25,
+            }}>
+            {this.state.isAllowPartialCashbackRedemption && <View>
+            <Text
+                style={{paddingLeft: 10, color: this.state.otherAmounterror ? 'red' : 'black'}}>
+                Enter other amount
+            </Text>
+            <View
+                style={{
+                    marginVertical: 10,
+                    borderColor: this.state.otherAmounterror ? 'red' : 'rgba(153,153,153,0.5)',
+                    borderWidth: 2,
+                    paddingHorizontal: 10,
+                    marginHorizontal: 5,
+                    borderRadius: 10,
+                    flexDirection: 'row'
+                }}>
+                <Text style={{alignSelf: 'center', fontSize: 16}}>$</Text>
+                <TextInput
+                    style={{fontSize: 17, fontWeight: 'bold'}}
+                    keyboardType={'numeric'}
+                    value={`${this.state.otherAmount || ''}`}
+                    placeholder="Enter other amount"
+                    onChangeText={(text) => {
+                        this.setState({
+                            otherAmount: text,
+                        })
+                    }}
+                />
+            </View></View>}
+        
+        <SwipeButton
+            thumbIconBackgroundColor="#FFFFFF"
+            containerStyle={{backgroundColor: '#012345'}}
+            swipeSuccessThreshold={90}
+            thumbIconComponent={this._renderIcon}
+            title="Slide to Redeem"
+            titleColor={'white'}
+            railBackgroundColor={'#012345'}
+            railFillBackgroundColor={'green'}
+            shouldResetAfterSuccess
+            disabled={this.state.isLoading}
+            onSwipeSuccess={() => {
+                this._prepareForm()
+            }}/>
+        </Card>
       </View>
     );
   }

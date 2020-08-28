@@ -6,13 +6,21 @@ import { Header } from 'react-navigation-stack';
 export class ScreenHeader extends Component {
 
   _renderPoint = point => {
+    console.log(`HeaderPoint : ${point}`)
     if(point){
       return (
         <Text>
           <Text style={styles.point}>{point}</Text>
           <Text style={styles.pointTerm}> PTS</Text>
         </Text>
-      )
+      );
+    } else if(point == undefined) {
+      return (
+        <Text>
+          <Text style={styles.point}>0</Text>
+          <Text style={styles.pointTerm}> PTS</Text>
+        </Text>
+      );
     }
   }
 

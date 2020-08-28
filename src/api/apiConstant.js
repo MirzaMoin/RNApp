@@ -20,4 +20,7 @@ module.exports = {
   GET_LOCATION_DATA: 'UserAccountProfile/GetLocationData',
   GET_CASHBACK_SCREEN_DATA: 'UserProfile/CashbackAmount',
   REDEEM_CASHBACK: 'UserProfile/CashbackRedeem',
+  GET_UPLOAD_RECEIPT_SCREEN_DATA: 'UserProfile/UploadReceiptsScreenData',
+  UPLOAD_RECEIPT_DATA: 'UserProfile/UploadReceipts',
+  UPLOAD_RECEIPT_IMAGE: 'UserProfile/UploadReceiptsImages',
 };
