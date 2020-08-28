@@ -187,8 +187,11 @@ export default class RedeemCashbackScreen extends Component {
 
     await AsyncStorage.setItem('reedemablePoints', point.toString());
     this.setState({
-      userPoint: point
+      userPoint: point,
+      otherAmount: '',
+      otherAmounterror: false,
     })
+    this._callGetRedeemCashback();
   }
 
   _renderIcon = () => this.state.isLoading ? <ActivityIndicator color={'#012345'} /> : <MDIcon name="keyboard-arrow-right" size={30} />;
