@@ -197,7 +197,7 @@ export default class TabScreen extends Component {
         <ScreenHeader
           navigation={this.props.navigation}
           title={this.state.title}
-          userPoint={this.state.userPoint}/>
+          userPoint={this.state.userPoint || '0'}/>
         <View style={{flex: 1}}>{this._renderScreens()}</View>
         <View style={styles.footerContainer}>
           <TouchableOpacity

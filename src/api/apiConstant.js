@@ -23,4 +23,6 @@ module.exports = {
   GET_UPLOAD_RECEIPT_SCREEN_DATA: 'UserProfile/UploadReceiptsScreenData',
   UPLOAD_RECEIPT_DATA: 'UserProfile/UploadReceipts',
   UPLOAD_RECEIPT_IMAGE: 'UserProfile/UploadReceiptsImages',
+  GET_LEADERBORD_SCREEN_DATA: 'UserAccountProfile/LeaderBoardScreenData',
+  GET_LEADERBOARD_FILTERED_DATA: 'UserAccountProfile/LeaderBoardReport',
 };

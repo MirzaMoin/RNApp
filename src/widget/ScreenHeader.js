@@ -14,13 +14,24 @@ export class ScreenHeader extends Component {
           <Text style={styles.pointTerm}> PTS</Text>
         </Text>
       );
-    } else if(point == undefined) {
+    } else if(point == undefined && !this.props.hidePoint) {
       return (
         <Text>
           <Text style={styles.point}>0</Text>
           <Text style={styles.pointTerm}> PTS</Text>
         </Text>
       );
+    }
+  }
+
+  _buildFilter = () => {
+    if (this.props.buildFilter) {
+      return(
+        <TouchableOpacity
+          onPress={this.props.onPress}>
+          <MDIcon name={'import-export'} style={{color: 'white', fontSize: 24}}/>
+        </TouchableOpacity>
+      )
     }
   }
 
@@ -34,6 +45,7 @@ export class ScreenHeader extends Component {
         </TouchableOpacity>
         <Text style={styles.title}>{this.props.title}</Text>
         {this._renderPoint(this.props.userPoint)}
+        {this._buildFilter()}
       </View>
     );
   }

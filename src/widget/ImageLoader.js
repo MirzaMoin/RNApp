@@ -34,7 +34,7 @@ export default class ImageLoader extends Component {
             );
         } else {
             return (
-              <Avatar containerStyle={this.props.style || {}} size={this.props.avatarSize || 'small'} rounded={this.props.rounded} icon={{ name: 'person' }} />
+              <Avatar containerStyle={this.props.style || {}} overlayContainerStyle={this.props.style ? [this.props.style, {marginLeft: 0}] : {}} size={this.props.avatarSize || 'small'} rounded={this.props.rounded} icon={{ name: 'person', size: 25}} />
             )
         }
     }
