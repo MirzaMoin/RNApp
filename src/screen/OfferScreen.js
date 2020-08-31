@@ -126,7 +126,6 @@ export default class OfferScreen extends Component {
 
       await AsyncStorage.getItem('webformID', (err, value) => {
         if (err) {
-          //this.props.navigation.navigate('Auth');
           console.log('null webform')
         } else {
           if (value) {
@@ -136,12 +135,10 @@ export default class OfferScreen extends Component {
           }
         }
       });
-      console.log('staert')
-        if (isRefresh) {
-          this._callGetOffers();
-        } else {
-          isRefresh = true;
-        }
+      if (!isRefresh) {
+        isRefresh = true;
+      }
+      this._callGetOffers();
     } catch (error) {
       console.log(error)
     }
@@ -164,7 +161,7 @@ export default class OfferScreen extends Component {
         'get',
       )
     .then(response => {
-        console.log(JSON.stringify(response));
+        //console.log(JSON.stringify(response));
         this.setState({isLoading: false});
         if(response.statusCode == 0) {
             Alert.alert('Oppss...', response.statusMessage);

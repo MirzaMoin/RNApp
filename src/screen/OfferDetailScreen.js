@@ -10,6 +10,8 @@ import {
   Dimensions,
   BackHandler,
   Platform,
+  Linking,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Card} from 'react-native-elements';
@@ -21,6 +23,9 @@ import ViewShot from "react-native-view-shot";
 import CameraRoll from '@react-native-community/cameraroll';
 import {requestMultiple, PERMISSIONS, openSettings} from 'react-native-permissions';
 import Toast from 'react-native-root-toast';
+import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+import {makeRequest} from './../api/apiCall';
+import APIConstant from './../api/apiConstant';
 
 const Width = Dimensions.get('window').width;
 
@@ -32,6 +37,7 @@ export default class OfferDetailScreen extends Component {
     console.log('Constructor called offer details');
     super();
     this.state = {
+      isLoading: true,
       addressDetails: {},
       userDetails: {},
       redeemSetting: {},
@@ -39,6 +45,8 @@ export default class OfferDetailScreen extends Component {
       userID: '',
       webFormID: '',
       userPoint: '',
+      dataSoure: [],
+      location: '',
     };
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
@@ -49,8 +57,7 @@ export default class OfferDetailScreen extends Component {
 
   componentDidMount() {
     const { navigation } = this.props;
-    this.focusListener = navigation.addListener('didFocus', () => {
-      
+    this.focusListener = navigation.addListener('didFocus', () => {  
       console.log(`Offer SCreen DAta: ${JSON.stringify(this.props.navigation.state.params)}`)
       this.setState({
         addressDetails: this.props.navigation.state.params.addressDetails,
@@ -60,8 +67,71 @@ export default class OfferDetailScreen extends Component {
         userID: this.props.navigation.state.params.userID,
         webFormID: this.props.navigation.state.params.webFormID,
         userPoint: this.props.navigation.state.params.userPoint,
+        isLoading: false,
+      }, () => {
+        if(!this.state.redeemSetting.askWhereAreYou) {
+          this._getLocationData();
+        }
       });
     });
+  }
+
+  _getLocationData = () => {
+
+    makeRequest(
+      `${APIConstant.BASE_URL}${APIConstant.GET_LOCATION_DATA}?RewardProgramID=${APIConstant.RPID}`,
+      'get',
+    )
+      .then(response => {
+        //console.log(JSON.stringify(response));
+        this.setState({isLoading: false});
+        if(response.statusCode == 0) {
+          Alert.alert('Oppss...', response.statusMessage);
+        } else {
+          this.setState({
+            dataSoure: response.responsedata.locationData,
+          })
+        }  
+      })
+      .catch(error => console.log('error : ' + error));
+  }
+
+  _callRedeemOffer = () => {
+    const request = {
+      offerID: this.state.offer.offerID,
+      offerSendID: this.state.offer.offerSendID,
+      rewardProgramID: APIConstant.RPID,
+      contactID: this.state.userID,
+      addressID: this.state.location,
+      webFormID: this.state.webFormID
+    }
+
+    makeRequest(
+      `${APIConstant.BASE_URL}${APIConstant.REDEEM_OFFER}`,
+      'post',
+      request,
+    )
+      .then(response => {
+        //console.log(JSON.stringify(response));
+        if(response.statusCode == 0) {
+          this.setState({isRedeeming: true})
+          Alert.alert('Oppss...', response.statusMessage);
+        } else {
+          Alert.alert('Success', response.statusMessage, [
+            {text: 'Okay', onPress: ()=> this._processFurther(response.responsedata.reedemablePoints)}
+          ]);
+        }  
+      })
+      .catch(error => {
+        console.log('error : ' + error);
+        this.setState({isRedeeming: true});
+      });
+  }
+
+  _processFurther = async point => {
+    await AsyncStorage.setItem('reedemablePoints', point.toString());
+    this.setState({isRedeeming: true});
+    this.handleBackButtonClick();
   }
 
   componentWillUnmount() {
@@ -85,14 +155,6 @@ export default class OfferDetailScreen extends Component {
       delay: 0,
   });
   }
-
-  _getStoredData = async () => {
-    try {
-      
-    } catch (error) {
-      console.log(error)
-    }
-  };
 
   _checkPermission = () => {
     requestMultiple([PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE, PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE]).then(
@@ -127,12 +189,45 @@ export default class OfferDetailScreen extends Component {
     }
   }
 
+  _onRedeemPress = () => {
+    this.setState({isRedeeming: true})
+    if(this.state.redeemSetting.redeemOfferInstruction.length > 0) {
+      Alert.alert(
+        'Redeem Offer',
+        this.state.redeemSetting.redeemOfferInstruction,
+        [
+          {text: 'Cancel', onPress: () => {
+            this.setState({isRedeeming: false})
+          }},
+          {text: 'Redeem', onPress: () => {
+            this._prepareForLocation();
+          }}
+        ]
+      );
+    } else {
+      this._prepareForLocation();
+    }
+  }
+
+  _prepareForLocation = () => {
+    if(this.state.redeemSetting.askWhereAreYou) {
+      this.locationPopup._toggleSelector()
+    } else {
+      this.setState({
+        location: this.state.userDetails.addressID
+      }, () => {
+        this._callRedeemOffer();
+      });
+    }
+  }
+
   _renderRedeemButton = () => {
     if (this.state.isRedeeming) {
       return ( <View style={{flex: 1, padding: 10, alignSelf: 'center'}}><ActivityIndicator size={28} color={'white'} /></View> );
     } else {
       return (
-        <Text 
+        <Text
+          onPress={()=>this._onRedeemPress()}
           style={{
             flex: 1,
             backgroundColor: '#012345',
@@ -170,19 +265,86 @@ export default class OfferDetailScreen extends Component {
     }
   }
 
-  render() {
-    return (
-      <View style={styles.mainContainer}>
-        <ScreenHeader
-          navigation={this.props.navigation}
-          title={'Offer Detail'}
-          userPoint={this.state.userPoint}
-          isGoBack={true}
-          onGoBack={ () => {
-            this.props.navigation.state.params.onGoBack();
-          }}/>
-           
-            <ScrollView
+  _renderLocation = () => {
+    if(this.state.dataSoure.length > 0){
+      var item = [];
+      this.state.dataSoure.map(location=>{
+        var it = {
+          id: location.addressID,
+          name: location.locationName 
+        }
+        item.push(it);
+      });
+      return (
+        <View style={{width: 300}}>
+          <SectionedMultiSelect
+            items={item}
+            uniqueKey="id"
+            ref={(locationPopup) => this.locationPopup = locationPopup}
+            alwaysShowSelectText={false}
+            showChips={true}
+            hideSelect={true}
+            single={true}
+            searchPlaceholderText={'Search Location'}
+            onSelectedItemsChange={(selectedItem) => {
+              this.setState({
+                location: selectedItem[0]
+              }, () => {this._callRedeemOffer()})
+            }}
+            selectedItems={[this.state.location]}
+          />
+        </View>
+      );
+    }
+  }
+
+  _parseWebURL = url => {
+    if(url) {
+      const url1 = url.replace('https://', '');
+      const urlNew = url1.replace('http://', '');
+      return (
+        <Text onPress={() => this.openLink(url)} style={{fontSizeL: 14, color: 'blue'}}>{urlNew}</Text>
+      )
+    }
+  }
+
+  _parsePhoneNum = mobile => {
+    if(mobile) {
+      return (
+        <Text onPress={() => this.openPhone(mobile)} style={{fontSizeL: 14, color: 'blue'}}>{mobile}</Text>
+      )
+    }
+  }
+
+  openLink = link => {
+    Linking.canOpenURL(link).then(supported => {
+      if (supported) {
+        Linking.openURL(link);
+      } else {
+        console.log("Don't know how to open URI: " + this.props.url);
+      }
+    });
+  };
+
+  openPhone = link => {
+    const num = `tel:${link}`;
+    Linking.canOpenURL(num).then(supported => {
+      if (supported) {
+        Linking.openURL(num);
+      } else {
+        console.log("Don't know how to open URI: " + this.props.url);
+      }
+    });
+  };
+
+  _renderBody = () => {
+    if (this.state.isLoading) {
+      return <View style={{flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size={'large'} />
+      </View>
+    } else {
+      return (
+        <ScrollView
               showsVerticalScrollIndicator={false}>
               <ViewShot ref="viewShot" options={{ format: "jpg", quality: 0.9 }}>
                 <View style={{backgroundColor: 'white', flex: 1, paddingBottom: 10}}>
@@ -235,8 +397,8 @@ export default class OfferDetailScreen extends Component {
                   <Text style={{fontSizeL: 14, color: 'grey'}}>
                     {`${this.state.addressDetails.city} ${this.state.addressDetails.state} ${this.state.addressDetails.zipCode}`}
                   </Text>
-                  <Text style={{fontSizeL: 14, color: 'blue'}}>{this.state.addressDetails.businessPhone || ''}</Text>
-                  <Text style={{fontSizeL: 14, color: 'blue'}}>{this.state.addressDetails.websiteURL || ''}</Text>
+                  {this._parsePhoneNum(this.state.addressDetails.businessPhone)}
+                  {this._parseWebURL(this.state.addressDetails.websiteURL)}
                 </View>
 
                 <View style={{marginHorizontal: 15, borderWidth: 1, borderColor: 'grey', borderRadius: 10, padding: 10, alignItems: 'center'}}>
@@ -250,7 +412,23 @@ export default class OfferDetailScreen extends Component {
             </View>
             </ViewShot>
           </ScrollView>
-        
+      );
+    }
+  }
+
+  render() {
+    return (
+      <View style={styles.mainContainer}>
+        <ScreenHeader
+          navigation={this.props.navigation}
+          title={'Offer Detail'}
+          userPoint={this.state.userPoint}
+          isGoBack={true}
+          onGoBack={ () => {
+            this.props.navigation.state.params.onGoBack();
+          }}/>
+        {this._renderLocation()}
+        {this._renderBody()}    
         {this._renderButtom()}
       </View>
     );
