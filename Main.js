@@ -26,6 +26,7 @@ import RefereFriendScreen from './src/screen/RefereFriendScreen';
 import RedeemCashbackScreen from './src/screen/RedeemCashbackScreen';
 import LeaderboardScreen from './src/screen/LeaderBoradScreen';
 import OfferScreen from './src/screen/OfferScreen';
+import OfferDetailScreen from './src/screen/OfferDetailScreen';
 import ContactUs from './src/screen/ContactUs';
 import LocationScreen from './src/screen/LocationScreen';
 import TakeSurveyScreen from './src/screen/TakeSurveyScreen';
@@ -270,7 +271,7 @@ const CreateDrawerComponent = props => (
     <View style={{flex: 1}}>
       <ScrollView style={{flex: 1}}>
         <DrawerHeaderComponent navigation={props.navigation} />
-        <DrawerItems {...props} />
+        <DrawerItems {...props}/>
         {/*<LogoutItem navigationProps={props}/>*/}
         <TouchableNativeFeedback
           activeOpacity={1}
@@ -533,10 +534,37 @@ const Transaction_Navigator = createStackNavigator({
 });
 
 const Offer_Navigator = createStackNavigator({
-  transaction: {
+  offer: {
     screen: OfferScreen,
     navigationOptions: ({navigation}) => ({
       title: 'Offers',
+      headerTitleStyle: {
+        color: 'white',
+        marginLeft: -7,
+      },
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: (
+        <View>
+          <Text
+            style={{
+              fontSize: 20,
+              marginRight: 15,
+              fontWeight: 'bold',
+              color: 'white',
+            }}>
+            50 PTS
+          </Text>
+        </View>
+      ),
+      headerStyle: {
+        backgroundColor: '#012340',
+      },
+    }),
+  },
+  offerDetail: {
+    screen: OfferDetailScreen,
+    navigationOptions: ({navigation}) => ({
+      title: 'Offer Detail',
       headerTitleStyle: {
         color: 'white',
         marginLeft: -7,

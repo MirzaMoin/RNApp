@@ -1,9 +1,26 @@
 import React, {Component} from 'react';
-import {View, Text, Image, TouchableOpacity, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  Image, 
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator,
+  AsyncStorage,
+  Dimensions,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Card} from 'react-native-elements';
+import {ScreenHeader} from '../widget/ScreenHeader';
+
+const Width = Dimensions.get('window').width;
+var isRefresh = true;
 
 export default class OfferScreen extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   constructor() {
     console.log('Constructor called');
     super();
@@ -12,6 +29,7 @@ export default class OfferScreen extends Component {
       tabIndex: 1,
     };
   }
+
   data = [
     {
       date: '02/10/2020',
@@ -51,10 +69,74 @@ export default class OfferScreen extends Component {
     },
   ];
 
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      console.log('refressing')
+      this._getStoredData();
+    });
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove();
+  }
+
+  _onGoBack = () => {
+    console.log('come back from detail')
+    isRefresh = false;
+  }
+
+  _getStoredData = async () => {
+    try {
+      await AsyncStorage.getItem('userID', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            this.setState({
+              userID: value,
+            })
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            this.setState({
+              userPoint: value,
+            })
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('webformID', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            this.setState({
+              webformID: value,
+            });
+          }
+        }
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
   render() {
     return (
       <View style={styles.mainContainer}>
-        <View style={{hegith: 150}}>
+        <ScreenHeader
+          navigation={this.props.navigation}
+          title={'Offers'}
+          userPoint={this.state.userPoint}/>
+        {/*<View style={{hegith: 150}}>
           <Image
             style={{height: 150}}
             source={{
@@ -64,170 +146,82 @@ export default class OfferScreen extends Component {
             resizeMode="cover"
           />
           <View style={styles.imageOverlay} />
-        </View>
+          </View>*/}
         <FlatList
           showsVerticalScrollIndicator={false}
           scrollEnabled={this.data.length > 3}
           data={this.data}
-          style={{marginTop: 5}}
           renderItem={({item, index}) => (
-            <Card containerStyle={{padding: 0}} style={styles.rowContainer}>
-              <View style={{backgroundColor: 'white'}}>
-                <View style={styles.titleRow}>
-                  <Text style={styles.pointItem}>37 PTS</Text>
-                  <Text style={styles.offerTitle}>COUTOP OFFER TITLE</Text>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={()=>{
+                this.props.navigation.navigate('offerDetail', {
+                  notification: item,
+                  userID: this.state.userID,
+                  webformID: this.state.webformID,
+                  userPoint: this.state.userPoint,
+                  onGoBack: () => this._onGoBack(),
+                });
+              }}>
+              <Card containerStyle={{padding: 0, margin: 0, marginBottom: 10}} style={styles.rowContainer}>
+                <View style={{backgroundColor: 'white'}}>
+                  <View style={{flexDirection: 'column-reverse'}}>
+                    <Image
+                        style={{height: 250}}
+                        source={{
+                          uri:
+                            'https://dg.imgix.net/let-not-food-destroy-the-body-egu11qj4-en/landscape/let-not-food-destroy-the-body-egu11qj4-1bf920a0e6871d3d5af01ec847a8d908.jpg?ts=1574201747&ixlib=rails-4.0.0&auto=format%2Ccompress&fit=min&w=700&h=394&dpr=2&ch=Width%2CDPR',
+                        }}
+                        resizeMode="cover"
+                      />
+                      <View style={{height: 250, width: Width, position: 'absolute'}}>
+                        <Text style={{
+                          fontFamily: 'helvetica',
+                          fontSize: 13,
+                          backgroundColor: '#4b92d2',
+                          borderRadius: 5,
+                          color: 'white',
+                          alignSelf: 'flex-start',
+                          margin: 20,
+                          padding: 7,
+                          paddingHorizontal: 10
+                        }}>37 PTS</Text>
+                        <View style={{flex: 1}} />
+                        <Text
+                          numberOfLines={1}
+                          ellipsizeMode='tail'
+                          style={{
+                            fontSize: 18,
+                            fontWeight: '600',
+                            color: 'white',
+                            backgroundColor: 'rgba(256, 20, 0, 0.5)',
+                            width: Width,
+                            alignSelf: 'flex-end',
+                            padding: 5}}> Hello this is title now we are trying to show it in full screebn</Text>
+                      </View>
+                  </View>
+                  <Text style={styles.offerDetail}>
+                    Offer description text, Offer description text,Offer
+                    description text,Offer description text,Offer description
+                    text,Offer description text,Offer description text,Offer
+                    description text,Offer description text,Offer description
+                    text,Offer description text,Offer description text,
+                  </Text>
+                  <View style={styles.baseOfferType}>
+                    <Icon
+                      name="trophy"
+                      style={{alignSelf: 'center', color: '#4b92d2'}}
+                      size={20}
+                    />
+                    <Text style={styles.offerType}>Rewards Goal</Text>
+                    <Text style={styles.offerExpiry}>No Expiration</Text>
+                  </View>
+                  
                 </View>
-                <Text style={styles.offerDetail}>
-                  Offer description text, Offer description text,Offer
-                  description text,Offer description text,Offer description
-                  text,Offer description text,Offer description text,Offer
-                  description text,Offer description text,Offer description
-                  text,Offer description text,Offer description text,
-                </Text>
-                <View style={styles.baseOfferType}>
-                  <Icon
-                    name="trophy"
-                    style={{alignSelf: 'center', color: '#4b92d2'}}
-                    size={20}
-                  />
-                  <Text style={styles.offerType}>Rewards Goal</Text>
-                  <Text style={styles.offerExpiry}>No Expiration</Text>
-                </View>
-                <Image
-                  style={{height: 250}}
-                  source={{
-                    uri:
-                      'https://dg.imgix.net/let-not-food-destroy-the-body-egu11qj4-en/landscape/let-not-food-destroy-the-body-egu11qj4-1bf920a0e6871d3d5af01ec847a8d908.jpg?ts=1574201747&ixlib=rails-4.0.0&auto=format%2Ccompress&fit=min&w=700&h=394&dpr=2&ch=Width%2CDPR',
-                  }}
-                  resizeMode="cover"
-                />
-              </View>
-            </Card>
+              </Card>
+            </TouchableOpacity>
           )}
         />
-
-        <View style={styles.footerContainer}>
-          <TouchableOpacity
-            style={styles.footerMenuItem}
-            onPress={() => {
-              this.setState({title: 'Profile', tabIndex: 0});
-            }}>
-            <Image
-              style={[
-                styles.footerMenuItemImage,
-                this.state.tabIndex == 0
-                  ? styles.footerMenuSelectedItem
-                  : styles.footerMenuIdelItem,
-              ]}
-              source={{
-                uri:
-                  'https://image.flaticon.com/icons/png/128/2089/2089773.png',
-              }}
-              resizeMode="cover"
-            />
-            <Text
-              style={[
-                this.state.tabIndex == 0
-                  ? styles.footerMenuSelectedItemText
-                  : styles.footerMenuIdelItemText,
-              ]}>
-              Profile
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.footerMenuItem}
-            onPress={() => {
-              this.setState({title: 'Ways to earn', tabIndex: 1});
-            }}>
-            <Image
-              style={[
-                styles.footerMenuItemImage,
-                this.state.tabIndex == 1
-                  ? styles.footerMenuSelectedItem
-                  : styles.footerMenuIdelItem,
-              ]}
-              source={{
-                uri: 'https://image.flaticon.com/icons/png/128/879/879788.png',
-              }}
-              resizeMode="cover"
-            />
-            <Text
-              style={[
-                this.state.tabIndex == 1
-                  ? styles.footerMenuSelectedItemText
-                  : styles.footerMenuIdelItemText,
-              ]}>
-              Way to Earn
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.footerMenuItem}
-            onPress={() => {
-              this.setState({title: 'Offer', tabIndex: 2});
-            }}>
-            <Image
-              style={[
-                styles.footerMenuItemImage,
-                this.state.tabIndex == 2
-                  ? styles.footerMenuSelectedItem
-                  : styles.footerMenuIdelItem,
-              ]}
-              source={{
-                uri: 'https://image.flaticon.com/icons/png/128/879/879757.png',
-              }}
-              resizeMode="cover"
-            />
-            <Text
-              style={[
-                this.state.tabIndex == 2
-                  ? styles.footerMenuSelectedItemText
-                  : styles.footerMenuIdelItemText,
-              ]}>
-              Offer
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.footerMenuItem}
-            onPress={() => {
-              this.setState({title: 'Notification', tabIndex: 3});
-            }}>
-            <Image
-              style={[
-                styles.footerMenuItemImage,
-                this.state.tabIndex == 3
-                  ? styles.footerMenuSelectedItem
-                  : styles.footerMenuIdelItem,
-              ]}
-              source={{
-                uri:
-                  'https://image.flaticon.com/icons/png/128/2097/2097743.png',
-              }}
-              resizeMode="cover"
-            />
-            <Text
-              style={[
-                this.state.tabIndex == 3
-                  ? styles.footerMenuSelectedItemText
-                  : styles.footerMenuIdelItemText,
-              ]}>
-              Notification
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.footerMenuItem}>
-            <Image
-              style={styles.footerMenuItemImage}
-              source={{
-                uri: 'https://image.flaticon.com/icons/png/128/149/149946.png',
-              }}
-              resizeMode="cover"
-            />
-            <Text style={{fontSize: 11, color: 'white'}}>More</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     );
   }
@@ -256,8 +250,10 @@ const styles = {
     fontFamily: 'helvetica',
     fontSize: 13,
     backgroundColor: '#4b92d2',
-    padding: 5,
+    borderRadius: 5,
     color: 'white',
+    alignSelf: 'flex-start',
+    margin: 20,
   },
   offerTitle: {
     fontFamily: 'helvetica',
@@ -270,6 +266,7 @@ const styles = {
   offerDetail: {
     paddingLeft: 15,
     paddingRight: 15,
+    paddingTop: 15,
     fontSize: 15,
     textAlign: 'justify',
   },

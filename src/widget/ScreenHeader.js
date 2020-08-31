@@ -6,7 +6,7 @@ import { Header } from 'react-navigation-stack';
 export class ScreenHeader extends Component {
 
   _renderPoint = point => {
-    console.log(`HeaderPoint : ${point}`)
+    //console.log(`HeaderPoint : ${point}`)
     if(point){
       return (
         <Text>
@@ -39,7 +39,14 @@ export class ScreenHeader extends Component {
     return (
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => {
-          this.props.navigation.navigate('homeScreen')
+          if(this.props.isGoBack) {
+            if (this.props.onGoBack) {
+              this.props.onGoBack();
+            }
+            this.props.navigation.goBack();
+          } else {
+            this.props.navigation.navigate('homeScreen');
+          }
         }}>
         <MDIcon name={'arrow-back'} style={styles.leftIcon}/>
         </TouchableOpacity>
