@@ -25,4 +25,6 @@ module.exports = {
   UPLOAD_RECEIPT_IMAGE: 'UserProfile/UploadReceiptsImages',
   GET_LEADERBORD_SCREEN_DATA: 'UserAccountProfile/LeaderBoardScreenData',
   GET_LEADERBOARD_FILTERED_DATA: 'UserAccountProfile/LeaderBoardReport',
+  GET_OFFER_LIST: 'UserProfile/Getoffers',
+  REDEEM_OFFER: 'UserProfile/RedeemOffer',
 };

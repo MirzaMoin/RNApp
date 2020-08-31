@@ -8,11 +8,19 @@ import {
   ActivityIndicator,
   AsyncStorage,
   Dimensions,
+  BackHandler,
+  Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Card} from 'react-native-elements';
 import {ScreenHeader} from '../widget/ScreenHeader';
 import { ScrollView } from 'react-native-gesture-handler';
+import ImageLoader from './../widget/ImageLoader';
+import Barcode from "react-native-barcode-builder";
+import ViewShot from "react-native-view-shot";
+import CameraRoll from '@react-native-community/cameraroll';
+import {requestMultiple, PERMISSIONS, openSettings} from 'react-native-permissions';
+import Toast from 'react-native-root-toast';
 
 const Width = Dimensions.get('window').width;
 
@@ -24,106 +32,143 @@ export default class OfferDetailScreen extends Component {
     console.log('Constructor called offer details');
     super();
     this.state = {
-      title: 'HomeScreen',
-      tabIndex: 1,
+      addressDetails: {},
+      userDetails: {},
+      redeemSetting: {},
+      offer: {},
+      userID: '',
+      webFormID: '',
+      userPoint: '',
     };
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
 
-  data = [
-    {
-      date: '02/10/2020',
-      location: 'Bordertown Casino',
-      point: '+2',
-      balance: '42',
-    },
-    {
-      date: '01/10/2020',
-      location: 'Bordertown Casino',
-      point: '+3',
-      balance: '40',
-    },
-    {
-      date: '30/09/2020',
-      location: 'Bordertown Casino',
-      point: '-2',
-      balance: '42',
-    },
-    {
-      date: '28/09/2020',
-      location: 'Bordertown Casino',
-      point: '+2',
-      balance: '42',
-    },
-    {
-      date: '27/09/2020',
-      location: 'Bordertown Casino',
-      point: '-5',
-      balance: '45',
-    },
-    {
-      date: '25/09/2020',
-      location: 'Bordertown Casino',
-      point: '+2',
-      balance: '42',
-    },
-  ];
+  componentWillMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
 
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
-      this._getStoredData();
+      
       console.log(`Offer SCreen DAta: ${JSON.stringify(this.props.navigation.state.params)}`)
+      this.setState({
+        addressDetails: this.props.navigation.state.params.addressDetails,
+        userDetails: this.props.navigation.state.params.userDetails,
+        redeemSetting: this.props.navigation.state.params.redeemSetting,
+        offer: this.props.navigation.state.params.offer,
+        userID: this.props.navigation.state.params.userID,
+        webFormID: this.props.navigation.state.params.webFormID,
+        userPoint: this.props.navigation.state.params.userPoint,
+      });
     });
   }
 
   componentWillUnmount() {
     this.focusListener.remove();
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
+
+  handleBackButtonClick() {
+    this.props.navigation.state.params.onGoBack();
+    this.props.navigation.goBack();
+    return true;
+  }
+
+  _showToast = message => {
+    Toast.show(message, {
+      duration: Toast.durations.LONG,
+      position: Toast.positions.CENTER,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+  });
   }
 
   _getStoredData = async () => {
     try {
-      await AsyncStorage.getItem('userID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              userID: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          if (value) {
-            this.setState({
-              userPoint: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('webformID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              webformID: value,
-            });
-          } else {
-          }
-        }
-      });
+      
     } catch (error) {
       console.log(error)
     }
   };
+
+  _checkPermission = () => {
+    requestMultiple([PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE, PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE]).then(
+      (statuses) => {
+        if('granted' == statuses[PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE, PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE]){
+          this.refs.viewShot.capture().then(uri => {
+            console.log("do something with ", uri);
+            CameraRoll.save(uri, 'photo')
+            .then(res => {
+              this._showToast('Offer save to Gallery')
+            })
+            .catch(err => console.log(err))
+          });
+        } else if('blocked' == statuses[PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE, PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE]){
+          this._showToast('Grant Storage permission to save offer');
+          openSettings().catch(() => console.warn('cannot open settings'));
+        }
+      },
+    );
+  }
+
+  _renderButtom = () => {
+    if(this.state.offer.allowContactRedeemOffer ||
+      this.state.offer.displayPrintButton) {
+      return(
+        <View style={{flexDirection: 'row', backgroundColor: '#012345'}}>
+          {this.state.offer.allowContactRedeemOffer && this._renderRedeemButton()}
+          {(this.state.offer.allowContactRedeemOffer && this.state.offer.displayPrintButton) && <View style={{width: 1.5, backgroundColor: 'white', height: '50%', marginVertical: 5, alignSelf: 'center'}}/>}
+          {this.state.offer.displayPrintButton && this._renderPrintButton()}
+        </View>
+      );
+    }
+  }
+
+  _renderRedeemButton = () => {
+    if (this.state.isRedeeming) {
+      return ( <View style={{flex: 1, padding: 10, alignSelf: 'center'}}><ActivityIndicator size={28} color={'white'} /></View> );
+    } else {
+      return (
+        <Text 
+          style={{
+            flex: 1,
+            backgroundColor: '#012345',
+            textAlign: 'center',
+            color: 'white',
+            fontSize: 17,
+            padding: 10
+          }}>
+          Redeem Offer
+        </Text>
+      )
+    }
+  }
+
+  _renderPrintButton = () => {
+    if (this.state.isPrinting) {
+      return ( <View style={{flex: 1, padding: 10, alignSelf: 'center'}}><ActivityIndicator size={28} color={'white'} /></View> );
+    } else {
+      return (
+        <Text 
+          onPress={() => {
+            this._checkPermission();
+          }}
+          style={{
+            flex: 1,
+            backgroundColor: '#012345',
+            textAlign: 'center',
+            color: 'white',
+            fontSize: 17,
+            padding: 10
+          }}>
+          Print Offer
+        </Text>
+      )
+    }
+  }
 
   render() {
     return (
@@ -136,19 +181,18 @@ export default class OfferDetailScreen extends Component {
           onGoBack={ () => {
             this.props.navigation.state.params.onGoBack();
           }}/>
-        <ScrollView
-            showsVerticalScrollIndicator={false}>
-        <View style={{backgroundColor: 'white', flex: 1, paddingBottom: 10}}>
-            <View>
-                <Image
+           
+            <ScrollView
+              showsVerticalScrollIndicator={false}>
+              <ViewShot ref="viewShot" options={{ format: "jpg", quality: 0.9 }}>
+                <View style={{backgroundColor: 'white', flex: 1, paddingBottom: 10}}>
+                <View>
+                  <ImageLoader 
+                    title={this.state.offer.offerTitle}
+                    src={this.state.offer.offerImage}
                     style={{height: Width, width: Width}}
-                    source={{
-                    uri:
-                        'https://dg.imgix.net/let-not-food-destroy-the-body-egu11qj4-en/landscape/let-not-food-destroy-the-body-egu11qj4-1bf920a0e6871d3d5af01ec847a8d908.jpg?ts=1574201747&ixlib=rails-4.0.0&auto=format%2Ccompress&fit=min&w=700&h=394&dpr=2&ch=Width%2CDPR',
-                    }}
-                    resizeMode="cover"
-                />
-                <Text style={{
+                    titleStyle={{fontSize: 20}} />
+                  <Text style={{
                     fontFamily: 'helvetica',
                     fontSize: 13,
                     backgroundColor: '#4b92d2',
@@ -159,61 +203,55 @@ export default class OfferDetailScreen extends Component {
                     padding: 7,
                     paddingHorizontal: 10,
                     position: 'absolute'
-                    }}>37 PTS</Text>
-            </View>
-            <Text
-                style={{
+                  }}>{this.state.offer.offerImagelabel}</Text>
+                </View>
+                <Text
+                  style={{
                     paddingTop: 10,
                     paddingHorizontal: 15,
                     fontSize: 18,
                     fontWeight: '600',
                     width: Width,
-                    alignSelf: 'flex-end',}}>Hello this is title now we are trying to show it in full screebn</Text>
-            <Text style={styles.offerDetail}>
-                Offer description text, Offer description text,Offer
-                description text,Offer description text,Offer description
-                text,Offer description text,Offer description text,Offer
-                description text,Offer description text,Offer description
-                  text,Offer description text,Offer description text,
+                    color: this.state.offer.titleColor ? `${this.state.offer.titleColor.indexOf('#') == -1 ? '#' : ''}${this.state.offer.titleColor}` : 'black',
+                  }}>
+                  {this.state.offer.offerTitle}
                 </Text>
-            <View style={styles.baseOfferType}>
-                <Icon
-                name="trophy"
-                style={{alignSelf: 'center', color: '#4b92d2'}}
-                size={20}
-                />
-                <Text style={styles.offerType}>Rewards Goal</Text>
-                <Text style={styles.offerExpiry}>No Expiration</Text>
-            </View>
-            <Image
-                style={{height: 100, marginBottom: 15, marginHorizontal: 10}}
-                source={{
-                    uri: 'https://internationalbarcodes.com/wp-content/uploads/sites/95/2013/11/SSCC-Pallet-Barcode.jpg',
-                }}
-                resizeMode={'center'}
-                /> 
-            <View style={{paddingHorizontal: 15, marginBottom: 15}}>
-                <Text style={{fontSizeL: 16}}>Demo TimeBase</Text>
-                <Text style={{fontSizeL: 14, color: 'grey'}}>104, E 04 ET</Text>
-                <Text style={{fontSizeL: 14, color: 'grey'}}>Norries city</Text>
-                <Text style={{fontSizeL: 14, color: 'blue'}}>http://roborewards.net</Text>
-            </View>
+                <Text style={[styles.offerDetail, {color: this.state.offer.descColor ? `${this.state.offer.descColor.indexOf('#') == -1 ? '#' : ''}${this.state.offer.descColor}` : 'black'}]}>
+                  {this.state.offer.offerDescription}
+                </Text>
+                <View style={styles.baseOfferType}>
+                  <Icon
+                    name="trophy"
+                    style={{alignSelf: 'center', color: '#4b92d2'}}
+                    size={20}
+                  />
+                  <Text style={styles.offerType}>{this.state.offer.offerType}</Text>
+                  <Text style={styles.offerExpiry}>{this.state.offer.offerExpire}</Text>
+                </View>
+                {this.state.offer.displayBarcode && <Barcode value={this.state.offer.offerBarcode} text={this.state.offer.offerBarcode} format="CODE128" />}
+                <View style={{paddingHorizontal: 15, marginBottom: 15}}>
+                  <Text style={{fontSizeL: 16}}>{this.state.addressDetails.name || ''}</Text>
+                  <Text style={{fontSizeL: 14, color: 'grey'}}>{this.state.addressDetails.address || ''}</Text>
+                  <Text style={{fontSizeL: 14, color: 'grey'}}>
+                    {`${this.state.addressDetails.city} ${this.state.addressDetails.state} ${this.state.addressDetails.zipCode}`}
+                  </Text>
+                  <Text style={{fontSizeL: 14, color: 'blue'}}>{this.state.addressDetails.businessPhone || ''}</Text>
+                  <Text style={{fontSizeL: 14, color: 'blue'}}>{this.state.addressDetails.websiteURL || ''}</Text>
+                </View>
 
-            <View style={{marginHorizontal: 15, borderWidth: 1, borderColor: 'grey', borderRadius: 10, padding: 10, alignItems: 'center'}}>
-                <Text style={{fontSizeL: 14, color: 'grey'}}>Internal use only -00000000001310</Text>
-                <Text style={{fontSizeL: 14, color: 'grey', marginTop: 5}}>Mobile: 2136001111</Text>
-                <View style={{flexDirection: 'row', marginTop: 5, paddingHorizontal: 5}}>
-                  <Text style={{fontSizeL: 14, color: 'grey', flex: 1}}>CardID: </Text>
-                  <Text style={{fontSizeL: 14, color: 'grey', flex: 1, textAlign: 'right'}}>Offer ID: 5619</Text>
+                <View style={{marginHorizontal: 15, borderWidth: 1, borderColor: 'grey', borderRadius: 10, padding: 10, alignItems: 'center'}}>
+                  <Text style={{fontSizeL: 14, color: 'grey'}}>{this.state.offer.offerBarcode || ''}</Text>
+                  <Text style={{fontSizeL: 14, color: 'grey', marginTop: 5}}>Mobile: {this.state.userDetails.mobilePhone || ''}</Text>
+                    <View style={{flexDirection: 'row', marginTop: 5, paddingHorizontal: 5}}>
+                      <Text style={{fontSizeL: 14, color: 'grey', flex: 1}}>CardID: {this.state.userDetails.memberCardID || ''}</Text>
+                      <Text style={{fontSizeL: 14, color: 'grey', flex: 1, textAlign: 'right'}}>Offer ID: {this.state.offer.offerID || ''}</Text>
+                    </View>
                 </View>
             </View>
-        </View>
-        </ScrollView>
-        <View style={{flexDirection: 'row', backgroundColor: '#012345'}}>
-            <Text style={{flex: 1, backgroundColor: '#012345', textAlign: 'center', color: 'white', fontSize: 17, padding: 10}}>Redeem Offer</Text>        
-            <View style={{width: 1.5, backgroundColor: 'white', height: '50%', marginVertical: 5, alignSelf: 'center'}}/>
-            <Text style={{flex: 1, backgroundColor: '#012345', textAlign: 'center', color: 'white', fontSize: 17, padding: 10}}>Print Offer</Text>        
-        </View>
+            </ViewShot>
+          </ScrollView>
+        
+        {this._renderButtom()}
       </View>
     );
   }
