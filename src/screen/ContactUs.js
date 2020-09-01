@@ -318,7 +318,6 @@ const styles = {
     flex: 1,
     backgroundColor: '#012340',
     textAlign: 'center',
-    fontFamily: 'helvetica',
     fontSize: 16,
     borderRadius: 10,
     color: 'white',

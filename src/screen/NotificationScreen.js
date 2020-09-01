@@ -346,7 +346,6 @@ export default class NotificationScreen extends Component {
           />
           <Text
             style={{
-              fontFamily: 'helvetica',
               marginTop: 30,
               fontSize: 26,
               textAlign: 'center',

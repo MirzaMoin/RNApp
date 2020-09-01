@@ -119,7 +119,6 @@ export default class NotificationDetailScreen extends Component {
             }}>
             <Text
               style={{
-                fontFamily: 'helvetica',
                 fontSize: 25,
                 textAlign: 'center',
               }}>
@@ -127,7 +126,6 @@ export default class NotificationDetailScreen extends Component {
             </Text>
             <Text
               style={{
-                fontFamily: 'helvetica',
                 marginTop: 15,
                 fontSize: 15,
                 textAlign: 'justify',

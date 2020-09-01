@@ -227,7 +227,6 @@ export default class OfferScreen extends Component {
                       titleStyle={{fontSize: 20}} />
                       <View style={{height: 250, width: Width, position: 'absolute'}}>
                         <Text style={{
-                          fontFamily: 'helvetica',
                           fontSize: 13,
                           backgroundColor: '#4b92d2',
                           borderRadius: 5,
@@ -309,7 +308,6 @@ const styles = {
   },
   titleRow: {flexDirection: 'row', padding: 15},
   pointItem: {
-    fontFamily: 'helvetica',
     fontSize: 13,
     backgroundColor: '#4b92d2',
     borderRadius: 5,
@@ -318,7 +316,6 @@ const styles = {
     margin: 20,
   },
   offerTitle: {
-    fontFamily: 'helvetica',
     alignSelf: 'center',
     paddingLeft: 15,
     flex: 1,
@@ -334,14 +331,12 @@ const styles = {
   },
   baseOfferType: {flexDirection: 'row', padding: 15},
   offerType: {
-    fontFamily: 'helvetica',
     fontSize: 15,
     fontWeight: 'bold',
     paddingLeft: 5,
     color: '#4b92d2',
   },
   offerExpiry: {
-    fontFamily: 'helvetica',
     textAlign: 'right',
     flex: 1,
     color: 'gray',

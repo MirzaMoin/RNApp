@@ -62,7 +62,6 @@ export default class RefereFriendScreen extends Component {
                     textAlign: 'center',
                     fontSize: 24,
                     fontWeight: 'bold',
-                    fontFamily: 'helvetica',
                   }}>
                   Invite Your Friend
                 </Text>
@@ -116,7 +115,6 @@ export default class RefereFriendScreen extends Component {
                       flex: 1,
                       backgroundColor: '#012340',
                       textAlign: 'center',
-                      fontFamily: 'helvetica',
                       fontSize: 16,
                       borderRadius: 10,
                       color: 'white',
@@ -186,7 +184,6 @@ export default class RefereFriendScreen extends Component {
                       flex: 1,
                       backgroundColor: '#012340',
                       textAlign: 'center',
-                      fontFamily: 'helvetica',
                       fontSize: 16,
                       borderRadius: 10,
                       color: 'white',

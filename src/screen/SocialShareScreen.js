@@ -200,7 +200,6 @@ const styles = {
   titleText: {
     fontSize: 24,
     fontWeight: 'bold',
-    fontFamily: 'helvetica',
   },
   socialShareImage: {
     height: 150,

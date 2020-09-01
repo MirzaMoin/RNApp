@@ -329,13 +329,11 @@ const styles = {
   rowTitle: {
     paddingLeft: 7,
     fontSize: 18,
-    fontFamily: 'helvetica',
     fontWeight: 'bold',
   },
   rowItemtext: {
     paddingLeft: 15,
     fontSize: 18,
-    fontFamily: 'helvetica',
   },
   footerContainer: {
     height: 50,

@@ -247,6 +247,7 @@ class DrawerHeaderComponent extends Component {
           paddingRight: 15,
           paddingTop: 5,
           fontSize: 16,
+          fontFamily: 'bold'
         }}>
         {this.state.name}
       </Text>
