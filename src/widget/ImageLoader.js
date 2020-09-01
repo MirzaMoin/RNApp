@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
-import MDIcon from 'react-native-vector-icons/MaterialIcons';
-import { Header } from 'react-navigation-stack';
-import { Avatar, Accessory } from 'react-native-elements';
+import {View, Image, StyleSheet} from 'react-native';
+import { Avatar } from 'react-native-elements';
 
 export default class ImageLoader extends Component {
-
+  
  constructor() {
      super();
      this.state={
@@ -26,7 +24,7 @@ export default class ImageLoader extends Component {
             return (
               <Avatar 
                 containerStyle={this.props.style || {}}
-                overlayContainerStyle={this.props.style ? [this.props.style, {marginLeft: 0}] : {}}
+                overlayContainerStyle={this.props.style ? [this.props.style, {marginLeft: 0}, this.props.rounded ? {borderRadius: 1000} : {}] : {}}
                 titleStyle={this.props.titleStyle || {}}
                 size={this.props.avatarSize || 'small'}
                 rounded={this.props.rounded} 

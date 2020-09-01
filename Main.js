@@ -43,6 +43,7 @@ import {
   startProximityObserver,
   stopProximityObserver,
 } from './src/beacons/proximityObserver';
+import ImageLoader from './src/widget/ImageLoader';
 
 import Screen1 from './pages/Screen1';
 import Screen2 from './pages/Screen2';
@@ -144,7 +145,7 @@ class DrawerHeaderComponent extends Component {
 
   _getStoredData = async () => {
     try {
-      var fName, lName, profile, email;
+      var fName = '', lName = '', profile = '', email = '';
       var isUpdateState = false;
       await AsyncStorage.getItem('profilePitcure', (err, value) => {
         if (err) {
@@ -233,13 +234,18 @@ class DrawerHeaderComponent extends Component {
     this._getStoredData();
     return (
       <View style={{flexDirection: 'column'}} ref={(ref) => (this.viewParent = ref)} onLayout={this.onPageLayout}>
-        <Image
+        {/*<Image
           style={{width: this.state.width || '100%', height: this.state.width || 200}}
           source={{
             uri:
               this.state.userImage || '',
           }}
-      />
+        />*/}
+        <ImageLoader 
+          title={this.state.name}
+          src={this.state.userImage}
+          style={{width: this.state.width || '100%', height: this.state.width || 200}}
+          titleStyle={{fontSize: 40}} />
       <Text
         style={{
           paddingLeft: 15,

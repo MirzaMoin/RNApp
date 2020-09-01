@@ -18,6 +18,7 @@ import {
   Platform,
   AsyncStorage,
   Alert,
+  Dimensions,
 } from 'react-native';
 import {CheckBox} from 'react-native-elements';
 import TextInput from 'react-native-textinput-with-icons';
@@ -37,6 +38,10 @@ import {
 } from 'react-native-popup-menu';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import Toast from 'react-native-root-toast';
+import { max } from 'react-native-reanimated';
+
+const {width} = Dimensions.get('window')
+const maxWidth = width - (width * 20 / 100)
 
 export default class LoginScreen extends Component {
   static navigationOptions = {
@@ -739,7 +744,7 @@ _stopTimer = () => {
             leftIconType="material"
             underlineColor="#ffffff"
             color="#ffffff"
-            containerWidth={300}
+            containerWidth={maxWidth}
             labelActiveColor="#ffffff"
             leftIconColor="#ffffff"
             selectionColor={'#ffffff'}
@@ -758,7 +763,7 @@ _stopTimer = () => {
             label="Password"
             leftIcon="key"
             leftIconSize={20}
-            containerWidth={300}
+            containerWidth={maxWidth}
             leftIconType="material"
             rightIcon={
               !this.state.isShowPassword ? 'eye-off-outline' : 'eye-outline'
@@ -863,7 +868,7 @@ _stopTimer = () => {
             labelColor="#ffffff"
             leftIcon="credit-card"
             leftIconSize={20}
-            containerWidth={300}
+            containerWidth={maxWidth}
             leftIconType="material"
             underlineColor="#ffffff"
             color="#ffffff"
@@ -914,7 +919,7 @@ _stopTimer = () => {
             labelColor="#ffffff"
             leftIcon="car"
             leftIconSize={20}
-            containerWidth={300}
+            containerWidth={maxWidth}
             leftIconType="material"
             underlineColor="#ffffff"
             color="#ffffff"
@@ -965,7 +970,7 @@ _stopTimer = () => {
             labelColor="#ffffff"
             leftIcon="account"
             leftIconSize={20}
-            containerWidth={300}
+            containerWidth={maxWidth}
             leftIconType="material"
             underlineColor="#ffffff"
             color="#ffffff"
@@ -1016,7 +1021,7 @@ _stopTimer = () => {
             labelColor="#ffffff"
             leftIcon="account"
             leftIconSize={20}
-            containerWidth={300}
+            containerWidth={maxWidth}
             leftIconType="material"
             underlineColor="#ffffff"
             color="#ffffff"
@@ -1067,7 +1072,7 @@ _stopTimer = () => {
             labelColor="#ffffff"
             leftIcon="email"
             leftIconSize={20}
-            containerWidth={300}
+            containerWidth={maxWidth}
             leftIconType="material"
             underlineColor="#ffffff"
             color="#ffffff"
@@ -1129,7 +1134,7 @@ _stopTimer = () => {
             leftIcon="phone"
             keyboardType={'phone-pad'}
             leftIconSize={20}
-            containerWidth={300}
+            containerWidth={maxWidth}
             leftIconType="material"
             underlineColor="#ffffff"
             color="#ffffff"
@@ -1163,7 +1168,7 @@ _stopTimer = () => {
             label={fieldsData.passwordLabel || 'Password'}
             leftIcon="key"
             leftIconSize={20}
-            containerWidth={300}
+            containerWidth={maxWidth}
             leftIconType="material"
             rightIcon={
               !this.state.isShowPassword ? 'eye-off-outline' : 'eye-outline'
@@ -1200,7 +1205,7 @@ _stopTimer = () => {
             label={`Confirm ${fieldsData.passwordLabel || 'Password'}`}
             leftIcon="key"
             leftIconSize={20}
-            containerWidth={300}
+            containerWidth={maxWidth}
             leftIconType="material"
             rightIcon={
               !this.state.isShowConfirmPassword
@@ -1247,7 +1252,7 @@ _stopTimer = () => {
             labelColor="#ffffff"
             leftIcon="home"
             leftIconSize={20}
-            containerWidth={300}
+            containerWidth={maxWidth}
             multiline={true}
             minHeight={100}
             maxHeight={100}
@@ -1284,7 +1289,7 @@ _stopTimer = () => {
             labelColor="#ffffff"
             leftIcon="home"
             leftIconSize={20}
-            containerWidth={300}
+            containerWidth={maxWidth}
             multiline={true}
             minHeight={100}
             maxHeight={100}
@@ -1322,7 +1327,7 @@ _stopTimer = () => {
             labelColor="#ffffff"
             leftIcon="home"
             leftIconSize={20}
-            containerWidth={300}
+            containerWidth={maxWidth}
             multiline={true}
             minHeight={100}
             maxHeight={100}
@@ -1356,7 +1361,7 @@ _stopTimer = () => {
             labelColor="#ffffff"
             leftIcon="city"
             leftIconSize={20}
-            containerWidth={300}
+            containerWidth={maxWidth}
             leftIconType="material"
             underlineColor="#ffffff"
             color="#ffffff"
@@ -1384,7 +1389,7 @@ _stopTimer = () => {
             labelColor="#ffffff"
             leftIcon="domain"
             leftIconSize={20}
-            containerWidth={300}
+            containerWidth={maxWidth}
             leftIconType="material"
             underlineColor="#ffffff"
             color="#ffffff"
@@ -1413,7 +1418,7 @@ _stopTimer = () => {
             leftIcon="mailbox"
             keyboardType={'numeric'}
             leftIconSize={20}
-            containerWidth={300}
+            containerWidth={maxWidth}
             leftIconType="material"
             underlineColor="#ffffff"
             color="#ffffff"
@@ -1451,7 +1456,7 @@ _stopTimer = () => {
   _renderBirthDate = fieldsData => {
     if(this._visibleFields.indexOf(fieldsData.birthdateRequired) > -1){
       return (
-        <View style={{flexDirection: 'column', marginTop: 5, marginBottom: 5}}>
+        <View style={{flexDirection: 'column', marginTop: 5, marginBottom: 5, width: maxWidth}}>
           {this._renderLabel(this.state.signup.birthdate, fieldsData.birthdateLabel || 'Birth Date')}
           <DatePicker
             date={this.state.signup.birthdate}
@@ -1491,7 +1496,7 @@ _stopTimer = () => {
   _renderAnniversary = fieldsData => {
     if(this._visibleFields.indexOf(fieldsData.anniversaryRequired) > -1){
       return (
-        <View style={{flexDirection: 'column', marginTop: 5, marginBottom: 5}}>
+        <View style={{flexDirection: 'column', marginTop: 5, marginBottom: 5, width: maxWidth}}>
           {this._renderLabel(this.state.signup.anniversary, fieldsData.anniversaryLabel || 'Anniversary Date')}
           <DatePicker
             date={this.state.signup.anniversary}
@@ -1531,7 +1536,7 @@ _stopTimer = () => {
   _renderGender = fieldsData => {
     if(this._visibleFields.indexOf(fieldsData.genderRequired)>-1){
       return(
-        <View style={{marginVertical: 10}}>
+        <View style={{marginVertical: 10, width: maxWidth}}>
           {this._renderLabel(this.state.signup.gender,fieldsData.genderLabel || 'Gender')}
           <View style={{flexDirection: 'row', alignContent: 'center', marginVertical: 5}}>
             <MDIcon name={'group'} style={{fontSize: 22, color: 'white', marginRight: 10}} />
@@ -1580,7 +1585,7 @@ _stopTimer = () => {
       item.push(it);
     });
     return (
-      <View>
+      <View style={{width: maxWidth}}>
         <SectionedMultiSelect
           items={item}
           uniqueKey="id"
@@ -1738,7 +1743,7 @@ _stopTimer = () => {
   _renderCustomData = customData => {
     if(customData){
       return(
-        <View style={{width: 300}}>
+        <View style={{width: maxWidth}}>
           {customData.map(field => {
             if(this._visibleFields.indexOf(field.requiredType) > -1){
               if (field.controlTypeID >= 1 && field.controlTypeID <= 3) {
@@ -1752,7 +1757,7 @@ _stopTimer = () => {
                     keyboardType={field.controlTypeID == 3 ? 'numeric' : ''}
                     multiline={field.controlTypeID == 2}
                     leftIconSize={20}
-                    containerWidth={300}
+                    containerWidth={maxWidth}
                     minHeight={field.controlTypeID == 2 ? 100 : undefined}
                     maxHeight={field.controlTypeID == 2 ? 100 : undefined}
                     leftIconType="material"
@@ -1792,7 +1797,7 @@ _stopTimer = () => {
                   item.push(it);
                 });
                 return (
-                  <View>
+                  <View style={{width: maxWidth}}>
                     <SectionedMultiSelect
                       items={item}
                       uniqueKey="id"
@@ -1851,7 +1856,7 @@ _stopTimer = () => {
                   item.push(it);
                 });
                 return (
-                  <View>
+                  <View style={{width: maxWidth}}>
                     <SectionedMultiSelect
                       items={item}
                       uniqueKey="id"
@@ -1913,7 +1918,7 @@ _stopTimer = () => {
                   item.push(it);
                 });
                 return (
-                  <View>
+                  <View style={{width: maxWidth}}>
                     <SectionedMultiSelect
                       items={item}
                       uniqueKey="id"
@@ -1966,7 +1971,7 @@ _stopTimer = () => {
               } else if (field.controlTypeID == 7) {
                 // date picker
                 return (
-                  <View style={{flexDirection: 'column', marginTop: 5, marginBottom: 5}}>
+                  <View style={{flexDirection: 'column', marginTop: 5, marginBottom: 5, width: maxWidth}}>
                     {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
                     <DatePicker
                       date={this.state.signup.customData[field.customFieldID]}
@@ -1999,7 +2004,7 @@ _stopTimer = () => {
                         })
                       }}
                     />
-                    <View style={{height: 1, width: 300, backgroundColor: 'white'}}/>
+                    <View style={{height: 1, width: maxWidth, backgroundColor: 'white'}}/>
                   </View>
                 );
               }
@@ -2014,7 +2019,7 @@ _stopTimer = () => {
     const {fieldsData, customData, locationData} = this.state.webFromResponse;
     if (this.state.isShowSignUp) {
       return (
-        <View style={{flexDirection: 'column', width: 300}}>
+        <View style={{flexDirection: 'column', width: maxWidth}}>
           {this._renderMemberCardID(fieldsData)}
           {this._renderDrivingLinces(fieldsData)}
           {this._renderFirstName(fieldsData)}
@@ -2044,7 +2049,7 @@ _stopTimer = () => {
             labelColor="#ffffff"
             leftIcon="email"
             leftIconSize={20}
-            containerWidth={300}
+            containerWidth={maxWidth}
             leftIconType="material"
             underlineColor="#ffffff"
             color="#ffffff"

@@ -58,6 +58,11 @@ export default class LeaderBoardScreen extends Component {
     this.focusListener.remove();
   }
 
+  _processFurther = () => {
+    console.log('right Navigation : ' + this.props);
+    this.props.navigation.navigate('profileTab');
+  }
+
   _getStoredData = async () => {
     try {
         await AsyncStorage.getItem('profilePitcure', (err, value) => {
@@ -66,9 +71,13 @@ export default class LeaderBoardScreen extends Component {
             } else {
               //const val = JSON.parse(value);
               if (value) {
-                console.log('no profile has')
+                /*Alert.alert('New Update Profile', 'Please add profile picture and update your profile to participate in Leader board',[
+                  {text: 'Cancel'},{text: 'Update', onPress: this._processFurther}
+                ]);*/
               } else {
-                  console.log('no profile')
+                Alert.alert('Update Profile', 'Please add profile picture and update your profile to participate in Leader board',[
+                  {text: 'Cancel'},{text: 'Update', onPress: this._processFurther}
+                ]);
               }
             }
           });

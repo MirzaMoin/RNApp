@@ -141,47 +141,41 @@ export default class ChangePassword extends Component {
   }
 
   _callChangePassword = () => {
-      const request = {
-          contactID: this.state.userID,
-          webFormID: this.state.webformID,
-          rpToken: APIConstant.RPTOKEN,
-          oldPassword: this.state.password,
-          newPassword: this.state.newPassword,
+    const request = {
+      contactID: this.state.userID,
+      webFormID: this.state.webformID,
+      rpToken: APIConstant.RPTOKEN,
+      oldPassword: this.state.password,
+      newPassword: this.state.newPassword,
+    }
+    //console.log(`Request : ${JSON.stringify(request)}`);
+    makeRequest(
+      `${APIConstant.BASE_URL}${APIConstant.CHANGE_PASSWORD}`,
+      'post',
+      request,
+    )
+    .then(response => {
+      console.log(JSON.stringify(response));
+      this.setState({isProcessing: false});
+      if(response.statusCode == 0) {
+        Alert.alert('Oppss...', response.statusMessage);
+      } else {
+        Alert.alert('Success', response.statusMessage,[
+            {text: 'Login', onPress: this._processFurther}
+        ]);
       }
-
-      console.log(`Request : ${JSON.stringify(request)}`);
-
-      makeRequest(
-          `${APIConstant.BASE_URL}${APIConstant.CHANGE_PASSWORD}`,
-          'post',
-          request,
-        )
-          .then(response => {
-            console.log(JSON.stringify(response));
-            this.setState({isProcessing: false});
-            if(response.statusCode == 0) {
-              Alert.alert('Oppss...', response.statusMessage);
-            } else {
-              Alert.alert('Success', response.statusMessage,[
-                  {text: 'Login', onPress: this._processFurther}
-              ]);
-            }
-    
-            /*this._storeData();
-            this.props.navigation.navigate('Main');*/
-            
-          })
-          .catch(error => console.log('error : ' + error));
+    })
+    .catch(error => console.log('error : ' + error));
   }
 
   _processFurther = async () => {
-      try {
-          await AsyncStorage.setItem('isLogin', JSON.stringify(false));
-        } catch (error) {
-          // Error saving data
-        }
-        console.log('right Navigation : ' + this.props);
-        this.props.navigation.navigate('Auth');
+    try {
+      await AsyncStorage.setItem('isLogin', JSON.stringify(false));
+    } catch (error) {
+      // Error saving data
+    }
+    console.log('right Navigation : ' + this.props);
+    this.props.navigation.navigate('Auth');
   }
 
   _renderButton = () => {
@@ -318,6 +312,7 @@ const styles = StyleSheet.create({
         minWidth: 120,
         marginTop: 20,
         borderRadius: 10,
+        padding: 5,
         alignSelf: 'center',
         backgroundColor: '#012345',
       },

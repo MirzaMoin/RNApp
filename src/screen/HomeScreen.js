@@ -33,7 +33,7 @@ export default class HomeScreen extends Component {
 
   _getStoredData = async () => {
     try {
-      var userID, webformID, firstName, lastName, profile;
+      var userID, webformID, firstName = '', lastName = '', profile;
       await AsyncStorage.getItem('userID', (err, value) => {
         if (err) {
           //this.props.navigation.navigate('Auth');
