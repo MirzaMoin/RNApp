@@ -85,6 +85,8 @@ export default class HomeScreen extends Component {
           //const val = JSON.parse(value);
           if (value) {
             profile = value
+          } else {
+            profile = ''
           }
         }
       });

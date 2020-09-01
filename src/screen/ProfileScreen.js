@@ -481,8 +481,9 @@ export class ProfileScreen extends Component {
             }
           } else {
             this._showToast(`Please select value of ${field.fieldLabel}`);
+            isCall = false;
+            return;
           }
-          isCall = false;
           //console.log('custom value');
         }
       }
@@ -1809,6 +1810,7 @@ export class ProfileScreen extends Component {
       //console.log(`Profiel image state: ${this.state.signup.profileImage}`)
       return(
         <TouchableOpacity
+          activeOpacity={0.7}
           onPress={()=>{
             this._handleImageClick();
           }}
@@ -1842,6 +1844,7 @@ export class ProfileScreen extends Component {
                   mode="date"
                   placeholder={field.AdditionalName}
                   format="YYYY-MM-DD"
+                  maxDate={new Date()}
                   confirmBtnText="Confirm"
                   cancelBtnText="Cancel"
                   iconComponent={<MDIcon name={'date-range'} style={{fontSize: 22, color: 'gray', marginRight: 10}} />}
@@ -1924,6 +1927,7 @@ export class ProfileScreen extends Component {
               format="YYYY-MM-DD"
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
+              maxDate={new Date()}
               onOpenModal={() => {
                 if(!this.state.tmp){
                   this._showToast('Please enter name first')

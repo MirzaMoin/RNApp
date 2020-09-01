@@ -34,6 +34,7 @@ static navigationOptions = {
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
+      this.setState({isLoadingForm: true})
       this._getStoredData();
     });
   }
@@ -104,7 +105,7 @@ static navigationOptions = {
       )
     .then(response => {
         console.log(JSON.stringify(response));
-        this.setState({isLoading: false});
+        this.setState({isLoading: false, isLoadingForm: false});
         if(response.statusCode == 0) {
             Alert.alert('Oppss...', response.statusMessage);
         } else {
@@ -126,7 +127,6 @@ static navigationOptions = {
             isLoading: true,
         }, ()=>this._callRedeemCashbackTransaction())
     } else {
-
         if (this.state.otherAmount) {
             if(this.state.isRequireWholeNumberRedemption && this.state.otherAmount % 1 == 0) {
                 // need to enter full amount only
@@ -220,7 +220,7 @@ static navigationOptions = {
                     showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}>
-                      <View style={{flexDirection: 'row', paddingLeft: 15, marginVertical: 10}}>
+                      <View style={{flexDirection: 'row', paddingLeft: 15, marginVertical: 5}}>
                           {sugessions}
                       </View>
                   </ScrollView>
@@ -230,14 +230,15 @@ static navigationOptions = {
       }
   }
 
-  render() {
-    return (
-      <View style={styles.mainContainer}>
-        <ScreenHeader
-          navigation={this.props.navigation}
-          title={'Redeem Cashback'}
-          userPoint={this.state.userPoint}/>
-        <ScrollView>
+  _renderBody = () => {
+    if(this.state.isLoadingForm) {
+      return<View style={{flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size={'large'} />
+      </View>
+    } else {
+      return (
+        <View style={{flex: 1}}>
+            <ScrollView>
             <View style={{flexDirection: 'column'}}>
             <View style={{hegith: 150}}>
             <Image
@@ -251,11 +252,11 @@ static navigationOptions = {
             <View style={styles.imageOverlay} />
             </View>
             <View style={{paddingHorizontal: 10, flex: 1, paddingTop: 5}}>
-                <Text style={{fontSize: 24, padding: 10}}>How much chashback would you like to?</Text>
+                <Text style={{fontSize: 24, padding: 10, paddingBottom: 0}}>How much chashback would you like to?</Text>
                 <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={()=>this.setState({otherAmount: this.state.amount})}>
-                <View style={{borderRadius: 15, height: 180, width: '90%', alignItems: 'center', justifyContent: 'center', alignContent: 'center', alignSelf: 'center', marginVertical: 15}}>
+                <View style={{borderRadius: 15, height: 180, width: '90%', alignItems: 'center', justifyContent: 'center', alignContent: 'center', alignSelf: 'center', marginVertical: 10}}>
                     <Image
                         style={{
                             width: '100%',
@@ -271,7 +272,7 @@ static navigationOptions = {
 
                     <View style={{height: 180, alignSelf: 'center', paddingHorizontal: '10%', paddingVertical: 10, backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: 15,}}>
                         <Text style={{fontSize: 16, color: 'white', textAlign: 'center'}}>Tap to redeem maximum cashback amount</Text>
-                        <Text style={{fontSize: 30, color: 'white', alignSelf: 'center', marginTop: 25}}>${this.state.amount || '80'}</Text>
+                        <Text style={{fontSize: 30, color: 'white', alignSelf: 'center', marginTop: 25}}>${this.state.amount || '0'}</Text>
                     </View>
                 </View>
                 </TouchableOpacity>
@@ -330,6 +331,20 @@ static navigationOptions = {
                 this._prepareForm()
             }}/>
         </Card>
+      
+        </View>
+      )
+    }
+  }
+
+  render() {
+    return (
+      <View style={styles.mainContainer}>
+        <ScreenHeader
+          navigation={this.props.navigation}
+          title={'Redeem Cashback'}
+          userPoint={this.state.userPoint}/>
+          {this._renderBody()}
       </View>
     );
   }

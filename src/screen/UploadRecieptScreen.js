@@ -117,16 +117,16 @@ export default class UploadReceiptScreen extends Component {
             var selectedCategory = '';
             var selectedLocation = '';
 
-            if(response.responsedata.categories.length == 1) {
+            if(response.responsedata.categories && response.responsedata.categories.length == 1) {
                 selectedCategory = response.responsedata.categories[0].id;
                 if(response.responsedata.categories[0].addresses.lenght == 1) {
                     selectedLocation = response.responsedata.categories[0].addresses[0].addressID
                 }
             }
             this.setState({
-                dateDetails: response.responsedata.dateDetails,
-                categories: response.responsedata.categories,
-                settingsDetails: response.responsedata.settingsDetails,
+                dateDetails: response.responsedata.dateDetails || {},
+                categories: response.responsedata.categories || [],
+                settingsDetails: response.responsedata.settingsDetails || {},
                 selectedLocation: selectedLocation,
                 selectedCategory: selectedCategory
             });

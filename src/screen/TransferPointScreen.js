@@ -146,7 +146,9 @@ export default class TransferPointScreen extends Component {
 
     await AsyncStorage.setItem('reedemablePoints', newPoint.toString());
     this.setState({
-      userPoint: newPoint
+      userPoint: newPoint,
+      transferAmount: '',
+      transferTo: '',
     })
   }
 

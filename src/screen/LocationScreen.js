@@ -178,11 +178,11 @@ export default class LocationScreen extends Component {
             onPress={() =>{
               if(rowData.storeAddress.latitude && rowData.storeAddress.longitude){
                 this._changeLocation(
-                  rowData.storeAddress.latitude,
-                  rowData.storeAddress.longitude,
+                  parseFloat(rowData.storeAddress.latitude),
+                  parseFloat(rowData.storeAddress.longitude),
                   rowData.storeAddress,
                 )
-              }
+              } else {console.log('not possible')}
             }}>
             <Text style={styles.locationTitle}>{rowData.locationName}</Text>
           </TouchableOpacity>
@@ -432,7 +432,7 @@ const styles = StyleSheet.create({
   },
   bottomSheetContainer: {flex: 1, paddingLeft: 20, paddingRight: 20},
   bottomSheetTitle: {fontSize: 24, textAlign: 'center'},
-  locationContainer: {flex: 1, flexDirection: 'column', padding: 5},
+  locationContainer: {flex: 1, flexDirection: 'column', padding: 5, width: '100%'},
   locationIcon: {fontSize: 20, alignSelf: 'center'},
   locationTitle: {paddingLeft: 15, fontSize: 22},
   addressText: {paddingLeft: 15, fontSize: 15},

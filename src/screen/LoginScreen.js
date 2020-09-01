@@ -705,6 +705,7 @@ _stopTimer = () => {
             }
           } else {
             this._showToast(`Please select value of ${field.fieldLabel}`);
+            return;
           }
           isCall = false;
           console.log('custom value');
