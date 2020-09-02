@@ -2,7 +2,20 @@ import React, {Component} from 'react';
 import {View, Image, StyleSheet} from 'react-native';
 import { Avatar } from 'react-native-elements';
 
-export default class ImageLoader extends Component {
+type Props = {
+  style? : ?Object,
+  titleStyle? : ?Object,
+  title? : ?String,
+  avatarSize? : 'small' | 'medium' | 'large' | 'xlarge' | number,
+  rounded? : ?Boolean,
+  src? : ?String,
+}
+
+type State = {
+  isLoading? : ?Boolean
+}
+
+export default class ImageLoader extends Component<Props ,State> {
   
  constructor() {
      super();

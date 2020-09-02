@@ -3,7 +3,17 @@ import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { Header } from 'react-navigation-stack';
 
-export class ScreenHeader extends Component {
+type Props = {
+  userPoint? : ?String,
+  hidePoint? : ?Boolean,
+  title? : ?String,
+  onPress : () => {},
+  onGoBack : () => {},
+}
+
+type State = {}
+
+export class ScreenHeader extends Component<Props,State> {
 
   _renderPoint = point => {
     //console.log(`HeaderPoint : ${point}`)
