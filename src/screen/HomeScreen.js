@@ -7,12 +7,16 @@ import {
   TouchableOpacity,
   ImageBackground,
   Dimensions,
+  FlatList,
   AsyncStorage,
 } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 import ImageLoader from './../widget/ImageLoader';
+import AnimateNumber from './../widget/AnimateNumber';
 import { Header } from 'react-navigation-stack';
+import LinearGradient from 'react-native-linear-gradient';
 
 export default class HomeScreen extends Component {
   static navigationOptions = {
@@ -33,7 +37,7 @@ export default class HomeScreen extends Component {
 
   _getStoredData = async () => {
     try {
-      var userID, webformID, firstName = '', lastName = '', profile;
+      var userID, webformID, firstName = '', lastName = '', profile ='', userPoint ='';
       await AsyncStorage.getItem('userID', (err, value) => {
         if (err) {
           //this.props.navigation.navigate('Auth');
@@ -90,11 +94,23 @@ export default class HomeScreen extends Component {
           }
         }
       });
+
+      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            userPoint = value
+          }
+        }
+      });
       this.setState({
         userID: userID,
         webformID: webformID,
         userFullName: `${firstName} ${lastName}`,
         userProfileImage: profile,
+        userPoint: userPoint,
       });
     } catch (error) {
       // Error saving data
@@ -232,6 +248,36 @@ export default class HomeScreen extends Component {
     ],
   };
 
+  _renderBottomMenuItem = (title, index, icon) => {
+    return (
+      <TouchableOpacity
+        activeOpacity={this.state.tabIndex == index ? 1 : 0.6}
+        style={[
+          styles.footerMenuItem,
+          {flex: this.state.tabIndex == index ? 3 : 1},
+          {backgroundColor: this.state.tabIndex == index ? '#075985' : '#012345'},
+          this.state.tabIndex == index ? {margin: 9, borderRadius: 40, paddingVertical: 7} : {}
+        ]}
+        onPress={() => {
+          if(index == 4) {
+            this.Standard.open();
+          } else {
+            this.setState({title: title, tabIndex: index});
+          }
+        }}>
+        <Image
+          style={[styles.footerMenuItemImage,this.state.tabIndex==index?styles.footerMenuSelectedItem:styles.footerMenuIdelItem]}
+          source={{
+            uri:
+              icon,
+          }}
+          resizeMode="cover"
+        />
+        {this.state.tabIndex == index && <Text style={styles.footerMenuSelectedItemText}>{title}</Text>}
+      </TouchableOpacity>
+    );
+  }
+
   render() {
     return (
       // eslint-disable-next-line react-native/no-inline-styles
@@ -255,96 +301,61 @@ export default class HomeScreen extends Component {
             style={styles.headerUserImage}/>
         </TouchableOpacity>
       </View>
-        <ImageBackground
+        {/*<ImageBackground
           style={styles.backgroundImage}
           source={{
             uri:
               'https://cdn-media-1.freecodecamp.org/images/1*gQEm5r-73VpwmSrHYRi0AQ.jpeg',
           }}
-          resizeMode="cover">
-          <View style={{flex: 1}}>{this._renderScreens()}</View>
-          <View style={styles.footerContainer}>
-            <TouchableOpacity
-              style={styles.footerMenuItem}
-              onPress={() => {
-                this.setState({title: 'Home', tabIndex: 0});
-              }}>
-              <Image
-                style={[styles.footerMenuItemImage,this.state.tabIndex==0?styles.footerMenuSelectedItem:styles.footerMenuIdelItem]}
-                source={{
-                  uri:
-                    'https://image.flaticon.com/icons/png/128/747/747420.png',
-                }}
-                resizeMode="cover"
-              />
-              <Text style={[this.state.tabIndex == 0 ? styles.footerMenuSelectedItemText : styles.footerMenuIdelItemText]}>Home</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.footerMenuItem}
-              onPress={() => {
-                this.setState({title: 'Transaction', tabIndex: 1});
-              }}>
-              <Image
-                style={[styles.footerMenuItemImage, this.state.tabIndex == 1 ? styles.footerMenuSelectedItem : styles.footerMenuIdelItem]}
-                source={{
-                  uri:
-                    'https://image.flaticon.com/icons/png/128/879/879788.png',
-                }}
-                resizeMode="cover"
-              />
-              <Text style={[this.state.tabIndex == 1 ? styles.footerMenuSelectedItemText : styles.footerMenuIdelItemText]}>Transaction</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.footerMenuItem}
-              onPress={() => {
-                this.setState({title: 'Offer', tabIndex: 2});
-              }}>
-              <Image
-                style={[styles.footerMenuItemImage, this.state.tabIndex == 2 ? styles.footerMenuSelectedItem : styles.footerMenuIdelItem]}
-                source={{
-                  uri:
-                    'https://image.flaticon.com/icons/png/128/879/879757.png',
-                }}
-                resizeMode="cover"
-              />
-              <Text style={[this.state.tabIndex == 2 ? styles.footerMenuSelectedItemText : styles.footerMenuIdelItemText]}>Offer</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.footerMenuItem}
-              onPress={() => {
-                this.setState({title: 'Notification', tabIndex: 3});
-              }}>
-              <Image
-                style={[styles.footerMenuItemImage, this.state.tabIndex == 3 ? styles.footerMenuSelectedItem : styles.footerMenuIdelItem]}
-                source={{
-                  uri:
-                    'https://image.flaticon.com/icons/png/128/2097/2097743.png',
-                }}
-                resizeMode="cover"
-              />
-              <Text style={[this.state.tabIndex == 3 ? styles.footerMenuSelectedItemText : styles.footerMenuIdelItemText]}>Notification</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.footerMenuItem}
-              onPress={() => {
-                this.Standard.open();
-              }}>
-              <Image
-                style={styles.footerMenuItemImage}
-                source={{
-                  uri:
-                    'https://image.flaticon.com/icons/png/128/149/149946.png',
-                }}
-                resizeMode="cover"
-              />
-              <Text style={{ fontSize: 11 }}>More</Text>
-            </TouchableOpacity>
+          resizeMode="cover">*/}
+          {/*<View style={{flex: 1}}>{this._renderScreens()}</View>*/}
+          <View style={{width: '100%', padding: 5, backgroundColor: '#FE9D3F', flexDirection: 'row'}}>
+            <Text style={{fontSize: 15, color: 'white', paddingLeft: 10, flex: 1, alignSelf: 'center'}}>Refere Friend & Earn 40 Points!</Text>
+            <Icon name={'share-square'} style={{color: '#0282C6', fontSize: 20}} />
           </View>
-        </ImageBackground>
+          <View style={{flex: 1}}>
+            <LinearGradient
+              colors={['#0282C6', '#075985']}
+              style={{flexDirection: 'column', padding: 10, height: 200, justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}>
+                <View style={{flexDirection: 'row', width: '50%', padding: 5}}>
+                  <View style={{height: 6, width: 6,borderRadius: 5 , backgroundColor: '#FE9D3F', alignSelf: 'center', marginHorizontal: 5}}/>
+                  <Text style={{fontSize: 19, color: 'white', fontFamily: 'bold'}}>Current Points</Text>
+                </View>
+                <View style={{height: 2, backgroundColor: 'white', width: '50%', margin: 5}} />
+                <AnimateNumber
+                  value={this.state.userPoint || 0}
+                  formatter={(val) => {
+                  return <Text 
+                  style={{fontSize: 26, color: 'white', fontFamily: 'bold', padding: 5}}
+                  >{parseFloat(val).toFixed(2)}</Text>
+                }}/>
+                <View style={{height: 2, backgroundColor: 'white', width: '50%', margin: 5}} />
+                <Text style={{color: '#FE9D3F', fontSize: 16, marginTop: 10, padding: 10, backgroundColor: '#012345', paddingHorizontal: 25, borderRadius: 5}}>Redeem Offer</Text>
+            </LinearGradient>
+            <FlatList
+                style={{flex: 1, backgroundColor: 'rgba(153,153,153,0.5)'}}
+                showsVerticalScrollIndicator={false}
+                scrollEnabled={true}
+                data={this.data.lists}
+                renderItem={({item, index}) => {
+                  return (
+                    <View style={{padding: 10, flexDirection: 'row', marginTop: 5, backgroundColor: 'white'}}>
+                      <MDIcon name={'person'} style={{fontSize: 30, color: 'grey', backgroundColor: 'rgba(153, 153, 153, 0.5)', padding: 10, borderRadius: 50, marginHorizontal: 10}} />
+                      <Text style={{flex: 1, paddingHorizontal: 10, fontSize: 18, alignSelf: 'center'}}>Golden Status</Text>
+                      <MDIcon name={'keyboard-arrow-right'} style={{alignSelf: 'center', fontSize: 30, color: '#FE9D3F'}}/>
+                    </View>
+                  );
+                }}
+              />
+          </View>
+          <View style={styles.footerContainer}>
+            {this._renderBottomMenuItem('Home', 0, 'https://image.flaticon.com/icons/png/128/747/747420.png')}
+            {this._renderBottomMenuItem('Transaction', 1, 'https://image.flaticon.com/icons/png/128/879/879788.png')}
+            {this._renderBottomMenuItem('Offer', 2, 'https://image.flaticon.com/icons/png/128/879/879757.png')}
+            {this._renderBottomMenuItem('Notification', 3, 'https://image.flaticon.com/icons/png/128/2097/2097743.png')}
+            {this._renderBottomMenuItem('More', 4, 'https://image.flaticon.com/icons/png/128/149/149946.png')}
+          </View>
+        {/*</ImageBackground>*/}
         <RBSheet
           ref={ref => {
             this.Standard = ref;
@@ -399,37 +410,40 @@ const styles = {
     fontSize: 25,
   },
   footerContainer: {
-    height: 50,
-    padding: 5,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    //height: 50,
+    backgroundColor: '#012345',
     alignItem: 'center',
     justifyContent: 'space-around',
     flexDirection: 'row',
   },
   footerMenuItem: {
-    marginLeft: 5,
-    marginRight: 5,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    color: 'wite',
+    padding: 10,
+    flexDirection: 'row',
   },
   footerMenuItemImage: {
     height: 20,
     width: 20,
+    tintColor: 'white',
   },
   footerMenuSelectedItem: {
     height: 24,
     width: 24,
-    tintColor: 'blue',
+    tintColor: 'white',
   },
   footerMenuIdelItem: {
     height: 18,
     width: 18,
-    tintColor: '#000',
+    tintColor: '#fff',
   },
   footerMenuSelectedItemText: {
-    color: 'blue',
-    fontSize:11,
+    color: 'white',
+    fontSize: 15,
+    padding: 5,
+    marginLeft: 5,
   },
   footerMenuIdelItemText: {
     color: '#000',
