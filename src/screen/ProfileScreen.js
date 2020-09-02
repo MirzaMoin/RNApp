@@ -781,17 +781,17 @@ export class ProfileScreen extends Component {
         <TextInput
             label={fieldsData.memberCardIDLabel || 'Member Card ID'}
             value={this.state.signup.memberCardID}
-            labelColor="gray"
+            labelColor="grey"
             leftIcon="credit-card"
             leftIconSize={20}
             containerWidth={maxWidth}
             leftIconType="material"
-            underlineColor="gray"
-            color="gray"
-            labelActiveColor="gray"
-            leftIconColor="gray"
-            selectionColor={'gray'}
-            activeColor="gray"
+            underlineColor="black"
+            color="black"
+            labelActiveColor="#012345"
+            leftIconColor="grey"
+            selectionColor={'#012345'}
+            activeColor="#012345"
             rippleColor="rgba(255,255,255,2)"
             error={this.state.signupError.memberCardID}
             onChangeText={text=>{
@@ -832,17 +832,17 @@ export class ProfileScreen extends Component {
       return (
         <TextInput
             label={fieldsData.driverLicense || 'Driving License'}
-            labelColor="gray"
+            labelColor="grey"
             leftIcon="car"
             leftIconSize={20}
             containerWidth={maxWidth}
             leftIconType="material"
-            underlineColor="gray"
-            color="gray"
-            labelActiveColor="gray"
-            leftIconColor="gray"
-            selectionColor={'gray'}
-            activeColor="gray"
+            underlineColor="black"
+            color="black"
+            labelActiveColor="#012345"
+            leftIconColor="grey"
+            selectionColor={'black'}
+            activeColor="#012345"
             rippleColor="rgba(255,255,255,2)"
             value={this.state.signup.driverLicense}
             error={this.state.signupError.driverLicense}
@@ -889,12 +889,12 @@ export class ProfileScreen extends Component {
             leftIconSize={20}
             containerWidth={maxWidth}
             leftIconType="material"
-            underlineColor="gray"
-            color="gray"
-            labelActiveColor="gray"
-            leftIconColor="gray"
-            selectionColor={'gray'}
-            activeColor="gray"
+            underlineColor="black"
+            color="black"
+            labelActiveColor="#012345"
+            leftIconColor="grey"
+            selectionColor={'black'}
+            activeColor="#012345"
             rippleColor="rgba(255,255,255,2)"
             value={this.state.signup.firstName}
             error={this.state.signupError.firstName}
@@ -941,12 +941,12 @@ export class ProfileScreen extends Component {
             leftIconSize={20}
             containerWidth={maxWidth}
             leftIconType="material"
-            underlineColor="gray"
-            color="gray"
-            labelActiveColor="gray"
-            leftIconColor="gray"
-            selectionColor={'gray'}
-            activeColor="gray"
+            underlineColor="black"
+            color="black"
+            labelActiveColor="#012345"
+            leftIconColor="grey"
+            selectionColor={'black'}
+            activeColor="#012345"
             rippleColor="rgba(255,255,255,2)"
             value={this.state.signup.lastName}
             error={this.state.signupError.lastName}
@@ -988,17 +988,17 @@ export class ProfileScreen extends Component {
       return (
         <TextInput
             label={fieldsData.emailLabel || 'Email'}
-            labelColor="gray"
+            labelColor="grey"
             leftIcon="email"
             leftIconSize={20}
             containerWidth={maxWidth}
             leftIconType="material"
-            underlineColor="gray"
-            color="gray"
-            labelActiveColor="gray"
-            leftIconColor="gray"
-            selectionColor={'gray'}
-            activeColor="gray"
+            underlineColor="black"
+            color="black"
+            labelActiveColor="#012345"
+            leftIconColor="grey"
+            selectionColor={'black'}
+            activeColor="#012345"
             rippleColor="rgba(255,255,255,2)"
             value={this.state.signup.email}
             error={this.state.signupError.email}
@@ -1020,18 +1020,18 @@ export class ProfileScreen extends Component {
       return (
         <TextInput
             label={fieldsData.mobileLabel || 'Mobile'}
-            labelColor="gray"
+            labelColor="grey"
             leftIcon="phone"
             keyboardType={'phone-pad'}
             leftIconSize={20}
             containerWidth={maxWidth}
             leftIconType="material"
-            underlineColor="gray"
-            color="gray"
-            labelActiveColor="gray"
-            leftIconColor="gray"
-            selectionColor={'gray'}
-            activeColor="gray"
+            underlineColor="black"
+            color="black"
+            labelActiveColor="#012345"
+            leftIconColor="grey"
+            selectionColor={'black'}
+            activeColor="#012345"
             rippleColor="rgba(255,255,255,2)"
             value={this.state.signup.mobile}
             error={this.state.signupError.mobile}
@@ -1056,7 +1056,7 @@ export class ProfileScreen extends Component {
       return (
         <TextInput
             label={fieldsData.address2 || 'Address line 2'}
-            labelColor="gray"
+            labelColor="grey"
             leftIcon="home"
             leftIconSize={20}
             containerWidth={maxWidth}
@@ -1064,12 +1064,12 @@ export class ProfileScreen extends Component {
             minHeight={100}
             maxHeight={100}
             leftIconType="material"
-            underlineColor="gray"
-            color="gray"
-            labelActiveColor="gray"
-            leftIconColor="gray"
-            selectionColor={'gray'}
-            activeColor="gray"
+            underlineColor="black"
+            color="black"
+            labelActiveColor="#012345"
+            leftIconColor="grey"
+            selectionColor={'black'}
+            activeColor="#012345"
             rippleColor="rgba(255,255,255,2)"
             value={this.state.signup.address2}
             error={this.state.signupError.address2}
@@ -1094,7 +1094,7 @@ export class ProfileScreen extends Component {
       return (
         <TextInput
             label={fieldsData.address3 || 'Address line 3'}
-            labelColor="gray"
+            labelColor="grey"
             leftIcon="home"
             leftIconSize={20}
             containerWidth={maxWidth}
@@ -1102,12 +1102,12 @@ export class ProfileScreen extends Component {
             minHeight={100}
             maxHeight={100}
             leftIconType="material"
-            underlineColor="gray"
-            color="gray"
-            labelActiveColor="gray"
-            leftIconColor="gray"
-            selectionColor={'gray'}
-            activeColor="gray"
+            underlineColor="black"
+            color="black"
+            labelActiveColor="#012345"
+            leftIconColor="grey"
+            selectionColor={'black'}
+            activeColor="#012345"
             rippleColor="rgba(255,255,255,2)"
             value={this.state.signup.address3}
             error={this.state.signupError.address3}
@@ -1133,7 +1133,7 @@ export class ProfileScreen extends Component {
         <View>
           <TextInput
             label={'Address'}
-            labelColor="gray"
+            labelColor="grey"
             leftIcon="home"
             leftIconSize={20}
             containerWidth={maxWidth}
@@ -1141,12 +1141,12 @@ export class ProfileScreen extends Component {
             minHeight={100}
             maxHeight={100}
             leftIconType="material"
-            underlineColor="gray"
-            color="gray"
-            labelActiveColor="gray"
-            leftIconColor="gray"
-            selectionColor={'gray'}
-            activeColor="gray"
+            underlineColor="black"
+            color="black"
+            labelActiveColor="#012345"
+            leftIconColor="grey"
+            selectionColor={'black'}
+            activeColor="#012345"
             rippleColor="rgba(255,255,255,2)"
             value={this.state.signup.address}
             error={this.state.signupError.address}
@@ -1168,17 +1168,17 @@ export class ProfileScreen extends Component {
 
           <TextInput
             label={'City'}
-            labelColor="gray"
+            labelColor="grey"
             leftIcon="city"
             leftIconSize={20}
             containerWidth={maxWidth}
             leftIconType="material"
-            underlineColor="gray"
-            color="gray"
-            labelActiveColor="gray"
-            leftIconColor="gray"
-            selectionColor={'gray'}
-            activeColor="gray"
+            underlineColor="black"
+            color="black"
+            labelActiveColor="#012345"
+            leftIconColor="grey"
+            selectionColor={'black'}
+            activeColor="#012345"
             rippleColor="rgba(255,255,255,2)"
             value={this.state.signup.city}
             error={this.state.signupError.city}
@@ -1197,17 +1197,17 @@ export class ProfileScreen extends Component {
 
           <TextInput
             label={'State'}
-            labelColor="gray"
+            labelColor="grey"
             leftIcon="domain"
             leftIconSize={20}
             containerWidth={maxWidth}
             leftIconType="material"
-            underlineColor="gray"
-            color="gray"
-            labelActiveColor="gray"
-            leftIconColor="gray"
-            selectionColor={'gray'}
-            activeColor="gray"
+            underlineColor="black"
+            color="black"
+            labelActiveColor="#012345"
+            leftIconColor="grey"
+            selectionColor={'black'}
+            activeColor="#012345"
             rippleColor="rgba(255,255,255,2)"
             value={this.state.signup.state}
             error={this.state.signupError.state}
@@ -1226,18 +1226,18 @@ export class ProfileScreen extends Component {
 
           <TextInput
             label={'Postal Code'}
-            labelColor="gray"
+            labelColor="grey"
             leftIcon="mailbox"
             keyboardType={'numeric'}
             leftIconSize={20}
             containerWidth={maxWidth}
             leftIconType="material"
-            underlineColor="gray"
-            color="gray"
-            labelActiveColor="gray"
-            leftIconColor="gray"
-            selectionColor={'gray'}
-            activeColor="gray"
+            underlineColor="black"
+            color="black"
+            labelActiveColor="#012345"
+            leftIconColor="grey"
+            selectionColor={'black'}
+            activeColor="#012345"
             rippleColor="rgba(255,255,255,2)"
             value={this.state.signup.postalcode}
             error={this.state.signupError.postalcode}
@@ -1261,7 +1261,7 @@ export class ProfileScreen extends Component {
   _renderLabel = (value, label) => {
     if(value) {
       return (
-      <Text style={{marginLeft: 26, color: 'gray', fontSize: 14, marginBottom: -8}}>{label}</Text>
+      <Text style={{marginLeft: 26, color: 'grey', fontSize: 14, marginBottom: -8}}>{label}</Text>
       )
     }
   }
@@ -1279,15 +1279,15 @@ export class ProfileScreen extends Component {
             maxDate={this._maxDate}
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
-            iconComponent={<MDIcon name={'cake'} style={{fontSize: 22, color: 'gray', marginRight: 10}} />}
+            iconComponent={<MDIcon name={'cake'} style={{fontSize: 22, color: 'grey', marginRight: 10}} />}
             customStyles={{
               placeholderText:{
                 fontSize: 15,
-                color: 'gray'
+                color: 'black'
               },
               dateText: {
                 fontSize: 17,
-                color: 'gray'
+                color: 'black'
               }
             }}
             onDateChange={(date) => {
@@ -1300,7 +1300,7 @@ export class ProfileScreen extends Component {
               })
             }}
           />
-          <View style={{height: 1, backgroundColor: 'gray'}}/>
+          <View style={{height: 1, backgroundColor: 'black'}}/>
         </View>
       );
     }
@@ -1319,15 +1319,15 @@ export class ProfileScreen extends Component {
             maxDate={new Date()}
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
-            iconComponent={<MDIcon name={'group'} style={{fontSize: 22, color: 'gray', marginRight: 10}} />}
+            iconComponent={<MDIcon name={'group'} style={{fontSize: 22, color: 'grey', marginRight: 10}} />}
             customStyles={{
               placeholderText:{
                 fontSize: 15,
-                color: 'gray'
+                color: 'black'
               },
               dateText: {
                 fontSize: 17,
-                color: 'gray'
+                color: 'black'
               }
             }}
             onDateChange={(date) => {
@@ -1340,7 +1340,7 @@ export class ProfileScreen extends Component {
               })
             }}
           />
-          <View style={{height: 1, backgroundColor: 'gray'}}/>
+          <View style={{height: 1, backgroundColor: 'black'}}/>
         </View>
       );
     }
@@ -1352,7 +1352,7 @@ export class ProfileScreen extends Component {
         <View style={{marginVertical: 10, width: maxWidth}}>
           {this._renderLabel(this.state.signup.gender,fieldsData.genderLabel || 'Gender')}
           <View style={{flexDirection: 'row', alignContent: 'center', marginVertical: 5}}>
-            <MDIcon name={'group'} style={{fontSize: 22, color: 'gray', marginRight: 10}} />
+            <MDIcon name={'group'} style={{fontSize: 22, color: 'grey', marginRight: 10}} />
             <Menu
               onSelect={value => {
                 const st= this.state.signup;
@@ -1363,14 +1363,14 @@ export class ProfileScreen extends Component {
                   }
                 })
               }}>
-              <MenuTrigger customStyles={{triggerText:{fontSize: 16, color: 'gray'}}} text={this.state.signup.gender || fieldsData.genderLabel || 'Gender'} />
+              <MenuTrigger customStyles={{triggerText:{fontSize: 16, color: 'black'}}} text={this.state.signup.gender || fieldsData.genderLabel || 'Gender'} />
               <MenuOptions>
                 <MenuOption value='Male' text='Male' />
                 <MenuOption value='Female' text='Female' />
               </MenuOptions>
             </Menu>
           </View>
-          <View style={{height: 1, backgroundColor: 'gray'}}/>
+          <View style={{height: 1, backgroundColor: 'black'}}/>
         </View>
       );
     }
@@ -1416,8 +1416,8 @@ export class ProfileScreen extends Component {
               <View style={{marginLeft: -10, marginTop: -10, flex: 1}}>
                 {this._renderLabel(this.state.signup.location, 'Location')}
                 <View style={{flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10}}>
-                  <MDIcon name={'place'} style={{fontSize: 24, color: 'gray', marginRight: 10,}} />
-                  <Text style={{color: 'gray', flex: 1, fontSize: 16}}>{title}</Text>
+                  <MDIcon name={'place'} style={{fontSize: 24, color: 'grey', marginRight: 10,}} />
+                  <Text style={{color: 'black', flex: 1, fontSize: 16}}>{title}</Text>
                 </View>
               </View>
             )
@@ -1425,7 +1425,7 @@ export class ProfileScreen extends Component {
           showChips={true}
           single={true}
           selectToggleIconComponent={()=>{
-            return <MDIcon name={'keyboard-arrow-down'} style={{fontSize: 24, color: 'gray'}} />
+            return <MDIcon name={'keyboard-arrow-down'} style={{fontSize: 24, color: 'grey'}} />
           }}
           selectedIconComponent={()=>{
             return (<MDIcon name={'check'} style={{fontSize: 20, color: 'black', marginRight: 10,}} />);
@@ -1433,7 +1433,7 @@ export class ProfileScreen extends Component {
           onSelectedItemsChange={this.onSelectedItemsChange}
           selectedItems={[this.state.signup.location]}
         />
-        <View style={{height: 1, backgroundColor: 'gray', marginTop: -25, marginBottom: 10}}/>
+        <View style={{height: 1, backgroundColor: 'black', marginTop: -25, marginBottom: 10}}/>
       </View>
     )
     }
@@ -1446,7 +1446,7 @@ export class ProfileScreen extends Component {
           <Text style={styles.title}>{fieldsData.contactPermissionLabel || 'Contact Permission'}</Text>
           <View style={styles.subContainer}>
           <View style={{flexDirection: 'row', marginVertical: 5, marginTop: 10}}>
-            <Text style={{fontSize: 16, color: 'gray', flex: 3}}>Allow Email</Text>
+            <Text style={{fontSize: 16, color: 'black', flex: 3}}>Allow Email</Text>
             <View style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}>
               <Menu
                 onSelect={value => {
@@ -1460,18 +1460,18 @@ export class ProfileScreen extends Component {
                 }}>
                 <MenuTrigger 
                   disabled={this.state.isDisableEmailMenu}
-                  customStyles={{triggerText:{fontSize: 16, color: 'gray', alignSelf: 'center'}}} text={this.state.signup.allowedEmail ? 'Yes' : 'No'} 
+                  customStyles={{triggerText:{fontSize: 16, color: 'black', alignSelf: 'center'}}} text={this.state.signup.allowedEmail ? 'Yes' : 'No'} 
                 />
                 <MenuOptions>
                   <MenuOption value={true} text='Yes' />
                   <MenuOption value={false} text='No' />
                 </MenuOptions>
               </Menu>
-              <View style={{height: 1, width: '100%', backgroundColor: 'gray'}}/>
+              <View style={{height: 1, width: '100%', backgroundColor: 'black'}}/>
             </View>
           </View>
           <View style={{flexDirection: 'row', marginVertical: 5, marginTop: 10}}>
-            <Text style={{fontSize: 16, color: 'gray', flex: 3}}>Allow SMS</Text>
+            <Text style={{fontSize: 16, color: 'black', flex: 3}}>Allow SMS</Text>
             <View style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}>
               <Menu
                 onSelect={value => {
@@ -1485,18 +1485,18 @@ export class ProfileScreen extends Component {
                 }}>
                 <MenuTrigger
                   disabled={this.state.isDisableSMSMenu}
-                  customStyles={{triggerText:{fontSize: 16, color: 'gray', alignSelf: 'center'}}} text={this.state.signup.allowedSMS ? 'Yes' : 'No'} 
+                  customStyles={{triggerText:{fontSize: 16, color: 'black', alignSelf: 'center'}}} text={this.state.signup.allowedSMS ? 'Yes' : 'No'} 
                 />
                 <MenuOptions>
                   <MenuOption value={true} text='Yes' />
                   <MenuOption value={false} text='No' />
                 </MenuOptions>
               </Menu>
-              <View style={{height: 1, width: '100%', backgroundColor: 'gray'}}/>
+              <View style={{height: 1, width: '100%', backgroundColor: 'black'}}/>
             </View>
           </View>
           <View style={{flexDirection: 'row', marginVertical: 5, marginTop: 10}}>
-            <Text style={{fontSize: 16, color: 'gray', flex: 3}}>Allow Prefered Media</Text>
+            <Text style={{fontSize: 16, color: 'black', flex: 3}}>Allow Prefered Media</Text>
             <View style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}>
               <Menu
                 onSelect={value => {
@@ -1510,14 +1510,14 @@ export class ProfileScreen extends Component {
                 }}>
                 <MenuTrigger
                   disabled={this.state.isDisablePreferedMenu}
-                  customStyles={{triggerText:{fontSize: 16, color: 'gray', alignSelf: 'center'}}} text={this.state.signup.preferedMedia}
+                  customStyles={{triggerText:{fontSize: 16, color: 'black', alignSelf: 'center'}}} text={this.state.signup.preferedMedia}
                 />
                 <MenuOptions>
                   <MenuOption value='Email' text='Email' />
                   <MenuOption value='SMS' text='SMS' />
                 </MenuOptions>
               </Menu>
-              <View style={{height: 1, width: '100%', backgroundColor: 'gray'}}/>
+              <View style={{height: 1, width: '100%', backgroundColor: 'black'}}/>
             </View>
           </View>
           </View>
@@ -1541,7 +1541,7 @@ export class ProfileScreen extends Component {
                 return (
                   <TextInput
                     label={field.fieldLabel}
-                    labelColor="gray"
+                    labelColor="grey"
                     leftIcon="receipt"
                     keyboardType={field.controlTypeID == 3 ? 'numeric' : ''}
                     multiline={field.controlTypeID == 2}
@@ -1550,12 +1550,12 @@ export class ProfileScreen extends Component {
                     minHeight={field.controlTypeID == 2 ? 100 : undefined}
                     maxHeight={field.controlTypeID == 2 ? 100 : undefined}
                     leftIconType="material"
-                    underlineColor="gray"
-                    color="gray"
-                    labelActiveColor="gray"
-                    leftIconColor="gray"
-                    selectionColor={'gray'}
-                    activeColor="gray"
+                    underlineColor="black"
+                    color="black"
+                    labelActiveColor="#012345"
+                    leftIconColor="grey"
+                    selectionColor={'black'}
+                    activeColor="#012345"
                     rippleColor="rgba(255,255,255,2)"
                     value={this.state.signup.customData[field.customFieldID]}
                     error={this.state.customerror[field.customFieldID]}
@@ -1604,8 +1604,8 @@ export class ProfileScreen extends Component {
                           <View style={{flex: 1, marginLeft: -10, marginTop: -10}}>
                             {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
                             <View style={{flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10}}>
-                              <MDIcon name={'list'} style={{fontSize: 24, color: 'gray', marginRight: 10,}} />
-                              <Text style={{color: 'gray', flex: 1, fontSize: 16}}>{title}</Text>
+                              <MDIcon name={'list'} style={{fontSize: 24, color: 'grey', marginRight: 10,}} />
+                              <Text style={{color: 'black', flex: 1, fontSize: 16}}>{title}</Text>
                             </View>
                           </View>
                         )
@@ -1613,7 +1613,7 @@ export class ProfileScreen extends Component {
                       showChips={true}
                       single={true}
                       selectToggleIconComponent={()=>{
-                        return <MDIcon name={'keyboard-arrow-down'} style={{fontSize: 24, color: 'gray'}} />
+                        return <MDIcon name={'keyboard-arrow-down'} style={{fontSize: 24, color: 'grey'}} />
                       }}
                       selectedIconComponent={()=>{
                         return (<MDIcon name={'check'} style={{fontSize: 20, color: 'black', marginRight: 10,}} />);
@@ -1631,7 +1631,7 @@ export class ProfileScreen extends Component {
                       }}
                       selectedItems={[this.state.signup.customData[field.customFieldID]]}
                     />
-                    <View style={{height: 1, backgroundColor: 'gray', marginTop: -25, marginBottom: 10}}/>
+                    <View style={{height: 1, backgroundColor: 'black', marginTop: -25, marginBottom: 10}}/>
                   </View>
                 )
               } else if (field.controlTypeID == 5) {
@@ -1664,14 +1664,14 @@ export class ProfileScreen extends Component {
                           <View style={{flex: 1, marginLeft: -10, marginTop: -10}}>
                             {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
                             <View style={{flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10}}>
-                              <Icon name={'check-square-o'} style={{fontSize: 20, color: 'gray', marginRight: 10,}} />
-                              <Text style={{color: 'gray', flex: 1, fontSize: 16}}>{title}</Text>
+                              <Icon name={'check-square-o'} style={{fontSize: 20, color: 'grey', marginRight: 10,}} />
+                              <Text style={{color: 'black', flex: 1, fontSize: 16}}>{title}</Text>
                             </View>
                           </View>
                         )
                       }}
                       selectToggleIconComponent={()=>{
-                        return <MDIcon name={'keyboard-arrow-down'} style={{fontSize: 24, color: 'gray'}} />
+                        return <MDIcon name={'keyboard-arrow-down'} style={{fontSize: 24, color: 'grey'}} />
                       }}
                       selectedIconComponent={()=>{
                         return (<Icon name={'check-square-o'} style={{fontSize: 20, color: 'black', marginRight: 10,}} />);
@@ -1693,7 +1693,7 @@ export class ProfileScreen extends Component {
                       }}
                       selectedItems={this.state.signup.customData[field.customFieldID]}
                     />
-                    <View style={{height: 1, backgroundColor: 'gray', marginTop: -25, marginBottom: 10}}/>
+                    <View style={{height: 1, backgroundColor: 'black', marginTop: -25, marginBottom: 10}}/>
                   </View>
                 )
               } else if (field.controlTypeID == 6) {
@@ -1725,8 +1725,8 @@ export class ProfileScreen extends Component {
                           <View style={{flex: 1, marginLeft: -10, marginTop: -10}}>
                             {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
                             <View style={{flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10}}>
-                              <MDIcon name={'radio-button-checked'} style={{fontSize: 24, color: 'gray', marginRight: 10,}} />
-                              <Text style={{color: 'gray', flex: 1, fontSize: 16}}>{title}</Text>
+                              <MDIcon name={'radio-button-checked'} style={{fontSize: 24, color: 'grey', marginRight: 10,}} />
+                              <Text style={{color: 'black', flex: 1, fontSize: 16}}>{title}</Text>
                             </View>
                           </View>
                         )
@@ -1734,7 +1734,7 @@ export class ProfileScreen extends Component {
                       showChips={false}
                       single={true}
                       selectToggleIconComponent={()=>{
-                        return <MDIcon name={'keyboard-arrow-down'} style={{fontSize: 24, color: 'gray'}} />
+                        return <MDIcon name={'keyboard-arrow-down'} style={{fontSize: 24, color: 'grey'}} />
                       }}
                       selectedIconComponent={()=>{
                         return (<MDIcon name={'radio-button-checked'} style={{fontSize: 20, color: 'black', marginRight: 10,}} />);
@@ -1755,7 +1755,7 @@ export class ProfileScreen extends Component {
                       }}
                       selectedItems={[this.state.signup.customData[field.customFieldID]]}
                     />
-                    <View style={{height: 1, backgroundColor: 'gray', marginTop: -25, marginBottom: 10}}/>
+                    <View style={{height: 1, backgroundColor: 'black', marginTop: -25, marginBottom: 10}}/>
                   </View>
                 )
               } else if (field.controlTypeID == 7) {
@@ -1771,15 +1771,15 @@ export class ProfileScreen extends Component {
                       //maxDate={this._maxDate}
                       confirmBtnText="Confirm"
                       cancelBtnText="Cancel"
-                      iconComponent={<MDIcon name={'date-range'} style={{fontSize: 22, color: 'gray', marginRight: 10}} />}
+                      iconComponent={<MDIcon name={'date-range'} style={{fontSize: 22, color: 'grey', marginRight: 10}} />}
                       customStyles={{
                         placeholderText:{
                           fontSize: 15,
-                          color: 'gray'
+                          color: 'black'
                         },
                         dateText: {
                           fontSize: 17,
-                          color: 'gray'
+                          color: 'black'
                         }
                       }}
                       onDateChange={(date) => {
@@ -1794,7 +1794,7 @@ export class ProfileScreen extends Component {
                         })
                       }}
                     />
-                    <View style={{height: 1, width: maxWidth, backgroundColor: 'gray'}}/>
+                    <View style={{height: 1, width: maxWidth, backgroundColor: 'black'}}/>
                   </View>
                 );
               }
@@ -1847,15 +1847,15 @@ export class ProfileScreen extends Component {
                   maxDate={new Date()}
                   confirmBtnText="Confirm"
                   cancelBtnText="Cancel"
-                  iconComponent={<MDIcon name={'date-range'} style={{fontSize: 22, color: 'gray', marginRight: 10}} />}
+                  iconComponent={<MDIcon name={'date-range'} style={{fontSize: 22, color: 'grey', marginRight: 10}} />}
                   customStyles={{
                     placeholderText:{
                       fontSize: 15,
-                      color: 'gray'
+                      color: 'black'
                     },
                     dateText: {
                       fontSize: 17,
-                      color: 'gray'
+                      color: 'black'
                     }
                   }}
                   onDateChange={(date) => {
@@ -1873,7 +1873,7 @@ export class ProfileScreen extends Component {
                     })
                   }}
                 />
-                <View style={{height: 1, width: maxWidth, backgroundColor: 'gray'}}/>
+                <View style={{height: 1, width: maxWidth, backgroundColor: 'black'}}/>
               </View>  
               <TouchableOpacity
                 style={{flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center'}}
@@ -1901,17 +1901,17 @@ export class ProfileScreen extends Component {
             <View style={{width: maxWidth, flexDirection: 'column', marginTop: 5, marginBottom: 5}}>
               <TextInput
                 label={'Name'}
-                labelColor="gray"
+                labelColor="grey"
                 leftIcon="account"
                 leftIconSize={20}
                 containerWidth={maxWidth}
                 leftIconType="material"
-                underlineColor="gray"
-                color="gray"
-                labelActiveColor="gray"
-                leftIconColor="gray"
-                selectionColor={'gray'}
-                activeColor="gray"
+                underlineColor="black"
+                color="black"
+                labelActiveColor="#012345"
+                leftIconColor="grey"
+                selectionColor={'black'}
+                activeColor="#012345"
                 rippleColor="rgba(255,255,255,2)"
                 value={this.state.tmp}
                 error={this.state.tmpError}
@@ -1934,15 +1934,15 @@ export class ProfileScreen extends Component {
                   return;
                 }
               }}
-              iconComponent={<MDIcon name={'date-range'} style={{fontSize: 22, color: 'gray', marginRight: 10}} />}
+              iconComponent={<MDIcon name={'date-range'} style={{fontSize: 22, color: 'grey', marginRight: 10}} />}
               customStyles={{
                 placeholderText:{
                   fontSize: 15,
-                  color: 'gray'
+                  color: 'black'
                 },
                 dateText: {
                   fontSize: 17,
-                  color: 'gray'
+                  color: 'black'
                 }
               }}
               onDateChange={(date) => {
@@ -1969,7 +1969,7 @@ export class ProfileScreen extends Component {
                 }
               }}
             />
-            <View style={{height: 1, width: maxWidth, backgroundColor: 'gray'}}/>
+            <View style={{height: 1, width: maxWidth, backgroundColor: 'black'}}/>
           </View>
           </View>
         </View>
@@ -2113,7 +2113,7 @@ const styles = {
     alignSelf: 'center',
     borderRadius: 50,
     borderColor: 'rgba(3,10,145,0.2)',
-    borderWidth: 2,
+    //borderWidth: 2,
   },
   button: {
     //marginTop: 10,

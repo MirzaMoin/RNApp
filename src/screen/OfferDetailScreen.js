@@ -28,6 +28,7 @@ import {makeRequest} from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 
 const Width = Dimensions.get('window').width;
+const maxWidth = Width - (Width * 20 / 100)
 
 export default class OfferDetailScreen extends Component {
   static navigationOptions = {
@@ -389,7 +390,7 @@ export default class OfferDetailScreen extends Component {
                   <Text style={styles.offerType}>{this.state.offer.offerType}</Text>
                   <Text style={styles.offerExpiry}>{this.state.offer.offerExpire}</Text>
                 </View>
-                {this.state.offer.displayBarcode && <Barcode value={this.state.offer.offerBarcode} text={this.state.offer.offerBarcode} format="CODE128" />}
+                {this.state.offer.displayBarcode && <Barcode value={this.state.offer.offerBarcode} text={this.state.offer.offerBarcode} format="CODE128" height={70} />}
                 <View style={{paddingHorizontal: 15, marginBottom: 15}}>
                   <Text style={{fontSizeL: 16}}>{this.state.addressDetails.name || ''}</Text>
                   <Text style={{fontSizeL: 14, color: 'grey'}}>{this.state.addressDetails.address || ''}</Text>
@@ -401,7 +402,7 @@ export default class OfferDetailScreen extends Component {
                 </View>
 
                 <View style={{marginHorizontal: 15, borderWidth: 1, borderColor: 'grey', borderRadius: 10, padding: 10, alignItems: 'center'}}>
-                  <Text style={{fontSizeL: 14, color: 'grey'}}>{this.state.offer.offerBarcode || ''}</Text>
+                  <Text style={{fontSizeL: 14, color: 'grey'}}>Internal Use Only: {this.state.offer.offerBarcode || ''}</Text>
                   <Text style={{fontSizeL: 14, color: 'grey', marginTop: 5}}>Mobile: {this.state.userDetails.mobilePhone || ''}</Text>
                     <View style={{flexDirection: 'row', marginTop: 5, paddingHorizontal: 5}}>
                       <Text style={{fontSizeL: 14, color: 'grey', flex: 1}}>CardID: {this.state.userDetails.memberCardID || ''}</Text>

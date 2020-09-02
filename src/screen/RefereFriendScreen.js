@@ -71,44 +71,38 @@ export default class RefereFriendScreen extends Component {
                     marginRight: 20,
                     textAlign: 'center',
                     marginTop: 5,
+                    minHeight: 150,
                   }}>
                   For every frind that join, you will recive $20{' '}
                 </Text>
-                <Image
+                {/*<Image
                   style={{flex: 1, height: 200, width: undefined}}
                   source={require('./../../Image/referre_friend.jpg')}
                   resizeMode="center"
-                />
-                <View
-                  style={{
-                    marginLeft: 10,
-                    marginRight: 10,
-                    marginTop: 10,
-                    borderColor: 'rgba(153,153,153,0.5)',
-                    borderWidth: 2,
-                    borderRadius: 10,
-                  }}>
-                  <TextInput
-                    style={{
-                      fontSize: 17,
-                      textAlign: 'center',
-                      fontWeight: 'bold',
-                      padding:10
-                    }}
-                    placeholder="Email Address"
-                  />
-                </View>
+                />*/}
                 <TouchableOpacity
                   style={{
                     marginLeft: 10,
                     marginRight: 10,
                     width: undefined,
                     marginTop: 10,
+                    marginBottom: 20,
                     alignSelf: 'center',
                     flexDirection: 'row',
                   }}
                   onPress={() => {
                     this._ShareMessage('hello firend sw');
+                    // Linking.canOpenURL('mailto:example@gmail.com?subject=example&body=example')
+                    //   .then(supported => {
+                    //     if (!supported) {
+                    //       console.log('Cant handle url')
+                    //     } else {
+                    //       return Linking.openURL('message:this is frial')
+                    //     }
+                    //   })
+                    //   .catch(err => {
+                    //     console.error('An error occurred', err)
+                    //   })
                   }}>
                   <Text
                     style={{
@@ -120,7 +114,7 @@ export default class RefereFriendScreen extends Component {
                       color: 'white',
                       padding: 15,
                     }}>
-                    Send Invitation
+                    Get Invite Link
                   </Text>
                 </TouchableOpacity>
                 <View
@@ -156,42 +150,6 @@ export default class RefereFriendScreen extends Component {
                     Share with Link
                   </Text>
                 </View>
-                <TouchableOpacity
-                  style={{
-                    marginLeft: 10,
-                    marginRight: 10,
-                    width: undefined,
-                    marginTop: 10,
-                    alignSelf: 'center',
-                    flexDirection: 'row',
-                  }}
-                  onPress={() => {
-                    this._ShareMessage('hello firend sw');
-                    // Linking.canOpenURL('mailto:example@gmail.com?subject=example&body=example')
-                    //   .then(supported => {
-                    //     if (!supported) {
-                    //       console.log('Cant handle url')
-                    //     } else {
-                    //       return Linking.openURL('message:this is frial')
-                    //     }
-                    //   })
-                    //   .catch(err => {
-                    //     console.error('An error occurred', err)
-                    //   })
-                  }}>
-                  <Text
-                    style={{
-                      flex: 1,
-                      backgroundColor: '#012340',
-                      textAlign: 'center',
-                      fontSize: 16,
-                      borderRadius: 10,
-                      color: 'white',
-                      padding: 15,
-                    }}>
-                    Get Invite Link
-                  </Text>
-                </TouchableOpacity>
                 <View
                   style={{
                     flex: 1,
