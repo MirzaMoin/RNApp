@@ -245,7 +245,8 @@ class DrawerHeaderComponent extends Component {
           title={this.state.name}
           src={this.state.userImage}
           style={{width: this.state.width || '100%', height: this.state.width || 200}}
-          titleStyle={{fontSize: 40}} />
+          titleStyle={{fontSize: 40}} 
+           />
       <Text
         style={{
           paddingLeft: 15,
