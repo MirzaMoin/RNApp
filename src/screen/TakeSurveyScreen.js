@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -11,14 +11,14 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
-import {ShareDialog} from 'react-native-fbsdk';
-import {BottomNavigationTab} from './../widget/BottomNavigationTab';
+import { ShareDialog } from 'react-native-fbsdk';
+import { BottomNavigationTab } from './../widget/BottomNavigationTab';
 import ScrollableTabView, {
   ScrollableTabBar,
 } from 'react-native-scrollable-tab-view';
-import {NotificaitonScreen} from './NotificationScreen';
+import { NotificaitonScreen } from './NotificationScreen';
 import CustomTab from './../widget/CustomTab';
-import {makeRequest} from './../api/apiCall';
+import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 
 export default class TakeSurveyScreen extends Component {
@@ -86,14 +86,14 @@ export default class TakeSurveyScreen extends Component {
   _wait = timeout => {
     let that = this;
     return new Promise(resolve => {
-      setTimeout(function() {
-        that.setState({isFetchingTaken: false, isFetchingUntaken: false});
+      setTimeout(function () {
+        that.setState({ isFetchingTaken: false, isFetchingUntaken: false });
       }, 3000);
     });
   };
 
   onRefreshTaken() {
-    this.setState({isFetchingTaken: true}, function() {
+    this.setState({ isFetchingTaken: true }, function () {
       this._wait(5000);
       this.setState({
         dataSoure: this.data,
@@ -102,7 +102,7 @@ export default class TakeSurveyScreen extends Component {
   }
 
   onRefreshUnaken() {
-    this.setState({isFetchingUntaken: true}, function() {
+    this.setState({ isFetchingUntaken: true }, function () {
       this.getUntakenSurvey();
     });
   }
@@ -116,21 +116,21 @@ export default class TakeSurveyScreen extends Component {
             notification: itemData,
           });
         }}>
-        <View style={{backgroundColor: 'rgba(256,256,256,1)', padding: 5}}>
+        <View style={{ backgroundColor: 'rgba(256,256,256,1)', padding: 5 }}>
           <View style={styles.subContainer}>
             <View style={styles.messageContainer}>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <MDIcon
                   name={'assignment'}
-                  style={{alignSelf: 'center', fontSize: 16, marginRight: 4}}
+                  style={{ alignSelf: 'center', fontSize: 16, marginRight: 4 }}
                 />
                 <Text
                   numberOfLines={1}
-                  style={{fontSize: 18, flex: 1, padding: 1, paddingRight: 5}}>
+                  style={{ fontSize: 18, flex: 1, padding: 1, paddingRight: 5 }}>
                   {itemData.email}
                 </Text>
               </View>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <MDIcon
                   name={'date-range'}
                   style={{
@@ -140,14 +140,14 @@ export default class TakeSurveyScreen extends Component {
                     color: 'gray',
                   }}
                 />
-                <Text style={{fontSize: 12, padding: 1, color: 'gray'}}>
+                <Text style={{ fontSize: 12, padding: 1, color: 'gray' }}>
                   {itemData.first_name}
                 </Text>
               </View>
             </View>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <Text
-                style={{alignSelf: 'center', fontSize: 16, color: '#13538E'}}>
+                style={{ alignSelf: 'center', fontSize: 16, color: '#13538E' }}>
                 Start
               </Text>
               <MDIcon
@@ -176,22 +176,22 @@ export default class TakeSurveyScreen extends Component {
             notification: itemData,
           });
         }}>
-        <View style={{backgroundColor: 'rgba(256,256,256,1)', padding: 5}}>
+        <View style={{ backgroundColor: 'rgba(256,256,256,1)', padding: 5 }}>
           <View style={styles.subContainer}>
             <View style={styles.messageContainer}>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <MDIcon
                   name={'assignment'}
-                  style={{alignSelf: 'center', fontSize: 16, marginRight: 4}}
+                  style={{ alignSelf: 'center', fontSize: 16, marginRight: 4 }}
                 />
                 <Text
                   numberOfLines={1}
-                  style={{fontSize: 18, flex: 1, padding: 1, paddingRight: 5}}>
+                  style={{ fontSize: 18, flex: 1, padding: 1, paddingRight: 5 }}>
                   {itemData.title}
                 </Text>
               </View>
-              <View style={{flexDirection: 'row'}}>
-                <View style={{flex: 1, flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
                   <MDIcon
                     name={'date-range'}
                     style={{
@@ -201,11 +201,11 @@ export default class TakeSurveyScreen extends Component {
                       color: 'gray',
                     }}
                   />
-                  <Text style={{fontSize: 12, padding: 1, color: 'gray'}}>
+                  <Text style={{ fontSize: 12, padding: 1, color: 'gray' }}>
                     {itemData.date}
                   </Text>
                 </View>
-                <View style={{flex: 1, flexDirection: 'row'}}>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
                   <MDIcon
                     name={'attach-money'}
                     style={{
@@ -227,9 +227,9 @@ export default class TakeSurveyScreen extends Component {
                 </View>
               </View>
             </View>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <Text
-                style={{alignSelf: 'center', fontSize: 16, color: '#13538E'}}>
+                style={{ alignSelf: 'center', fontSize: 16, color: '#13538E' }}>
                 Open
               </Text>
               <MDIcon
@@ -259,9 +259,9 @@ export default class TakeSurveyScreen extends Component {
   render() {
     return (
       <View style={styles.mainContainer}>
-        <View style={{hegith: 150}}>
+        <View style={{ hegith: 150 }}>
           <Image
-            style={{height: 150}}
+            style={{ height: 150 }}
             source={{
               uri:
                 'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
@@ -273,8 +273,8 @@ export default class TakeSurveyScreen extends Component {
         <ScrollableTabView
           tabBarInactiveTextColor={'white'}
           tabBarActiveTextColor={'#13538E'}
-          tabBarUnderlineStyle={{backgroundColor: '#13538E'}}
-          tabBarTextStyle={{fontSize: 18}}
+          tabBarUnderlineStyle={{ backgroundColor: '#13538E' }}
+          tabBarTextStyle={{ fontSize: 18 }}
           renderTabBar={() => (
             <CustomTab inactiveTabStyle="rgba(19,83,142,1)" />
           )}>
@@ -282,7 +282,7 @@ export default class TakeSurveyScreen extends Component {
             showsVerticalScrollIndicator={false}
             scrollEnabled={this.state.dataSoureUntaken.length > 3}
             data={this.state.dataSoureUntaken}
-            renderItem={({item, index}) => this.renderUntakenRow(item, index)}
+            renderItem={({ item, index }) => this.renderUntakenRow(item, index)}
             keyExtractor={item => item.id.toString()}
             onRefresh={() => this.onRefreshUnaken()}
             refreshing={this.state.isFetchingUntaken}
@@ -290,11 +290,11 @@ export default class TakeSurveyScreen extends Component {
           />
 
           <FlatList
-            style={{flex: 1, paddingBottom: 10}}
+            style={{ flex: 1, paddingBottom: 10 }}
             showsVerticalScrollIndicator={false}
             scrollEnabled={this.dataTakenSurvey.length > 3}
             data={this.state.dataSoureTaken}
-            renderItem={({item, index}) => this.renderTakenRow(item, index)}
+            renderItem={({ item, index }) => this.renderTakenRow(item, index)}
             keyExtractor={item => item.id.toString()}
             onRefresh={() => this.onRefreshTaken()}
             refreshing={this.state.isFetchingTaken}

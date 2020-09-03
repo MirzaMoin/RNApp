@@ -1,8 +1,8 @@
 const React = require('react');
-const {ViewPropTypes} = (ReactNative = require('react-native'));
+const { ViewPropTypes } = (ReactNative = require('react-native'));
 const PropTypes = require('prop-types');
 const createReactClass = require('create-react-class');
-const {StyleSheet, Text, View, Animated} = ReactNative;
+const { StyleSheet, Text, View, Animated } = ReactNative;
 const Button = require('./Button');
 
 const CustomTab = createReactClass({
@@ -28,7 +28,7 @@ const CustomTab = createReactClass({
     };
   },
 
-  renderTabOption(name, page) {},
+  renderTabOption(name, page) { },
 
   renderTab(name, page, isTabActive, onPressHandler) {
     const {
@@ -42,14 +42,14 @@ const CustomTab = createReactClass({
     const tabColor = isTabActive ? 'white' : inactiveTabStyle;
     return (
       <Button
-        style={{flex: 1, backgroundColor: tabColor}}
+        style={{ flex: 1, backgroundColor: tabColor }}
         key={name}
         accessible={true}
         accessibilityLabel={name}
         accessibilityTraits="button"
         onPress={() => onPressHandler(page)}>
         <View style={[styles.tab, this.props.tabStyle]}>
-          <Text style={[{color: textColor, fontWeight}, textStyle]}>
+          <Text style={[{ color: textColor, fontWeight }, textStyle]}>
             {name}
           </Text>
         </View>
@@ -76,7 +76,7 @@ const CustomTab = createReactClass({
       <View
         style={[
           styles.tabs,
-          {backgroundColor: this.props.backgroundColor},
+          { backgroundColor: this.props.backgroundColor },
           this.props.style,
         ]}>
         {this.props.tabs.map((name, page) => {
@@ -88,7 +88,7 @@ const CustomTab = createReactClass({
           style={[
             tabUnderlineStyle,
             {
-              transform: [{translateX}],
+              transform: [{ translateX }],
             },
             this.props.underlineStyle,
           ]}

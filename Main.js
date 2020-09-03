@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Image,
@@ -9,10 +9,10 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import {createAppContainer, createSwitchNavigator} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
-import {createDrawerNavigator, DrawerItems} from 'react-navigation-drawer';
-import {AppNavigation} from './src/navigation/AppNavigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
+import { AppNavigation } from './src/navigation/AppNavigation';
 import LoginScreen from './src/screen/LoginScreen';
 import SplashScreen from './src/screen/SplashScreen';
 import HomeScreen from './src/screen/HomeScreen';
@@ -35,7 +35,7 @@ import ProfileScreen from './src/screen/ProfileScreen';
 import ChangePasswordScreen from './src/screen/ChangePasswordScreen';
 import UploadReceiptScreen from './src/screen/UploadRecieptScreen';
 import RPGScreen from './src/screen/RPGScreen';
-import {WayToEarnScreen} from './src/screen/WaysToEarnScreen';
+import { WayToEarnScreen } from './src/screen/WaysToEarnScreen';
 import * as RNEP from '@estimote/react-native-proximity';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -78,10 +78,10 @@ class NavigationDrawerStructure extends Component {
   };
   render() {
     return (
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
           <MDIcon
-            style={{fontSize: 25, color: 'white', marginLeft: 15}}
+            style={{ fontSize: 25, color: 'white', marginLeft: 15 }}
             name={'menu'}
           />
         </TouchableOpacity>
@@ -92,25 +92,25 @@ class NavigationDrawerStructure extends Component {
 
 // Logout data here new change
 class LogoutItem extends Component {
-  render(){
+  render() {
     return (
       <TouchableNativeFeedback
-          activeOpacity={1}
-          onPress={async ()=>{
-            //_storeLououtData();
-            try {
-              await AsyncStorage.setItem('isLogin', JSON.stringify(false));
-            } catch (error) {
-              // Error saving data
-            }
-            this.props.navigationProps.navigate('Auth');
-          }}>
-          <View style={{padding: 10, flexDirection: 'row', alignContent: 'center', paddingBottom: 20}}>
-            <MDIcon name={'exit-to-app'} style={{fontSize: 20, marginLeft: 10}}/>
-            <View style={{width: '12%'}} />
-            <Text style={{fontWeight: 'bold'}}>Logout</Text>
-          </View>
-        </TouchableNativeFeedback>
+        activeOpacity={1}
+        onPress={async () => {
+          //_storeLououtData();
+          try {
+            await AsyncStorage.setItem('isLogin', JSON.stringify(false));
+          } catch (error) {
+            // Error saving data
+          }
+          this.props.navigationProps.navigate('Auth');
+        }}>
+        <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center', paddingBottom: 20 }}>
+          <MDIcon name={'exit-to-app'} style={{ fontSize: 20, marginLeft: 10 }} />
+          <View style={{ width: '12%' }} />
+          <Text style={{ fontWeight: 'bold' }}>Logout</Text>
+        </View>
+      </TouchableNativeFeedback>
     )
   }
 }
@@ -118,7 +118,7 @@ class LogoutItem extends Component {
 class NavigationComponentRight extends Component {
   render() {
     return (
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity
           onPress={() => {
             // this.props.navigationProps.navigation.navigate('Screen1');
@@ -127,7 +127,7 @@ class NavigationComponentRight extends Component {
             this.props.navigationProps.navigate('Auth');
           }}>
           <MDIcon
-            style={{fontSize: 25, marginRight: 10, color: 'white'}}
+            style={{ fontSize: 25, marginRight: 10, color: 'white' }}
             name={'notifications-none'}
           />
         </TouchableOpacity>
@@ -138,9 +138,9 @@ class NavigationComponentRight extends Component {
 
 class DrawerHeaderComponent extends Component {
 
-  constructor(){
+  constructor() {
     super();
-    this.state={}
+    this.state = {}
   }
 
   _getStoredData = async () => {
@@ -154,7 +154,7 @@ class DrawerHeaderComponent extends Component {
           //const val = JSON.parse(value);
           if (value) {
             profile = value;
-            if(value === this.state.userImage){
+            if (value === this.state.userImage) {
               isUpdateState = false;
             } else {
               isUpdateState = true;
@@ -193,7 +193,7 @@ class DrawerHeaderComponent extends Component {
         }
       });
 
-      if(
+      if (
         this.state.email === email &&
         this.state.name === `${fName} ${lName}` &&
         this.state.userImage === profile
@@ -223,7 +223,7 @@ class DrawerHeaderComponent extends Component {
     const { width, height } = event.nativeEvent.layout;
     //console.log(`ON LAYOUT ${width} ${height}`);
     //this.setState({width, height})
-    if(!(this.state.width)){
+    if (!(this.state.width)) {
       this.setState({
         width: width,
       });
@@ -233,7 +233,7 @@ class DrawerHeaderComponent extends Component {
   render() {
     this._getStoredData();
     return (
-      <View style={{flexDirection: 'column'}} ref={(ref) => (this.viewParent = ref)} onLayout={this.onPageLayout}>
+      <View style={{ flexDirection: 'column' }} ref={(ref) => (this.viewParent = ref)} onLayout={this.onPageLayout}>
         {/*<Image
           style={{width: this.state.width || '100%', height: this.state.width || 200}}
           source={{
@@ -241,49 +241,49 @@ class DrawerHeaderComponent extends Component {
               this.state.userImage || '',
           }}
         />*/}
-        <ImageLoader 
+        <ImageLoader
           title={this.state.name}
           src={this.state.userImage}
-          style={{width: this.state.width || '100%', height: this.state.width || 200}}
-          titleStyle={{fontSize: 40}} 
-           />
-      <Text
-        style={{
-          paddingLeft: 15,
-          textAlign: 'center',
-          paddingRight: 15,
-          paddingTop: 5,
-          fontSize: 16,
-          fontFamily: 'bold'
-        }}>
-        {this.state.name}
-      </Text>
-      <Text
-        style={{
-          paddingLeft: 15,
-          textAlign: 'center',
-          paddingRight: 15,
-          paddingTop: 5,
-          fontSize: 14,
-          paddingBottom: 5,
-        }}>
-        {this.state.email}
-      </Text>
+          style={{ width: this.state.width || '100%', height: this.state.width || 200 }}
+          titleStyle={{ fontSize: 40 }}
+        />
+        <Text
+          style={{
+            paddingLeft: 15,
+            textAlign: 'center',
+            paddingRight: 15,
+            paddingTop: 5,
+            fontSize: 16,
+            fontFamily: 'bold'
+          }}>
+          {this.state.name}
+        </Text>
+        <Text
+          style={{
+            paddingLeft: 15,
+            textAlign: 'center',
+            paddingRight: 15,
+            paddingTop: 5,
+            fontSize: 14,
+            paddingBottom: 5,
+          }}>
+          {this.state.email}
+        </Text>
       </View>
     );
   }
 }
 
 const CreateDrawerComponent = props => (
-  <SafeAreaView style={{flex: 1}}>
-    <View style={{flex: 1}}>
-      <ScrollView style={{flex: 1}}>
+  <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }}>
         <DrawerHeaderComponent navigation={props.navigation} />
-        <DrawerItems {...props}/>
+        <DrawerItems {...props} />
         {/*<LogoutItem navigationProps={props}/>*/}
         <TouchableNativeFeedback
           activeOpacity={1}
-          onPress={async ()=>{
+          onPress={async () => {
             //_storeLououtData();
             try {
               await AsyncStorage.setItem('isLogin', JSON.stringify(false));
@@ -292,10 +292,10 @@ const CreateDrawerComponent = props => (
             }
             props.navigation.navigate('Auth');
           }}>
-          <View style={{padding: 10, flexDirection: 'row', alignContent: 'center', paddingBottom: 20}}>
-            <MDIcon name={'exit-to-app'} style={{fontSize: 20, marginLeft: 10}}/>
-            <View style={{width: '12%'}} />
-            <Text style={{fontWeight: 'bold'}}>Logout</Text>
+          <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center', paddingBottom: 20 }}>
+            <MDIcon name={'exit-to-app'} style={{ fontSize: 20, marginLeft: 10 }} />
+            <View style={{ width: '12%' }} />
+            <Text style={{ fontWeight: 'bold' }}>Logout</Text>
           </View>
         </TouchableNativeFeedback>
       </ScrollView>
@@ -307,7 +307,7 @@ const Screen2_StackNavigator = createStackNavigator({
   //All the screen from the Screen2 will be indexed here
   Second: {
     screen: Screen2,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Transaction',
       headerTitleStyle: {
         color: 'white',
@@ -326,7 +326,7 @@ const ChangePasswordStackNavigator = createStackNavigator({
   //All the screen from the Screen3 will be indexed here
   changePassword: {
     screen: ChangePasswordScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Change Password',
       headerTitleStyle: {
         color: 'white',
@@ -345,7 +345,7 @@ const UploadReceiptStackNavigator = createStackNavigator({
   //All the screen from the Screen3 will be indexed here
   uploadReceipt: {
     screen: UploadReceiptScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Upload Receipt',
       headerTitleStyle: {
         color: 'white',
@@ -364,7 +364,7 @@ const RedeemCashbackScreenStackNavigator = createStackNavigator({
   //All the screen from the Screen3 will be indexed here
   redeemCashback: {
     screen: RedeemCashbackScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Redeem Cashback',
       headerTitleStyle: {
         color: 'white',
@@ -383,7 +383,7 @@ const LeaderboardScreenStackNavigator = createStackNavigator({
   //All the screen from the Screen3 will be indexed here
   redeemCashback: {
     screen: LeaderboardScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Redeem Cashback',
       headerTitleStyle: {
         color: 'white',
@@ -402,7 +402,7 @@ const RPGScreenStackNavigation = createStackNavigator({
   //All the screen from the Screen3 will be indexed here
   rpgScreen: {
     screen: RPGScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Rewar Program Goal',
       headerTitleStyle: {
         color: 'white',
@@ -421,7 +421,7 @@ const Home_StackNavigator = createStackNavigator({
   //All the screen from the Screen3 will be indexed here
   Third: {
     screen: HomeScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Home',
       headerTitleStyle: {
         color: 'white',
@@ -429,13 +429,13 @@ const Home_StackNavigator = createStackNavigator({
       },
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: (
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('notificaiton');
             }}>
             <MDIcon
-              style={{fontSize: 25, marginRight: 10, color: 'white'}}
+              style={{ fontSize: 25, marginRight: 10, color: 'white' }}
               name={'notifications-none'}
             />
           </TouchableOpacity>
@@ -448,7 +448,7 @@ const Home_StackNavigator = createStackNavigator({
                 uri:
                   'https://www.atlassian.design/server/images/avatars/avatar-96.png',
               }}
-              style={{width: 25, height: 25, marginRight: 10}}
+              style={{ width: 25, height: 25, marginRight: 10 }}
             />
           </TouchableOpacity>
         </View>
@@ -464,7 +464,7 @@ const Notificaiton_Navigator = createStackNavigator({
   //All the screen from the Screen3 will be indexed here
   notificaiton: {
     screen: NotificationScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       drawerLockMode: 'locked-closed',
       title: 'Notification',
       headerTitleStyle: {
@@ -472,10 +472,10 @@ const Notificaiton_Navigator = createStackNavigator({
         marginLeft: -7,
       },
       headerLeft: (
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <MDIcon
-              style={{fontSize: 25, color: 'white', marginLeft: 15}}
+              style={{ fontSize: 25, color: 'white', marginLeft: 15 }}
               name={'arrow-back'}
             />
           </TouchableOpacity>
@@ -488,17 +488,17 @@ const Notificaiton_Navigator = createStackNavigator({
   },
   notificaitonDetail: {
     screen: NotificationDetailScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Notification Detail',
       headerTitleStyle: {
         color: 'white',
         marginLeft: -7,
       },
       headerLeft: (
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <MDIcon
-              style={{fontSize: 25, color: 'white', marginLeft: 15}}
+              style={{ fontSize: 25, color: 'white', marginLeft: 15 }}
               name={'arrow-back'}
             />
           </TouchableOpacity>
@@ -514,7 +514,7 @@ const Notificaiton_Navigator = createStackNavigator({
 const Transaction_Navigator = createStackNavigator({
   transaction: {
     screen: TransactionHistory,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Transaction',
       headerTitleStyle: {
         color: 'white',
@@ -544,7 +544,7 @@ const Transaction_Navigator = createStackNavigator({
 const Offer_Navigator = createStackNavigator({
   offer: {
     screen: OfferScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Offers',
       headerTitleStyle: {
         color: 'white',
@@ -571,7 +571,7 @@ const Offer_Navigator = createStackNavigator({
   },
   offerDetail: {
     screen: OfferDetailScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Offer Detail',
       headerTitleStyle: {
         color: 'white',
@@ -601,7 +601,7 @@ const Offer_Navigator = createStackNavigator({
 const TransferPoint_Navigator = createStackNavigator({
   transaction: {
     screen: TransferPointScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Transfer Point',
       headerTitleStyle: {
         color: 'white',
@@ -632,7 +632,7 @@ const RefereFriend_StackNavigator = createStackNavigator({
   //All the screen from the Screen2 will be indexed here
   Second: {
     screen: RefereFriendScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Refere Friend',
       headerTitleStyle: {
         color: 'white',
@@ -651,7 +651,7 @@ const ContactUs_StackNavigator = createStackNavigator({
   //All the screen from the Screen2 will be indexed here
   Second: {
     screen: ContactUs,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Contact Us',
       headerTitleStyle: {
         color: 'white',
@@ -670,7 +670,7 @@ const Location_StackNavigator = createStackNavigator({
   //All the screen from the Screen2 will be indexed here
   Second: {
     screen: LocationScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Loation',
       headerTitleStyle: {
         color: 'white',
@@ -689,7 +689,7 @@ const SocialShare_StackNavigator = createStackNavigator({
   //All the screen from the Screen2 will be indexed here
   Second: {
     screen: SocialShareScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Social Share',
       headerTitleStyle: {
         color: 'white',
@@ -708,7 +708,7 @@ const TakeSurveyScreen_StackNavigator = createStackNavigator({
   //All the screen from the Screen2 will be indexed here
   Second: {
     screen: TakeSurveyScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Take Survey',
       headerTitleStyle: {
         color: 'white',
@@ -723,17 +723,17 @@ const TakeSurveyScreen_StackNavigator = createStackNavigator({
   },
   SurveyForm: {
     screen: SurveyFormScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Survey Form',
       headerTitleStyle: {
         color: 'white',
         marginLeft: -7,
       },
       headerLeft: (
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <MDIcon
-              style={{fontSize: 25, color: 'white', marginLeft: 15}}
+              style={{ fontSize: 25, color: 'white', marginLeft: 15 }}
               name={'arrow-back'}
             />
           </TouchableOpacity>
@@ -750,7 +750,7 @@ const ProfileTabScreenStackNavigator = createStackNavigator({
   //All the screen from the Screen1 will be indexed here
   profileTabScreen: {
     screen: TabScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: 'Ways to Earn',
       headerTitleStyle: {
         color: 'white',
@@ -783,8 +783,8 @@ const DrawerNavigatorExample = createDrawerNavigator(
       screen: Home_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Home',
-        drawerIcon: ({tintColor}) => (
-          <MDIcon style={{fontSize: 18}} name={'home'} />
+        drawerIcon: ({ tintColor }) => (
+          <MDIcon style={{ fontSize: 18 }} name={'home'} />
         ),
       },
     },
@@ -792,8 +792,8 @@ const DrawerNavigatorExample = createDrawerNavigator(
       screen: ProfileTabScreenStackNavigator,
       navigationOptions: {
         drawerLabel: 'Profile',
-        drawerIcon: ({tintColor}) => (
-          <MDIcon style={{fontSize: 18}} name={'person'} />
+        drawerIcon: ({ tintColor }) => (
+          <MDIcon style={{ fontSize: 18 }} name={'person'} />
         ),
       },
     },
@@ -801,8 +801,8 @@ const DrawerNavigatorExample = createDrawerNavigator(
       screen: RPGScreenStackNavigation,
       navigationOptions: {
         drawerLabel: 'Reward Entry Goal',
-        drawerIcon: ({tintColor}) => (
-          <MDIcon style={{fontSize: 18}} name={'star'} />
+        drawerIcon: ({ tintColor }) => (
+          <MDIcon style={{ fontSize: 18 }} name={'star'} />
         ),
       },
     },
@@ -810,8 +810,8 @@ const DrawerNavigatorExample = createDrawerNavigator(
       screen: RedeemCashbackScreenStackNavigator,
       navigationOptions: {
         drawerLabel: 'Redeem Cashback',
-        drawerIcon: ({tintColor}) => (
-          <MDIcon style={{fontSize: 18}} name={'redeem'} />
+        drawerIcon: ({ tintColor }) => (
+          <MDIcon style={{ fontSize: 18 }} name={'redeem'} />
         ),
       },
     },
@@ -819,8 +819,8 @@ const DrawerNavigatorExample = createDrawerNavigator(
       screen: LeaderboardScreenStackNavigator,
       navigationOptions: {
         drawerLabel: 'Leaderboard',
-        drawerIcon: ({tintColor}) => (
-          <Icon style={{fontSize: 18}} name={'trophy'} />
+        drawerIcon: ({ tintColor }) => (
+          <Icon style={{ fontSize: 18 }} name={'trophy'} />
         ),
       },
     },
@@ -829,8 +829,8 @@ const DrawerNavigatorExample = createDrawerNavigator(
       screen: Notificaiton_Navigator,
       navigationOptions: {
         drawerLabel: 'Notification',
-        drawerIcon: ({tintColor}) => (
-          <MDIcon style={{fontSize: 18}} name={'notifications'} />
+        drawerIcon: ({ tintColor }) => (
+          <MDIcon style={{ fontSize: 18 }} name={'notifications'} />
         ),
       },
     },
@@ -838,8 +838,8 @@ const DrawerNavigatorExample = createDrawerNavigator(
       screen: Transaction_Navigator,
       navigationOptions: {
         drawerLabel: 'Transaction History',
-        drawerIcon: ({tintColor}) => (
-          <MDIcon style={{fontSize: 18}} name={'history'} />
+        drawerIcon: ({ tintColor }) => (
+          <MDIcon style={{ fontSize: 18 }} name={'history'} />
         ),
       },
     },
@@ -847,8 +847,8 @@ const DrawerNavigatorExample = createDrawerNavigator(
       screen: Offer_Navigator,
       navigationOptions: {
         drawerLabel: 'Offers',
-        drawerIcon: ({tintColor}) => (
-          <MDIcon style={{fontSize: 18}} name={'local-offer'} />
+        drawerIcon: ({ tintColor }) => (
+          <MDIcon style={{ fontSize: 18 }} name={'local-offer'} />
         ),
       },
     },
@@ -856,8 +856,8 @@ const DrawerNavigatorExample = createDrawerNavigator(
       screen: TransferPoint_Navigator,
       navigationOptions: {
         drawerLabel: 'Transfer Point',
-        drawerIcon: ({tintColor}) => (
-          <MDIcon style={{fontSize: 18}} name={'swap-horiz'} />
+        drawerIcon: ({ tintColor }) => (
+          <MDIcon style={{ fontSize: 18 }} name={'swap-horiz'} />
         ),
       },
     },
@@ -866,8 +866,8 @@ const DrawerNavigatorExample = createDrawerNavigator(
       screen: UploadReceiptStackNavigator,
       navigationOptions: {
         drawerLabel: 'Upload Receipt',
-        drawerIcon: ({tintColor}) => (
-          <Icon style={{fontSize: 18}} name={'upload'} />
+        drawerIcon: ({ tintColor }) => (
+          <Icon style={{ fontSize: 18 }} name={'upload'} />
         ),
       },
     },
@@ -875,14 +875,14 @@ const DrawerNavigatorExample = createDrawerNavigator(
       screen: RefereFriend_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Refere Friend',
-        drawerIcon: () => <MDIcon style={{fontSize: 18}} name={'group-add'} />,
+        drawerIcon: () => <MDIcon style={{ fontSize: 18 }} name={'group-add'} />,
       },
     },
     contactUs: {
       screen: ContactUs_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Contact Us',
-        drawerIcon: () => <MDIcon style={{fontSize: 18}} name={'phone'} />,
+        drawerIcon: () => <MDIcon style={{ fontSize: 18 }} name={'phone'} />,
       },
     },
     locations: {
@@ -890,7 +890,7 @@ const DrawerNavigatorExample = createDrawerNavigator(
       navigationOptions: {
         drawerLabel: 'Location',
         drawerIcon: () => (
-          <MDIcon style={{fontSize: 18}} name={'location-on'} />
+          <MDIcon style={{ fontSize: 18 }} name={'location-on'} />
         ),
       },
     },
@@ -898,14 +898,14 @@ const DrawerNavigatorExample = createDrawerNavigator(
       screen: SocialShare_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Social Share',
-        drawerIcon: () => <MDIcon style={{fontSize: 18}} name={'share'} />,
+        drawerIcon: () => <MDIcon style={{ fontSize: 18 }} name={'share'} />,
       },
     },
     takeSurvey: {
       screen: TakeSurveyScreen_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Take Survey',
-        drawerIcon: () => <MDIcon style={{fontSize: 18}} name={'edit'} />,
+        drawerIcon: () => <MDIcon style={{ fontSize: 18 }} name={'edit'} />,
       },
     },
     changePassword: {
@@ -913,8 +913,8 @@ const DrawerNavigatorExample = createDrawerNavigator(
       screen: ChangePasswordStackNavigator,
       navigationOptions: {
         drawerLabel: 'Change Password',
-        drawerIcon: ({tintColor}) => (
-          <MDIcon style={{fontSize: 18}} name={'lock'} />
+        drawerIcon: ({ tintColor }) => (
+          <MDIcon style={{ fontSize: 18 }} name={'lock'} />
         ),
       },
     },
@@ -929,7 +929,7 @@ const DrawerNavigatorExample = createDrawerNavigator(
 const Drawer_StackNavigator = createStackNavigator({
   Main: {
     screen: DrawerNavigatorExample,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       header: null,
     }),
   },
@@ -939,7 +939,7 @@ const Login_StackNavigator = createStackNavigator({
   //All the screen from the Screen2 will be indexed here
   Login: {
     screen: LoginScreen,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       header: null,
     }),
   },

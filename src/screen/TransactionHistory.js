@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {View, Text, Image, TouchableOpacity, FlatList, AsyncStorage, Alert} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, Image, TouchableOpacity, FlatList, AsyncStorage, Alert } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {ScreenHeader} from '../widget/ScreenHeader';
+import { ScreenHeader } from '../widget/ScreenHeader';
 import RBSheet from 'react-native-raw-bottom-sheet';
 
 export default class TransactionHistory extends Component {
@@ -110,15 +110,15 @@ export default class TransactionHistory extends Component {
   };
 
   _callTransactionHistory = () => {
-    
+
   }
 
   render() {
     return (
       <View style={styles.mainContainer}>
-        <View style={{hegith: 150}}>
+        <View style={{ hegith: 150 }}>
           <Image
-            style={{height: 150}}
+            style={{ height: 150 }}
             source={{
               uri:
                 'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
@@ -131,7 +131,7 @@ export default class TransactionHistory extends Component {
           showsVerticalScrollIndicator={false}
           scrollEnabled={this.data.length > 3}
           data={this.data}
-          renderItem={({item, index}) => (
+          renderItem={({ item, index }) => (
             <View
               style={[
                 styles.rowContainer,
@@ -140,23 +140,23 @@ export default class TransactionHistory extends Component {
                     index % 2 ? 'rgba(153,153,153,0.15)' : 'white',
                 },
               ]}>
-              <View style={{flex: 1, flexDirection: 'row'}}>
+              <View style={{ flex: 1, flexDirection: 'row' }}>
                 <MDIcon style={styles.rowItemIcon} name={'date-range'} />
                 <Text style={styles.rowTitle}>Date:</Text>
-                <Text style={[styles.rowItemtext, {color: 'red'}]}>
+                <Text style={[styles.rowItemtext, { color: 'red' }]}>
                   {item.date}
                 </Text>
               </View>
 
-              <View style={{flex: 1, flexDirection: 'row'}}>
+              <View style={{ flex: 1, flexDirection: 'row' }}>
                 <MDIcon style={styles.rowItemIcon} name={'location-on'} />
                 <Text style={styles.rowTitle}>Location:</Text>
-                <Text style={[styles.rowItemtext, {color: 'grey'}]}>
+                <Text style={[styles.rowItemtext, { color: 'grey' }]}>
                   {item.location}
                 </Text>
               </View>
 
-              <View style={{flex: 1, flexDirection: 'row'}}>
+              <View style={{ flex: 1, flexDirection: 'row' }}>
                 <Icon name="gift" style={styles.rowItemIcon} size={20} />
                 <Text style={styles.rowTitle}>Point:</Text>
                 <Text
@@ -170,10 +170,10 @@ export default class TransactionHistory extends Component {
                 </Text>
               </View>
 
-              <View style={{flex: 1, flexDirection: 'row'}}>
+              <View style={{ flex: 1, flexDirection: 'row' }}>
                 <MDIcon style={styles.rowItemIcon} name={'credit-card'} />
                 <Text style={styles.rowTitle}>Balance:</Text>
-                <Text style={[styles.rowItemtext, {color: 'gray'}]}>
+                <Text style={[styles.rowItemtext, { color: 'gray' }]}>
                   {item.balance}
                 </Text>
               </View>
@@ -184,7 +184,7 @@ export default class TransactionHistory extends Component {
           <TouchableOpacity
             style={styles.footerMenuItem}
             onPress={() => {
-              this.setState({title: 'Profile', tabIndex: 0});
+              this.setState({ title: 'Profile', tabIndex: 0 });
             }}>
             <Image
               style={[
@@ -212,7 +212,7 @@ export default class TransactionHistory extends Component {
           <TouchableOpacity
             style={styles.footerMenuItem}
             onPress={() => {
-              this.setState({title: 'Ways to earn', tabIndex: 1});
+              this.setState({ title: 'Ways to earn', tabIndex: 1 });
             }}>
             <Image
               style={[
@@ -239,7 +239,7 @@ export default class TransactionHistory extends Component {
           <TouchableOpacity
             style={styles.footerMenuItem}
             onPress={() => {
-              this.setState({title: 'Offer', tabIndex: 2});
+              this.setState({ title: 'Offer', tabIndex: 2 });
             }}>
             <Image
               style={[
@@ -266,7 +266,7 @@ export default class TransactionHistory extends Component {
           <TouchableOpacity
             style={styles.footerMenuItem}
             onPress={() => {
-              this.setState({title: 'Notification', tabIndex: 3});
+              this.setState({ title: 'Notification', tabIndex: 3 });
             }}>
             <Image
               style={[
@@ -299,7 +299,7 @@ export default class TransactionHistory extends Component {
               }}
               resizeMode="cover"
             />
-            <Text style={{fontSize: 11, color: 'white'}}>More</Text>
+            <Text style={{ fontSize: 11, color: 'white' }}>More</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -325,7 +325,7 @@ const styles = {
     paddingTop: 7,
     paddingBottom: 7,
   },
-  rowItemIcon: {alignSelf: 'center', fontSize: 20},
+  rowItemIcon: { alignSelf: 'center', fontSize: 20 },
   rowTitle: {
     paddingLeft: 7,
     fontSize: 18,

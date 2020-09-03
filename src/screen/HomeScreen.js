@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -31,20 +31,20 @@ export default class HomeScreen extends Component {
     };
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this._getStoredData();
   }
 
   _getStoredData = async () => {
     try {
-      var userID, webformID, firstName = '', lastName = '', profile ='', userPoint ='';
+      var userID, webformID, firstName = '', lastName = '', profile = '', userPoint = '';
       await AsyncStorage.getItem('userID', (err, value) => {
         if (err) {
           //this.props.navigation.navigate('Auth');
         } else {
           //const val = JSON.parse(value);
           if (value) {
-            userID= value
+            userID = value
           }
         }
       });
@@ -254,19 +254,19 @@ export default class HomeScreen extends Component {
         activeOpacity={this.state.tabIndex == index ? 1 : 0.6}
         style={[
           styles.footerMenuItem,
-          {flex: this.state.tabIndex == index ? 3 : 1},
-          {backgroundColor: this.state.tabIndex == index ? '#075985' : '#012345'},
-          this.state.tabIndex == index ? {margin: 9, borderRadius: 40, paddingVertical: 7} : {}
+          { flex: this.state.tabIndex == index ? 3 : 1 },
+          { backgroundColor: this.state.tabIndex == index ? '#075985' : '#012345' },
+          this.state.tabIndex == index ? { margin: 9, borderRadius: 40, paddingVertical: 7 } : {}
         ]}
         onPress={() => {
-          if(index == 4) {
+          if (index == 4) {
             this.Standard.open();
           } else {
-            this.setState({title: title, tabIndex: index});
+            this.setState({ title: title, tabIndex: index });
           }
         }}>
         <Image
-          style={[styles.footerMenuItemImage,this.state.tabIndex==index?styles.footerMenuSelectedItem:styles.footerMenuIdelItem]}
+          style={[styles.footerMenuItemImage, this.state.tabIndex == index ? styles.footerMenuSelectedItem : styles.footerMenuIdelItem]}
           source={{
             uri:
               icon,
@@ -283,24 +283,24 @@ export default class HomeScreen extends Component {
       // eslint-disable-next-line react-native/no-inline-styles
       <SafeAreaView style={styles.mainContainer}>
         <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => {
-          this.props.navigation.openDrawer();
-        }}>
-        <MDIcon name={'menu'} style={styles.leftIcon}/>
-        </TouchableOpacity>
-        <Text style={styles.title}>Home</Text>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={()=>{
-            this.props.navigation.navigate('profileTab')
+          <TouchableOpacity onPress={() => {
+            this.props.navigation.openDrawer();
           }}>
-          <ImageLoader 
-            title={this.state.userFullName}
-            src={this.state.userProfileImage}
-            rounded
-            style={styles.headerUserImage}/>
-        </TouchableOpacity>
-      </View>
+            <MDIcon name={'menu'} style={styles.leftIcon} />
+          </TouchableOpacity>
+          <Text style={styles.title}>Home</Text>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              this.props.navigation.navigate('profileTab')
+            }}>
+            <ImageLoader
+              title={this.state.userFullName}
+              src={this.state.userProfileImage}
+              rounded
+              style={styles.headerUserImage} />
+          </TouchableOpacity>
+        </View>
         {/*<ImageBackground
           style={styles.backgroundImage}
           source={{
@@ -308,53 +308,53 @@ export default class HomeScreen extends Component {
               'https://cdn-media-1.freecodecamp.org/images/1*gQEm5r-73VpwmSrHYRi0AQ.jpeg',
           }}
           resizeMode="cover">*/}
-          {/*<View style={{flex: 1}}>{this._renderScreens()}</View>*/}
-          <View style={{width: '100%', padding: 5, backgroundColor: '#FE9D3F', flexDirection: 'row'}}>
-            <Text style={{fontSize: 15, color: 'white', paddingLeft: 10, flex: 1, alignSelf: 'center'}}>Refere Friend & Earn 40 Points!</Text>
-            <Icon name={'share-square'} style={{color: '#0282C6', fontSize: 20}} />
-          </View>
-          <View style={{flex: 1}}>
-            <LinearGradient
-              colors={['#0282C6', '#075985']}
-              style={{flexDirection: 'column', padding: 10, height: 200, justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}>
-                <View style={{flexDirection: 'row', width: '50%', padding: 5}}>
-                  <View style={{height: 6, width: 6,borderRadius: 5 , backgroundColor: '#FE9D3F', alignSelf: 'center', marginHorizontal: 5}}/>
-                  <Text style={{fontSize: 19, color: 'white', fontFamily: 'bold'}}>Current Points</Text>
+        {/*<View style={{flex: 1}}>{this._renderScreens()}</View>*/}
+        <View style={{ width: '100%', padding: 5, backgroundColor: '#FE9D3F', flexDirection: 'row' }}>
+          <Text style={{ fontSize: 15, color: 'white', paddingLeft: 10, flex: 1, alignSelf: 'center' }}>Refere Friend & Earn 40 Points!</Text>
+          <Icon name={'share-square'} style={{ color: '#0282C6', fontSize: 20 }} />
+        </View>
+        <View style={{ flex: 1 }}>
+          <LinearGradient
+            colors={['#0282C6', '#075985']}
+            style={{ flexDirection: 'column', padding: 10, height: 200, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', width: '50%', padding: 5 }}>
+              <View style={{ height: 6, width: 6, borderRadius: 5, backgroundColor: '#FE9D3F', alignSelf: 'center', marginHorizontal: 5 }} />
+              <Text style={{ fontSize: 19, color: 'white', fontFamily: 'bold' }}>Current Points</Text>
+            </View>
+            <View style={{ height: 2, backgroundColor: 'white', width: '50%', margin: 5 }} />
+            <AnimateNumber
+              value={this.state.userPoint || 0}
+              formatter={(val) => {
+                return <Text
+                  style={{ fontSize: 26, color: 'white', fontFamily: 'bold', padding: 5 }}
+                >{parseFloat(val).toFixed(2)}</Text>
+              }} />
+            <View style={{ height: 2, backgroundColor: 'white', width: '50%', margin: 5 }} />
+            <Text style={{ color: '#FE9D3F', fontSize: 16, marginTop: 10, padding: 10, backgroundColor: '#012345', paddingHorizontal: 25, borderRadius: 5 }}>Redeem Offer</Text>
+          </LinearGradient>
+          <FlatList
+            style={{ flex: 1, backgroundColor: 'rgba(153,153,153,0.5)' }}
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={true}
+            data={this.data.lists}
+            renderItem={({ item, index }) => {
+              return (
+                <View style={{ padding: 10, flexDirection: 'row', marginTop: 5, backgroundColor: 'white' }}>
+                  <MDIcon name={'person'} style={{ fontSize: 30, color: 'grey', backgroundColor: 'rgba(153, 153, 153, 0.5)', padding: 10, borderRadius: 50, marginHorizontal: 10 }} />
+                  <Text style={{ flex: 1, paddingHorizontal: 10, fontSize: 18, alignSelf: 'center' }}>Golden Status</Text>
+                  <MDIcon name={'keyboard-arrow-right'} style={{ alignSelf: 'center', fontSize: 30, color: '#FE9D3F' }} />
                 </View>
-                <View style={{height: 2, backgroundColor: 'white', width: '50%', margin: 5}} />
-                <AnimateNumber
-                  value={this.state.userPoint || 0}
-                  formatter={(val) => {
-                  return <Text 
-                  style={{fontSize: 26, color: 'white', fontFamily: 'bold', padding: 5}}
-                  >{parseFloat(val).toFixed(2)}</Text>
-                }}/>
-                <View style={{height: 2, backgroundColor: 'white', width: '50%', margin: 5}} />
-                <Text style={{color: '#FE9D3F', fontSize: 16, marginTop: 10, padding: 10, backgroundColor: '#012345', paddingHorizontal: 25, borderRadius: 5}}>Redeem Offer</Text>
-            </LinearGradient>
-            <FlatList
-                style={{flex: 1, backgroundColor: 'rgba(153,153,153,0.5)'}}
-                showsVerticalScrollIndicator={false}
-                scrollEnabled={true}
-                data={this.data.lists}
-                renderItem={({item, index}) => {
-                  return (
-                    <View style={{padding: 10, flexDirection: 'row', marginTop: 5, backgroundColor: 'white'}}>
-                      <MDIcon name={'person'} style={{fontSize: 30, color: 'grey', backgroundColor: 'rgba(153, 153, 153, 0.5)', padding: 10, borderRadius: 50, marginHorizontal: 10}} />
-                      <Text style={{flex: 1, paddingHorizontal: 10, fontSize: 18, alignSelf: 'center'}}>Golden Status</Text>
-                      <MDIcon name={'keyboard-arrow-right'} style={{alignSelf: 'center', fontSize: 30, color: '#FE9D3F'}}/>
-                    </View>
-                  );
-                }}
-              />
-          </View>
-          <View style={styles.footerContainer}>
-            {this._renderBottomMenuItem('Home', 0, 'https://image.flaticon.com/icons/png/128/747/747420.png')}
-            {this._renderBottomMenuItem('Transaction', 1, 'https://image.flaticon.com/icons/png/128/879/879788.png')}
-            {this._renderBottomMenuItem('Offer', 2, 'https://image.flaticon.com/icons/png/128/879/879757.png')}
-            {this._renderBottomMenuItem('Notification', 3, 'https://image.flaticon.com/icons/png/128/2097/2097743.png')}
-            {this._renderBottomMenuItem('More', 4, 'https://image.flaticon.com/icons/png/128/149/149946.png')}
-          </View>
+              );
+            }}
+          />
+        </View>
+        <View style={styles.footerContainer}>
+          {this._renderBottomMenuItem('Home', 0, 'https://image.flaticon.com/icons/png/128/747/747420.png')}
+          {this._renderBottomMenuItem('Transaction', 1, 'https://image.flaticon.com/icons/png/128/879/879788.png')}
+          {this._renderBottomMenuItem('Offer', 2, 'https://image.flaticon.com/icons/png/128/879/879757.png')}
+          {this._renderBottomMenuItem('Notification', 3, 'https://image.flaticon.com/icons/png/128/2097/2097743.png')}
+          {this._renderBottomMenuItem('More', 4, 'https://image.flaticon.com/icons/png/128/149/149946.png')}
+        </View>
         {/*</ImageBackground>*/}
         <RBSheet
           ref={ref => {
@@ -401,7 +401,7 @@ const styles = {
     backgroundColor: '#f6f6f6',
     textAlign: 'center',
   },
-  headerUserImage: {height: 35, width: 35},
+  headerUserImage: { height: 35, width: 35 },
   headerText: {
     textAlign: 'center',
     flex: 1,
@@ -447,7 +447,7 @@ const styles = {
   },
   footerMenuIdelItemText: {
     color: '#000',
-    fontSize:10,
+    fontSize: 10,
   },
   backgroundImage: {
     height: null,

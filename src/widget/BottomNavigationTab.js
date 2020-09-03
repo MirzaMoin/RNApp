@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {View, Image, TouchableOpacity, Text} from 'react-native';
-import {Card} from 'react-native-elements';
+import React, { Component } from 'react';
+import { View, Image, TouchableOpacity, Text } from 'react-native';
+import { Card } from 'react-native-elements';
 
 export class BottomNavigationTab extends Component {
   constructor() {
@@ -18,7 +18,7 @@ export class BottomNavigationTab extends Component {
         <TouchableOpacity
           style={styles.footerMenuItem}
           onPress={() => {
-            this.setState({title: 'Profile', tabIndex: 0});
+            this.setState({ title: 'Profile', tabIndex: 0 });
           }}>
           <Image
             style={[
@@ -45,7 +45,7 @@ export class BottomNavigationTab extends Component {
         <TouchableOpacity
           style={styles.footerMenuItem}
           onPress={() => {
-            this.setState({title: 'Ways to earn', tabIndex: 1});
+            this.setState({ title: 'Ways to earn', tabIndex: 1 });
           }}>
           <Image
             style={[
@@ -72,7 +72,7 @@ export class BottomNavigationTab extends Component {
         <TouchableOpacity
           style={styles.footerMenuItem}
           onPress={() => {
-            this.setState({title: 'Offer', tabIndex: 2});
+            this.setState({ title: 'Offer', tabIndex: 2 });
           }}>
           <Image
             style={[
@@ -99,7 +99,7 @@ export class BottomNavigationTab extends Component {
         <TouchableOpacity
           style={styles.footerMenuItem}
           onPress={() => {
-            this.setState({title: 'Notification', tabIndex: 3});
+            this.setState({ title: 'Notification', tabIndex: 3 });
           }}>
           <Image
             style={[
@@ -131,7 +131,7 @@ export class BottomNavigationTab extends Component {
             }}
             resizeMode="cover"
           />
-          <Text style={{fontSize: 11, color: 'white'}}>More</Text>
+          <Text style={{ fontSize: 11, color: 'white' }}>More</Text>
         </TouchableOpacity>
       </View>
     );

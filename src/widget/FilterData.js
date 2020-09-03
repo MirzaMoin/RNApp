@@ -31,21 +31,21 @@ export default class Filter extends Component {
         }
     }
 
-    show = async ({filters}) => {
-       /* let years = this.getYears(startYear, endYear);
-        let months = this.getMonths();
-        selectedYear = selectedYear || years[0];
-        selectedMonth = selectedMonth || ((new Date()).getMonth() + 1);*/
+    show = async ({ filters }) => {
+        /* let years = this.getYears(startYear, endYear);
+         let months = this.getMonths();
+         selectedYear = selectedYear || years[0];
+         selectedMonth = selectedMonth || ((new Date()).getMonth() + 1);*/
         //this.setState({filtersOption: filters})
         let promise = new Promise((resolve, clear) => {
-            this.confirm = ({selectedFilter, isClear}) => {
+            this.confirm = ({ selectedFilter, isClear }) => {
                 resolve({
                     selectedFilter,
                     isClear
                 });
             }
             this.clear = () => {
-                clear({clear:true})
+                clear({ clear: true })
             }
             this.setState({
                 visiable: true,
@@ -91,7 +91,7 @@ export default class Filter extends Component {
         const confirm = this.confirm;
         const { selectedFilter } = this.state;
         const isClear = true;
-        confirm && confirm({selectedFilter, isClear});
+        confirm && confirm({ selectedFilter, isClear });
         this.dismiss();
         this.setState({
             selectedFilter: {},
@@ -103,24 +103,24 @@ export default class Filter extends Component {
         const confirm = this.confirm;
         const { selectedFilter } = this.state;
         const isClear = false;
-        confirm && confirm({selectedFilter, isClear});
+        confirm && confirm({ selectedFilter, isClear });
         this.dismiss();
     }
 
     _renderClearSearch = () => {
-        if(this.state.search){
-          return(
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={()=>{
-                  this.setState({search: ''})
-                  this.props.onSearch('');
-                }}>
-              <MDIcon name={'close'} style={{fontSize: 24}} />
-            </TouchableOpacity>
-          )
+        if (this.state.search) {
+            return (
+                <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => {
+                        this.setState({ search: '' })
+                        this.props.onSearch('');
+                    }}>
+                    <MDIcon name={'close'} style={{ fontSize: 24 }} />
+                </TouchableOpacity>
+            )
         }
-      }
+    }
 
     render() {
         const { years, months, selectedYear, selectedMonth, visiable } = this.state;
@@ -139,22 +139,22 @@ export default class Filter extends Component {
                             <Text style={styles.toolBarButtonText}>Apply</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{flexDirection: 'row',paddingHorizontal: 10, marginVertical: 5, borderWidth: 2, borderRadius: 5, borderColor: 'rgba(153,153,153,1)', alignItems: 'center', marginTop: 10, marginHorizontal: 20}}>
-                        <MDIcon name={'search'} style={{fontSize: 24}} />
+                    <View style={{ flexDirection: 'row', paddingHorizontal: 10, marginVertical: 5, borderWidth: 2, borderRadius: 5, borderColor: 'rgba(153,153,153,1)', alignItems: 'center', marginTop: 10, marginHorizontal: 20 }}>
+                        <MDIcon name={'search'} style={{ fontSize: 24 }} />
                         <TextInput
                             placeholder="Enter name"
-                            style={{flex: 1}}
+                            style={{ flex: 1 }}
                             value={this.state.search}
                             onChangeText={(text) => {
                                 this.setState({
                                     search: text
                                 });
                                 this.props.onSearch(text);
-                            }}/>
+                            }} />
                         {this._renderClearSearch()}
                     </View>
                     <View style={styles.innerContainer}>
-                        <MDIcon name={'date-range'} style={{fontSize: 20, alignSelf: 'center'}} />
+                        <MDIcon name={'date-range'} style={{ fontSize: 20, alignSelf: 'center' }} />
                         <Picker
                             style={styles.picker}
                             selectedValue={this.state.selectedFilter}

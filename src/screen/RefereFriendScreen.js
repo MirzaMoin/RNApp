@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {BottomNavigationTab} from './../widget/BottomNavigationTab';
+import { BottomNavigationTab } from './../widget/BottomNavigationTab';
 
 export default class RefereFriendScreen extends Component {
   constructor() {
@@ -36,12 +36,12 @@ export default class RefereFriendScreen extends Component {
   };
 
   render() {
-    const {width} = Dimensions.get('window');
+    const { width } = Dimensions.get('window');
     return (
       <View style={styles.container}>
-        <View style={{hegith: 150}}>
+        <View style={{ hegith: 150 }}>
           <Image
-            style={{height: 150}}
+            style={{ height: 150 }}
             source={{
               uri:
                 'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
@@ -50,13 +50,13 @@ export default class RefereFriendScreen extends Component {
           />
           <View style={styles.imageOverlay} />
         </View>
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <ScrollView
             showsVerticalScrollIndicator={false}
             bounces={false}
             contentContainerStyle={styles.baseScrollView}>
             <View>
-              <View style={{flex: 1, marginTop: 15}}>
+              <View style={{ flex: 1, marginTop: 15 }}>
                 <Text
                   style={{
                     textAlign: 'center',
@@ -159,23 +159,23 @@ export default class RefereFriendScreen extends Component {
                   }}>
                   <Icon
                     name={'facebook'}
-                    style={{fontSize: 25, margin: 10, color: '#3b5998'}}
+                    style={{ fontSize: 25, margin: 10, color: '#3b5998' }}
                   />
                   <Icon
                     name={'whatsapp'}
-                    style={{fontSize: 25, margin: 10, color: '#4fce5d'}}
+                    style={{ fontSize: 25, margin: 10, color: '#4fce5d' }}
                   />
                   <MDIcon
                     name={'mail-outline'}
-                    style={{fontSize: 27, margin: 10, color: '#b23121'}}
+                    style={{ fontSize: 27, margin: 10, color: '#b23121' }}
                   />
                   <Icon
                     name={'twitter'}
-                    style={{fontSize: 25, margin: 10, color: '#00acee'}}
+                    style={{ fontSize: 25, margin: 10, color: '#00acee' }}
                   />
                   <Icon
                     name={'commenting-o'}
-                    style={{fontSize: 25, margin: 10, color: 'blue'}}
+                    style={{ fontSize: 25, margin: 10, color: 'blue' }}
                   />
                 </View>
               </View>

@@ -1,4 +1,4 @@
-import {Alert, AsyncStorage} from 'react-native';
+import { Alert, AsyncStorage } from 'react-native';
 let isAlertShown = false;
 
 export function showAPICallError(objAlert) {
@@ -15,7 +15,7 @@ export function showAPICallError(objAlert) {
           },
         },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
   }
 }
@@ -34,7 +34,7 @@ export function showNoInternetAlert() {
           },
         },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
   }
 }
@@ -53,7 +53,7 @@ export function showServerNotReachable() {
           },
         },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
   }
 }

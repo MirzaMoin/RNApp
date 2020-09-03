@@ -1,30 +1,30 @@
-import React, {Component} from 'react';
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { Header } from 'react-navigation-stack';
 
 type Props = {
-  userPoint? : ?String,
-  hidePoint? : ?Boolean,
-  title? : ?String,
-  onPress : () => {},
-  onGoBack : () => {},
+  userPoint?: ?String,
+  hidePoint?: ?Boolean,
+  title?: ?String,
+  onPress: () => {},
+  onGoBack: () => {},
 }
 
 type State = {}
 
-export class ScreenHeader extends Component<Props,State> {
+export class ScreenHeader extends Component<Props, State> {
 
   _renderPoint = point => {
     //console.log(`HeaderPoint : ${point}`)
-    if(point){
+    if (point) {
       return (
         <Text>
           <Text style={styles.point}>{point}</Text>
           <Text style={styles.pointTerm}> PTS</Text>
         </Text>
       );
-    } else if(point == undefined && !this.props.hidePoint) {
+    } else if (point == undefined && !this.props.hidePoint) {
       return (
         <Text>
           <Text style={styles.point}>0</Text>
@@ -36,10 +36,10 @@ export class ScreenHeader extends Component<Props,State> {
 
   _buildFilter = () => {
     if (this.props.buildFilter) {
-      return(
+      return (
         <TouchableOpacity
           onPress={this.props.onPress}>
-          <MDIcon name={'import-export'} style={{color: 'white', fontSize: 24}}/>
+          <MDIcon name={'import-export'} style={{ color: 'white', fontSize: 24 }} />
         </TouchableOpacity>
       )
     }
@@ -49,7 +49,7 @@ export class ScreenHeader extends Component<Props,State> {
     return (
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => {
-          if(this.props.isGoBack) {
+          if (this.props.isGoBack) {
             if (this.props.onGoBack) {
               this.props.onGoBack();
             }
@@ -58,7 +58,7 @@ export class ScreenHeader extends Component<Props,State> {
             this.props.navigation.navigate('homeScreen');
           }
         }}>
-        <MDIcon name={'arrow-back'} style={styles.leftIcon}/>
+          <MDIcon name={'arrow-back'} style={styles.leftIcon} />
         </TouchableOpacity>
         <Text style={styles.title}>{this.props.title}</Text>
         {this._renderPoint(this.props.userPoint)}

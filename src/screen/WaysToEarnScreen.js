@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {View, Text, Image, FlatList, AsyncStorage, ActivityIndicator} from 'react-native';
-import {makeRequest} from './../api/apiCall';
+import React, { Component } from 'react';
+import { View, Text, Image, FlatList, AsyncStorage, ActivityIndicator } from 'react-native';
+import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -22,7 +22,7 @@ export class WayToEarnScreen extends Component {
 
   _showItem = 0;
 
-  componentWillMount(){
+  componentWillMount() {
     this._getStoredData();
   }
 
@@ -50,7 +50,7 @@ export class WayToEarnScreen extends Component {
             this.setState({
               isLoading: true,
               webformID: value,
-            },() => this._callGetWayToEarnScreenData())
+            }, () => this._callGetWayToEarnScreenData())
           } else {
           }
         }
@@ -68,7 +68,7 @@ export class WayToEarnScreen extends Component {
       'get',
     )
       .then(response => {
-        if(response.statusCode == 0) {
+        if (response.statusCode == 0) {
           Alert.alert('Oppss...', response.statusMessage);
         } else {
           this.setState({
@@ -97,15 +97,15 @@ export class WayToEarnScreen extends Component {
 
   _renderTruncatedFooter = (handlePress) => {
     return (
-      <Text style={{color: 'blue', marginTop: 5}} onPress={handlePress}>
+      <Text style={{ color: 'blue', marginTop: 5 }} onPress={handlePress}>
         Read more
       </Text>
     );
   }
- 
+
   _renderRevealedFooter = (handlePress) => {
     return (
-      <Text style={{color: 'blue', marginTop: 5}} onPress={handlePress}>
+      <Text style={{ color: 'blue', marginTop: 5 }} onPress={handlePress}>
         Show less
       </Text>
     );
@@ -116,10 +116,10 @@ export class WayToEarnScreen extends Component {
       return <Text style={styles.description}>{text}</Text>;
     }*/
     return <ReadMore
-        numberOfLines={1.5}
-        renderTruncatedFooter={this._renderTruncatedFooter}
-        renderRevealedFooter={this._renderRevealedFooter}
-      >
+      numberOfLines={1.5}
+      renderTruncatedFooter={this._renderTruncatedFooter}
+      renderRevealedFooter={this._renderRevealedFooter}
+    >
       <Text style={styles.description}>
         {text}
       </Text>
@@ -135,14 +135,14 @@ export class WayToEarnScreen extends Component {
   };
 
   _handleClick = index => {
-    if(index == 6) { 
+    if (index == 6) {
       this.props.handleProfile();
     }
   }
 
   _showRecentActivity = (item) => {
-    if(item > 0)
-      return <Text onPress={()=>{
+    if (item > 0)
+      return <Text onPress={() => {
         -this._handleClick(item)
       }} style={styles.btnRecentActivity}>Recent Activity</Text>;
   };
@@ -174,26 +174,26 @@ export class WayToEarnScreen extends Component {
 
   render() {
     this._showItem = 0;
-    if(this.state.isLoading) {
-      return <View style={{flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
-          <ActivityIndicator size={'large'} />
-        </View>
+    if (this.state.isLoading) {
+      return <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size={'large'} />
+      </View>
     }
     return (
       <View style={styles.mainContainer}>
         <ScrollView>
-          <View style={{hegith: 150}}>
-          <Image
-            style={{height: 150}}
-            source={{
-              uri:
-                'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
-            }}
-            resizeMode="cover"
-          />
-          <View style={styles.imageOverlay} />
-        </View>
-        
+          <View style={{ hegith: 150 }}>
+            <Image
+              style={{ height: 150 }}
+              source={{
+                uri:
+                  'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
+              }}
+              resizeMode="cover"
+            />
+            <View style={styles.imageOverlay} />
+          </View>
+
           {this._renderItem(this.state.screenData.totalPoints, 0)}
           {this._renderItem(this.state.screenData.purchasePoints, 1)}
           {this._renderItem(this.state.screenData.socialShare, 2)}

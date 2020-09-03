@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image, 
+  Image,
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
@@ -11,9 +11,9 @@ import {
   Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Card} from 'react-native-elements';
-import {ScreenHeader} from '../widget/ScreenHeader';
-import {makeRequest} from './../api/apiCall';
+import { Card } from 'react-native-elements';
+import { ScreenHeader } from '../widget/ScreenHeader';
+import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import ImageLoader from './../widget/ImageLoader';
 import Toast from 'react-native-root-toast';
@@ -152,48 +152,48 @@ export default class OfferScreen extends Component {
       animation: true,
       hideOnPress: true,
       delay: 0,
-  });
+    });
   }
 
   _callGetOffers = () => {
     makeRequest(
-        `${APIConstant.BASE_URL}${APIConstant.GET_OFFER_LIST}?RewardProgramID=${APIConstant.RPID}&ContactID=${this.state.userID}`,
-        'get',
-      )
-    .then(response => {
+      `${APIConstant.BASE_URL}${APIConstant.GET_OFFER_LIST}?RewardProgramID=${APIConstant.RPID}&ContactID=${this.state.userID}`,
+      'get',
+    )
+      .then(response => {
         //console.log(JSON.stringify(response));
-        this.setState({isLoading: false});
-        if(response.statusCode == 0) {
-            Alert.alert('Oppss...', response.statusMessage);
-            this.setState({
-              offerList: []  
-            });
+        this.setState({ isLoading: false });
+        if (response.statusCode == 0) {
+          Alert.alert('Oppss...', response.statusMessage);
+          this.setState({
+            offerList: []
+          });
         } else {
-            this.setState({
-              redeemSetting: response.responsedata.redeemSetting,
-              addressDetails: response.responsedata.addressDetails,
-              userDetails: response.responsedata.userDetails,
-              offerList: response.responsedata.offerList,
-            });
-        }  
-    })
-    .catch(error => console.log('error : ' + error));
+          this.setState({
+            redeemSetting: response.responsedata.redeemSetting,
+            addressDetails: response.responsedata.addressDetails,
+            userDetails: response.responsedata.userDetails,
+            offerList: response.responsedata.offerList,
+          });
+        }
+      })
+      .catch(error => console.log('error : ' + error));
   };
 
   _renderBody = () => {
     if (this.state.isLoading) {
       return (
-        <View style={{flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
           <ActivityIndicator size={'large'} />
         </View>
       );
     } else {
       if (this.state.offerList.length == 0) {
         return (
-          <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
             <Image
               source={require('./../../Image/no_offer.png')}
-              style={{height: Width/1.5, width: Width/1.5}}/>
+              style={{ height: Width / 1.5, width: Width / 1.5 }} />
           </View>
         );
       }
@@ -202,10 +202,10 @@ export default class OfferScreen extends Component {
           showsVerticalScrollIndicator={false}
           scrollEnabled={true}
           data={this.state.offerList}
-          renderItem={({item, index}) => (
+          renderItem={({ item, index }) => (
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={()=>{
+              onPress={() => {
                 this.props.navigation.navigate('offerDetail', {
                   offer: item,
                   addressDetails: this.state.addressDetails,
@@ -217,55 +217,55 @@ export default class OfferScreen extends Component {
                   onGoBack: () => this._onGoBack(),
                 });
               }}>
-              <View style={{marginBottom: 10}}>
-                <View style={{backgroundColor: 'white'}}>
-                  <View style={{flexDirection: 'column-reverse'}}>
-                    <ImageLoader 
+              <View style={{ marginBottom: 10 }}>
+                <View style={{ backgroundColor: 'white' }}>
+                  <View style={{ flexDirection: 'column-reverse' }}>
+                    <ImageLoader
                       title={item.offerTitle}
                       src={item.offerImage}
-                      style={{height: 250, width: Width}}
-                      titleStyle={{fontSize: 20}} />
-                      <View style={{height: 250, width: Width, position: 'absolute'}}>
-                        <Text style={{
-                          fontSize: 13,
-                          backgroundColor: '#4b92d2',
-                          borderRadius: 5,
-                          color: 'white',
-                          alignSelf: 'flex-start',
-                          margin: 20,
-                          padding: 7,
-                          paddingHorizontal: 10
-                        }}>{item.offerImagelabel}</Text>
-                        <View style={{flex: 1}} />
-                        <Text
-                          numberOfLines={1}
-                          ellipsizeMode='tail'
-                          style={{
-                            fontSize: 18,
-                            fontWeight: '600',
-                            color: item.titleColor ? `${item.titleColor.indexOf('#') == -1 ? '#' : ''}${item.titleColor}` : 'white',
-                            backgroundColor: 'rgba(256, 20, 0, 0.5)',
-                            width: Width,
-                            alignSelf: 'flex-end',
-                            padding: 5,
-                          }}>
-                          {item.offerTitle}
-                        </Text>
-                      </View>
+                      style={{ height: 250, width: Width }}
+                      titleStyle={{ fontSize: 20 }} />
+                    <View style={{ height: 250, width: Width, position: 'absolute' }}>
+                      <Text style={{
+                        fontSize: 13,
+                        backgroundColor: '#4b92d2',
+                        borderRadius: 5,
+                        color: 'white',
+                        alignSelf: 'flex-start',
+                        margin: 20,
+                        padding: 7,
+                        paddingHorizontal: 10
+                      }}>{item.offerImagelabel}</Text>
+                      <View style={{ flex: 1 }} />
+                      <Text
+                        numberOfLines={1}
+                        ellipsizeMode='tail'
+                        style={{
+                          fontSize: 18,
+                          fontWeight: '600',
+                          color: item.titleColor ? `${item.titleColor.indexOf('#') == -1 ? '#' : ''}${item.titleColor}` : 'white',
+                          backgroundColor: 'rgba(256, 20, 0, 0.5)',
+                          width: Width,
+                          alignSelf: 'flex-end',
+                          padding: 5,
+                        }}>
+                        {item.offerTitle}
+                      </Text>
+                    </View>
                   </View>
-                  <Text style={[styles.offerDetail, {color: item.descColor ? `${item.descColor.indexOf('#') == -1 ? '#' : ''}${item.descColor}` : 'black'}]}>
+                  <Text style={[styles.offerDetail, { color: item.descColor ? `${item.descColor.indexOf('#') == -1 ? '#' : ''}${item.descColor}` : 'black' }]}>
                     {item.offerDescription}
                   </Text>
                   <View style={styles.baseOfferType}>
                     <Icon
                       name="trophy"
-                      style={{alignSelf: 'center', color: '#4b92d2'}}
+                      style={{ alignSelf: 'center', color: '#4b92d2' }}
                       size={20}
                     />
                     <Text style={styles.offerType}>{item.offerType}</Text>
                     <Text style={styles.offerExpiry}>{item.offerExpire}</Text>
                   </View>
-                  
+
                 </View>
               </View>
             </TouchableOpacity>
@@ -281,7 +281,7 @@ export default class OfferScreen extends Component {
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Offers'}
-          userPoint={this.state.userPoint}/>
+          userPoint={this.state.userPoint} />
         {this._renderBody()}
       </View>
     );
@@ -306,7 +306,7 @@ const styles = {
     paddingRight: 10,
     paddingTop: 5,
   },
-  titleRow: {flexDirection: 'row', padding: 15},
+  titleRow: { flexDirection: 'row', padding: 15 },
   pointItem: {
     fontSize: 13,
     backgroundColor: '#4b92d2',
@@ -329,7 +329,7 @@ const styles = {
     fontSize: 15,
     textAlign: 'justify',
   },
-  baseOfferType: {flexDirection: 'row', padding: 15},
+  baseOfferType: { flexDirection: 'row', padding: 15 },
   offerType: {
     fontSize: 15,
     fontWeight: 'bold',

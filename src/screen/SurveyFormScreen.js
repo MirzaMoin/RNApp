@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -7,14 +7,14 @@ import {
   ScrollView,
   Linking,
 } from 'react-native';
-import {Card} from 'react-native-elements';
+import { Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {ShareDialog} from 'react-native-fbsdk';
-import {BottomNavigationTab} from './../widget/BottomNavigationTab';
+import { ShareDialog } from 'react-native-fbsdk';
+import { BottomNavigationTab } from './../widget/BottomNavigationTab';
 import ScrollableTabView, {
   ScrollableTabBar,
 } from 'react-native-scrollable-tab-view';
-import {NotificaitonScreen} from './NotificationScreen';
+import { NotificaitonScreen } from './NotificationScreen';
 import StepIndicator from 'react-native-step-indicator';
 import StarRating from 'react-native-star-rating';
 import TextInput from 'react-native-textinput-with-icons';
@@ -53,7 +53,7 @@ export default class SurveyFormScreen extends Component {
   }
 
   onPageChange(position) {
-    this.setState({currentPosition: position});
+    this.setState({ currentPosition: position });
   }
 
   onStarRatingPress(rating) {
@@ -65,20 +65,20 @@ export default class SurveyFormScreen extends Component {
   render() {
     return (
       <View style={styles.mainContainer}>
-        <Text style={{margin: 10, fontSize: 20}}>Pages to Completion</Text>
+        <Text style={{ margin: 10, fontSize: 20 }}>Pages to Completion</Text>
         <StepIndicator
           customStyles={this.customStyles}
           currentPosition={this.state.currentPosition}
           labels={this.labels}
         />
-        <View style={{flex: 1, marginTop: 1, paddingBottom: 5}}>
-          <ScrollView style={{flex: 1}}>
-            <View style={{flex: 1}}>
-              <Card containerStyle={{borderRadius: 10}} st>
-                <Text style={{fontSize: 20, color: '#012340'}}>
+        <View style={{ flex: 1, marginTop: 1, paddingBottom: 5 }}>
+          <ScrollView style={{ flex: 1 }}>
+            <View style={{ flex: 1 }}>
+              <Card containerStyle={{ borderRadius: 10 }} st>
+                <Text style={{ fontSize: 20, color: '#012340' }}>
                   1. How is our app
                 </Text>
-                <Text style={{marginBottom: 10, marginTop: 10, fontSize: 15}}>
+                <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
                   Please rate us on 5 star scale, 5=Best 1=Worst
                 </Text>
                 <StarRating
@@ -86,17 +86,17 @@ export default class SurveyFormScreen extends Component {
                   maxStars={5}
                   rating={this.state.starCount}
                   selectedStar={rating => this.onStarRatingPress(rating)}
-                  style={{margin: 10}}
+                  style={{ margin: 10 }}
                   halfStarEnabled={true}
                   fullStarColor={'#012340'}
                 />
               </Card>
 
-              <Card containerStyle={{borderRadius: 10}}>
-                <Text style={{fontSize: 20, color: '#012340'}}>
+              <Card containerStyle={{ borderRadius: 10 }}>
+                <Text style={{ fontSize: 20, color: '#012340' }}>
                   2. Write something to us.
                 </Text>
-                <Text style={{marginBottom: 10, marginTop: 10, fontSize: 15}}>
+                <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
                   Optiona answer, not required
                 </Text>
                 <TextInput
@@ -109,11 +109,11 @@ export default class SurveyFormScreen extends Component {
                 />
               </Card>
 
-              <Card containerStyle={{borderRadius: 10}} st>
-                <Text style={{fontSize: 20, color: '#012340'}}>
+              <Card containerStyle={{ borderRadius: 10 }} st>
+                <Text style={{ fontSize: 20, color: '#012340' }}>
                   1. How is our app
                 </Text>
-                <Text style={{marginBottom: 10, marginTop: 10, fontSize: 15}}>
+                <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
                   Please rate us on 5 star scale, 5=Best 1=Worst
                 </Text>
                 <StarRating
@@ -121,17 +121,17 @@ export default class SurveyFormScreen extends Component {
                   maxStars={5}
                   rating={this.state.starCount}
                   selectedStar={rating => this.onStarRatingPress(rating)}
-                  style={{margin: 10}}
+                  style={{ margin: 10 }}
                   halfStarEnabled={true}
                   fullStarColor={'#012340'}
                 />
               </Card>
 
-              <Card containerStyle={{borderRadius: 10}} st>
-                <Text style={{fontSize: 20, color: '#012340'}}>
+              <Card containerStyle={{ borderRadius: 10 }} st>
+                <Text style={{ fontSize: 20, color: '#012340' }}>
                   2. Write something to us.
                 </Text>
-                <Text style={{marginBottom: 10, marginTop: 10, fontSize: 15}}>
+                <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
                   Optiona answer, not required
                 </Text>
                 <TextInput
@@ -144,11 +144,11 @@ export default class SurveyFormScreen extends Component {
                 />
               </Card>
 
-              <Card containerStyle={{borderRadius: 10}} st>
-                <Text style={{fontSize: 20, color: '#012340'}}>
+              <Card containerStyle={{ borderRadius: 10 }} st>
+                <Text style={{ fontSize: 20, color: '#012340' }}>
                   1. How is our app
                 </Text>
-                <Text style={{marginBottom: 10, marginTop: 10, fontSize: 15}}>
+                <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
                   Please rate us on 5 star scale, 5=Best 1=Worst
                 </Text>
                 <StarRating
@@ -156,17 +156,17 @@ export default class SurveyFormScreen extends Component {
                   maxStars={5}
                   rating={this.state.starCount}
                   selectedStar={rating => this.onStarRatingPress(rating)}
-                  style={{margin: 10}}
+                  style={{ margin: 10 }}
                   halfStarEnabled={true}
                   fullStarColor={'#012340'}
                 />
               </Card>
 
-              <Card containerStyle={{borderRadius: 10}} st>
-                <Text style={{fontSize: 20, color: '#012340'}}>
+              <Card containerStyle={{ borderRadius: 10 }} st>
+                <Text style={{ fontSize: 20, color: '#012340' }}>
                   2. Write something to us.
                 </Text>
-                <Text style={{marginBottom: 10, marginTop: 10, fontSize: 15}}>
+                <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
                   Optiona answer, not required
                 </Text>
                 <TextInput

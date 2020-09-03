@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
 import Swipeout from 'react-native-swipeout';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import ImageViewer from 'react-native-image-zoom-viewer';
-import {TouchableHighlight} from 'react-native-gesture-handler';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 import Video from 'react-native-video';
 
 export default class NotificationDetailScreen extends Component {
@@ -29,13 +29,13 @@ export default class NotificationDetailScreen extends Component {
   _renderImageVideo = index => {
     if (index.includes('.jpg') || index.includes('.jpeg') || index.includes('.png')) {
       return (
-        <View style={{hegith: 300}}>
+        <View style={{ hegith: 300 }}>
           <TouchableHighlight
             onPress={() => {
-              this.setState({visible: true});
+              this.setState({ visible: true });
             }}>
             <Image
-              style={{height: 300}}
+              style={{ height: 300 }}
               source={{
                 uri: this.props.navigation.state.params.notification.avatar,
               }}
@@ -58,10 +58,10 @@ export default class NotificationDetailScreen extends Component {
                   }}>
                   <TouchableOpacity
                     onPress={() => {
-                      this.setState({visible: false});
+                      this.setState({ visible: false });
                     }}>
                     <MDIcon
-                      style={{fontSize: 30, color: 'white', marginLeft: 15}}
+                      style={{ fontSize: 30, color: 'white', marginLeft: 15 }}
                       name={'close'}
                     />
                   </TouchableOpacity>
@@ -69,7 +69,7 @@ export default class NotificationDetailScreen extends Component {
               )}
               enableSwipeDown={true}
               onSwipeDown={() => {
-                this.setState({visible: false});
+                this.setState({ visible: false });
               }}
               imageUrls={[
                 {
@@ -83,7 +83,7 @@ export default class NotificationDetailScreen extends Component {
     } else {
       console.log('this is not');
       return (
-        <View style={{hegith: 300, flex: 0.7}}>
+        <View style={{ hegith: 300, flex: 0.7 }}>
           <Video
             source={{
               uri:
@@ -106,7 +106,7 @@ export default class NotificationDetailScreen extends Component {
 
   render() {
     return (
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
           {this._renderImageVideo(
             this.props.navigation.state.params.notification.avatar,

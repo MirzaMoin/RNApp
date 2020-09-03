@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -8,8 +8,8 @@ import {
   Linking,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {ShareDialog} from 'react-native-fbsdk';
-import {BottomNavigationTab} from './../widget/BottomNavigationTab';
+import { ShareDialog } from 'react-native-fbsdk';
+import { BottomNavigationTab } from './../widget/BottomNavigationTab';
 // import LinkedInSDK from 'react-native-linkedin-sdk';
 
 let facebookParameters = '';
@@ -67,20 +67,20 @@ export default class NotificationScreen extends Component {
   shareLinkWithShareDialog = () => {
     var tmp = this;
     ShareDialog.canShow(this.state.shareLinkContent)
-      .then(function(canShow) {
+      .then(function (canShow) {
         if (canShow) {
           return ShareDialog.show(tmp.state.shareLinkContent);
         }
       })
       .then(
-        function(result) {
+        function (result) {
           if (result.isCancelled) {
             console.log('Share cancelled');
           } else {
             console.log('Share success with postId: ' + result.postId);
           }
         },
-        function(error) {
+        function (error) {
           console.log('Share fail with error: ' + error);
         },
       );
@@ -95,9 +95,9 @@ export default class NotificationScreen extends Component {
   render() {
     return (
       <View style={styles.mainContainer}>
-        <View style={{hegith: 150}}>
+        <View style={{ hegith: 150 }}>
           <Image
-            style={{height: 150}}
+            style={{ height: 150 }}
             source={{
               uri:
                 'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
@@ -107,7 +107,7 @@ export default class NotificationScreen extends Component {
           <View style={styles.imageOverlay} />
         </View>
         <ScrollView>
-          <View style={{padding: 15, flex: 1}}>
+          <View style={{ padding: 15, flex: 1 }}>
             <Image
               style={styles.socialShareImage}
               source={{
@@ -126,27 +126,27 @@ export default class NotificationScreen extends Component {
             </Text>
             <View style={styles.socailIconContainer}>
               <TouchableOpacity
-                style={{margin: 10}}
+                style={{ margin: 10 }}
                 onPress={this.shareLinkWithShareDialog}>
                 <Icon
                   name={'facebook-square'}
-                  style={{fontSize: 60, color: '#3b5998'}}
+                  style={{ fontSize: 60, color: '#3b5998' }}
                 />
               </TouchableOpacity>
-              <TouchableOpacity style={{margin: 10}}>
+              <TouchableOpacity style={{ margin: 10 }}>
                 <Icon
                   name={'linkedin-square'}
-                  style={{fontSize: 60, color: '#0e76a8'}}
+                  style={{ fontSize: 60, color: '#0e76a8' }}
                 />
               </TouchableOpacity>
-              <TouchableOpacity style={{margin: 10}}>
+              <TouchableOpacity style={{ margin: 10 }}>
                 <Icon
                   name={'tumblr-square'}
-                  style={{fontSize: 60, color: '#34526f'}}
+                  style={{ fontSize: 60, color: '#34526f' }}
                 />
               </TouchableOpacity>
               <TouchableOpacity
-                style={{margin: 10}}
+                style={{ margin: 10 }}
                 onPress={() => {
                   try {
                     let intent = this.createTweetIntent(
@@ -161,18 +161,18 @@ export default class NotificationScreen extends Component {
                 }}>
                 <Icon
                   name={'twitter-square'}
-                  style={{fontSize: 60, color: '#00acee'}}
+                  style={{ fontSize: 60, color: '#00acee' }}
                 />
               </TouchableOpacity>
-              <TouchableOpacity style={{margin: 10}}>
+              <TouchableOpacity style={{ margin: 10 }}>
                 <Icon
                   name={'pinterest-square'}
-                  style={{fontSize: 60, color: '#c8232c'}}
+                  style={{ fontSize: 60, color: '#c8232c' }}
                 />
               </TouchableOpacity>
             </View>
 
-            <Text style={{fontSize: 16, textAlign: 'justify'}}>
+            <Text style={{ fontSize: 16, textAlign: 'justify' }}>
               this is text information this is text information this is text
               information this is text information this is text information this
               is text information this is text information this is text

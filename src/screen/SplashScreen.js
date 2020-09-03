@@ -6,8 +6,8 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {StyleSheet, View, Image, AsyncStorage} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, Image, AsyncStorage } from 'react-native';
 import apiConstant from '../api/apiConstant';
 import GlobalFont from 'react-native-global-font'
 
@@ -23,7 +23,7 @@ export default class SplashScreen extends Component {
   componentDidMount() {
     let fontName = 'regular'
     GlobalFont.applyGlobal(fontName)
- }
+  }
 
   _getLoginData = async () => {
     try {
@@ -45,7 +45,7 @@ export default class SplashScreen extends Component {
   };
 
   _storeBOData = async () => {
-    try{
+    try {
       await AsyncStorage.setItem(
         'webformID',
         '8cf8bde6-22a6-43c8-a581-e3e2f53ed9e4'
@@ -54,8 +54,8 @@ export default class SplashScreen extends Component {
         'RPID',
         '78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20'
       );
-    } catch (error){
-      console.log('error while store data : '+error)
+    } catch (error) {
+      console.log('error while store data : ' + error)
     }
   }
 

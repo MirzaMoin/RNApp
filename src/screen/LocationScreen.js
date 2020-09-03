@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -16,13 +16,13 @@ import {
   StyleSheet,
   TextInput
 } from 'react-native';
-import MapView, {AnimatedRegion, Marker} from 'react-native-maps';
+import MapView, { AnimatedRegion, Marker } from 'react-native-maps';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {Card} from 'react-native-elements';
-import {makeRequest} from './../api/apiCall';
+import { Card } from 'react-native-elements';
+import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
-import {ScreenHeader} from '../widget/ScreenHeader';
+import { ScreenHeader } from '../widget/ScreenHeader';
 import GetLocation from 'react-native-get-location'
 
 export default class LocationScreen extends Component {
@@ -77,25 +77,25 @@ export default class LocationScreen extends Component {
     }
   };
 
-  _getCurrentLocation = () =>{
+  _getCurrentLocation = () => {
     GetLocation.getCurrentPosition({
       enableHighAccuracy: true,
       timeout: 15000,
     })
-    .then(location => {
-      console.log(location);
-      this.setState({
-        currentLat: location.latitude,
-        currentLong: location.longitude
-      });
-    })
-    .catch(error => {
+      .then(location => {
+        console.log(location);
+        this.setState({
+          currentLat: location.latitude,
+          currentLong: location.longitude
+        });
+      })
+      .catch(error => {
         const { code, message } = error;
         console.warn(code, message);
-    })
+      })
   }
 
-   _getLocationData = () => {
+  _getLocationData = () => {
 
     makeRequest(
       `${APIConstant.BASE_URL}${APIConstant.GET_LOCATION_DATA}?RewardProgramID=${APIConstant.RPID}`,
@@ -103,8 +103,8 @@ export default class LocationScreen extends Component {
     )
       .then(response => {
         console.log(JSON.stringify(response));
-        this.setState({isLoading: false});
-        if(response.statusCode == 0) {
+        this.setState({ isLoading: false });
+        if (response.statusCode == 0) {
           Alert.alert('Oppss...', response.statusMessage);
         } else {
           this.setState({
@@ -114,14 +114,14 @@ export default class LocationScreen extends Component {
             latitude: parseFloat(response.responsedata.locationData[0].storeAddress.latitude),
             longitude: parseFloat(response.responsedata.locationData[0].storeAddress.longitude),
           })
-        }  
+        }
       })
       .catch(error => console.log('error : ' + error));
   }
 
   _openSheetFull = () => {
     // this.Standard.close();
-    const {height} = Dimensions.get('window');
+    const { height } = Dimensions.get('window');
     console.log('height : ' + height + ' sheet : ' + this.state.sheetHeight);
     if (this.state.isFullScreen) {
       this.setState({
@@ -137,7 +137,7 @@ export default class LocationScreen extends Component {
       });
     }
     let that = this;
-    setTimeout(function() {
+    setTimeout(function () {
       that.Standard.open();
     }, 100);
   };
@@ -154,7 +154,7 @@ export default class LocationScreen extends Component {
 
   _showDirectionOnMap = address => {
     var link = '';
-    if(Platform.OS == 'ios') {
+    if (Platform.OS == 'ios') {
       link = '';
     } else {
       link = `https://www.google.com/maps/dir/?api=1&origin=${this.state.currentLat},${this.state.currentLong}&destination=${address.latitude},${address.longitude}`;
@@ -172,17 +172,17 @@ export default class LocationScreen extends Component {
   renderRow = rowData => {
     return (
       <View style={styles.locationContainer}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <MDIcon name={'location-on'} style={styles.locationIcon} />
           <TouchableOpacity
-            onPress={() =>{
-              if(rowData.storeAddress.latitude && rowData.storeAddress.longitude){
+            onPress={() => {
+              if (rowData.storeAddress.latitude && rowData.storeAddress.longitude) {
                 this._changeLocation(
                   parseFloat(rowData.storeAddress.latitude),
                   parseFloat(rowData.storeAddress.longitude),
                   rowData.storeAddress,
                 )
-              } else {console.log('not possible')}
+              } else { console.log('not possible') }
             }}>
             <Text style={styles.locationTitle}>{rowData.locationName}</Text>
           </TouchableOpacity>
@@ -196,11 +196,11 @@ export default class LocationScreen extends Component {
   };
 
   _renderAddress = address => {
-    if(address) {
+    if (address) {
       return (
-        <View style={{flexDirection: 'row'}}>
-          <MDIcon name={'location-city'} style={{fontSize: 20}} />
-          <View style={{flex: 1, flexDirection: 'column'}}>
+        <View style={{ flexDirection: 'row' }}>
+          <MDIcon name={'location-city'} style={{ fontSize: 20 }} />
+          <View style={{ flex: 1, flexDirection: 'column' }}>
             {this._renderAddressLine(address.address1)}
             {this._renderAddressLine(address.address2)}
             {this._renderAddressLine(`${address.city} ${address.state} ${address.zipCode}`)}
@@ -211,17 +211,17 @@ export default class LocationScreen extends Component {
   }
 
   _renderAddressLine = text => {
-    if(text) {
-      return(<Text style={styles.addressText}>{text}</Text>);
+    if (text) {
+      return (<Text style={styles.addressText}>{text}</Text>);
     }
   }
 
   _parseWebURL = url => {
-    if(url) {
+    if (url) {
       const url1 = url.replace('https://', '');
       const urlNew = url1.replace('http://', '');
       return (
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <MDIcon name={'open-in-browser'} style={styles.locationIcon} />
           <TouchableOpacity onPress={() => this.openLink(url)}>
             <Text style={styles.webTextText}>{urlNew}</Text>
@@ -232,9 +232,9 @@ export default class LocationScreen extends Component {
   }
 
   _renderDirection = address => {
-    if(address.latitude && address.longitude) {
+    if (address.latitude && address.longitude) {
       return (
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <MDIcon name={'directions'} style={styles.locationIcon} />
           <TouchableOpacity onPress={() => this._showDirectionOnMap(address)}>
             <Text style={styles.directionText}>Get Direction</Text>
@@ -270,21 +270,21 @@ export default class LocationScreen extends Component {
   }
 
   _renderClearSearch = () => {
-    if(this.state.search){
-      return(
+    if (this.state.search) {
+      return (
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={()=>this.setState({search: ''})}>
-          <MDIcon name={'close'} style={{fontSize: 24}} />
+          onPress={() => this.setState({ search: '' })}>
+          <MDIcon name={'close'} style={{ fontSize: 24 }} />
         </TouchableOpacity>
       )
     }
   }
 
   _renderBody = () => {
-    if(this.state.isLoading) {
+    if (this.state.isLoading) {
       return (
-        <View style={{flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
           <ActivityIndicator size={'large'} />
         </View>
       );
@@ -292,7 +292,7 @@ export default class LocationScreen extends Component {
       return (
         <View style={styles.mainContainer}>
           <MapView
-            style={{flex: 1}}
+            style={{ flex: 1 }}
             initialRegion={{
               latitude: this.state.latitude,
               longitude: this.state.longitude,
@@ -326,7 +326,7 @@ export default class LocationScreen extends Component {
                   sheetHeight: 330,
                 });
                 let that = this;
-                setTimeout(function() {
+                setTimeout(function () {
                   that.Standard.open();
                 }, 100);
               }}>
@@ -351,35 +351,35 @@ export default class LocationScreen extends Component {
               <Text style={styles.bottomSheetTitle}>Locations</Text>
               <View style={styles.topIconContainer}>
                 <TouchableOpacity onPress={() => this._openSheetFull()}>
-                  <MDIcon name={this.state.sheetIcon} style={{fontSize: 30}} />
+                  <MDIcon name={this.state.sheetIcon} style={{ fontSize: 30 }} />
                 </TouchableOpacity>
               </View>
-              <View style={{flexDirection: 'row',paddingHorizontal: 10, marginVertical: 5, borderWidth: 2, borderRadius: 5, borderColor: 'rgba(153,153,153,1)', alignItems: 'center', marginTop: 10}}>
-                <MDIcon name={'search'} style={{fontSize: 24}} />
+              <View style={{ flexDirection: 'row', paddingHorizontal: 10, marginVertical: 5, borderWidth: 2, borderRadius: 5, borderColor: 'rgba(153,153,153,1)', alignItems: 'center', marginTop: 10 }}>
+                <MDIcon name={'search'} style={{ fontSize: 24 }} />
                 <TextInput
                   placeholder="Location Name"
-                  style={{flex: 1}}
+                  style={{ flex: 1 }}
                   onChangeText={(text) => {
                     this.setState({
                       search: text
                     });
                     this._filterLocation(text)
-                  }}/>
-                  {this._renderClearSearch()}
+                  }} />
+                {this._renderClearSearch()}
               </View>
               <FlatList
-                style={{flex: 1}}
+                style={{ flex: 1 }}
                 showsVerticalScrollIndicator={false}
                 scrollEnabled={true}
-                ListEmptyComponent={()=>{
+                ListEmptyComponent={() => {
                   return (
-                    <View style={{flex: 1, height: this.state.sheetHeight - 150, justifyContent: 'center', alignContent: 'center'}}>
-                      <Text style={{fontSize: 20, alignSelf: 'center'}}>No Location Found</Text>
+                    <View style={{ flex: 1, height: this.state.sheetHeight - 150, justifyContent: 'center', alignContent: 'center' }}>
+                      <Text style={{ fontSize: 20, alignSelf: 'center' }}>No Location Found</Text>
                     </View>
                   );
                 }}
                 data={this.state.search ? this.state.filteredData : this.state.dataSoure}
-                renderItem={({item, index}) => this.renderRow(item)}
+                renderItem={({ item, index }) => this.renderRow(item)}
                 keyExtractor={item => item.addressId.toString()}
               />
             </View>
@@ -390,13 +390,13 @@ export default class LocationScreen extends Component {
   }
 
   render() {
-    const {height} = Dimensions.get('window');
+    const { height } = Dimensions.get('window');
     return (
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{ flex: 1 }}>
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Locations'}
-          userPoint={this.state.userPoint}/>
+          userPoint={this.state.userPoint} />
         {this._renderBody()}
       </SafeAreaView>
     );
@@ -430,14 +430,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     color: '#7a7a7a',
   },
-  bottomSheetContainer: {flex: 1, paddingLeft: 20, paddingRight: 20},
-  bottomSheetTitle: {fontSize: 24, textAlign: 'center'},
-  locationContainer: {flex: 1, flexDirection: 'column', padding: 5, width: '100%'},
-  locationIcon: {fontSize: 20, alignSelf: 'center'},
-  locationTitle: {paddingLeft: 15, fontSize: 22},
-  addressText: {paddingLeft: 15, fontSize: 15},
-  webTextText: {paddingLeft: 15, fontSize: 15, color: 'blue'},
-  directionText: {paddingLeft: 15, fontSize: 15, color: 'green'},
+  bottomSheetContainer: { flex: 1, paddingLeft: 20, paddingRight: 20 },
+  bottomSheetTitle: { fontSize: 24, textAlign: 'center' },
+  locationContainer: { flex: 1, flexDirection: 'column', padding: 5, width: '100%' },
+  locationIcon: { fontSize: 20, alignSelf: 'center' },
+  locationTitle: { paddingLeft: 15, fontSize: 22 },
+  addressText: { paddingLeft: 15, fontSize: 15 },
+  webTextText: { paddingLeft: 15, fontSize: 15, color: 'blue' },
+  directionText: { paddingLeft: 15, fontSize: 15, color: 'green' },
   devider: {
     height: 1,
     marginTop: 10,

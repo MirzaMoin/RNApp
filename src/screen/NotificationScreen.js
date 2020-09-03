@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -10,13 +10,13 @@ import {
 } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Header} from 'react-navigation-stack';
-import {Avatar} from 'react-native-elements';
-import {Card} from 'react-native-elements';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Header } from 'react-navigation-stack';
+import { Avatar } from 'react-native-elements';
+import { Card } from 'react-native-elements';
 import Toast from 'react-native-simple-toast';
 // import { FlatList } from 'react-native-gesture-handler';
-import {makeRequest} from './../api/apiCall';
+import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 
 export default class NotificationScreen extends Component {
@@ -38,7 +38,7 @@ export default class NotificationScreen extends Component {
   }
 
   onRefresh() {
-    this.setState({isFetching: true, page: 1}, function() {
+    this.setState({ isFetching: true, page: 1 }, function () {
       this.getNotificationList();
     });
   }
@@ -93,7 +93,7 @@ export default class NotificationScreen extends Component {
     var array = [...this.state.dataSoure];
     if (index !== -1) {
       array.splice(index, 1);
-      this.setState({dataSoure: array});
+      this.setState({ dataSoure: array });
     }
     console.log('remove from : ' + index + ' : ' + JSON.stringify(rowData));
   };
@@ -104,7 +104,7 @@ export default class NotificationScreen extends Component {
     for (let i = 0; i < dt.length; i++) {
       dt[i].isSelected = !isCheck;
     }
-    this.setState({dataSoure: dt, selectedCount: cnt});
+    this.setState({ dataSoure: dt, selectedCount: cnt });
   };
 
   _deleteMultipleNotification = () => {
@@ -115,7 +115,7 @@ export default class NotificationScreen extends Component {
         ar.push(array[i]);
       }
     }
-    this.setState({dataSoure: ar, selectedCount: 0});
+    this.setState({ dataSoure: ar, selectedCount: 0 });
   };
 
   showSelection = rowData => {
@@ -197,22 +197,22 @@ export default class NotificationScreen extends Component {
               <View style={styles.messageContainer}>
                 <Text
                   style={[
-                    {fontSize: 20, padding: 1},
-                    {color: rowData.isSelected ? 'black' : 'gray'},
+                    { fontSize: 20, padding: 1 },
+                    { color: rowData.isSelected ? 'black' : 'gray' },
                   ]}>
                   {/* rowData.title */ rowData.email}
                 </Text>
                 <Text
                   style={[
-                    {fontSize: 15, padding: 1},
-                    {color: rowData.isSelected ? 'black' : 'gray'},
+                    { fontSize: 15, padding: 1 },
+                    { color: rowData.isSelected ? 'black' : 'gray' },
                   ]}>
                   {/*rowData.message*/ rowData.first_name}
                 </Text>
                 <Text
                   style={[
-                    {fontSize: 12, padding: 1},
-                    {color: rowData.isSelected ? 'black' : 'gray'},
+                    { fontSize: 12, padding: 1 },
+                    { color: rowData.isSelected ? 'black' : 'gray' },
                   ]}>
                   {/* {rowData.time} */ rowData.last_name}
                 </Text>
@@ -220,8 +220,8 @@ export default class NotificationScreen extends Component {
               <MDIcon
                 name={'keyboard-arrow-right'}
                 style={[
-                  {fontSize: 30, alignSelf: 'center', marginRight: 5},
-                  {color: rowData.isSelected ? 'black' : 'gray'},
+                  { fontSize: 30, alignSelf: 'center', marginRight: 5 },
+                  { color: rowData.isSelected ? 'black' : 'gray' },
                 ]}
               />
             </View>
@@ -235,7 +235,7 @@ export default class NotificationScreen extends Component {
   _showDeleteButton = () => {
     if (this.state.selectedCount > 0)
       return (
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <TouchableHighlight
             onPress={() => {
               this._checkAllNotification(
@@ -250,7 +250,7 @@ export default class NotificationScreen extends Component {
                 Toast.LONG,
               )
             }
-            style={{justifyContent: 'center', margin: 2}}>
+            style={{ justifyContent: 'center', margin: 2 }}>
             <MDIcon
               style={{
                 fontSize: 25,
@@ -271,7 +271,7 @@ export default class NotificationScreen extends Component {
             onLongPress={() =>
               Toast.show('Delete checked notification', Toast.LONG)
             }
-            style={{justifyContent: 'center', flex: 1, margin: 2}}>
+            style={{ justifyContent: 'center', flex: 1, margin: 2 }}>
             <MDIcon
               style={{
                 fontSize: 25,
@@ -294,7 +294,7 @@ export default class NotificationScreen extends Component {
           <ActivityIndicator
             size="large"
             color="#13538E"
-            style={{marginLeft: 6}}
+            style={{ marginLeft: 6 }}
           />
         ) : null}
       </View>
@@ -305,11 +305,11 @@ export default class NotificationScreen extends Component {
     if (this.state.dataSoure.length > 0) {
       return (
         <FlatList
-          style={{flex: 1, paddingBottom: 10}}
+          style={{ flex: 1, paddingBottom: 10 }}
           showsVerticalScrollIndicator={false}
           scrollEnabled={this.state.dataSoure.length > 3}
           data={this.state.dataSoure}
-          renderItem={({item, index}) => this.renderRow(item, index)}
+          renderItem={({ item, index }) => this.renderRow(item, index)}
           keyExtractor={item => item.id.toString()}
           onRefresh={() => this.onRefresh()}
           refreshing={this.state.isFetching}
@@ -318,7 +318,7 @@ export default class NotificationScreen extends Component {
           initialNumToRender={8}
           maxToRenderPerBatch={2}
           onEndReachedThreshold={0.5}
-          onEndReached={({distanceFromEnd}) => {
+          onEndReached={({ distanceFromEnd }) => {
             console.log(' ***************** ' + distanceFromEnd);
             if (
               this.state.dataSoure.length < this.state.totalRecord &&
@@ -326,7 +326,7 @@ export default class NotificationScreen extends Component {
               !this.state.isFetching
             ) {
               var pg = this.state.page + 1;
-              this.setState({page: pg, fetchingStatus: true});
+              this.setState({ page: pg, fetchingStatus: true });
               this.getNotificationList();
             } else {
               console.log('all data loaded');
@@ -337,10 +337,10 @@ export default class NotificationScreen extends Component {
       );
     } else {
       return (
-        <View style={{flex: 1}}>
-          <View style={{flex: 1}} />
+        <View style={{ flex: 1 }}>
+          <View style={{ flex: 1 }} />
           <Image
-            style={{height: 250, width: '100%', alignSelf: 'center'}}
+            style={{ height: 250, width: '100%', alignSelf: 'center' }}
             source={require('./../../Image/notification_3.png')}
             resizeMode="contain"
           />
@@ -352,7 +352,7 @@ export default class NotificationScreen extends Component {
             }}>
             No Notification Found
           </Text>
-          <View style={{flex: 1.5}} />
+          <View style={{ flex: 1.5 }} />
         </View>
       );
     }
@@ -360,7 +360,7 @@ export default class NotificationScreen extends Component {
 
   render() {
     return (
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{ flex: 1 }}>
         <View
           style={{
             flex: 1,
@@ -374,7 +374,7 @@ export default class NotificationScreen extends Component {
               backgroundColor: '#012340',
             }}>
             <TouchableOpacity
-              style={{justifyContent: 'center', flex: 1}}
+              style={{ justifyContent: 'center', flex: 1 }}
               onPress={() => {
                 this.props.navigation.toggleDrawer();
               }}>
@@ -402,13 +402,13 @@ export default class NotificationScreen extends Component {
           </View>
           {this.state.isFirst ? (
             <ActivityIndicator
-              style={{alignSelf: 'center', flex: 1}}
+              style={{ alignSelf: 'center', flex: 1 }}
               size="large"
               color="#13538E"
             />
           ) : (
-            this._showNotificationContent()
-          )}
+              this._showNotificationContent()
+            )}
         </View>
       </SafeAreaView>
     );

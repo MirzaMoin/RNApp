@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -10,10 +10,10 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
-import {BottomNavigationTab} from './../widget/BottomNavigationTab';
-import {makeRequest} from './../api/apiCall';
+import { BottomNavigationTab } from './../widget/BottomNavigationTab';
+import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
-import {ScreenHeader} from '../widget/ScreenHeader';
+import { ScreenHeader } from '../widget/ScreenHeader';
 import SwipeButton from 'rn-swipe-button';
 
 export default class TransferPointScreen extends Component {
@@ -107,8 +107,8 @@ export default class TransferPointScreen extends Component {
       isCall = false;
     }
 
-    if(isCall){
-      this.setState({isLoading: true})
+    if (isCall) {
+      this.setState({ isLoading: true })
       this._callTransferPoint()
     }
   }
@@ -128,13 +128,13 @@ export default class TransferPointScreen extends Component {
     )
       .then(response => {
         console.log(JSON.stringify(response));
-        this.setState({isLoading: false});
-        if(response.statusCode == 0) {
+        this.setState({ isLoading: false });
+        if (response.statusCode == 0) {
           Alert.alert('Oppss...', response.statusMessage);
         } else {
           Alert.alert('Success', response.statusMessage);
           this._processAfterTransfer()
-        }  
+        }
       })
       .catch(error => console.log('error : ' + error));
   }
@@ -160,10 +160,10 @@ export default class TransferPointScreen extends Component {
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Transfer Point'}
-          userPoint={this.state.userPoint}/>
-        <View style={{hegith: 150}}>
+          userPoint={this.state.userPoint} />
+        <View style={{ hegith: 150 }}>
           <Image
-            style={{height: 150}}
+            style={{ height: 150 }}
             source={{
               uri:
                 'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
@@ -172,7 +172,7 @@ export default class TransferPointScreen extends Component {
           />
           <View style={styles.imageOverlay} />
         </View>
-        <View style={{padding: 10, flex: 1, justifyContent: 'center'}}>
+        <View style={{ padding: 10, flex: 1, justifyContent: 'center' }}>
           <Text
             style={{
               fontSize: 22,
@@ -181,7 +181,7 @@ export default class TransferPointScreen extends Component {
             }}>
             How many are you transfering?
           </Text>
-          <Text style={{padding: 5, paddingLeft: 10, color: this.state.transferAmountError ? 'red' : 'black'}}>Enter Point Amount</Text>
+          <Text style={{ padding: 5, paddingLeft: 10, color: this.state.transferAmountError ? 'red' : 'black' }}>Enter Point Amount</Text>
           <View
             style={{
               marginLeft: 10,
@@ -192,7 +192,7 @@ export default class TransferPointScreen extends Component {
               borderRadius: 10,
             }}>
             <TextInput
-              style={{fontSize: 17, fontWeight: 'bold'}}
+              style={{ fontSize: 17, fontWeight: 'bold' }}
               placeholder={`${this.state.userPoint || 50} PTS`}
               keyboardType={'numeric'}
               onChangeText={(text) => {
@@ -209,7 +209,7 @@ export default class TransferPointScreen extends Component {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <View style={{flex: 1, flexDirection: 'row', position: 'absolute'}}>
+            <View style={{ flex: 1, flexDirection: 'row', position: 'absolute' }}>
               <View
                 style={{
                   flex: 1,
@@ -230,7 +230,7 @@ export default class TransferPointScreen extends Component {
           </View>
 
           <Text
-            style={{padding: 5, paddingLeft: 10, color: this.state.transferToError ? 'red' : 'black'}}>
+            style={{ padding: 5, paddingLeft: 10, color: this.state.transferToError ? 'red' : 'black' }}>
             Enter User Details
           </Text>
           <View
@@ -243,7 +243,7 @@ export default class TransferPointScreen extends Component {
               borderRadius: 10,
             }}>
             <TextInput
-              style={{fontSize: 17, fontWeight: 'bold'}}
+              style={{ fontSize: 17, fontWeight: 'bold' }}
               placeholder="Email, mobile number or Member CardID"
               onChangeText={(text) => {
                 this.setState({
@@ -254,12 +254,12 @@ export default class TransferPointScreen extends Component {
           </View>
 
           <View style={{
-              marginTop: 30,
-              marginRight: 10,
-            }}>
+            marginTop: 30,
+            marginRight: 10,
+          }}>
             <SwipeButton
               thumbIconBackgroundColor="#FFFFFF"
-              containerStyle={{backgroundColor: '#012345'}}
+              containerStyle={{ backgroundColor: '#012345' }}
               swipeSuccessThreshold={90}
               thumbIconComponent={this._renderIcon}
               title="Slide to transfer"

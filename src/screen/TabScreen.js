@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -8,9 +8,9 @@ import {
   ImageBackground,
   AsyncStorage,
 } from 'react-native';
-import {ScreenHeader} from '../widget/ScreenHeader';
-import {ProfileScreen} from './ProfileScreen';
-import {WayToEarnScreen} from './WaysToEarnScreen';
+import { ScreenHeader } from '../widget/ScreenHeader';
+import { ProfileScreen } from './ProfileScreen';
+import { WayToEarnScreen } from './WaysToEarnScreen';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import ScrollableTabView, {
@@ -98,7 +98,7 @@ export default class TabScreen extends Component {
         return <View />;
     }
   };
-  
+
   data = {
     lists: [
       {
@@ -197,13 +197,13 @@ export default class TabScreen extends Component {
         <ScreenHeader
           navigation={this.props.navigation}
           title={this.state.title}
-          userPoint={this.state.userPoint || '0'}/>
-        <View style={{flex: 1}}>{this._renderScreens()}</View>
+          userPoint={this.state.userPoint || '0'} />
+        <View style={{ flex: 1 }}>{this._renderScreens()}</View>
         <View style={styles.footerContainer}>
           <TouchableOpacity
             style={styles.footerMenuItem}
             onPress={() => {
-              this.setState({title: 'Profile', tabIndex: 0});
+              this.setState({ title: 'Profile', tabIndex: 0 });
             }}>
             <Image
               style={[
@@ -231,7 +231,7 @@ export default class TabScreen extends Component {
           <TouchableOpacity
             style={styles.footerMenuItem}
             onPress={() => {
-              this.setState({title: 'Ways to earn', tabIndex: 1});
+              this.setState({ title: 'Ways to earn', tabIndex: 1 });
             }}>
             <Image
               style={[
@@ -258,7 +258,7 @@ export default class TabScreen extends Component {
           <TouchableOpacity
             style={styles.footerMenuItem}
             onPress={() => {
-              this.setState({title: 'Offer', tabIndex: 2});
+              this.setState({ title: 'Offer', tabIndex: 2 });
             }}>
             <Image
               style={[
@@ -285,7 +285,7 @@ export default class TabScreen extends Component {
           <TouchableOpacity
             style={styles.footerMenuItem}
             onPress={() => {
-              this.setState({title: 'Notification', tabIndex: 3});
+              this.setState({ title: 'Notification', tabIndex: 3 });
             }}>
             <Image
               style={[
@@ -322,7 +322,7 @@ export default class TabScreen extends Component {
               }}
               resizeMode="cover"
             />
-            <Text style={{fontSize: 11, color: 'white'}}>More</Text>
+            <Text style={{ fontSize: 11, color: 'white' }}>More</Text>
           </TouchableOpacity>
         </View>
         <RBSheet
@@ -370,7 +370,7 @@ const styles = {
     backgroundColor: '#f6f6f6',
     textAlign: 'center',
   },
-  headerUserImage: {height: 35, width: 35},
+  headerUserImage: { height: 35, width: 35 },
   headerText: {
     textAlign: 'center',
     flex: 1,
