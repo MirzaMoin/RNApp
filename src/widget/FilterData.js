@@ -32,11 +32,6 @@ export default class Filter extends Component {
     }
 
     show = async ({ filters }) => {
-        /* let years = this.getYears(startYear, endYear);
-         let months = this.getMonths();
-         selectedYear = selectedYear || years[0];
-         selectedMonth = selectedMonth || ((new Date()).getMonth() + 1);*/
-        //this.setState({filtersOption: filters})
         let promise = new Promise((resolve, clear) => {
             this.confirm = ({ selectedFilter, isClear }) => {
                 resolve({

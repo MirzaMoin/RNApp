@@ -32,7 +32,7 @@ export default class ImageLoader extends Component<Props, State> {
   _renderPlaceHolder = isLoading => {
     if (isLoading) {
       if (this.props.isShowLoading) {
-        return <ActivityIndicator size={this.props.progressSize || 'small'} color={this.props.progressColor || '#012345'} />
+        return <ActivityIndicator size={this.props.progressSize || 'small'} color={this.props.progressColor || '#012345'} style={{alignSelf: 'center'}} />
       } else {
         if (this.props.title) {
           var name = this.props.title.trim();

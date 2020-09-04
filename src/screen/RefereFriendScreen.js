@@ -16,6 +16,7 @@ import {
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { BottomNavigationTab } from './../widget/BottomNavigationTab';
+import apiConstant from '../api/apiConstant';
 
 export default class RefereFriendScreen extends Component {
   constructor() {
@@ -44,7 +45,7 @@ export default class RefereFriendScreen extends Component {
             style={{ height: 150 }}
             source={{
               uri:
-                'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
+                apiConstant.HEADER_IMAGE,
             }}
             resizeMode="cover"
           />

@@ -552,9 +552,7 @@ export default class UploadReceiptScreen extends Component {
           cropperCircleOverlay: true,
         }).then(image => {
           console.log(image);
-          
         });*/
-
       }
     });
   }
@@ -605,7 +603,7 @@ export default class UploadReceiptScreen extends Component {
                 style={{ height: 150 }}
                 source={{
                   uri:
-                    'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
+                    APIConstant.HEADER_IMAGE,
                 }}
                 resizeMode="cover"
               />

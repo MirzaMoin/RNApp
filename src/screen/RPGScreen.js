@@ -149,12 +149,11 @@ export default class RPGScreen extends Component {
                 style={{ height: imageHeight }}
                 opacity={1}
                 source={{
-                  uri:
-                    'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
+                  uri: APIConstant.HEADER_IMAGE
                 }}
                 resizeMode="cover"
               />
-              <View opacity={0.5} style={styles.imageOverlay} />
+              <View opacity={0} style={styles.imageOverlay} />
             </View>
           </View>
           <FlatList

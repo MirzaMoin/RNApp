@@ -5,7 +5,7 @@ module.exports = {
   RPID: '78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20',
   USERS: 'https://reqres.in/api/users?delay=3',
   USER_IMAGE: 'https://www.shareicon.net/data/512x512/2015/09/18/103160_man_512x512.png',
-  HEADER_IMAGE: '',
+  HEADER_IMAGE: 'https://roborewards.net/UserUpload/MobileAppImages/b2cac1c9-445c-4067-bbf4-7d74d84c3dff/b1f8a177-923c-4c17-98f8-d2b5fb16f3f4.jpg?r=99980',
   GET_WEBFORMFIELD_DATA: 'UserProfile/GetFormFields',
   LOGIN: 'UserProfile/LogIn',
   FORGET_PASSWORD: 'UserProfile/ForgotPassword',

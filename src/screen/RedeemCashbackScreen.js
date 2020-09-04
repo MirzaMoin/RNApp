@@ -8,6 +8,7 @@ import {
   Alert,
   AsyncStorage,
   ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { makeRequest } from './../api/apiCall';
@@ -17,6 +18,9 @@ import SwipeButton from 'rn-swipe-button';
 import { Card } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import Toast from 'react-native-root-toast';
+
+const maxWidth = Dimensions.get('window').width;
+const imageHeight = (maxWidth / 16) * 9;
 
 export default class RedeemCashbackScreen extends Component {
 
@@ -178,13 +182,12 @@ export default class RedeemCashbackScreen extends Component {
   }
 
   _processAfterTransfer = async point => {
-
     await AsyncStorage.setItem('reedemablePoints', point.toString());
     this.setState({
       userPoint: point,
       otherAmount: '',
       otherAmounterror: false,
-    })
+    });
     this._callGetRedeemCashback();
   }
 
@@ -238,12 +241,11 @@ export default class RedeemCashbackScreen extends Component {
         <View style={{ flex: 1 }}>
           <ScrollView>
             <View style={{ flexDirection: 'column' }}>
-              <View style={{ hegith: 150 }}>
+              <View style={{ hegith: imageHeight }}>
                 <Image
-                  style={{ height: 150 }}
+                  style={{ height: imageHeight }}
                   source={{
-                    uri:
-                      'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
+                    uri: APIConstant.HEADER_IMAGE,
                   }}
                   resizeMode="cover"
                 />
@@ -355,7 +357,7 @@ const styles = {
     backgroundColor: 'rgba(153,153,153,0.2)',
   },
   imageOverlay: {
-    height: 150,
+    height: imageHeight,
     width: '100%',
     position: 'absolute',
     backgroundColor: 'rgba(0,0,0,0.35)',

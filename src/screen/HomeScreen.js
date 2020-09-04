@@ -187,6 +187,31 @@ export default class HomeScreen extends Component {
         label: 'Checkboxes',
         position: 9,
       },
+      {
+        icon: 'photo-camera',
+        label: 'Take photo',
+        position: 5,
+      },
+      {
+        icon: 'photo',
+        label: 'Choose image',
+        position: 6,
+      },
+      {
+        icon: 'brush',
+        label: 'Drawing',
+        position: 7,
+      },
+      {
+        icon: 'mic',
+        label: 'Recording',
+        position: 8,
+      },
+      {
+        icon: 'check-box',
+        label: 'Checkboxes',
+        position: 9,
+      },
     ],
     grids: [
       {
@@ -277,93 +302,66 @@ export default class HomeScreen extends Component {
             this.setState({ title: title, tabIndex: index });
           }
         }}>
-        {/*<Image
-          style={[styles.footerMenuItemImage, this.state.tabIndex == index ? styles.footerMenuSelectedItem : styles.footerMenuIdelItem]}
-          source={{
-            uri:
-              icon,
-          }}
-          resizeMode="cover"
-        />*/}
         <Icon name={icon} style={{ fontSize: this.state.tabIndex == index ? 22 : 18, color: 'white' }} />
         {this.state.tabIndex == index && <Text style={styles.footerMenuSelectedItemText}>{title}</Text>}
       </TouchableOpacity>
     );
   }
 
-  render() {
+  _renderTopContainer = () => {
     return (
-      // eslint-disable-next-line react-native/no-inline-styles
-      <View style={{flex: 1, flexDirection: 'row'}}>
-        <StatusBar barStyle={'light-content'} backgroundColor={'#081b2e'} />
-      <SafeAreaView style={styles.mainContainer}>
-        <View style={styles.headerContainer}>
-          <TouchableOpacity onPress={() => {
-            this.props.navigation.openDrawer();
-          }}>
-            <MDIcon name={'menu'} style={styles.leftIcon} />
-          </TouchableOpacity>
-          <Text style={styles.title}>Home</Text>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {
-              this.props.navigation.navigate('profileTab')
-            }}>
-            <ImageLoader
-              title={this.state.userFullName}
-              src={this.state.userProfileImage}
-              rounded
-              style={styles.headerUserImage} />
-          </TouchableOpacity>
-        </View>
-        {/*<ImageBackground
-          style={styles.backgroundImage}
+      <LinearGradient
+        colors={['#0282C6', '#075985']}
+        style={{ flexDirection: 'column', padding: 10, height: (maxWidth / 16) * 9, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
+        <ImageBackground
+          style={{ flexDirection: 'column', padding: 10, height: (maxWidth / 16) * 9, justifyContent: 'center', alignContent: 'center', alignItems: 'center', width: maxWidth }}
+          opacity={1}
           source={{
             uri:
               'https://cdn-media-1.freecodecamp.org/images/1*gQEm5r-73VpwmSrHYRi0AQ.jpeg',
           }}
-          resizeMode="cover">*/}
-        {/*<View style={{flex: 1}}>{this._renderScreens()}</View>*/}
-        <View style={{ width: '100%', padding: 5, backgroundColor: '#FE9D3F', flexDirection: 'row' }}>
-          <Text style={{ fontSize: 15, color: 'white', paddingLeft: 10, flex: 1, alignSelf: 'center' }}>Refere Friend & Earn 40 Points!</Text>
-          <Icon name={'share-square'} style={{ color: '#0282C6', fontSize: 20 }} />
-        </View>
-        <View style={{ flex: 1 }}>
-          <LinearGradient
-            colors={['#0282C6', '#075985']}
-            style={{ flexDirection: 'column', padding: 10, height: (maxWidth / 16) * 9, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
-            <ImageBackground
-              style={{ flexDirection: 'column', padding: 10, height: (maxWidth / 16) * 9, justifyContent: 'center', alignContent: 'center', alignItems: 'center', width: maxWidth }}
-              opacity={1}
-              source={{
-                uri:
-                  'https://cdn-media-1.freecodecamp.org/images/1*gQEm5r-73VpwmSrHYRi0AQ.jpeg',
-              }}
-              resizeMode="cover">
-              <View style={{ flexDirection: 'row', width: '50%', padding: 5 }}>
-                <View style={{ height: 6, width: 6, borderRadius: 5, backgroundColor: '#FE9D3F', alignSelf: 'center', marginHorizontal: 5 }} />
-                <Text style={{ fontSize: 19, color: 'white', fontFamily: 'bold' }}>Current Points</Text>
-              </View>
-              <View style={{ height: 2, backgroundColor: 'white', width: '50%', margin: 5 }} />
-              <AnimateNumber
-                value={this.state.userPoint || 0}
-                formatter={(val) => {
-                  return <Text
-                    style={{ fontSize: 26, color: 'white', fontFamily: 'bold', padding: 5 }}
-                  >{parseFloat(val).toFixed(2)}</Text>
-                }} />
-              <View style={{ height: 2, backgroundColor: 'white', width: '50%', margin: 5 }} />
-              <Text style={{ color: '#FE9D3F', fontSize: 16, marginTop: 10, padding: 10, backgroundColor: '#012345', paddingHorizontal: 25, borderRadius: 5 }}>Redeem Offer</Text>
-            </ImageBackground>
-          </LinearGradient>
+          resizeMode="cover">
+          <View style={{ flexDirection: 'row', width: '50%', padding: 5 }}>
+            <View style={{ height: 6, width: 6, borderRadius: 5, backgroundColor: '#FE9D3F', alignSelf: 'center', marginHorizontal: 5 }} />
+            <Text style={{ fontSize: 19, color: 'white', fontFamily: 'bold' }}>Current Points</Text>
+          </View>
+          <View style={{ height: 2, backgroundColor: 'white', width: '50%', margin: 5 }} />
+          <AnimateNumber
+            value={this.state.userPoint || 0}
+            formatter={(val) => {
+              return <Text
+                style={{ fontSize: 26, color: 'white', fontFamily: 'bold', padding: 5 }}
+              >{parseFloat(val).toFixed(2)}</Text>
+            }} />
+          <View style={{ height: 2, backgroundColor: 'white', width: '50%', margin: 5 }} />
+          <Text style={{ color: '#FE9D3F', fontSize: 16, marginTop: 10, padding: 10, backgroundColor: '#012345', paddingHorizontal: 25, borderRadius: 5 }}>Redeem Offer</Text>
+        </ImageBackground>
+      </LinearGradient>
+    );
+  }
+
+  _renderBottomContainer = () => {
+    return (
+      <ImageBackground
+        style={{ flexDirection: 'column', flex: 1, width: maxWidth }}
+        opacity={1}
+        source={{
+          uri:
+            'https://venngage-wordpress.s3.amazonaws.com/uploads/2018/09/Perfect-Sunset-Nature-Background-Image.jpeg',
+        }}
+        resizeMode="cover">
+        <LinearGradient
+          opacity={0.5}
+          colors={['#0282C6', '#009688']}
+          style={{ flexDirection: 'column', flex: 1 }}>
+
           <FlatList
-            style={{ flex: 1, backgroundColor: 'rgba(153,153,153,0.5)' }}
             showsVerticalScrollIndicator={false}
             scrollEnabled={true}
             data={this.data.lists}
             renderItem={({ item, index }) => {
               return (
-                <View style={{ padding: 10, flexDirection: 'row', marginTop: 5, backgroundColor: 'white' }}>
+                <View style={{ padding: 10, flexDirection: 'row', marginTop: 5 }}>
                   <MDIcon name={'person'} style={{ fontSize: 30, color: 'grey', backgroundColor: 'rgba(153, 153, 153, 0.5)', padding: 10, borderRadius: 50, marginHorizontal: 10 }} />
                   <Text style={{ flex: 1, paddingHorizontal: 10, fontSize: 18, alignSelf: 'center' }}>Golden Status</Text>
                   <MDIcon name={'keyboard-arrow-right'} style={{ alignSelf: 'center', fontSize: 30, color: '#FE9D3F' }} />
@@ -371,40 +369,90 @@ export default class HomeScreen extends Component {
               );
             }}
           />
+        </LinearGradient>
+      </ImageBackground>
+    );
+  }
+
+  _renderRebbon = isFromTop => {
+    if (isFromTop) {
+      return (
+        <View style={{ width: '100%', padding: 5, backgroundColor: '#FE9D3F', flexDirection: 'row'}}>
+          <Text style={{ fontSize: 15, color: 'white', paddingLeft: 10, flex: 1, alignSelf: 'center' }}>Refere Friend & Earn 40 Points!</Text>
+          <Icon name={'share-square'} style={{ color: '#0282C6', fontSize: 20 }} />
         </View>
-        <View style={styles.footerContainer}>
-          {this._renderBottomMenuItem('Home', 0, 'home')}
-          {this._renderBottomMenuItem('Transaction', 1, 'exchange-alt')}
-          {this._renderBottomMenuItem('Offer', 2, 'tag')}
-          {this._renderBottomMenuItem('Notification', 3, 'bell')}
-          {this._renderBottomMenuItem('More', 4, 'ellipsis-h')}
-        </View>
-        {/*</ImageBackground>*/}
-        <RBSheet
-          ref={ref => {
-            this.Standard = ref;
-          }}
-          height={330}>
-          <View style={styles.listContainer}>
-            <Text style={styles.listTitle}>Option Menu</Text>
-            {this.data.lists.map(list => (
-              <TouchableOpacity
-                key={list.icon}
-                style={styles.listButton}
-                onPress={() => {
-                  this.setState({
-                    title: list.label,
-                    tabIndex: list.position,
-                  });
-                  this.Standard.close();
-                }}>
-                <MDIcon name={list.icon} style={styles.listIcon} />
-                <Text style={styles.listLabel}>{list.label}</Text>
-              </TouchableOpacity>
-            ))}
+      );
+    }
+  }
+
+  _renderToolBar = () => {
+    return (
+      <View style={styles.headerContainer}>
+        <TouchableOpacity onPress={() => {
+          this.props.navigation.openDrawer();
+        }}>
+          <MDIcon name={'menu'} style={styles.leftIcon} />
+        </TouchableOpacity>
+        <Text style={styles.title}>Home</Text>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            this.props.navigation.navigate('profileTab')
+          }}>
+          <ImageLoader
+            title={this.state.userFullName}
+            src={this.state.userProfileImage}
+            rounded
+            style={styles.headerUserImage} />
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  render() {
+    return (
+      <View style={{ flex: 1, flexDirection: 'row' }}>
+        <StatusBar barStyle={'light-content'} backgroundColor={'#081b2e'} />
+        <SafeAreaView style={styles.mainContainer}>
+          {this._renderToolBar()}
+          <View style={{ flex: 1 }}>
+            {this._renderRebbon(false)}
+            {this._renderTopContainer()}
+            {this._renderRebbon(true)}
+            {this._renderBottomContainer()}
           </View>
-        </RBSheet>
-      </SafeAreaView>
+          <View style={styles.footerContainer}>
+            {this._renderBottomMenuItem('Home', 0, 'home')}
+            {this._renderBottomMenuItem('Transaction', 1, 'exchange-alt')}
+            {this._renderBottomMenuItem('Offer', 2, 'tag')}
+            {this._renderBottomMenuItem('Notification', 3, 'bell')}
+            {this._renderBottomMenuItem('More', 4, 'ellipsis-h')}
+          </View>
+          <RBSheet
+            ref={ref => {
+              this.Standard = ref;
+            }}
+            height={330}>
+            <View style={styles.listContainer}>
+              <Text style={styles.listTitle}>Option Menu</Text>
+              {this.data.lists.map(list => (
+                <TouchableOpacity
+                  key={list.icon}
+                  style={styles.listButton}
+                  onPress={() => {
+                    this.setState({
+                      title: list.label,
+                      tabIndex: list.position,
+                    });
+                    this.Standard.close();
+                  }}>
+                  <MDIcon name={list.icon} style={styles.listIcon} />
+                  <Text style={styles.listLabel}>{list.label}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </RBSheet>
+        </SafeAreaView>
       </View>
     );
   }

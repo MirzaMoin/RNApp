@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, Image, FlatList, AsyncStorage, ActivityIndicator } from 'react-native';
+import { View, Text, Image, FlatList, AsyncStorage, ActivityIndicator, Dimensions } from 'react-native';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { ScrollView } from 'react-native-gesture-handler';
 import ReadMore from 'react-native-read-more-text';
 import ImageLoader from './../widget/ImageLoader';
+
+const maxWidth = Dimensions.get('window').width;
+const imageHeight = (maxWidth / 16) * 9;
 
 export class WayToEarnScreen extends Component {
   constructor() {
@@ -180,12 +183,12 @@ export class WayToEarnScreen extends Component {
     return (
       <View style={styles.mainContainer}>
         <ScrollView>
-          <View style={{ hegith: 150 }}>
+          <View style={{ hegith: imageHeight }}>
             <Image
-              style={{ height: 150 }}
+              style={{ height: imageHeight }}
               source={{
                 uri:
-                  'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
+                  APIConstant.HEADER_IMAGE,
               }}
               resizeMode="cover"
             />
@@ -211,7 +214,7 @@ const styles = {
     flexDirection: 'column',
   },
   imageOverlay: {
-    height: 150,
+    height: imageHeight,
     width: '100%',
     position: 'absolute',
     backgroundColor: 'rgba(0,0,0,0.35)',
