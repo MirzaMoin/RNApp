@@ -7,13 +7,18 @@ import {
   AsyncStorage,
   ActivityIndicator,
   Alert,
-  ScrollView, FlatList
+  ScrollView, FlatList,
+  Dimensions,
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import ImageLoader from './../widget/ImageLoader';
+import { max } from 'react-native-reanimated';
+
+const maxWidth = Dimensions.get('window').width;
+const imageHeight = (maxWidth / 16) * 9;
 
 export default class RPGScreen extends Component {
   static navigationOptions = {
@@ -84,10 +89,6 @@ export default class RPGScreen extends Component {
     }
   };
 
-  data = [
-    { name: 'hardik' }, { name: 'patel' }
-  ]
-
   _callRPGData = () => {
     makeRequest(
       `${APIConstant.BASE_URL}${APIConstant.GET_RPG_DATA}?RPToken=${APIConstant.RPTOKEN}&ContactId=${this.state.userID}`,
@@ -143,16 +144,17 @@ export default class RPGScreen extends Component {
       return (
         <ScrollView>
           <View style={{ flexDirection: 'column', flex: 1 }}>
-            <View style={{ hegith: 150 }}>
+            <View style={{ hegith: imageHeight }}>
               <Image
-                style={{ height: 150 }}
+                style={{ height: imageHeight }}
+                opacity={1}
                 source={{
                   uri:
                     'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
                 }}
                 resizeMode="cover"
               />
-              <View style={styles.imageOverlay} />
+              <View opacity={0.5} style={styles.imageOverlay} />
             </View>
           </View>
           <FlatList
@@ -208,10 +210,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 15
   },
   imageOverlay: {
-    height: 150,
+    height: imageHeight,
     width: '100%',
     position: 'absolute',
-    backgroundColor: 'rgba(0,0,0,0.35)',
+    backgroundColor: 'rgba(0,0,0,1)',
   },
   offerImage: {
     height: 60,

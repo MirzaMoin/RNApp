@@ -5,6 +5,7 @@ import APIConstant from './../api/apiConstant';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { ScrollView } from 'react-native-gesture-handler';
 import ReadMore from 'react-native-read-more-text';
+import ImageLoader from './../widget/ImageLoader';
 
 export class WayToEarnScreen extends Component {
   constructor() {
@@ -80,17 +81,14 @@ export class WayToEarnScreen extends Component {
       .catch(error => console.log('error : ' + error));
   }
 
-  _showImageIcon = icon => {
+  _showImageIcon = (icon, title) => {
     if (icon) {
       console.log('show Image : ' + icon);
       return (
-        <Image
+        <ImageLoader
+          src={icon}
           style={styles.titleIcon}
-          source={{
-            uri: icon,
-          }}
-          resizeMode="cover"
-        />
+          title={title}/>
       );
     }
   };
@@ -143,7 +141,7 @@ export class WayToEarnScreen extends Component {
   _showRecentActivity = (item) => {
     if (item > 0)
       return <Text onPress={() => {
-        -this._handleClick(item)
+        this._handleClick(item)
       }} style={styles.btnRecentActivity}>Recent Activity</Text>;
   };
 
@@ -157,7 +155,7 @@ export class WayToEarnScreen extends Component {
             backgroundColor: this._showItem % 2 ? 'white' : 'rgba(153,153,153,0.2)',
           }}>
           <View style={styles.titleContainer}>
-            {this._showImageIcon(item.imageURL)}
+            {this._showImageIcon(item.imageURL, item.title)}
             <Text style={styles.title}>{item.title}</Text>
           </View>
           {this._showDescription(this._showItem, item.description)}

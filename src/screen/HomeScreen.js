@@ -9,6 +9,7 @@ import {
   Dimensions,
   FlatList,
   AsyncStorage,
+  StatusBar
 } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
@@ -17,6 +18,9 @@ import ImageLoader from './../widget/ImageLoader';
 import AnimateNumber from './../widget/AnimateNumber';
 import { Header } from 'react-navigation-stack';
 import LinearGradient from 'react-native-linear-gradient';
+import { max } from 'react-native-reanimated';
+
+const maxWidth = Dimensions.get('window').width;
 
 export default class HomeScreen extends Component {
   static navigationOptions = {
@@ -248,6 +252,14 @@ export default class HomeScreen extends Component {
     ],
   };
 
+  _menuSelectColor = [
+    '#009688',
+    '#2196f3',
+    '#673ab7',
+    '#00bcd4',
+    '#009688',
+  ];
+
   _renderBottomMenuItem = (title, index, icon) => {
     return (
       <TouchableOpacity
@@ -255,7 +267,7 @@ export default class HomeScreen extends Component {
         style={[
           styles.footerMenuItem,
           { flex: this.state.tabIndex == index ? 3 : 1 },
-          { backgroundColor: this.state.tabIndex == index ? '#075985' : '#012345' },
+          { backgroundColor: this.state.tabIndex == index ? this._menuSelectColor[index] : '#012345' },
           this.state.tabIndex == index ? { margin: 9, borderRadius: 40, paddingVertical: 7 } : {}
         ]}
         onPress={() => {
@@ -265,14 +277,15 @@ export default class HomeScreen extends Component {
             this.setState({ title: title, tabIndex: index });
           }
         }}>
-        <Image
+        {/*<Image
           style={[styles.footerMenuItemImage, this.state.tabIndex == index ? styles.footerMenuSelectedItem : styles.footerMenuIdelItem]}
           source={{
             uri:
               icon,
           }}
           resizeMode="cover"
-        />
+        />*/}
+        <Icon name={icon} style={{ fontSize: this.state.tabIndex == index ? 22 : 18, color: 'white' }} />
         {this.state.tabIndex == index && <Text style={styles.footerMenuSelectedItemText}>{title}</Text>}
       </TouchableOpacity>
     );
@@ -281,6 +294,8 @@ export default class HomeScreen extends Component {
   render() {
     return (
       // eslint-disable-next-line react-native/no-inline-styles
+      <View style={{flex: 1, flexDirection: 'row'}}>
+        <StatusBar barStyle={'light-content'} backgroundColor={'#081b2e'} />
       <SafeAreaView style={styles.mainContainer}>
         <View style={styles.headerContainer}>
           <TouchableOpacity onPress={() => {
@@ -316,21 +331,30 @@ export default class HomeScreen extends Component {
         <View style={{ flex: 1 }}>
           <LinearGradient
             colors={['#0282C6', '#075985']}
-            style={{ flexDirection: 'column', padding: 10, height: 200, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
-            <View style={{ flexDirection: 'row', width: '50%', padding: 5 }}>
-              <View style={{ height: 6, width: 6, borderRadius: 5, backgroundColor: '#FE9D3F', alignSelf: 'center', marginHorizontal: 5 }} />
-              <Text style={{ fontSize: 19, color: 'white', fontFamily: 'bold' }}>Current Points</Text>
-            </View>
-            <View style={{ height: 2, backgroundColor: 'white', width: '50%', margin: 5 }} />
-            <AnimateNumber
-              value={this.state.userPoint || 0}
-              formatter={(val) => {
-                return <Text
-                  style={{ fontSize: 26, color: 'white', fontFamily: 'bold', padding: 5 }}
-                >{parseFloat(val).toFixed(2)}</Text>
-              }} />
-            <View style={{ height: 2, backgroundColor: 'white', width: '50%', margin: 5 }} />
-            <Text style={{ color: '#FE9D3F', fontSize: 16, marginTop: 10, padding: 10, backgroundColor: '#012345', paddingHorizontal: 25, borderRadius: 5 }}>Redeem Offer</Text>
+            style={{ flexDirection: 'column', padding: 10, height: (maxWidth / 16) * 9, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
+            <ImageBackground
+              style={{ flexDirection: 'column', padding: 10, height: (maxWidth / 16) * 9, justifyContent: 'center', alignContent: 'center', alignItems: 'center', width: maxWidth }}
+              opacity={1}
+              source={{
+                uri:
+                  'https://cdn-media-1.freecodecamp.org/images/1*gQEm5r-73VpwmSrHYRi0AQ.jpeg',
+              }}
+              resizeMode="cover">
+              <View style={{ flexDirection: 'row', width: '50%', padding: 5 }}>
+                <View style={{ height: 6, width: 6, borderRadius: 5, backgroundColor: '#FE9D3F', alignSelf: 'center', marginHorizontal: 5 }} />
+                <Text style={{ fontSize: 19, color: 'white', fontFamily: 'bold' }}>Current Points</Text>
+              </View>
+              <View style={{ height: 2, backgroundColor: 'white', width: '50%', margin: 5 }} />
+              <AnimateNumber
+                value={this.state.userPoint || 0}
+                formatter={(val) => {
+                  return <Text
+                    style={{ fontSize: 26, color: 'white', fontFamily: 'bold', padding: 5 }}
+                  >{parseFloat(val).toFixed(2)}</Text>
+                }} />
+              <View style={{ height: 2, backgroundColor: 'white', width: '50%', margin: 5 }} />
+              <Text style={{ color: '#FE9D3F', fontSize: 16, marginTop: 10, padding: 10, backgroundColor: '#012345', paddingHorizontal: 25, borderRadius: 5 }}>Redeem Offer</Text>
+            </ImageBackground>
           </LinearGradient>
           <FlatList
             style={{ flex: 1, backgroundColor: 'rgba(153,153,153,0.5)' }}
@@ -349,11 +373,11 @@ export default class HomeScreen extends Component {
           />
         </View>
         <View style={styles.footerContainer}>
-          {this._renderBottomMenuItem('Home', 0, 'https://image.flaticon.com/icons/png/128/747/747420.png')}
-          {this._renderBottomMenuItem('Transaction', 1, 'https://image.flaticon.com/icons/png/128/879/879788.png')}
-          {this._renderBottomMenuItem('Offer', 2, 'https://image.flaticon.com/icons/png/128/879/879757.png')}
-          {this._renderBottomMenuItem('Notification', 3, 'https://image.flaticon.com/icons/png/128/2097/2097743.png')}
-          {this._renderBottomMenuItem('More', 4, 'https://image.flaticon.com/icons/png/128/149/149946.png')}
+          {this._renderBottomMenuItem('Home', 0, 'home')}
+          {this._renderBottomMenuItem('Transaction', 1, 'exchange-alt')}
+          {this._renderBottomMenuItem('Offer', 2, 'tag')}
+          {this._renderBottomMenuItem('Notification', 3, 'bell')}
+          {this._renderBottomMenuItem('More', 4, 'ellipsis-h')}
         </View>
         {/*</ImageBackground>*/}
         <RBSheet
@@ -381,6 +405,7 @@ export default class HomeScreen extends Component {
           </View>
         </RBSheet>
       </SafeAreaView>
+      </View>
     );
   }
 }
