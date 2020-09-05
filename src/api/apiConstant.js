@@ -27,4 +27,5 @@ module.exports = {
   GET_LEADERBOARD_FILTERED_DATA: 'UserAccountProfile/LeaderBoardReport',
   GET_OFFER_LIST: 'UserProfile/Getoffers',
   REDEEM_OFFER: 'UserProfile/RedeemOffer',
+  GET_APP_INTAKEDATA: 'UserAccountProfile/AppIntakeLayoutData',
 };

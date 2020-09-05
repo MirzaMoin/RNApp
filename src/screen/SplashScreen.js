@@ -7,9 +7,17 @@
  */
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, AsyncStorage } from 'react-native';
+import { 
+  StyleSheet,
+  View,
+  Image,
+  AsyncStorage,
+  Alert
+} from 'react-native';
 import apiConstant from '../api/apiConstant';
 import GlobalFont from 'react-native-global-font'
+import { makeRequest } from './../api/apiCall';
+import APIConstant from './../api/apiConstant';
 
 export default class SplashScreen extends Component {
   static navigationOptions = {
@@ -39,6 +47,8 @@ export default class SplashScreen extends Component {
           }
         }
       });
+
+      // get APP INTAKE DATA
     } catch (error) {
       this.props.navigation.navigate('Auth');
     }
@@ -63,6 +73,24 @@ export default class SplashScreen extends Component {
     this._storeBOData();
     this._getLoginData();
   }
+
+  _callGetUserData = () => {
+    makeRequest(
+      `${APIConstant.BASE_URL}${APIConstant.GET_APP_INTAKEDATA}?RPToken=${APIConstant.RPTOKEN}`,
+      'get',
+    )
+      .then(response => {
+        if (response.statusCode == 0) {
+          Alert.alert('Oppss...', response.statusMessage);
+        } else {
+          const { contactData } = response.responsedata;
+        }
+      })
+      .catch(error => {
+        console.log('error : ' + error);
+        Alert.alert('Oppss...', `'Something went wrong please contact to support.`);
+      });
+  };
 
   render() {
     return (
