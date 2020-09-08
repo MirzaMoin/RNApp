@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { Header } from 'react-navigation-stack';
+import GlobalAppModel  from './../model/GlobalAppModel';
+import { parseColor } from './../utils/utility';
 
 type Props = {
   userPoint?: ?String,
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: '#012345',
+    backgroundColor: parseColor(GlobalAppModel.primaryColor), // '#012345',
   },
   leftIcon: {
     color: 'white',

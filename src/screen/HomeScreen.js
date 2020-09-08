@@ -20,7 +20,10 @@ import AnimateNumber from './../widget/AnimateNumber';
 import { Header } from 'react-navigation-stack';
 import LinearGradient from 'react-native-linear-gradient';
 import { max } from 'react-native-reanimated';
-import HomeModel  from './../model/HomeModel';
+import HomeModel from './../model/HomeModel';
+import MenuLinkModel from './../model/MenuLinkModel';
+import GlobalAppModel  from './../model/GlobalAppModel';
+import { parseColor } from './../utils/utility';
 
 const maxWidth = Dimensions.get('window').width;
 
@@ -35,7 +38,7 @@ export default class HomeScreen extends Component {
       title: 'HomeScreen',
       tabIndex: 0,
     };
-    
+
   }
 
   componentWillMount() {
@@ -307,7 +310,7 @@ export default class HomeScreen extends Component {
             this.setState({ title: title, tabIndex: index });
           }
         }}>
-        <Icon name={icon} style={{ fontSize: this.state.tabIndex == index || true ? 20 : 18, color: 'white'}} />
+        <Icon name={icon} style={{ fontSize: this.state.tabIndex == index || true ? 20 : 18, color: 'white' }} />
         {/*<Text lineBreakMode={'tail'} numberOfLines={1} style={styles.footerMenuSelectedItemText}>{title}</Text>*/}
       </TouchableOpacity>
     );
@@ -316,17 +319,16 @@ export default class HomeScreen extends Component {
   // top container for showing point and image with gradient color
   _renderTopContainer = () => {
     return (
-      <LinearGradient
-        colors={['#0282C6', '#075985']}
-        style={{ flexDirection: 'column', padding: 10, height: (maxWidth / 16) * 9, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
-        <ImageBackground
-          style={{ flexDirection: 'column', padding: 10, height: (maxWidth / 16) * 9, justifyContent: 'center', alignContent: 'center', alignItems: 'center', width: maxWidth }}
-          opacity={1}
-          source={{
-            uri:
-              'https://cdn-media-1.freecodecamp.org/images/1*gQEm5r-73VpwmSrHYRi0AQ.jpeg',
-          }}
-          resizeMode="cover">
+      <ImageBackground
+        style={{ flexDirection: 'column', height: (maxWidth / 16) * 9, width: maxWidth}}
+        source={{
+          uri: HomeModel.homePageTopBackgroundImage,
+        }}
+        resizeMode="cover">
+        <LinearGradient
+          opacity={HomeModel.homePageTopBackgroundOpacity}
+          colors={[parseColor(HomeModel.homePageTopBackgroundGradientStartColor), parseColor(HomeModel.homePageTopBackgroundGradientStopColor)]}
+          style={{ flexDirection: 'column', padding: 10, height: (maxWidth / 16) * 9, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
           <View style={{ flexDirection: 'row', width: '50%', padding: 5 }}>
             <View style={{ height: 6, width: 6, borderRadius: 5, backgroundColor: '#FE9D3F', alignSelf: 'center', marginHorizontal: 5 }} />
             <Text style={{ fontSize: 19, color: 'white', fontFamily: 'bold' }}>{HomeModel.homePageTopTextLine1}</Text>
@@ -340,43 +342,47 @@ export default class HomeScreen extends Component {
               >{parseFloat(val).toFixed(2)}</Text>
             }} />
           <View style={{ height: 2, backgroundColor: 'white', width: '50%', margin: 5 }} />
-          <Text style={{ color: '#FE9D3F', fontSize: 16, marginTop: 10, padding: 10, backgroundColor: '#012345', paddingHorizontal: 25, borderRadius: 5 }}>Redeem Offer</Text>
-        </ImageBackground>
-      </LinearGradient>
+          <LinearGradient
+            colors={[parseColor(HomeModel.homePageTopButtonGradientStartColor), parseColor(HomeModel.homePageTopButtonGradientStopColor)]}
+            style={{marginTop: 10, padding: 10, paddingHorizontal: 25, borderRadius: 5, alignContent: 'center'}}>
+            <Text style={{ color: parseColor(HomeModel.homePageTopButtonTextColor), fontSize: 16}}>{HomeModel.homePageTopButtonText}</Text>
+          </LinearGradient>
+        </LinearGradient>
+      </ImageBackground>
     );
   }
 
   // bottom container for showing dynamic internal and external links
   _renderBottomContainer = () => {
+    console.log(`Text Align : ${HomeModel.homePageBottomTextAlign}`);
     return (
       <ImageBackground
         style={{ flexDirection: 'column', flex: 1, width: maxWidth }}
         opacity={1}
         source={{
-          uri:
-            'https://venngage-wordpress.s3.amazonaws.com/uploads/2018/09/Perfect-Sunset-Nature-Background-Image.jpeg',
+          uri: HomeModel.homePageBottomBackgroundImage,
         }}
         resizeMode="cover">
         <LinearGradient
-          opacity={1}
-          colors={['#0282C6', '#009688']}
+          opacity={HomeModel.homePageBottomBackgroundOpacity}
+          colors={[parseColor(HomeModel.homePageBottomBackgroundGradientStartColor), parseColor(HomeModel.homePageBottomBackgroundGradientStopColor)]}
           style={{ flexDirection: 'column', flex: 1 }}>
-
           <FlatList
             showsVerticalScrollIndicator={false}
             scrollEnabled={true}
-            data={this.data.lists}
+            data={HomeModel.menuLinks}
             renderItem={({ item, index }) => {
+              MenuLinkModel.setMenuLink(item);
               return (
                 <>
-                  <View style={{height: 2, backgroundColor: 'rgba(153,153,153,1)'}}/>
-                  <TouchableOpacity 
+                  <View style={{ height: 2, backgroundColor: 'rgba(153,153,153,1)' }} />
+                  <TouchableOpacity
                     activeOpacity={0.8}
-                    onPress={()=>{}}
+                    onPress={() => { }}
                     style={{ padding: 10, flexDirection: 'row', marginTop: 5, minHeight: 50 }}>
-                    {true && <MDIcon name={'person'} style={{ fontSize: 30, color: 'grey', backgroundColor: true ? '' : 'rgba(153, 153, 153, 0.5)', padding: 10, borderRadius: index % 2 == 0 ? 50 : 5, marginHorizontal: 10 }} />}
-                    <Text style={{ flex: 1, paddingHorizontal: 10, fontSize: 18, alignSelf: 'center' }}>Golden Status</Text>
-                    {true && <MDIcon name={'keyboard-arrow-right'} style={{ alignSelf: 'center', fontSize: 30, color: '#FE9D3F' }} />}
+                    {HomeModel.homePageBottomDisplayIcon && <Icon name={MenuLinkModel.icon} style={{ fontSize: 30, color: parseColor(HomeModel.homePageBottomIconColor), backgroundColor: HomeModel.homePageBottomIconShape == 'none' ? '' : parseColor(HomeModel.homePageBottomIconBackgroundColor), padding: 10, borderRadius: HomeModel.homePageBottomIconShape == 'round' ? 50 : 5, marginHorizontal: 10 }} />}
+                    <Text style={{ flex: 1, paddingHorizontal: 10, fontSize: 18, alignSelf: 'center', color: parseColor(MenuLinkModel.menuTextColor), textAlign: HomeModel.homePageBottomTextAlign.toLowerCase() }}>{MenuLinkModel.menuText || ''}</Text>
+                    {HomeModel.homePageBottomDisplayArrowIcon && <MDIcon name={'keyboard-arrow-right'} style={{ alignSelf: 'center', fontSize: 30, color: parseColor(HomeModel.homePageBottomArrowColor) }} />}
                   </TouchableOpacity>
                 </>
               );
@@ -388,11 +394,11 @@ export default class HomeScreen extends Component {
   }
 
   // rebbon for showing internal or external link at top/bottom of top container
-  _renderRebbon = isFromTop => {
-    if (isFromTop) {
+  _renderRebbon = isShow => {
+    if ( HomeModel.homePageDisplayRibbon && isShow) {
       return (
-        <View style={{ width: '100%', padding: 5, backgroundColor: '#FE9D3F', flexDirection: 'row'}}>
-          <Text style={{ fontSize: 15, color: 'white', paddingLeft: 10, flex: 1, alignSelf: 'center' }}>Refere Friend & Earn 40 Points!</Text>
+        <View style={{ width: '100%', padding: 5, backgroundColor: parseColor(HomeModel.homePageRibbonBackgroundColor), flexDirection: 'row' }}>
+          <Text style={{ fontSize: 15, color: parseColor(HomeModel.homePageRibbonTextColor), paddingLeft: 10, flex: 1, alignSelf: 'center' }}>{HomeModel.homePageRibbonText}</Text>
           <Icon name={'share-square'} style={{ color: '#0282C6', fontSize: 20 }} />
         </View>
       );
@@ -425,26 +431,24 @@ export default class HomeScreen extends Component {
   }
 
   render() {
-    console.log(`Home Home Class : ${JSON.stringify(HomeModel)}`)
-    
     return (
       <View style={{ flex: 1, flexDirection: 'row' }}>
         <StatusBar barStyle={'light-content'} backgroundColor={'#081b2e'} />
         <SafeAreaView style={styles.mainContainer}>
           {this._renderToolBar()}
           <View style={{ flex: 1 }}>
-            {this._renderRebbon(false)}
+            {this._renderRebbon(HomeModel.homePageRibbonPosition == 'Top')}
             {this._renderTopContainer()}
-            {this._renderRebbon(true)}
+            {this._renderRebbon(HomeModel.homePageRibbonPosition == 'Middle')}
             {this._renderBottomContainer()}
           </View>
-          <View style={styles.footerContainer}>
+          {HomeModel.homePageDisplayFooter && <View style={[styles.footerContainer, {backgroundColor: parseColor(GlobalAppModel.footerColor)}]}>
             {this._renderBottomMenuItem('Home', 0, 'home')}
             {this._renderBottomMenuItem('Transaction', 1, 'exchange-alt')}
             {this._renderBottomMenuItem('Offer', 2, 'tag')}
             {this._renderBottomMenuItem('Notification', 3, 'bell')}
             {this._renderBottomMenuItem('More', 4, 'ellipsis-h')}
-          </View>
+          </View>}
           <RBSheet
             ref={ref => {
               this.Standard = ref;

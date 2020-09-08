@@ -15,8 +15,6 @@ class GlobalAppModel {
     footerColor;
     primaryButtonColor;
     secondaryButtonColor;
-    homePageBottomIconColor;
-    homePageBottomIconBackgroundColor;
 
     // Loading Images
     loadingImages;
@@ -30,8 +28,6 @@ class GlobalAppModel {
         this.footerColor = appColor.footerColor;
         this.primaryButtonColor = appColor.primaryButtonColor;
         this.secondaryButtonColor = appColor.secondaryButtonColor;
-        this.homePageBottomIconColor = appColor.homePageBottomIconColor;
-        this.homePageBottomIconBackgroundColor = appColor.homePageBottomIconBackgroundColor;
     }
 
     setLoadingImages(images) {

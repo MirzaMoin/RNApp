@@ -40,6 +40,8 @@ class HomeModel {
     homePageBottomTextAlign;
     homePageDisplayFooter;
     homePageBottomIconShape;
+    homePageBottomIconColor;
+    homePageBottomIconBackgroundColor;
     footerLinks;
     menuLinks;
 
@@ -78,6 +80,8 @@ class HomeModel {
         this.homePageBottomTextAlign = data.homePageBottomTextAlign;
         this.homePageDisplayFooter = data.homePageDisplayFooter;
         this.homePageBottomIconShape = data.homePageBottomIconShape;
+        this.homePageBottomIconColor = data.homePageBottomIconColor;
+        this.homePageBottomIconBackgroundColor = data.homePageBottomIconBackgroundColor;
         this.footerLinks = data.footerLinks;
         this.menuLinks = data.menuLinks;
     }

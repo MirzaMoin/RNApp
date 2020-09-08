@@ -43,8 +43,8 @@ class LoginScreenModel {
         this.bannerTitleColor = data.bannerTitleColor;
         this.bannerDescColor = data.bannerDescColor;
         this.bannerTitleText = data.bannerTitleText;
-        this.bannerDescText = bannerDescText;
-        this.signInBtnText = signInBtnText;
+        this.bannerDescText = data.bannerDescText;
+        this.signInBtnText = data.signInBtnText;
         this.signInBtnGradientstartColor = data.signInBtnGradientstartColor;
         this.signInBtnGradientStopColor = data.signInBtnGradientstartColor;
         this.forgotPwdBtnText = data.forgotPwdBtnText;

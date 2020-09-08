@@ -25,7 +25,7 @@ import TextInput from 'react-native-textinput-with-icons';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import { ActivityIndicator } from 'react-native';
-import { isValidEmail, isValidPhoneNo } from './../utils/utility';
+import { isValidEmail, isValidPhoneNo, parseColor } from './../utils/utility';
 import DatePicker from 'react-native-datepicker'
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -39,6 +39,7 @@ import {
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import Toast from 'react-native-root-toast';
 import { max } from 'react-native-reanimated';
+import LoginScreenModel from './../model/LoginScreenModel';
 
 const { width } = Dimensions.get('window')
 const maxWidth = width - (width * 20 / 100)
@@ -2155,13 +2156,12 @@ export default class LoginScreen extends Component {
           behavior="padding"
           enabled={Platform.OS === 'ios' ? true : false}>
           <View style={styles.baseContainer}>
-            <View style={styles.backgroundImageBase}>
+            <View style={[styles.backgroundImageBase, {backgroundColor: parseColor(LoginScreenModel.loadingPageColor)}]}>
               <Image
                 style={styles.backgroundImage}
                 // source={require('./Image/background.png')}
                 source={{
-                  uri:
-                    'https://cdn-media-1.freecodecamp.org/images/1*gQEm5r-73VpwmSrHYRi0AQ.jpeg',
+                  uri: LoginScreenModel.logInBackgroundImage,
                 }}
                 resizeMode="cover"
               />
@@ -2177,12 +2177,12 @@ export default class LoginScreen extends Component {
                   alignItems: 'center',
                 }}>
                 <View style={styles.mainContainer}>
-                  <Text style={styles.textStyle}>
-                    OUR FRIEND GOES OUT BETTER WE HELP THEM GO OUT MORE
+                  <Text style={[styles.textStyle, {color: parseColor(LoginScreenModel.bannerDescColor)}]}>
+                    {LoginScreenModel.bannerDescText}
                 </Text>
                   <View style={styles.seprator} />
-                  <Text style={styles.textStyle2}>
-                    Beacome a rewards member and get perks no one else does
+                  <Text style={[styles.textStyle2, {color: parseColor(LoginScreenModel.subDescColor)}]}>
+                    {LoginScreenModel.subDescText}
                 </Text>
                   {this._showSignUp()}
                   {this._renderSignupButton()}

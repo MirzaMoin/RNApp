@@ -24,6 +24,7 @@ import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import GetLocation from 'react-native-get-location'
+import LoginScreenModel from './../model/LoginScreenModel';
 
 export default class LocationScreen extends Component {
   static navigationOptions = {

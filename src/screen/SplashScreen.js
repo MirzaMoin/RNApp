@@ -16,6 +16,10 @@ import GlobalFont from 'react-native-global-font'
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import HomeModel  from './../model/HomeModel';
+import LoginScreenModel  from './../model/LoginScreenModel';
+import GlobalAppModel  from './../model/GlobalAppModel';
+//import MenuLinkModel  from './../model/MenuLinkModel';
+//import MenuPermissionModel  from './../model/MenuPermissionModel';
 
 export default class SplashScreen extends Component {
   static navigationOptions = {
@@ -31,7 +35,7 @@ export default class SplashScreen extends Component {
     GlobalFont.applyGlobal(fontName)
     /*GlobalUserModel.setName('Hardik');
     GlobalUserModel.setEmail('manigya@baapu.com');*/
-    HomeModel.setHomeScreenData({
+    /*HomeModel.setHomeScreenData({
       homePageDisplayRibbon: true,
       homePageRibbonPosition: "Middle",
       homePageRibbonText: "Herry Ribbon",
@@ -83,7 +87,7 @@ export default class SplashScreen extends Component {
             icon: "align-justify"
         },
       ]
-    })
+    })*/
   }
 
   _getLoginData = async () => {
@@ -102,6 +106,7 @@ export default class SplashScreen extends Component {
       });
 
       // get APP INTAKE DATA
+      //this._callGetAppIntakeData()
     } catch (error) {
       this.props.navigation.navigate('Auth');
     }
@@ -124,20 +129,25 @@ export default class SplashScreen extends Component {
 
   componentWillMount() {
     this._storeBOData();
-    this._getLoginData();
+    this._callGetAppIntakeData()
+    //this._getLoginData();
   }
 
-  _callGetUserData = () => {
+  _callGetAppIntakeData = () => {
     makeRequest(
       `${APIConstant.BASE_URL}${APIConstant.GET_APP_INTAKEDATA}?RPToken=${APIConstant.RPTOKEN}`,
       'get',
     )
       .then(response => {
-        console.log(`Global App Response: ${JSON.stringify(response)}`)
+        //console.log(`Global App Response: ${JSON.stringify(response)}`)
         if (response.statusCode == 0) {
           Alert.alert('Oppss...', response.statusMessage);
         } else {
-          const { contactData } = response.responsedata;
+          LoginScreenModel.setLoginScreenData(response.responsedata.logInScreen);
+          HomeModel.setHomeScreenData(response.responsedata.homeScreen)
+          GlobalAppModel.setAppColor(response.responsedata.appColor);
+          GlobalAppModel.setLoadingImages(response.responsedata.loadingImages)
+          this._getLoginData();
         }
       })
       .catch(error => {

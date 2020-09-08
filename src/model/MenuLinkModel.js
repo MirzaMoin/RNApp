@@ -10,7 +10,7 @@ class MenuLinkModel {
 
     constructor() {}
 
-    getMenuLink (data) {
+    setMenuLink (data) {
         this.menuText = data.menuText;
         this.menuTextColor = data.menuTextColor;
         this.menuLinkType = data.menuLinkType;
