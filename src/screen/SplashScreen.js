@@ -1,7 +1,4 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
  * @format
  * @flow
  */
@@ -18,6 +15,7 @@ import apiConstant from '../api/apiConstant';
 import GlobalFont from 'react-native-global-font'
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
+import HomeModel  from './../model/HomeModel';
 
 export default class SplashScreen extends Component {
   static navigationOptions = {
@@ -31,6 +29,61 @@ export default class SplashScreen extends Component {
   componentDidMount() {
     let fontName = 'regular'
     GlobalFont.applyGlobal(fontName)
+    /*GlobalUserModel.setName('Hardik');
+    GlobalUserModel.setEmail('manigya@baapu.com');*/
+    HomeModel.setHomeScreenData({
+      homePageDisplayRibbon: true,
+      homePageRibbonPosition: "Middle",
+      homePageRibbonText: "Herry Ribbon",
+      homePageRibbonTextColor: "FFFFFF",
+      homePageRibbonBackgroundColor: "FE0020",
+      homePageRibbonLinkType: "internal",
+      homePageRibbonLink: "Social Share",
+      homePageTopBackgroundImage: null,
+      homePageTopBackgroundGradientStartColor: "0282C6",
+      homePageTopBackgroundGradientStopColor: "075985",
+      homePageTopBackgroundOpacity: 1.0,
+      homePageTopTextLine1: "Total Points",
+      homePageTopTextLine1Color: "FFFFFF",
+      homePageTopTextLine2: "%%Points%%",
+      homePageTopTextLine2Color: "FFFFFF",
+      homePageDisplayTopButton: true,
+      homePageTopButtonText: "Redeem Offers",
+      homePageTopButtonTextColor: "A200FE",
+      homePageTopButtonGradientStartColor: "000000",
+      homePageTopButtonGradientStopColor: "000000",
+      homePageTopButtonLinkType: "internal",
+      homePageTopButtonLink: "Social Share",
+      homePageBottomBackgroundImage: null,
+      homePageBottomBackgroundGradientStartColor: "FFFFFF",
+      homePageBottomBackgroundGradientStopColor: "FFFFFF",
+      homePageBottomBackgroundOpacity: 1.0,
+      homePageBottomDisplayIcon: true,
+      homePageBottomDisplayArrowIcon: true,
+      homePageBottomArrowColor: "FE9D3F",
+      homePageBottomTextAlign: "Left",
+      homePageDisplayFooter: false,
+      homePageBottomIconShape: "round",
+      footerLinks: null,
+      menuLinks: [
+        {
+            menuText: "Golden Ticket",
+            menuTextColor: "000000",
+            menuLinkType: "internal",
+            menuInternalLinkUrl: "Social Share",
+            menuExternalLinkUrl: "",
+            icon: "address-book"
+        },
+        {
+            menuText: "Golden Ticket",
+            menuTextColor: "000000",
+            menuLinkType: "external",
+            menuInternalLinkUrl: "Social Share",
+            menuExternalLinkUrl: "cdscdscdscdsc",
+            icon: "align-justify"
+        },
+      ]
+    })
   }
 
   _getLoginData = async () => {
@@ -80,6 +133,7 @@ export default class SplashScreen extends Component {
       'get',
     )
       .then(response => {
+        console.log(`Global App Response: ${JSON.stringify(response)}`)
         if (response.statusCode == 0) {
           Alert.alert('Oppss...', response.statusMessage);
         } else {

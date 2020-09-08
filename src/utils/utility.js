@@ -99,3 +99,15 @@ export async function getLoginData() {
     console.log('catch error : ' + error);
   }
 }
+
+export function parseColor(color, defaultColor = 'black') {
+  try{
+    if(color)
+      return color.indexOf('#') == -1 ? `#${color}` : color;
+    else
+      return defaultColor;
+  } catch (error) {
+    console.log(`Error while parsing color : ${error}`)
+    return defaultColor;
+  }
+}

@@ -9,7 +9,8 @@ import {
   Dimensions,
   FlatList,
   AsyncStorage,
-  StatusBar
+  StatusBar,
+  StyleSheet,
 } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
@@ -19,6 +20,7 @@ import AnimateNumber from './../widget/AnimateNumber';
 import { Header } from 'react-navigation-stack';
 import LinearGradient from 'react-native-linear-gradient';
 import { max } from 'react-native-reanimated';
+import HomeModel  from './../model/HomeModel';
 
 const maxWidth = Dimensions.get('window').width;
 
@@ -33,6 +35,7 @@ export default class HomeScreen extends Component {
       title: 'HomeScreen',
       tabIndex: 0,
     };
+    
   }
 
   componentWillMount() {
@@ -160,6 +163,7 @@ export default class HomeScreen extends Component {
         return <View />;
     }
   };
+
   data = {
     lists: [
       {
@@ -285,15 +289,16 @@ export default class HomeScreen extends Component {
     '#009688',
   ];
 
+  // sendering bottom navigation menu
   _renderBottomMenuItem = (title, index, icon) => {
     return (
       <TouchableOpacity
         activeOpacity={this.state.tabIndex == index ? 1 : 0.6}
         style={[
           styles.footerMenuItem,
-          { flex: this.state.tabIndex == index ? 3 : 1 },
-          { backgroundColor: this.state.tabIndex == index ? this._menuSelectColor[index] : '#012345' },
-          this.state.tabIndex == index ? { margin: 9, borderRadius: 40, paddingVertical: 7 } : {}
+          //{ flex: this.state.tabIndex == index ? 3 : 1 },
+          //{ backgroundColor: this.state.tabIndex == index ? this._menuSelectColor[index] : '#012345' },
+          //this.state.tabIndex == index ? { margin: 9, borderRadius: 40, paddingVertical: 7 } : {}
         ]}
         onPress={() => {
           if (index == 4) {
@@ -302,12 +307,13 @@ export default class HomeScreen extends Component {
             this.setState({ title: title, tabIndex: index });
           }
         }}>
-        <Icon name={icon} style={{ fontSize: this.state.tabIndex == index ? 22 : 18, color: 'white' }} />
-        {this.state.tabIndex == index && <Text style={styles.footerMenuSelectedItemText}>{title}</Text>}
+        <Icon name={icon} style={{ fontSize: this.state.tabIndex == index || true ? 20 : 18, color: 'white'}} />
+        {/*<Text lineBreakMode={'tail'} numberOfLines={1} style={styles.footerMenuSelectedItemText}>{title}</Text>*/}
       </TouchableOpacity>
     );
   }
 
+  // top container for showing point and image with gradient color
   _renderTopContainer = () => {
     return (
       <LinearGradient
@@ -323,7 +329,7 @@ export default class HomeScreen extends Component {
           resizeMode="cover">
           <View style={{ flexDirection: 'row', width: '50%', padding: 5 }}>
             <View style={{ height: 6, width: 6, borderRadius: 5, backgroundColor: '#FE9D3F', alignSelf: 'center', marginHorizontal: 5 }} />
-            <Text style={{ fontSize: 19, color: 'white', fontFamily: 'bold' }}>Current Points</Text>
+            <Text style={{ fontSize: 19, color: 'white', fontFamily: 'bold' }}>{HomeModel.homePageTopTextLine1}</Text>
           </View>
           <View style={{ height: 2, backgroundColor: 'white', width: '50%', margin: 5 }} />
           <AnimateNumber
@@ -340,6 +346,7 @@ export default class HomeScreen extends Component {
     );
   }
 
+  // bottom container for showing dynamic internal and external links
   _renderBottomContainer = () => {
     return (
       <ImageBackground
@@ -351,7 +358,7 @@ export default class HomeScreen extends Component {
         }}
         resizeMode="cover">
         <LinearGradient
-          opacity={0.5}
+          opacity={1}
           colors={['#0282C6', '#009688']}
           style={{ flexDirection: 'column', flex: 1 }}>
 
@@ -361,11 +368,17 @@ export default class HomeScreen extends Component {
             data={this.data.lists}
             renderItem={({ item, index }) => {
               return (
-                <View style={{ padding: 10, flexDirection: 'row', marginTop: 5 }}>
-                  <MDIcon name={'person'} style={{ fontSize: 30, color: 'grey', backgroundColor: 'rgba(153, 153, 153, 0.5)', padding: 10, borderRadius: 50, marginHorizontal: 10 }} />
-                  <Text style={{ flex: 1, paddingHorizontal: 10, fontSize: 18, alignSelf: 'center' }}>Golden Status</Text>
-                  <MDIcon name={'keyboard-arrow-right'} style={{ alignSelf: 'center', fontSize: 30, color: '#FE9D3F' }} />
-                </View>
+                <>
+                  <View style={{height: 2, backgroundColor: 'rgba(153,153,153,1)'}}/>
+                  <TouchableOpacity 
+                    activeOpacity={0.8}
+                    onPress={()=>{}}
+                    style={{ padding: 10, flexDirection: 'row', marginTop: 5, minHeight: 50 }}>
+                    {true && <MDIcon name={'person'} style={{ fontSize: 30, color: 'grey', backgroundColor: true ? '' : 'rgba(153, 153, 153, 0.5)', padding: 10, borderRadius: index % 2 == 0 ? 50 : 5, marginHorizontal: 10 }} />}
+                    <Text style={{ flex: 1, paddingHorizontal: 10, fontSize: 18, alignSelf: 'center' }}>Golden Status</Text>
+                    {true && <MDIcon name={'keyboard-arrow-right'} style={{ alignSelf: 'center', fontSize: 30, color: '#FE9D3F' }} />}
+                  </TouchableOpacity>
+                </>
               );
             }}
           />
@@ -374,6 +387,7 @@ export default class HomeScreen extends Component {
     );
   }
 
+  // rebbon for showing internal or external link at top/bottom of top container
   _renderRebbon = isFromTop => {
     if (isFromTop) {
       return (
@@ -385,6 +399,7 @@ export default class HomeScreen extends Component {
     }
   }
 
+  // screen toolbar
   _renderToolBar = () => {
     return (
       <View style={styles.headerContainer}>
@@ -410,6 +425,8 @@ export default class HomeScreen extends Component {
   }
 
   render() {
+    console.log(`Home Home Class : ${JSON.stringify(HomeModel)}`)
+    
     return (
       <View style={{ flex: 1, flexDirection: 'row' }}>
         <StatusBar barStyle={'light-content'} backgroundColor={'#081b2e'} />
@@ -458,7 +475,7 @@ export default class HomeScreen extends Component {
   }
 }
 
-const styles = {
+const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
   },
@@ -469,7 +486,7 @@ const styles = {
     paddingRight: 10,
     paddingTop: 10,
     paddingBottom: 1,
-    alignItem: 'center',
+    alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: '#f6f6f6',
     textAlign: 'center',
@@ -485,7 +502,7 @@ const styles = {
   footerContainer: {
     //height: 50,
     backgroundColor: '#012345',
-    alignItem: 'center',
+    alignItems: 'center',
     justifyContent: 'space-around',
     flexDirection: 'row',
   },
@@ -493,9 +510,9 @@ const styles = {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    color: 'wite',
-    padding: 10,
-    flexDirection: 'row',
+    color: 'white',
+    paddingVertical: 15,
+    flexDirection: 'column',
   },
   footerMenuItemImage: {
     height: 20,
@@ -504,18 +521,19 @@ const styles = {
   },
   footerMenuSelectedItem: {
     height: 24,
-    width: 24,
+    //width: 24,
     tintColor: 'white',
   },
   footerMenuIdelItem: {
     height: 18,
-    width: 18,
+    //width: 18,
     tintColor: '#fff',
   },
   footerMenuSelectedItemText: {
     color: 'white',
     fontSize: 15,
-    padding: 5,
+    paddingTop: 5,
+    paddingHorizontal: 5,
     marginLeft: 5,
   },
   footerMenuIdelItemText: {
@@ -577,4 +595,4 @@ const styles = {
     color: 'white',
     fontSize: 13,
   }
-};
+});

@@ -17,6 +17,7 @@ import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import ImageLoader from './../widget/ImageLoader';
 import Toast from 'react-native-root-toast';
+import { parseColor } from './../utils/utility';
 
 
 const Width = Dimensions.get('window').width;
@@ -243,7 +244,7 @@ export default class OfferScreen extends Component {
                         style={{
                           fontSize: 18,
                           fontWeight: '600',
-                          color: item.titleColor ? `${item.titleColor.indexOf('#') == -1 ? '#' : ''}${item.titleColor}` : 'white',
+                          color: parseColor(item.titleColor, 'white'),
                           backgroundColor: 'rgba(256, 20, 0, 0.5)',
                           width: Width,
                           alignSelf: 'flex-end',
@@ -253,7 +254,7 @@ export default class OfferScreen extends Component {
                       </Text>
                     </View>
                   </View>
-                  <Text style={[styles.offerDetail, { color: item.descColor ? `${item.descColor.indexOf('#') == -1 ? '#' : ''}${item.descColor}` : 'black' }]}>
+                  <Text style={[styles.offerDetail, { color: parseColor(item.descColor)}]}>
                     {item.offerDescription}
                   </Text>
                   <View style={styles.baseOfferType}>
