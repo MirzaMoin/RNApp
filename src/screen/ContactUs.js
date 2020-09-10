@@ -9,14 +9,24 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Dimensions,
+  AsyncStorage,
+  Alert,
 } from 'react-native';
 import { BottomNavigationTab } from './../widget/BottomNavigationTab';
 import TextInput from 'react-native-textinput-with-icons';
 import { isValidEmail, isValidPhoneNo } from './../utils/utility';
 import MapView, { AnimatedRegion, Marker } from 'react-native-maps';
 import { Card } from 'react-native-elements';
+import { makeRequest } from './../api/apiCall';
+import APIConstant from './../api/apiConstant';
+import GlobalAppModel from './../model/GlobalAppModel';
+import { ScreenHeader } from '../widget/ScreenHeader';
 
 export default class ContactUs extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   constructor() {
     console.log('Constructor called');
     super();
@@ -35,6 +45,35 @@ export default class ContactUs extends Component {
       errorMessage: '',
     };
   }
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      this._getStoredData();
+    });
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove();
+  }
+
+  _getStoredData = async () => {
+    try {
+      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            this.setState({
+              userPoint: value,
+            }, () => this._getLocationData())
+          }
+        }
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   _validateData = () => {
     if (this._validateFirstName(this.state.firstName)) {
@@ -115,11 +154,51 @@ export default class ContactUs extends Component {
     }
   };
 
+  _callSubmitContatUsData = () => {
+
+    const request = {
+      rewardProgramID: GlobalAppModel.rewardProgramId,
+      webFormID: GlobalAppModel.webFormID,
+      contactID: GlobalAppModel.userID,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      emailId: this.state.email,
+      mobileNo: this.state.mobile,
+      message: this.state.message
+    }
+
+    makeRequest(
+      `${APIConstant.BASE_URL}${APIConstant.SUBMIT_CONTACT_US}`,
+      'post',
+      request
+    )
+      .then(response => {
+        //console.log(JSON.stringify(response));
+        this.setState({ isLoading: false });
+        if (response.statusCode == 0) {
+          Alert.alert('Oppss...', response.statusMessage);
+        } else {
+          this.setState({
+            email: '',
+            mobile: '',
+            firstName: '',
+            lastName: '',
+            message: '',
+          })
+        }
+      })
+      .catch(error => console.log('error : ' + error));
+  }
+
   render() {
     const { width, height } = Dimensions.get('window');
     const maxWidth = (width - (width * 20) / 100) / 2 - width * 0.015;
     return (
       <SafeAreaView style={{ flex: 1 }}>
+        <ScreenHeader
+          navigation={this.props.navigation}
+          title={'Contact Us'}
+          userPoint={this.state.userPoint} />
         <KeyboardAvoidingView
           style={{ flex: 1 }}
           behavior="padding"
@@ -240,7 +319,6 @@ export default class ContactUs extends Component {
                 </View>
               </View>
             </ScrollView>
-            <BottomNavigationTab />
           </View>
         </KeyboardAvoidingView>
       </SafeAreaView>

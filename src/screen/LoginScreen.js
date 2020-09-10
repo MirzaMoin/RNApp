@@ -30,6 +30,7 @@ import DatePicker from 'react-native-datepicker'
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { MenuProvider } from 'react-native-popup-menu';
+import LinearGradient from 'react-native-linear-gradient';
 import {
   Menu,
   MenuOptions,
@@ -820,27 +821,31 @@ export default class LoginScreen extends Component {
       );
     } else {
       return (
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            // this.props.navigation.navigate('App')
-            if (this.state.userName) {
-              if (this.state.password) {
-                this.setState({ passwordError: '', isLoadingLogin: true });
-                this._callLogin()
+        <LinearGradient
+          style={{borderRadius: 10, margin: 5, width: 120, alignSelf: 'center'}}
+          colors={[parseColor(LoginScreenModel.signInBtnGradientstartColor), parseColor(LoginScreenModel.signInBtnGradientStopColor)]}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              // this.props.navigation.navigate('App')
+              if (this.state.userName) {
+                if (this.state.password) {
+                  this.setState({ passwordError: '', isLoadingLogin: true });
+                  this._callLogin()
+                } else {
+                  this.setState({
+                    passwordError: 'Enter Passsword',
+                    userNameError: '',
+                  })
+                }
               } else {
-                this.setState({
-                  passwordError: 'Enter Passsword',
-                  userNameError: '',
-                })
+                this.setState({ userNameError: 'Please Enter Valid email' });
               }
-            } else {
-              this.setState({ userNameError: 'Please Enter Valid email' });
-            }
 
-          }}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
+            }}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+        </LinearGradient>
       );
     }
   }
@@ -852,12 +857,17 @@ export default class LoginScreen extends Component {
       );
     } else {
       return (
-        <TouchableOpacity
-          style={styles.button}
-          onPress={this._onSignUpClick}>
-          <Text style={styles.buttonText}>{this.state.isShowSignUp ? 'Register' : 'SIGN ME UP'}</Text>
-        </TouchableOpacity>
-
+        <LinearGradient
+          style={{borderRadius: 10, margin: 5}}
+          colors={[
+            parseColor(LoginScreenModel.joinNowBtnGradientstartColor),
+            parseColor(LoginScreenModel.joinNowBtnGradientStopColor)]}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this._onSignUpClick}>
+            <Text style={[styles.buttonText,{color: LoginScreenModel.joinNowBtnTextColor}]}>{this.state.isShowSignUp ? 'Register' : `${LoginScreenModel.joinNowBtnText}`}</Text>
+          </TouchableOpacity>
+        </LinearGradient>
       );
     }
   }
@@ -2186,16 +2196,20 @@ export default class LoginScreen extends Component {
                 </Text>
                   {this._showSignUp()}
                   {this._renderSignupButton()}
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={this._onLoginClick}>
-                    <Text style={styles.buttonText}>Login</Text>
-                  </TouchableOpacity>
+                  <LinearGradient
+                    style={{borderRadius: 10, margin: 5}}
+                    colors={[parseColor(LoginScreenModel.signInBtnGradientstartColor), parseColor(LoginScreenModel.signInBtnGradientStopColor)]}>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={this._onLoginClick}>
+                      <Text style={[styles.buttonText, {color: parseColor(LoginScreenModel.signInBtnTextColor)}]}>{LoginScreenModel.signInBtnText}</Text>
+                    </TouchableOpacity>
+                  </LinearGradient>
                   {this._showLogin()}
                   <Text
-                    style={styles.forgotPassword}
+                    style={[styles.forgotPassword, {color: LoginScreenModel.forgotPwdBtnTextColor}]}
                     onPress={this._onForgotPasswordClick}>
-                    FORGOT PASSWORD
+                    {LoginScreenModel.forgotPwdBtnText}
                 </Text>
                   <View
                     style={{
@@ -2304,7 +2318,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignSelf: 'center',
     maxWidth: 500,
-    backgroundColor: '#6b9fdb',
+    //backgroundColor: '#6b9fdb',
   },
   buttonText: {
     color: '#ffffff',

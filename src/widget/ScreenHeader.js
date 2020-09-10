@@ -60,7 +60,7 @@ export class ScreenHeader extends Component<Props, State> {
             this.props.navigation.navigate('homeScreen');
           }
         }}>
-          <MDIcon name={'arrow-back'} style={styles.leftIcon} />
+        <MDIcon name={'arrow-back'} style={styles.leftIcon} />
         </TouchableOpacity>
         <Text style={styles.title}>{this.props.title}</Text>
         {this._renderPoint(this.props.userPoint)}

@@ -28,4 +28,6 @@ module.exports = {
   GET_OFFER_LIST: 'UserProfile/Getoffers',
   REDEEM_OFFER: 'UserProfile/RedeemOffer',
   GET_APP_INTAKEDATA: 'UserAccountProfile/AppIntakeLayoutData',
+  SUBMIT_CONTACT_US: 'UserProfile/ContactUs',
+  GET_TRANSACTION_HISTORY: 'UserAccountProfile/TransactionHistory',
 };

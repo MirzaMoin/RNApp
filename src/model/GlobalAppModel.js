@@ -5,6 +5,7 @@
  * Contains Global Setting
  * Contains user data
  * contains Loading Components
+ * Contains Global id and required fields
  */
 class GlobalAppModel {
     
@@ -20,14 +21,28 @@ class GlobalAppModel {
     loadingImages;
     willShownLoadingImage; // which index will shown next
 
+    // Global app reuired data
+    rewardProgramId;
+    webFormID;
+    userID;
+
     constructor() {}
-    setAppColor (appColor) {
+    setAppColor(appColor) {
         this.primaryColor = appColor.primaryColor;
         this.secondaryColor = appColor.secondaryColor;
         this.tertiaryColor = appColor.tertiaryColor;
         this.footerColor = appColor.footerColor;
         this.primaryButtonColor = appColor.primaryButtonColor;
         this.secondaryButtonColor = appColor.secondaryButtonColor;
+    }
+
+    setGlobalAppData(appData) {
+        this.rewardProgramId = appData.rewardProgramId;
+        this.webFormID = appData.webFormID;
+    }
+
+    setUserID(userID) {
+        this.userID = userID;
     }
 
     setLoadingImages(images) {
