@@ -18,6 +18,8 @@ import SplashScreen from './src/screen/SplashScreen';
 import HomeScreen from './src/screen/HomeScreen';
 import SocialShareScreen from './src/screen/SocialShareScreen';
 import TabScreen from './src/screen/TabScreen';
+import ProfileScreen from './src/screen/ProfileScreen';
+import WayToEarnScreen from './src/screen/WaysToEarnScreen';
 import NotificationScreen from './src/screen/NotificationScreen';
 import NotificationDetailScreen from './src/screen/NotificationDetailScreen';
 import TransactionHistory from './src/screen/TransactionHistory';
@@ -31,11 +33,9 @@ import ContactUs from './src/screen/ContactUs';
 import LocationScreen from './src/screen/LocationScreen';
 import TakeSurveyScreen from './src/screen/TakeSurveyScreen';
 import SurveyFormScreen from './src/screen/SurveyFormScreen';
-import ProfileScreen from './src/screen/ProfileScreen';
 import ChangePasswordScreen from './src/screen/ChangePasswordScreen';
 import UploadReceiptScreen from './src/screen/UploadRecieptScreen';
 import RPGScreen from './src/screen/RPGScreen';
-import { WayToEarnScreen } from './src/screen/WaysToEarnScreen';
 import * as RNEP from '@estimote/react-native-proximity';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -777,6 +777,42 @@ const ProfileTabScreenStackNavigator = createStackNavigator({
   },
 });
 
+const ProfileScreenStackNavigator = createStackNavigator({
+  //All the screen from the Screen1 will be indexed here
+  profile: {
+    screen: ProfileScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Ways to Earn',
+      headerTitleStyle: {
+        color: 'white',
+        marginLeft: -7,
+      },
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#012340',
+      },
+    }),
+  },
+});
+
+const WayToEarnScreenStackNavigator = createStackNavigator({
+  //All the screen from the Screen1 will be indexed here
+  profile: {
+    screen: ProfileScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Ways to Earn',
+      headerTitleStyle: {
+        color: 'white',
+        marginLeft: -7,
+      },
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#012340',
+      },
+    }),
+  },
+});
+
 const DrawerNavigatorExample = createDrawerNavigator(
   {
     homeScreen: {
@@ -788,12 +824,30 @@ const DrawerNavigatorExample = createDrawerNavigator(
         ),
       },
     },
-    profileTab: {
+    /*profileScreen: {
       screen: ProfileTabScreenStackNavigator,
       navigationOptions: {
         drawerLabel: 'Profile',
         drawerIcon: ({ tintColor }) => (
           <MDIcon style={{ fontSize: 18 }} name={'person'} />
+        ),
+      },
+    },*/
+    profileScreen: {
+      screen: ProfileScreenStackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Profile',
+        drawerIcon: ({ tintColor }) => (
+          <MDIcon style={{ fontSize: 18 }} name={'person'} />
+        ),
+      },
+    },
+    wayToEarn: {
+      screen: WayToEarnScreen,
+      navigationOptions: {
+        drawerLabel: 'Way to Earn',
+        drawerIcon: ({ tintColor }) => (
+          <MDIcon style={{ fontSize: 18 }} name={'monetization-on'} />
         ),
       },
     },

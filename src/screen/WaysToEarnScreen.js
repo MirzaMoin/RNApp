@@ -6,11 +6,16 @@ import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { ScrollView } from 'react-native-gesture-handler';
 import ReadMore from 'react-native-read-more-text';
 import ImageLoader from './../widget/ImageLoader';
+import { ScreenHeader } from '../widget/ScreenHeader';
 
 const maxWidth = Dimensions.get('window').width;
 const imageHeight = (maxWidth / 16) * 9;
 
-export class WayToEarnScreen extends Component {
+export default class WayToEarnScreen extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   constructor() {
     console.log('Constructor called');
     super();
@@ -26,12 +31,40 @@ export class WayToEarnScreen extends Component {
 
   _showItem = 0;
 
-  componentWillMount() {
+  /*componentWillMount() {
     this._getStoredData();
+  }*/
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      this.setState({
+        title: 'Profile',
+        tabIndex: 0,
+      });
+      this._getStoredData();
+    });
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove();
   }
 
   _getStoredData = async () => {
     try {
+
+      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            this.setState({
+              userPoint: value,
+            })
+          }
+        }
+      });
+
       await AsyncStorage.getItem('userID', (err, value) => {
         if (err) {
           //this.props.navigation.navigate('Auth');
@@ -173,36 +206,49 @@ export class WayToEarnScreen extends Component {
     }
   };
 
-  render() {
-    this._showItem = 0;
+  _renderBody = () => {
     if (this.state.isLoading) {
       return <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size={'large'} />
       </View>
+    } else {
+      return (
+        <ScrollView>
+        <View style={{ hegith: imageHeight }}>
+          <Image
+            style={{ height: imageHeight }}
+            source={{
+              uri:
+                APIConstant.HEADER_IMAGE,
+            }}
+            resizeMode="cover"
+          />
+          <View style={styles.imageOverlay} />
+        </View>
+
+        {this._renderItem(this.state.screenData.totalPoints, 0)}
+        {this._renderItem(this.state.screenData.purchasePoints, 1)}
+        {this._renderItem(this.state.screenData.socialShare, 2)}
+        {this._renderItem(this.state.screenData.referFriends, 3)}
+        {this._renderItem(this.state.screenData.leaderboard, 4)}
+        {this._renderItem(this.state.screenData.surveys, 5)}
+        {this._renderItem(this.state.screenData.completeProfile, 6)}
+      </ScrollView>
+    
+      )
     }
+  }
+
+  render() {
+    this._showItem = 0;
+    
     return (
       <View style={styles.mainContainer}>
-        <ScrollView>
-          <View style={{ hegith: imageHeight }}>
-            <Image
-              style={{ height: imageHeight }}
-              source={{
-                uri:
-                  APIConstant.HEADER_IMAGE,
-              }}
-              resizeMode="cover"
-            />
-            <View style={styles.imageOverlay} />
-          </View>
-
-          {this._renderItem(this.state.screenData.totalPoints, 0)}
-          {this._renderItem(this.state.screenData.purchasePoints, 1)}
-          {this._renderItem(this.state.screenData.socialShare, 2)}
-          {this._renderItem(this.state.screenData.referFriends, 3)}
-          {this._renderItem(this.state.screenData.leaderboard, 4)}
-          {this._renderItem(this.state.screenData.surveys, 5)}
-          {this._renderItem(this.state.screenData.completeProfile, 6)}
-        </ScrollView>
+        <ScreenHeader
+          navigation={this.props.navigation}
+          title={'Way to Earn'}
+          userPoint={this.state.userPoint || '0'} />
+          {this._renderBody()}
       </View>
     );
   }

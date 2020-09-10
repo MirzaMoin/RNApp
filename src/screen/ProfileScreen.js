@@ -36,11 +36,16 @@ import Toast from 'react-native-root-toast';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import ImagePicker from 'react-native-image-picker';
 import ImageLoader from './../widget/ImageLoader';
+import { ScreenHeader } from '../widget/ScreenHeader';
 
 const { width } = Dimensions.get('window')
 const maxWidth = width - (width * 20 / 100)
 
-export class ProfileScreen extends Component {
+export default class ProfileScreen extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+  
   constructor() {
     super();
     this.state = {
@@ -72,12 +77,40 @@ export class ProfileScreen extends Component {
     });
   }
 
-  componentWillMount() {
+  /*componentWillMount() {
     this._getStoredData();
+  }*/
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      this.setState({
+        title: 'Profile',
+        tabIndex: 0,
+      });
+      this._getStoredData();
+    });
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove();
   }
 
   _getStoredData = async () => {
     try {
+
+      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            this.setState({
+              userPoint: value,
+            })
+          }
+        }
+      });
+
       await AsyncStorage.getItem('userID', (err, value) => {
         if (err) {
           //this.props.navigation.navigate('Auth');
@@ -2051,6 +2084,10 @@ export class ProfileScreen extends Component {
     //console.log('Width : ' + width + ' : max : ' + _maxWidth);
     return (
       <MenuProvider>
+        <ScreenHeader
+          navigation={this.props.navigation}
+          title={'Profile'}
+          userPoint={this.state.userPoint || '0'} />
         <KeyboardAvoidingView
           style={styles.container}
           behavior="padding"

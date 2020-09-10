@@ -418,7 +418,7 @@ export default class HomeScreen extends Component {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            this.props.navigation.navigate('profileTab')
+            this.props.navigation.navigate('profile')
           }}>
           <ImageLoader
             title={this.state.userFullName}
@@ -484,18 +484,6 @@ export default class HomeScreen extends Component {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-  },
-  headerContainer: {
-    flex: 1,
-    maxHeight: 50,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 10,
-    paddingBottom: 1,
-    alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: '#f6f6f6',
-    textAlign: 'center',
   },
   headerUserImage: { height: 35, width: 35 },
   headerText: {
@@ -579,7 +567,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: '#012345',
+    backgroundColor: parseColor(GlobalAppModel.primaryColor),
   },
   leftIcon: {
     color: 'white',
