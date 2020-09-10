@@ -1,4 +1,3 @@
-import MenuLinkModel from './MenuLink';
 // home model
 /**
  * For bottom container menu

@@ -26,6 +26,7 @@ import TransactionHistory from './src/screen/TransactionHistory';
 import TransferPointScreen from './src/screen/TransferPointScreen';
 import RefereFriendScreen from './src/screen/RefereFriendScreen';
 import RedeemCashbackScreen from './src/screen/RedeemCashbackScreen';
+import WebScreen from './src/screen/WebScreen';
 import LeaderboardScreen from './src/screen/LeaderBoradScreen';
 import OfferScreen from './src/screen/OfferScreen';
 import OfferDetailScreen from './src/screen/OfferDetailScreen';
@@ -50,6 +51,7 @@ import Screen2 from './pages/Screen2';
 
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 import { MenuProvider } from 'react-native-popup-menu';
+import MenuPermissionModel from './src/model/MenuPermissionModel';
 
 /*RNEP.locationPermission.request().then(permission => {
   if (permission != RNEP.locationPermission.DENIED) {
@@ -274,13 +276,360 @@ class DrawerHeaderComponent extends Component {
   }
 }
 
+const renderHomeScreen = props => {
+  return (
+    <TouchableNativeFeedback
+            activeOpacity={0.8}
+            onPress={async () => {
+              props.navigation.navigate('homeScreen');
+            }}>
+            <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+              <MDIcon name={'home'} style={{ fontSize: 20, marginLeft: 10 }} />
+              <View style={{ width: '12%' }} />
+              <Text style={{ fontWeight: 'bold' }}>Home</Text>
+            </View>
+          </TouchableNativeFeedback>
+  )
+}
+
+const renderProfileScreenMenu = (props) => {
+  return (
+    <TouchableNativeFeedback
+    activeOpacity={0.8}
+    onPress={async () => {
+      props.navigation.navigate('profileScreen');
+    }}>
+    <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+      <MDIcon name={'person'} style={{ fontSize: 20, marginLeft: 10 }} />
+      <View style={{ width: '12%' }} />
+      <Text style={{ fontWeight: 'bold' }}>Edit Profile</Text>
+    </View>
+  </TouchableNativeFeedback>
+  )
+}
+
+const renderWayToEarn = props => {
+  return (
+    <TouchableNativeFeedback
+      activeOpacity={0.8}
+      onPress={async () => {
+        props.navigation.navigate('wayToEarn');
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+        <MDIcon name={'monetization-on'} style={{ fontSize: 20, marginLeft: 10 }} />
+        <View style={{ width: '12%' }} />
+        <Text style={{ fontWeight: 'bold' }}>Way To Earn</Text>
+      </View>
+    </TouchableNativeFeedback>
+  );
+}
+
+const renderRewardEntryGoals = props => {
+  return (
+    <TouchableNativeFeedback
+      activeOpacity={0.8}
+      onPress={async () => {
+        props.navigation.navigate('rpg');
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+        <MDIcon name={'star'} style={{ fontSize: 20, marginLeft: 10 }} />
+        <View style={{ width: '12%' }} />
+        <Text style={{ fontWeight: 'bold' }}>Reward Entry Goal</Text>
+      </View>
+    </TouchableNativeFeedback>
+  );
+}
+
+const renderRedeemCashback = props => {
+  return (
+    <TouchableNativeFeedback
+      activeOpacity={0.8}
+      onPress={async () => {
+        props.navigation.navigate('redeemCashback');
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+        <MDIcon name={'redeem'} style={{ fontSize: 20, marginLeft: 10 }} />
+        <View style={{ width: '12%' }} />
+        <Text style={{ fontWeight: 'bold' }}>Redeem Cashback</Text>
+      </View>
+    </TouchableNativeFeedback>
+  );
+}
+
+const renderLeaderboard = props => {
+  return (
+    <TouchableNativeFeedback
+      activeOpacity={0.8}
+      onPress={async () => {
+        props.navigation.navigate('leaderboard');
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+        <Icon name={'trophy'} style={{ fontSize: 20, marginLeft: 10 }} />
+        <View style={{ width: '12%' }} />
+        <Text style={{ fontWeight: 'bold' }}>Leader Board</Text>
+      </View>
+    </TouchableNativeFeedback>
+  );
+}
+
+const renderNotification = props => {
+  return (
+    <TouchableNativeFeedback
+      activeOpacity={0.8}
+      onPress={async () => {
+        props.navigation.navigate('notificaiton');
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+        <MDIcon name={'notifications'} style={{ fontSize: 20, marginLeft: 10 }} />
+        <View style={{ width: '12%' }} />
+        <Text style={{ fontWeight: 'bold' }}>Notification</Text>
+      </View>
+    </TouchableNativeFeedback>
+  );
+}
+
+const renderTransactionHistory = props => {
+  return (
+    <TouchableNativeFeedback
+      activeOpacity={0.8}
+      onPress={async () => {
+        props.navigation.navigate('transactionHistory');
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+        <MDIcon name={'history'} style={{ fontSize: 20, marginLeft: 10 }} />
+        <View style={{ width: '12%' }} />
+        <Text style={{ fontWeight: 'bold' }}>Transaction History</Text>
+      </View>
+    </TouchableNativeFeedback>
+  );
+}
+
+const renderOffers = props => {
+  return (
+    <TouchableNativeFeedback
+      activeOpacity={0.8}
+      onPress={async () => {
+        props.navigation.navigate('offer');
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+        <MDIcon name={'local-offer'} style={{ fontSize: 20, marginLeft: 10 }} />
+        <View style={{ width: '12%' }} />
+        <Text style={{ fontWeight: 'bold' }}>Offers</Text>
+      </View>
+    </TouchableNativeFeedback>
+  );
+}
+
+const renderTransferPoint = props => {
+  return (
+    <TouchableNativeFeedback
+      activeOpacity={0.8}
+      onPress={async () => {
+        props.navigation.navigate('transferPoint');
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+        <MDIcon name={'swap-horiz'} style={{ fontSize: 20, marginLeft: 10 }} />
+        <View style={{ width: '12%' }} />
+        <Text style={{ fontWeight: 'bold' }}>Transfer Point</Text>
+      </View>
+    </TouchableNativeFeedback>
+  );
+}
+
+const renderUploadReceipt = props => {
+  return (
+    <TouchableNativeFeedback
+      activeOpacity={0.8}
+      onPress={async () => {
+        props.navigation.navigate('uploadReceipt');
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+        <Icon name={'upload'} style={{ fontSize: 20, marginLeft: 10 }} />
+        <View style={{ width: '12%' }} />
+        <Text style={{ fontWeight: 'bold' }}>Upload Receipt</Text>
+      </View>
+    </TouchableNativeFeedback>
+  );
+}
+
+const renderRefereFriend = props => {
+  return (
+    <TouchableNativeFeedback
+      activeOpacity={0.8}
+      onPress={async () => {
+        props.navigation.navigate('refereFriend');
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+        <MDIcon name={'group-add'} style={{ fontSize: 20, marginLeft: 10 }} />
+        <View style={{ width: '12%' }} />
+        <Text style={{ fontWeight: 'bold' }}>Refere Friend</Text>
+      </View>
+    </TouchableNativeFeedback>
+  );
+}
+
+const renderContactUs = props => {
+  return (
+    <TouchableNativeFeedback
+      activeOpacity={0.8}
+      onPress={async () => {
+        props.navigation.navigate('refereFriend');
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+        <MDIcon name={'phone'} style={{ fontSize: 20, marginLeft: 10 }} />
+        <View style={{ width: '12%' }} />
+        <Text style={{ fontWeight: 'bold' }}>Refere Friend</Text>
+      </View>
+    </TouchableNativeFeedback>
+  );
+}
+
+const renderLocation = props => {
+  return (
+    <TouchableNativeFeedback
+      activeOpacity={0.8}
+      onPress={async () => {
+        props.navigation.navigate('locations');
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+        <MDIcon name={'location-on'} style={{ fontSize: 20, marginLeft: 10 }} />
+        <View style={{ width: '12%' }} />
+        <Text style={{ fontWeight: 'bold' }}>Locations</Text>
+      </View>
+    </TouchableNativeFeedback>
+  );
+}
+
+const renderSocailShare = props => {
+  return (
+    <TouchableNativeFeedback
+      activeOpacity={0.8}
+      onPress={async () => {
+        props.navigation.navigate('socialShare');
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+        <MDIcon name={'share'} style={{ fontSize: 20, marginLeft: 10 }} />
+        <View style={{ width: '12%' }} />
+        <Text style={{ fontWeight: 'bold' }}>Social Share</Text>
+      </View>
+    </TouchableNativeFeedback>
+  );
+}
+
+const renderTakeSurvey = props => {
+  return (
+    <TouchableNativeFeedback
+      activeOpacity={0.8}
+      onPress={async () => {
+        props.navigation.navigate('takeSurvey');
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+        <MDIcon name={'edit'} style={{ fontSize: 20, marginLeft: 10 }} />
+        <View style={{ width: '12%' }} />
+        <Text style={{ fontWeight: 'bold' }}>Take Survey</Text>
+      </View>
+    </TouchableNativeFeedback>
+  );
+}
+
+const renderChangePassword = props => {
+  return (
+    <TouchableNativeFeedback
+      activeOpacity={0.8}
+      onPress={async () => {
+        props.navigation.navigate('changePassword');
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+        <MDIcon name={'lock'} style={{ fontSize: 20, marginLeft: 10 }} />
+        <View style={{ width: '12%' }} />
+        <Text style={{ fontWeight: 'bold' }}>Change Password</Text>
+      </View>
+    </TouchableNativeFeedback>
+  );
+}
+
 const CreateDrawerComponent = props => (
   <SafeAreaView style={{ flex: 1 }}>
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1 }}>
         <DrawerHeaderComponent navigation={props.navigation} />
-        <DrawerItems {...props} />
-        {/*<LogoutItem navigationProps={props}/>*/}
+        {/*<DrawerItems {...props} />*/}
+        {renderHomeScreen(props)}
+        {renderProfileScreenMenu(props)}
+        {
+          MenuPermissionModel.isVisibleMenuWaysToEarnPoints && 
+          renderWayToEarn(props)
+        }
+        {
+          MenuPermissionModel.isVisibleMenuStoreRewards &&
+          renderRewardEntryGoals(props)
+        }
+        {
+          MenuPermissionModel.isVisibleMenuCashbackRedemption &&
+          renderRedeemCashback(props)
+        }
+        {
+          //MenuPermissionModel.isLead
+          renderLeaderboard(props)
+        }
+        {
+          renderNotification(props)
+        }
+        {
+          MenuPermissionModel.isVisibleMenuTxHistory && 
+          renderTransactionHistory(props)
+        }
+        {
+          //MenuPermissionModel.isVisibleMenuO
+          renderOffers(props)
+        }
+        {
+          MenuPermissionModel.isVisibleMenuTransferPoints &&
+          renderTransferPoint(props)
+        }
+        {
+          MenuPermissionModel.isVisibleMenuUploadReciepts && 
+          renderUploadReceipt(props)
+        }
+        {
+          MenuPermissionModel.isVisibleMenuReferFriends &&
+          renderUploadReceipt(props)
+        }
+        {
+          MenuPermissionModel.isVisibleMenuReferFriends &&
+          renderRefereFriend(props)
+        }
+        {
+          MenuPermissionModel.isVisibleMenuContactUs && 
+          renderContactUs(props)
+        }
+        {
+          MenuPermissionModel.isVisibleMenuLocation && 
+          renderLocation(props)
+        }
+        {
+          //MenuPermissionModel.isVisibleMenu
+          renderSocailShare(props)
+        }
+        {
+          MenuPermissionModel.isVisibleMenuTakeSurvey && 
+          renderTakeSurvey(props)
+        }
+        {
+          MenuPermissionModel.isVisibleChangePassword &&
+          renderChangePassword(props)
+        }
+        <TouchableNativeFeedback
+          activeOpacity={1}
+          onPress={() => {
+            props.navigation.navigate('webScreen');
+          }}>
+          <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
+            <MDIcon name={'public'} style={{ fontSize: 20, marginLeft: 10 }} />
+            <View style={{ width: '12%' }} />
+            <Text style={{ fontWeight: 'bold' }}>WebBrowser</Text>
+          </View>
+        </TouchableNativeFeedback>
         <TouchableNativeFeedback
           activeOpacity={1}
           onPress={async () => {
@@ -292,7 +641,7 @@ const CreateDrawerComponent = props => (
             }
             props.navigation.navigate('Auth');
           }}>
-          <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center', paddingBottom: 20 }}>
+          <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
             <MDIcon name={'exit-to-app'} style={{ fontSize: 20, marginLeft: 10 }} />
             <View style={{ width: '12%' }} />
             <Text style={{ fontWeight: 'bold' }}>Logout</Text>
@@ -797,8 +1146,26 @@ const ProfileScreenStackNavigator = createStackNavigator({
 
 const WayToEarnScreenStackNavigator = createStackNavigator({
   //All the screen from the Screen1 will be indexed here
-  profile: {
-    screen: ProfileScreen,
+  wayToEarn: {
+    screen: WayToEarnScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Ways to Earn',
+      headerTitleStyle: {
+        color: 'white',
+        marginLeft: -7,
+      },
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#012340',
+      },
+    }),
+  },
+});
+
+const WebScreenScreenStackNavigator = createStackNavigator({
+  //All the screen from the Screen1 will be indexed here
+  webScreen: {
+    screen: WebScreen,
     navigationOptions: ({ navigation }) => ({
       title: 'Ways to Earn',
       headerTitleStyle: {
@@ -843,11 +1210,20 @@ const DrawerNavigatorExample = createDrawerNavigator(
       },
     },
     wayToEarn: {
-      screen: WayToEarnScreen,
+      screen: WayToEarnScreenStackNavigator,
       navigationOptions: {
         drawerLabel: 'Way to Earn',
         drawerIcon: ({ tintColor }) => (
           <MDIcon style={{ fontSize: 18 }} name={'monetization-on'} />
+        ),
+      },
+    },
+    webScreen: {
+      screen: WebScreenScreenStackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Web Screen',
+        drawerIcon: ({ tintColor }) => (
+          <MDIcon style={{ fontSize: 18 }} name={'public'} />
         ),
       },
     },

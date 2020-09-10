@@ -70,6 +70,10 @@ export default class LocationScreen extends Component {
             this.setState({
               userPoint: value,
             }, () => this._getLocationData())
+          } else {
+            this.setState({
+              userPoint: '0',
+            }, () => this._getLocationData())
           }
         }
       });
@@ -144,12 +148,16 @@ export default class LocationScreen extends Component {
   };
 
   openLink = link => {
-    Linking.canOpenURL(link).then(supported => {
+    /*Linking.canOpenURL(link).then(supported => {
       if (supported) {
         Linking.openURL(link);
       } else {
         console.log("Don't know how to open URI: " + this.props.url);
       }
+    });*/
+    this.props.navigation.navigate('webScreen', {
+      title: 'Location',
+      webURL: link,
     });
   };
 
