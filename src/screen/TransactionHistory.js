@@ -4,6 +4,8 @@ import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import { makeRequest } from './../api/apiCall';
+import APIConstant from './../api/apiConstant';
 
 export default class TransactionHistory extends Component {
   constructor() {
@@ -65,6 +67,7 @@ export default class TransactionHistory extends Component {
   }
 
   _getStoredData = async () => {
+    this.setState({isLoading: true});
     try {
       await AsyncStorage.getItem('reedemablePoints', (err, value) => {
         if (err) {
@@ -110,7 +113,21 @@ export default class TransactionHistory extends Component {
   };
 
   _callTransactionHistory = () => {
-
+    makeRequest(
+      `${APIConstant.BASE_URL}${APIConstant.GET_WAYTO_EARN_DATA}?RewardProgramId=${APIConstant.RPID}&ContactID=${this.state.userID}`,
+      'get',
+    )
+      .then(response => {
+        this.setState({isLoading: false});
+        if (response.statusCode == 0) {
+          Alert.alert('Oppss...', response.statusMessage);
+        } else {
+          this.setState({
+            data: response.responsedata
+          });
+        }
+      })
+      .catch(error => console.log('error : ' + error));
   }
 
   render() {
@@ -180,128 +197,6 @@ export default class TransactionHistory extends Component {
             </View>
           )}
         />
-        <View style={styles.footerContainer}>
-          <TouchableOpacity
-            style={styles.footerMenuItem}
-            onPress={() => {
-              this.setState({ title: 'Profile', tabIndex: 0 });
-            }}>
-            <Image
-              style={[
-                styles.footerMenuItemImage,
-                this.state.tabIndex == 0
-                  ? styles.footerMenuSelectedItem
-                  : styles.footerMenuIdelItem,
-              ]}
-              source={{
-                uri:
-                  'https://image.flaticon.com/icons/png/128/2089/2089773.png',
-              }}
-              resizeMode="cover"
-            />
-            <Text
-              style={[
-                this.state.tabIndex == 0
-                  ? styles.footerMenuSelectedItemText
-                  : styles.footerMenuIdelItemText,
-              ]}>
-              Profile
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.footerMenuItem}
-            onPress={() => {
-              this.setState({ title: 'Ways to earn', tabIndex: 1 });
-            }}>
-            <Image
-              style={[
-                styles.footerMenuItemImage,
-                this.state.tabIndex == 1
-                  ? styles.footerMenuSelectedItem
-                  : styles.footerMenuIdelItem,
-              ]}
-              source={{
-                uri: 'https://image.flaticon.com/icons/png/128/879/879788.png',
-              }}
-              resizeMode="cover"
-            />
-            <Text
-              style={[
-                this.state.tabIndex == 1
-                  ? styles.footerMenuSelectedItemText
-                  : styles.footerMenuIdelItemText,
-              ]}>
-              Way to Earn
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.footerMenuItem}
-            onPress={() => {
-              this.setState({ title: 'Offer', tabIndex: 2 });
-            }}>
-            <Image
-              style={[
-                styles.footerMenuItemImage,
-                this.state.tabIndex == 2
-                  ? styles.footerMenuSelectedItem
-                  : styles.footerMenuIdelItem,
-              ]}
-              source={{
-                uri: 'https://image.flaticon.com/icons/png/128/879/879757.png',
-              }}
-              resizeMode="cover"
-            />
-            <Text
-              style={[
-                this.state.tabIndex == 2
-                  ? styles.footerMenuSelectedItemText
-                  : styles.footerMenuIdelItemText,
-              ]}>
-              Offer
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.footerMenuItem}
-            onPress={() => {
-              this.setState({ title: 'Notification', tabIndex: 3 });
-            }}>
-            <Image
-              style={[
-                styles.footerMenuItemImage,
-                this.state.tabIndex == 3
-                  ? styles.footerMenuSelectedItem
-                  : styles.footerMenuIdelItem,
-              ]}
-              source={{
-                uri:
-                  'https://image.flaticon.com/icons/png/128/2097/2097743.png',
-              }}
-              resizeMode="cover"
-            />
-            <Text
-              style={[
-                this.state.tabIndex == 3
-                  ? styles.footerMenuSelectedItemText
-                  : styles.footerMenuIdelItemText,
-              ]}>
-              Notification
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.footerMenuItem}>
-            <Image
-              style={styles.footerMenuItemImage}
-              source={{
-                uri: 'https://image.flaticon.com/icons/png/128/149/149946.png',
-              }}
-              resizeMode="cover"
-            />
-            <Text style={{ fontSize: 11, color: 'white' }}>More</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     );
   }

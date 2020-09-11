@@ -19,7 +19,6 @@ type State = {}
 export class ScreenHeader extends Component<Props, State> {
 
   _renderPoint = point => {
-    //console.log(`HeaderPoint : ${point}`)
     if (point) {
       return (
         <Text>
@@ -58,7 +57,8 @@ export class ScreenHeader extends Component<Props, State> {
             }
             this.props.navigation.goBack();
           } else {
-            this.props.navigation.navigate('homeScreen');
+            //this.props.navigation.navigate('homeScreen');
+            this.props.navigation.goBack();
           }
         }}>
           <MDIcon name={'arrow-back'} style={styles.leftIcon} />

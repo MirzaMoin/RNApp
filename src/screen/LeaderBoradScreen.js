@@ -60,7 +60,7 @@ export default class LeaderBoardScreen extends Component {
 
   _processFurther = () => {
     console.log('right Navigation : ' + this.props);
-    this.props.navigation.navigate('profileTab');
+    this.props.navigation.navigate('profileScreen');
   }
 
   _getStoredData = async () => {

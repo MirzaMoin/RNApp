@@ -80,9 +80,9 @@ export default class WebScreen extends Component {
                     userPoint={this.state.userPoint || '0'} 
                     isGoBack={true}
                     onGoBack={() => {
-                        //this.props.navigation.state.params.onGoBack();
-                        console.log(`Working back`)
-                        this.wv.goBack();
+                        console.log(`Working back ${this.props.navigation.dangerouslyGetParent().state.index}`)
+                        this.props.navigation.goBack();
+                        //this.wv.goBack();
                     }}/>
                 <View style={{ flex: 1 }}>
                     <WebView

@@ -37,9 +37,9 @@ const CustomTab = createReactClass({
       textStyle,
       inactiveTabStyle,
     } = this.props;
-    const textColor = isTabActive ? activeTextColor : inactiveTextColor;
-    const fontWeight = isTabActive ? 'bold' : 'normal';
-    const tabColor = isTabActive ? 'white' : inactiveTabStyle;
+    const textColor = !isTabActive ? activeTextColor : inactiveTextColor;
+    const fontWeight = !isTabActive ? 'bold' : 'normal';
+    const tabColor = !isTabActive ? 'white' : inactiveTabStyle;
     return (
       <Button
         style={{ flex: 1, backgroundColor: tabColor }}

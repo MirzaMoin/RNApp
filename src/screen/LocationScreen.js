@@ -143,7 +143,7 @@ export default class LocationScreen extends Component {
     }
     let that = this;
     setTimeout(function () {
-      that.Standard.open();
+      that.locationListSheet.open();
     }, 100);
   };
 
@@ -155,10 +155,15 @@ export default class LocationScreen extends Component {
         console.log("Don't know how to open URI: " + this.props.url);
       }
     });*/
-    this.props.navigation.navigate('webScreen', {
-      title: 'Location',
-      webURL: link,
-    });
+    try {
+      this.locationListSheet.close()
+      this.props.navigation.push('webScreen', {
+        title: 'Location',
+        webURL: 'https://hardikpatel.dev',
+      });
+    }catch(Exeption) {
+      console.log(`Somethign wring : ${Exeption}`)
+    }
   };
 
   _showDirectionOnMap = address => {
@@ -336,7 +341,7 @@ export default class LocationScreen extends Component {
                 });
                 let that = this;
                 setTimeout(function () {
-                  that.Standard.open();
+                  that.locationListSheet.open();
                 }, 100);
               }}>
               <View style={styles.button}>
@@ -346,7 +351,7 @@ export default class LocationScreen extends Component {
           </View>
           <RBSheet
             ref={ref => {
-              this.Standard = ref;
+              this.locationListSheet = ref;
             }}
             closeOnDragDown={true}
             customStyles={{

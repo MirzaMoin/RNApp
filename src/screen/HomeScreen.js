@@ -24,6 +24,7 @@ import HomeModel from './../model/HomeModel';
 import MenuLinkModel from './../model/MenuLinkModel';
 import GlobalAppModel  from './../model/GlobalAppModel';
 import { parseColor } from './../utils/utility';
+import BottomNavigationTab from './../widget/BottomNavigationTab';
 
 const maxWidth = Dimensions.get('window').width;
 
@@ -418,7 +419,7 @@ export default class HomeScreen extends Component {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            this.props.navigation.navigate('profile')
+            this.props.navigation.navigate('profileScreen')
           }}>
           <ImageLoader
             title={this.state.userFullName}
@@ -444,13 +445,14 @@ export default class HomeScreen extends Component {
             {this._renderRebbon(HomeModel.homePageRibbonPosition == 'Middle')}
             {this._renderBottomContainer()}
           </View>
-          {HomeModel.homePageDisplayFooter && <View style={[styles.footerContainer, {backgroundColor: parseColor(GlobalAppModel.footerColor)}]}>
+          {/*HomeModel.homePageDisplayFooter && <View style={[styles.footerContainer, {backgroundColor: parseColor(GlobalAppModel.footerColor)}]}>
             {this._renderBottomMenuItem('Home', 0, 'home')}
             {this._renderBottomMenuItem('Transaction', 1, 'exchange-alt')}
             {this._renderBottomMenuItem('Offer', 2, 'tag')}
             {this._renderBottomMenuItem('Notification', 3, 'bell')}
             {this._renderBottomMenuItem('More', 4, 'ellipsis-h')}
-          </View>}
+          </View>*/}
+          <BottomNavigationTab />
           <RBSheet
             ref={ref => {
               this.Standard = ref;

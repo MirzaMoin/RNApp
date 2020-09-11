@@ -557,15 +557,15 @@ const CreateDrawerComponent = props => (
         {renderHomeScreen(props)}
         {renderProfileScreenMenu(props)}
         {
-          MenuPermissionModel.isVisibleMenuWaysToEarnPoints && 
+          //MenuPermissionModel.isVisibleMenuWaysToEarnPoints && 
           renderWayToEarn(props)
         }
         {
-          MenuPermissionModel.isVisibleMenuStoreRewards &&
+          //MenuPermissionModel.isVisibleMenuStoreRewards &&
           renderRewardEntryGoals(props)
         }
         {
-          MenuPermissionModel.isVisibleMenuCashbackRedemption &&
+          //MenuPermissionModel.isVisibleMenuCashbackRedemption &&
           renderRedeemCashback(props)
         }
         {
@@ -576,7 +576,7 @@ const CreateDrawerComponent = props => (
           renderNotification(props)
         }
         {
-          MenuPermissionModel.isVisibleMenuTxHistory && 
+          //MenuPermissionModel.isVisibleMenuTxHistory && 
           renderTransactionHistory(props)
         }
         {
@@ -584,27 +584,23 @@ const CreateDrawerComponent = props => (
           renderOffers(props)
         }
         {
-          MenuPermissionModel.isVisibleMenuTransferPoints &&
+          //MenuPermissionModel.isVisibleMenuTransferPoints &&
           renderTransferPoint(props)
         }
         {
-          MenuPermissionModel.isVisibleMenuUploadReciepts && 
+          //MenuPermissionModel.isVisibleMenuUploadReciepts && 
           renderUploadReceipt(props)
         }
         {
-          MenuPermissionModel.isVisibleMenuReferFriends &&
-          renderUploadReceipt(props)
-        }
-        {
-          MenuPermissionModel.isVisibleMenuReferFriends &&
+          //MenuPermissionModel.isVisibleMenuReferFriends &&
           renderRefereFriend(props)
         }
         {
-          MenuPermissionModel.isVisibleMenuContactUs && 
+          //MenuPermissionModel.isVisibleMenuContactUs && 
           renderContactUs(props)
         }
         {
-          MenuPermissionModel.isVisibleMenuLocation && 
+          //MenuPermissionModel.isVisibleMenuLocation && 
           renderLocation(props)
         }
         {
@@ -612,11 +608,11 @@ const CreateDrawerComponent = props => (
           renderSocailShare(props)
         }
         {
-          MenuPermissionModel.isVisibleMenuTakeSurvey && 
+          //MenuPermissionModel.isVisibleMenuTakeSurvey && 
           renderTakeSurvey(props)
         }
         {
-          MenuPermissionModel.isVisibleChangePassword &&
+          //MenuPermissionModel.isVisibleChangePassword &&
           renderChangePassword(props)
         }
         <TouchableNativeFeedback
@@ -1180,9 +1176,78 @@ const WebScreenScreenStackNavigator = createStackNavigator({
   },
 });
 
+const drawerStackNavigation = createStackNavigator({
+  homeScreen: {
+    screen: HomeScreen,
+  },
+  profileScreen: {
+    screen: ProfileScreen,
+  },
+  wayToEarn: {
+    screen: WayToEarnScreen,
+  },
+  webScreen: {
+    screen: WebScreen,
+  },
+  rpg: {
+    screen: RPGScreen,
+  },
+  redeemCashback: {
+    screen: RedeemCashbackScreen,
+  },
+  leaderboard: {
+    screen: LeaderboardScreen,
+  },
+  notificaiton: {
+    screen: NotificationScreen,
+  },
+  notificaitonDetail: {
+    screen: NotificationDetailScreen,
+  },
+  transactionHistory: {
+    screen: TransactionHistory,
+  },
+  offer: {
+    screen: OfferScreen,
+  },
+  offerDetail: {
+    screen: OfferDetailScreen,
+  },
+  transferPoint: {
+    screen: TransferPointScreen,
+  },
+  uploadReceipt: {
+    screen: UploadReceiptScreen,
+  },
+  refereFriend: {
+    screen: RefereFriendScreen,
+  },
+  contactUs: {
+    screen: ContactUs,
+  },
+  locations: {
+    screen: LocationScreen,
+  },
+  socialShare: {
+    screen: SocialShareScreen,
+  },
+  takeSurvey: {
+    screen: TakeSurveyScreen,
+  },
+  SurveyForm: {
+    screen: SurveyFormScreen,
+  },
+  changePassword: {
+    screen: ChangePasswordScreen,
+  },
+})
+
 const DrawerNavigatorExample = createDrawerNavigator(
   {
-    homeScreen: {
+    home: {
+      screen: drawerStackNavigation,
+    }
+    /*homeScreen: {
       screen: Home_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Home',
@@ -1191,7 +1256,7 @@ const DrawerNavigatorExample = createDrawerNavigator(
         ),
       },
     },
-    /*profileScreen: {
+    profileScreen: {
       screen: ProfileTabScreenStackNavigator,
       navigationOptions: {
         drawerLabel: 'Profile',
@@ -1199,7 +1264,7 @@ const DrawerNavigatorExample = createDrawerNavigator(
           <MDIcon style={{ fontSize: 18 }} name={'person'} />
         ),
       },
-    },*/
+    },
     profileScreen: {
       screen: ProfileScreenStackNavigator,
       navigationOptions: {
@@ -1292,7 +1357,6 @@ const DrawerNavigatorExample = createDrawerNavigator(
       },
     },
     uploadReceipt: {
-      //Title
       screen: UploadReceiptStackNavigator,
       navigationOptions: {
         drawerLabel: 'Upload Receipt',
@@ -1339,7 +1403,6 @@ const DrawerNavigatorExample = createDrawerNavigator(
       },
     },
     changePassword: {
-      //Title
       screen: ChangePasswordStackNavigator,
       navigationOptions: {
         drawerLabel: 'Change Password',
@@ -1347,7 +1410,7 @@ const DrawerNavigatorExample = createDrawerNavigator(
           <MDIcon style={{ fontSize: 18 }} name={'lock'} />
         ),
       },
-    },
+    }*/
   },
   {
     contentComponent: CreateDrawerComponent,
