@@ -21,6 +21,9 @@ import { Header } from 'react-navigation-stack';
 import { Card } from 'react-native-elements';
 import ImageLoader from './../widget/ImageLoader';
 import Filters from './../widget/FilterData';
+import GlobalAppModel from '../model/GlobalAppModel';
+import LoadingScreen from '../widget/LoadingScreen';
+var loadingImage = '';
 
 const maxWidth = Dimensions.get('window').width;
 
@@ -33,7 +36,7 @@ export default class LeaderBoardScreen extends Component {
   constructor() {
     super();
     this.state = {
-      isLoading: false,
+      isLoading: true,
       qualificationCriteria: {},
       filters: [],
       leaderBoardReport: [],
@@ -47,6 +50,7 @@ export default class LeaderBoardScreen extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
+      loadingImage = GlobalAppModel.getLoadingImage();
       this.setState({
         isLoading: true,
       })
@@ -59,7 +63,6 @@ export default class LeaderBoardScreen extends Component {
   }
 
   _processFurther = () => {
-    console.log('right Navigation : ' + this.props);
     this.props.navigation.navigate('profileScreen');
   }
 
@@ -269,9 +272,7 @@ export default class LeaderBoardScreen extends Component {
   _renderBody = () => {
     if (this.state.isLoading) {
       return (
-        <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size={'large'} />
-        </View>
+        <LoadingScreen LoadingImage={loadingImage} />
       );
     } else {
       return (

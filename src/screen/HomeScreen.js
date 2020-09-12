@@ -22,7 +22,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { max } from 'react-native-reanimated';
 import HomeModel from './../model/HomeModel';
 import MenuLinkModel from './../model/MenuLinkModel';
-import GlobalAppModel  from './../model/GlobalAppModel';
+import GlobalAppModel from './../model/GlobalAppModel';
 import { parseColor } from './../utils/utility';
 import BottomNavigationTab from './../widget/BottomNavigationTab';
 
@@ -321,7 +321,7 @@ export default class HomeScreen extends Component {
   _renderTopContainer = () => {
     return (
       <ImageBackground
-        style={{ flexDirection: 'column', height: (maxWidth / 16) * 9, width: maxWidth}}
+        style={{ flexDirection: 'column', height: (maxWidth / 16) * 9, width: maxWidth }}
         source={{
           uri: HomeModel.homePageTopBackgroundImage,
         }}
@@ -343,11 +343,27 @@ export default class HomeScreen extends Component {
               >{parseFloat(val).toFixed(2)}</Text>
             }} />
           <View style={{ height: 2, backgroundColor: 'white', width: '50%', margin: 5 }} />
-          <LinearGradient
-            colors={[parseColor(HomeModel.homePageTopButtonGradientStartColor), parseColor(HomeModel.homePageTopButtonGradientStopColor)]}
-            style={{marginTop: 10, padding: 10, paddingHorizontal: 25, borderRadius: 5, alignContent: 'center'}}>
-            <Text style={{ color: parseColor(HomeModel.homePageTopButtonTextColor), fontSize: 16}}>{HomeModel.homePageTopButtonText}</Text>
-          </LinearGradient>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={{marginTop: 10}}
+            onPress={()=> {
+              if (HomeModel.homePageTopButtonLinkType == 'external') {
+                try {
+                  this.props.navigation.push('webScreen', {
+                    title: HomeModel.homePageTopButtonText,
+                    webURL: HomeModel.homePageTopButtonLink,
+                  });
+                } catch (Exeption) { console.log(`Èrror : ${Exeption}`) }
+              } else {
+                this.props.navigation.push(HomeModel.homePageTopButtonLink);
+              }
+            }}>
+            <LinearGradient
+              colors={[parseColor(HomeModel.homePageTopButtonGradientStartColor), parseColor(HomeModel.homePageTopButtonGradientStopColor)]}
+              style={{ padding: 10, paddingHorizontal: 25, borderRadius: 5, alignContent: 'center' }}>
+              <Text style={{ color: parseColor(HomeModel.homePageTopButtonTextColor), fontSize: 16 }}>{HomeModel.homePageTopButtonText}</Text>
+            </LinearGradient>
+          </TouchableOpacity>
         </LinearGradient>
       </ImageBackground>
     );
@@ -373,16 +389,28 @@ export default class HomeScreen extends Component {
             scrollEnabled={true}
             data={HomeModel.menuLinks}
             renderItem={({ item, index }) => {
-              MenuLinkModel.setMenuLink(item);
+              const menuLink = new MenuLinkModel(item);
+              //menuLink.setMenuLink(item);
               return (
                 <>
                   <View style={{ height: 2, backgroundColor: 'rgba(153,153,153,1)' }} />
                   <TouchableOpacity
                     activeOpacity={0.8}
-                    onPress={() => { }}
-                    style={{ padding: 10, flexDirection: 'row', marginTop: 5, minHeight: 50 }}>
-                    {HomeModel.homePageBottomDisplayIcon && <Icon name={MenuLinkModel.icon} style={{ fontSize: 30, color: parseColor(HomeModel.homePageBottomIconColor), backgroundColor: HomeModel.homePageBottomIconShape == 'none' ? '' : parseColor(HomeModel.homePageBottomIconBackgroundColor), padding: 10, borderRadius: HomeModel.homePageBottomIconShape == 'round' ? 50 : 5, marginHorizontal: 10 }} />}
-                    <Text style={{ flex: 1, paddingHorizontal: 10, fontSize: 18, alignSelf: 'center', color: parseColor(MenuLinkModel.menuTextColor), textAlign: HomeModel.homePageBottomTextAlign.toLowerCase() }}>{MenuLinkModel.menuText || ''}</Text>
+                    onPress={() => {
+                      if (menuLink.menuLinkType == 'external') {
+                        try {
+                          this.props.navigation.push('webScreen', {
+                            title: menuLink.menuText,
+                            webURL: menuLink.menuExternalLinkUrl,
+                          });
+                        } catch (Exeption) { console.log(`Èrror : ${Exeption}`) }
+                      } else {
+                        this.props.navigation.push(menuLink.menuInternalLinkUrl);
+                      }
+                    }}
+                    style={{ padding: 10, flexDirection: 'row', minHeight: 50 }}>
+                    {HomeModel.homePageBottomDisplayIcon && <Icon name={menuLink.icon} style={{ fontSize: 30, color: parseColor(HomeModel.homePageBottomIconColor), backgroundColor: HomeModel.homePageBottomIconShape == 'none' ? '' : parseColor(HomeModel.homePageBottomIconBackgroundColor), padding: 10, borderRadius: HomeModel.homePageBottomIconShape == 'round' ? 50 : 5, marginHorizontal: 10, width: 50, textAlign: 'center' }} />}
+                    <Text style={{ flex: 1, paddingHorizontal: 10, fontSize: 18, alignSelf: 'center', color: parseColor(MenuLinkModel.menuTextColor), textAlign: HomeModel.homePageBottomTextAlign.toLowerCase() }}>{menuLink.menuText || ''}</Text>
                     {HomeModel.homePageBottomDisplayArrowIcon && <MDIcon name={'keyboard-arrow-right'} style={{ alignSelf: 'center', fontSize: 30, color: parseColor(HomeModel.homePageBottomArrowColor) }} />}
                   </TouchableOpacity>
                 </>
@@ -396,12 +424,27 @@ export default class HomeScreen extends Component {
 
   // rebbon for showing internal or external link at top/bottom of top container
   _renderRebbon = isShow => {
-    if ( HomeModel.homePageDisplayRibbon && isShow) {
+    if (HomeModel.homePageDisplayRibbon && isShow) {
       return (
-        <View style={{ width: '100%', padding: 5, backgroundColor: parseColor(HomeModel.homePageRibbonBackgroundColor), flexDirection: 'row' }}>
-          <Text style={{ fontSize: 15, color: parseColor(HomeModel.homePageRibbonTextColor), paddingLeft: 10, flex: 1, alignSelf: 'center' }}>{HomeModel.homePageRibbonText}</Text>
-          <Icon name={'share-square'} style={{ color: '#0282C6', fontSize: 20 }} />
-        </View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            if (HomeModel.homePageRibbonLinkType == 'external') {
+              try {
+                this.props.navigation.push('webScreen', {
+                  title: HomeModel.homePageRibbonText,
+                  webURL: HomeModel.homePageTopButtonLink,
+                });
+              } catch (Exeption) { console.log(`Èrror : ${Exeption}`) }
+            } else {
+              this.props.navigation.push(HomeModel.homePageTopButtonLink);
+            }
+          }}>
+          <View style={{ width: '100%', padding: 5, backgroundColor: parseColor(HomeModel.homePageRibbonBackgroundColor), flexDirection: 'row' }}>
+            <Text style={{ fontSize: 15, color: parseColor(HomeModel.homePageRibbonTextColor), paddingLeft: 10, flex: 1, alignSelf: 'center' }}>{HomeModel.homePageRibbonText}</Text>
+            <Icon name={'share-square'} style={{ color: '#0282C6', fontSize: 20 }} />
+          </View>
+        </TouchableOpacity>
       );
     }
   }
@@ -452,7 +495,8 @@ export default class HomeScreen extends Component {
             {this._renderBottomMenuItem('Notification', 3, 'bell')}
             {this._renderBottomMenuItem('More', 4, 'ellipsis-h')}
           </View>*/}
-          <BottomNavigationTab />
+          <BottomNavigationTab 
+           navigation={this.props.navigation}/>
           <RBSheet
             ref={ref => {
               this.Standard = ref;

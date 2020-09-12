@@ -25,6 +25,9 @@ import APIConstant from './../api/apiConstant';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import GetLocation from 'react-native-get-location'
 import LoginScreenModel from './../model/LoginScreenModel';
+import GlobalAppModel from '../model/GlobalAppModel';
+import LoadingScreen from '../widget/LoadingScreen';
+var loadingImage = '';
 
 export default class LocationScreen extends Component {
   static navigationOptions = {
@@ -34,6 +37,7 @@ export default class LocationScreen extends Component {
   constructor() {
     super();
     this.state = {
+      isLoading: true,
       sheetIcon: 'keyboard-arrow-up',
       sheetHeight: 330,
       isFullScreen: false,
@@ -48,10 +52,11 @@ export default class LocationScreen extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
-      this._getCurrentLocation();
+      loadingImage = GlobalAppModel.getLoadingImage();
       this.setState({
         isLoading: true,
       });
+      this._getCurrentLocation();
       this._getStoredData();
     });
   }
@@ -298,9 +303,7 @@ export default class LocationScreen extends Component {
   _renderBody = () => {
     if (this.state.isLoading) {
       return (
-        <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size={'large'} />
-        </View>
+        <LoadingScreen LoadingImage={loadingImage}/>
       );
     } else {
       return (

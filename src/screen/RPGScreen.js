@@ -16,6 +16,9 @@ import APIConstant from './../api/apiConstant';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import ImageLoader from './../widget/ImageLoader';
 import { max } from 'react-native-reanimated';
+import LoadingScreen from '../widget/LoadingScreen';
+import GlobalAppModel from '../model/GlobalAppModel';
+var loadingImage = '';
 
 const maxWidth = Dimensions.get('window').width;
 const imageHeight = (maxWidth / 16) * 9;
@@ -27,12 +30,15 @@ export default class RPGScreen extends Component {
 
   constructor() {
     super();
-    this.state = {}
+    this.state = {
+      isLoading: true,
+    }
   }
 
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
+      loadingImage = GlobalAppModel.getLoadingImage();
       this.setState({
         isLoading: true
       });
@@ -136,9 +142,7 @@ export default class RPGScreen extends Component {
   _renderBody = () => {
     if (this.state.isLoading) {
       return (
-        <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size={'large'} />
-        </View>
+        <LoadingScreen LoadingImage={loadingImage} />
       );
     } else {
       return (

@@ -25,6 +25,7 @@ class GlobalAppModel {
     rewardProgramId;
     webFormID;
     userID;
+    loadingPageColor;
 
     constructor() {}
     setAppColor(appColor) {
@@ -50,9 +51,13 @@ class GlobalAppModel {
         this.willShownLoadingImage = 0;
     }
 
+    setLoadingPageColor(color) {
+        this.loadingPageColor = color;
+    }
+
     getLoadingImage() {
         if (this.loadingImages && this.loadingImages.length > 0) {
-            var showingImage = this.loadingImages[this.willShownLoadingImage];
+            var showingImage = this.loadingImages[this.willShownLoadingImage].imageUrl;
 
             if (this.willShownLoadingImage < this.loadingImages.length -1) {                
                 this.willShownLoadingImage = this.willShownLoadingImage + 1;

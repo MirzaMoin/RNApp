@@ -7,6 +7,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import ReadMore from 'react-native-read-more-text';
 import ImageLoader from './../widget/ImageLoader';
 import { ScreenHeader } from '../widget/ScreenHeader';
+import LoadingScreen from '../widget/LoadingScreen';
+import GlobalAppModel from '../model/GlobalAppModel';
+var loadingImage = '';
 
 const maxWidth = Dimensions.get('window').width;
 const imageHeight = (maxWidth / 16) * 9;
@@ -38,6 +41,7 @@ export default class WayToEarnScreen extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
+      loadingImage = GlobalAppModel.getLoadingImage();
       this.setState({
         title: 'Profile',
         tabIndex: 0,
@@ -119,7 +123,7 @@ export default class WayToEarnScreen extends Component {
 
   _showImageIcon = (icon, title) => {
     if (icon) {
-      console.log('show Image : ' + icon);
+      //console.log('show Image : ' + icon);
       return (
         <ImageLoader
           src={icon}
@@ -208,9 +212,7 @@ export default class WayToEarnScreen extends Component {
 
   _renderBody = () => {
     if (this.state.isLoading) {
-      return <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size={'large'} />
-      </View>
+      return <LoadingScreen LoadingImage={loadingImage} />
     } else {
       return (
         <ScrollView>

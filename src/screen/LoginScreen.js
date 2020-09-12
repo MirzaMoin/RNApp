@@ -843,7 +843,7 @@ export default class LoginScreen extends Component {
               }
 
             }}>
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={[styles.buttonText,{color: parseColor(LoginScreenModel.signInBtnTextColor)}]}>Login</Text>
           </TouchableOpacity>
         </LinearGradient>
       );
@@ -2165,8 +2165,8 @@ export default class LoginScreen extends Component {
           style={styles.baseContainer}
           behavior="padding"
           enabled={Platform.OS === 'ios' ? true : false}>
-          <View style={styles.baseContainer}>
-            <View style={[styles.backgroundImageBase, {backgroundColor: parseColor(LoginScreenModel.loadingPageColor)}]}>
+          <View style={[styles.baseContainer, {backgroundColor: LoginScreenModel.bgColor}]}>
+            <View style={[styles.backgroundImageBase, {backgroundColor: parseColor(LoginScreenModel.bgColor)}]}>
               <Image
                 style={styles.backgroundImage}
                 // source={require('./Image/background.png')}
@@ -2207,7 +2207,7 @@ export default class LoginScreen extends Component {
                   </LinearGradient>
                   {this._showLogin()}
                   <Text
-                    style={[styles.forgotPassword, {color: LoginScreenModel.forgotPwdBtnTextColor}]}
+                    style={[styles.forgotPassword, {color: parseColor(LoginScreenModel.forgotPwdBtnTextColor)}]}
                     onPress={this._onForgotPasswordClick}>
                     {LoginScreenModel.forgotPwdBtnText}
                 </Text>
@@ -2313,7 +2313,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   button: {
-    margin: 5,
+    //margin: 5,
     minWidth: 120,
     borderRadius: 10,
     alignSelf: 'center',

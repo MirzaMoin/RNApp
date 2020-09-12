@@ -37,6 +37,9 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import ImagePicker from 'react-native-image-picker';
 import ImageLoader from './../widget/ImageLoader';
 import { ScreenHeader } from '../widget/ScreenHeader';
+import LoadingScreen from '../widget/LoadingScreen';
+import GlobalAppModel from '../model/GlobalAppModel';
+var loadingImage = '';
 
 const { width } = Dimensions.get('window')
 const maxWidth = width - (width * 20 / 100)
@@ -84,6 +87,7 @@ export default class ProfileScreen extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
+      loadingImage = GlobalAppModel.getLoadingImage();
       this.setState({
         title: 'Profile',
         tabIndex: 0,
@@ -2012,10 +2016,9 @@ export default class ProfileScreen extends Component {
 
   _showForm = () => {
     if (this.state.isLoadingSignupform) {
+      console.log(`Loading From ${loadingImage}`);
       return (
-        <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size={'large'} />
-        </View>
+        <LoadingScreen LoadingImage={loadingImage} />
       );
     } else {
       const { fieldsData, customData, locationData } = this.state.webFromResponse;

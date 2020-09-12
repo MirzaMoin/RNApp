@@ -27,7 +27,18 @@ export default class BottomNavigationTab extends Component {
           //this.state.tabIndex == index ? { margin: 9, borderRadius: 40, paddingVertical: 7 } : {}
         ]}
         onPress={() => {
-          console.log(`Menu pressed`)
+          this.setState({abs: ''})
+          //this.props.navigation.navigate('offer')
+          /*if (HomeModel.homePageRibbonLinkType == 'external') {
+            try {
+              this.props.navigation.push('webScreen', {
+                title: HomeModel.homePageRibbonText,
+                webURL: HomeModel.homePageTopButtonLink,
+              });
+            } catch (Exeption) { console.log(`Èrror : ${Exeption}`) }
+          } else {
+            this.props.navigation.push(HomeModel.homePageTopButtonLink);
+          }*/
         }}>
         <Icon name={icon} style={{ fontSize: this.state.tabIndex == index || true ? 20 : 18, color: 'white' }} />
         {/*<Text lineBreakMode={'tail'} numberOfLines={1} style={styles.footerMenuSelectedItemText}>{title}</Text>*/}
@@ -36,7 +47,7 @@ export default class BottomNavigationTab extends Component {
   }
 
   render() {
-    if (HomeModel.homePageDisplayFooter) {
+    if (HomeModel.homePageDisplayFooter && HomeModel.footerLinks.length > 0) {
       return (
         <View style={styles.footerContainer}>
           {this._renderBottomMenuItem('Home', 0, 'home')}

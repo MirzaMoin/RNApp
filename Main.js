@@ -473,12 +473,12 @@ const renderContactUs = props => {
     <TouchableNativeFeedback
       activeOpacity={0.8}
       onPress={async () => {
-        props.navigation.navigate('refereFriend');
+        props.navigation.navigate('contactUs');
       }}>
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center'}}>
         <MDIcon name={'phone'} style={{ fontSize: 20, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold' }}>Refere Friend</Text>
+        <Text style={{ fontWeight: 'bold' }}>Contact Us</Text>
       </View>
     </TouchableNativeFeedback>
   );

@@ -26,6 +26,9 @@ import Toast from 'react-native-root-toast';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
+import LoadingScreen from '../widget/LoadingScreen';
+import GlobalAppModel from '../model/GlobalAppModel';
+var loadingImage = '';
 
 const Width = Dimensions.get('window').width;
 const maxWidth = Width - (Width * 20 / 100)
@@ -58,6 +61,7 @@ export default class OfferDetailScreen extends Component {
 
   componentDidMount() {
     const { navigation } = this.props;
+    loadingImage = GlobalAppModel.getLoadingImage();
     this.focusListener = navigation.addListener('didFocus', () => {
       console.log(`Offer SCreen DAta: ${JSON.stringify(this.props.navigation.state.params)}`)
       this.setState({
@@ -344,9 +348,7 @@ export default class OfferDetailScreen extends Component {
 
   _renderBody = () => {
     if (this.state.isLoading) {
-      return <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size={'large'} />
-      </View>
+      return <LoadingScreen LoadingImage={loadingImage} />
     } else {
       return (
         <ScrollView

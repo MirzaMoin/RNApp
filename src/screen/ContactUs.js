@@ -11,6 +11,7 @@ import {
   Dimensions,
   AsyncStorage,
   Alert,
+  ActivityIndicator
 } from 'react-native';
 import { BottomNavigationTab } from './../widget/BottomNavigationTab';
 import TextInput from 'react-native-textinput-with-icons';
@@ -66,7 +67,34 @@ export default class ContactUs extends Component {
           if (value) {
             this.setState({
               userPoint: value,
-            }, () => this._getLocationData())
+            })
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('userID', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            this.setState({
+              userID: value,
+            })
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('webformID', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            this.setState({
+              webformID: value,
+            })
+          } else {
           }
         }
       });
@@ -91,7 +119,8 @@ export default class ContactUs extends Component {
     if (this._validateMessage(this.state.message)) {
       return;
     }
-    alert('Data validated');
+    this.setState({isLoading: true})
+    this._callSubmitContatUsData()
   };
 
   _validateFirstName = firstName => {
@@ -157,15 +186,17 @@ export default class ContactUs extends Component {
   _callSubmitContatUsData = () => {
 
     const request = {
-      rewardProgramID: GlobalAppModel.rewardProgramId,
-      webFormID: GlobalAppModel.webFormID,
-      contactID: GlobalAppModel.userID,
+      rewardProgramID: APIConstant.RPID,
+      webFormID: this.state.webformID,
+      contactID: this.state.userID,
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       emailId: this.state.email,
       mobileNo: this.state.mobile,
       message: this.state.message
     }
+
+    console.log(`Reques: ${JSON.stringify(request)}`);
 
     makeRequest(
       `${APIConstant.BASE_URL}${APIConstant.SUBMIT_CONTACT_US}`,
@@ -184,10 +215,24 @@ export default class ContactUs extends Component {
             firstName: '',
             lastName: '',
             message: '',
-          })
+          });
+          Alert.alert('Success.', response.statusMessage);
         }
       })
       .catch(error => console.log('error : ' + error));
+  }
+
+  _renderSubmitButton = () => {
+    if(this.state.isLoading) {
+      return <ActivityIndicator style={{marginTop: 10}} size={30} />
+    } else {
+      return <TouchableOpacity
+      style={styles.buttonContainer}
+      onPress={() => this._validateData()}>
+      <Text style={styles.button}>Send Message</Text>
+    </TouchableOpacity> 
+    }
+
   }
 
   render() {
@@ -204,7 +249,10 @@ export default class ContactUs extends Component {
           behavior="padding"
           enabled={Platform.OS === 'ios' ? true : false}>
           <View style={styles.mainContainer}>
-            <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
+            <ScrollView 
+              keyboardShouldPersistTaps={true}
+              showsVerticalScrollIndicator={false} 
+              bounces={false}>
               <View style={{ flexDirection: 'column', flex: 1 }}>
                 <Card
                   containerStyle={{ padding: 0, margin: 0, elevation: 5 }}
@@ -246,6 +294,7 @@ export default class ContactUs extends Component {
                         leftIcon="account-outline"
                         leftIconSize={20}
                         containerWidth={maxWidth}
+                        value={this.state.firstName}
                         leftIconType="material"
                         error={this.state.errorFirstName}
                         onChangeText={firstName => {
@@ -262,6 +311,7 @@ export default class ContactUs extends Component {
                         leftIconSize={20}
                         containerWidth={maxWidth}
                         leftIconType="material"
+                        value={this.state.lastName}
                         error={this.state.errorLastName}
                         onChangeText={lastName => {
                           this.setState({ lastName: lastName });
@@ -275,6 +325,7 @@ export default class ContactUs extends Component {
                     leftIcon="email-outline"
                     leftIconSize={20}
                     leftIconType="material"
+                    value={this.state.email}
                     error={this.state.errorEmail}
                     keyboardType="email-address"
                     onChangeText={email => {
@@ -288,6 +339,7 @@ export default class ContactUs extends Component {
                     leftIconSize={20}
                     leftIconType="material"
                     keyboardType="phone-pad"
+                    value={this.state.mobile}
                     error={this.state.errorMobile}
                     onChangeText={mobile => {
                       this.setState({ mobile: mobile });
@@ -303,6 +355,7 @@ export default class ContactUs extends Component {
                     numberOfLines={5}
                     multiline={true}
                     height={100}
+                    value={this.state.message}
                     error={this.state.errorMessage}
                     onChangeText={message => {
                       this.setState({ message: message });
@@ -310,11 +363,7 @@ export default class ContactUs extends Component {
                     }}
                   />
                   <View style={{ flex: 1, justifyContent: 'center' }}>
-                    <TouchableOpacity
-                      style={styles.buttonContainer}
-                      onPress={() => this._validateData()}>
-                      <Text style={styles.button}>Send Message</Text>
-                    </TouchableOpacity>
+                    {this._renderSubmitButton()}
                   </View>
                 </View>
               </View>

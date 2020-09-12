@@ -62,7 +62,7 @@ export default class WebScreen extends Component {
 
     _showLoading = () => {
         if (this.state.isLoading) {
-            console.log(`RenderRing loading Image ${GlobalAppModel.willShownLoadingImage} : ${GlobalAppModel.getLoadingImage()}`)
+            //console.log(`RenderRing loading Image ${GlobalAppModel.willShownLoadingImage} : ${GlobalAppModel.getLoadingImage()}`)
             return (
                 <View style={{ flex: 1, position: 'absolute', alignItems: 'center', justifyContent: 'center', alignContent: 'center', alignSelf: 'center', height: '100%' }}>
                     <ActivityIndicator size={'large'} style={{ alignSelf: 'center' }} />
@@ -76,11 +76,10 @@ export default class WebScreen extends Component {
             <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
                 <ScreenHeader
                     navigation={this.props.navigation}
-                    title={this.props.title || 'Web Browsing'}
+                    title={this.props.navigation.state.params.title}
                     userPoint={this.state.userPoint || '0'} 
                     isGoBack={true}
                     onGoBack={() => {
-                        console.log(`Working back ${this.props.navigation.dangerouslyGetParent().state.index}`)
                         this.props.navigation.goBack();
                         //this.wv.goBack();
                     }}/>
@@ -88,13 +87,13 @@ export default class WebScreen extends Component {
                     <WebView
                     ref={(ref) => this.wv= ref}
                         source={{
-                            uri: this.props.webURL || 'https://www.google.com'
+                            uri: this.props.navigation.state.params.webURL
                         }}
                         onLoadStart={() => this.setState({ isLoading: true })}
                         onLoad={() => this.setState({ isLoading: false })}
                         onLoadEnd={() => this.setState({ isLoading: false })}
                         onError={()=>{
-                            console.log('faytu')
+                            //console.log('faytu')
                         }}
                     />
                     {this._showLoading()}

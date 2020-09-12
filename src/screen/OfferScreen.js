@@ -18,7 +18,9 @@ import APIConstant from './../api/apiConstant';
 import ImageLoader from './../widget/ImageLoader';
 import Toast from 'react-native-root-toast';
 import { parseColor } from './../utils/utility';
-
+import LoadingScreen from '../widget/LoadingScreen';
+import GlobalAppModel from '../model/GlobalAppModel';
+var loadingImage = '';
 
 const Width = Dimensions.get('window').width;
 var isRefresh = true;
@@ -32,6 +34,7 @@ export default class OfferScreen extends Component {
     console.log('Constructor called');
     super();
     this.state = {
+      isLoading: true,
       addressDetails: {},
       userDetails: {},
       redeemSetting: {},
@@ -81,7 +84,7 @@ export default class OfferScreen extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
-      console.log('refressing')
+      loadingImage = GlobalAppModel.getLoadingImage();
       this._getStoredData();
     });
   }
@@ -184,9 +187,7 @@ export default class OfferScreen extends Component {
   _renderBody = () => {
     if (this.state.isLoading) {
       return (
-        <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size={'large'} />
-        </View>
+        <LoadingScreen LoadingImage={loadingImage} />
       );
     } else {
       if (this.state.offerList.length == 0) {

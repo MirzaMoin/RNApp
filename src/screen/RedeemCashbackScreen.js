@@ -18,6 +18,9 @@ import SwipeButton from 'rn-swipe-button';
 import { Card } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import Toast from 'react-native-root-toast';
+import LoadingScreen from '../widget/LoadingScreen';
+import GlobalAppModel from '../model/GlobalAppModel';
+var loadingImage = '';
 
 const maxWidth = Dimensions.get('window').width;
 const imageHeight = (maxWidth / 16) * 9;
@@ -30,12 +33,15 @@ export default class RedeemCashbackScreen extends Component {
 
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      isLoading: true
+    };
   }
 
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
+      loadingImage = GlobalAppModel.getLoadingImage();
       this.setState({ isLoadingForm: true })
       this._getStoredData();
     });
@@ -233,9 +239,7 @@ export default class RedeemCashbackScreen extends Component {
 
   _renderBody = () => {
     if (this.state.isLoadingForm) {
-      return <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size={'large'} />
-      </View>
+      return <LoadingScreen LoadingImage={loadingImage} />
     } else {
       return (
         <View style={{ flex: 1 }}>

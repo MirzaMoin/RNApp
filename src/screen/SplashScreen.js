@@ -147,6 +147,7 @@ export default class SplashScreen extends Component {
           HomeModel.setHomeScreenData(response.responsedata.homeScreen)
           GlobalAppModel.setAppColor(response.responsedata.appColor);
           GlobalAppModel.setLoadingImages(response.responsedata.loadingImages)
+          GlobalAppModel.setLoadingPageColor(response.responsedata.logInScreen.loadingPageColor)
           this._getLoginData();
         }
       })

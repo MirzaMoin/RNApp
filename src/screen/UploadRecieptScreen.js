@@ -19,6 +19,9 @@ import TextInput from 'react-native-textinput-with-icons';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import DatePicker from 'react-native-datepicker';
 import ImagePicker from 'react-native-image-picker';
+import LoadingScreen from '../widget/LoadingScreen';
+import GlobalAppModel from '../model/GlobalAppModel';
+var loadingImage = '';
 
 export default class UploadReceiptScreen extends Component {
 
@@ -33,12 +36,14 @@ export default class UploadReceiptScreen extends Component {
       categories: [],
       settingsDetails: {},
       selectedImages: [],
+      isLoading: true,
     };
   }
 
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
+      loadingImage = GlobalAppModel.getLoadingImage();
       this._getStoredData();
     });
   }
@@ -127,7 +132,7 @@ export default class UploadReceiptScreen extends Component {
             dateDetails: response.responsedata.dateDetails || {},
             categories: response.responsedata.categories || [],
             settingsDetails: response.responsedata.settingsDetails || {},
-            selectedLocation: selectedLocation,
+             selectedLocation: selectedLocation,
             selectedCategory: selectedCategory
           });
         }
@@ -590,9 +595,7 @@ export default class UploadReceiptScreen extends Component {
 
   _renderBody = () => {
     if (this.state.isLoading) {
-      return <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size={'large'} />
-      </View>
+      return <LoadingScreen LoadingImage={loadingImage} />
     } else {
       return (
         <ScrollView

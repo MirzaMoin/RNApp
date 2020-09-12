@@ -1,5 +1,5 @@
 // home model
-class MenuLinkModel {
+export default class MenuLinkModel {
     
     menuText;
     menuTextColor;
@@ -8,9 +8,7 @@ class MenuLinkModel {
     menuExternalLinkUrl;
     icon;
 
-    constructor() {}
-
-    setMenuLink (data) {
+    constructor(data) {
         this.menuText = data.menuText;
         this.menuTextColor = data.menuTextColor;
         this.menuLinkType = data.menuLinkType;
@@ -19,5 +17,3 @@ class MenuLinkModel {
         this.icon = data.icon;
     }
 }
-
-export default new MenuLinkModel();
