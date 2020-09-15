@@ -49,6 +49,7 @@ export default class HomeScreen extends Component {
   _getStoredData = async () => {
     try {
       var userID, webformID, firstName = '', lastName = '', profile = '', userPoint = '';
+
       await AsyncStorage.getItem('userID', (err, value) => {
         if (err) {
           //this.props.navigation.navigate('Auth');
@@ -452,7 +453,7 @@ export default class HomeScreen extends Component {
   // screen toolbar
   _renderToolBar = () => {
     return (
-      <View style={styles.headerContainer}>
+      <View style={[styles.headerContainer, {backgroundColor: parseColor(GlobalAppModel.primaryColor)}]}>
         <TouchableOpacity onPress={() => {
           this.props.navigation.openDrawer();
         }}>
@@ -613,7 +614,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: parseColor(GlobalAppModel.primaryColor),
+    backgroundColor: '#012345',
   },
   leftIcon: {
     color: 'white',

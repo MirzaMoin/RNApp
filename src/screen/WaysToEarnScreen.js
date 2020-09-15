@@ -128,7 +128,7 @@ export default class WayToEarnScreen extends Component {
         <ImageLoader
           src={icon}
           style={styles.titleIcon}
-          title={title}/>
+          title={title} />
       );
     }
   };
@@ -216,41 +216,40 @@ export default class WayToEarnScreen extends Component {
     } else {
       return (
         <ScrollView>
-        <View style={{ hegith: imageHeight }}>
-          <Image
-            style={{ height: imageHeight }}
-            source={{
-              uri:
-                APIConstant.HEADER_IMAGE,
-            }}
-            resizeMode="cover"
-          />
-          <View style={styles.imageOverlay} />
-        </View>
+          <View style={{ hegith: imageHeight }}>
+            <Image
+              style={{ height: imageHeight }}
+              source={{
+                uri:
+                  APIConstant.HEADER_IMAGE,
+              }}
+              resizeMode="cover"
+            />
+            <View style={styles.imageOverlay} />
+          </View>
 
-        {this._renderItem(this.state.screenData.totalPoints, 0)}
-        {this._renderItem(this.state.screenData.purchasePoints, 1)}
-        {this._renderItem(this.state.screenData.socialShare, 2)}
-        {this._renderItem(this.state.screenData.referFriends, 3)}
-        {this._renderItem(this.state.screenData.leaderboard, 4)}
-        {this._renderItem(this.state.screenData.surveys, 5)}
-        {this._renderItem(this.state.screenData.completeProfile, 6)}
-      </ScrollView>
-    
+          {this._renderItem(this.state.screenData.totalPoints, 0)}
+          {this._renderItem(this.state.screenData.purchasePoints, 1)}
+          {this._renderItem(this.state.screenData.socialShare, 2)}
+          {this._renderItem(this.state.screenData.referFriends, 3)}
+          {this._renderItem(this.state.screenData.leaderboard, 4)}
+          {this._renderItem(this.state.screenData.surveys, 5)}
+          {this._renderItem(this.state.screenData.completeProfile, 6)}
+        </ScrollView>
       )
     }
   }
 
   render() {
     this._showItem = 0;
-    
+
     return (
       <View style={styles.mainContainer}>
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Way to Earn'}
           userPoint={this.state.userPoint || '0'} />
-          {this._renderBody()}
+        {this._renderBody()}
       </View>
     );
   }

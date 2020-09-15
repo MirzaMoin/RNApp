@@ -822,7 +822,7 @@ export default class LoginScreen extends Component {
     } else {
       return (
         <LinearGradient
-          style={{borderRadius: 10, margin: 5, width: 120, alignSelf: 'center'}}
+          style={{ borderRadius: 10, margin: 5, width: 120, alignSelf: 'center' }}
           colors={[parseColor(LoginScreenModel.signInBtnGradientstartColor), parseColor(LoginScreenModel.signInBtnGradientStopColor)]}>
           <TouchableOpacity
             style={styles.button}
@@ -843,7 +843,7 @@ export default class LoginScreen extends Component {
               }
 
             }}>
-            <Text style={[styles.buttonText,{color: parseColor(LoginScreenModel.signInBtnTextColor)}]}>Login</Text>
+            <Text style={[styles.buttonText, { color: parseColor(LoginScreenModel.signInBtnTextColor) }]}>Login</Text>
           </TouchableOpacity>
         </LinearGradient>
       );
@@ -858,14 +858,14 @@ export default class LoginScreen extends Component {
     } else {
       return (
         <LinearGradient
-          style={{borderRadius: 10, margin: 5}}
+          style={{ borderRadius: 10, margin: 5 }}
           colors={[
             parseColor(LoginScreenModel.joinNowBtnGradientstartColor),
             parseColor(LoginScreenModel.joinNowBtnGradientStopColor)]}>
           <TouchableOpacity
             style={styles.button}
             onPress={this._onSignUpClick}>
-            <Text style={[styles.buttonText,{color: LoginScreenModel.joinNowBtnTextColor}]}>{this.state.isShowSignUp ? 'Register' : `${LoginScreenModel.joinNowBtnText}`}</Text>
+            <Text style={[styles.buttonText, { color: LoginScreenModel.joinNowBtnTextColor }]}>{this.state.isShowSignUp ? 'Register' : `${LoginScreenModel.joinNowBtnText}`}</Text>
           </TouchableOpacity>
         </LinearGradient>
       );
@@ -2165,8 +2165,8 @@ export default class LoginScreen extends Component {
           style={styles.baseContainer}
           behavior="padding"
           enabled={Platform.OS === 'ios' ? true : false}>
-          <View style={[styles.baseContainer, {backgroundColor: LoginScreenModel.bgColor}]}>
-            <View style={[styles.backgroundImageBase, {backgroundColor: parseColor(LoginScreenModel.bgColor)}]}>
+          <View style={[styles.baseContainer, { backgroundColor: LoginScreenModel.bgColor }]}>
+            <View style={[styles.backgroundImageBase, { backgroundColor: parseColor(LoginScreenModel.bgColor) }]}>
               <Image
                 style={styles.backgroundImage}
                 // source={require('./Image/background.png')}
@@ -2187,30 +2187,30 @@ export default class LoginScreen extends Component {
                   alignItems: 'center',
                 }}>
                 <View style={styles.mainContainer}>
-                  <Text style={[styles.textStyle, {color: parseColor(LoginScreenModel.bannerDescColor)}]}>
+                  <Text style={[styles.textStyle, { color: parseColor(LoginScreenModel.bannerDescColor) }]}>
                     {LoginScreenModel.bannerDescText}
-                </Text>
+                  </Text>
                   <View style={styles.seprator} />
-                  <Text style={[styles.textStyle2, {color: parseColor(LoginScreenModel.subDescColor)}]}>
+                  <Text style={[styles.textStyle2, { color: parseColor(LoginScreenModel.subDescColor) }]}>
                     {LoginScreenModel.subDescText}
-                </Text>
+                  </Text>
                   {this._showSignUp()}
                   {this._renderSignupButton()}
                   <LinearGradient
-                    style={{borderRadius: 10, margin: 5}}
+                    style={{ borderRadius: 10, margin: 5 }}
                     colors={[parseColor(LoginScreenModel.signInBtnGradientstartColor), parseColor(LoginScreenModel.signInBtnGradientStopColor)]}>
                     <TouchableOpacity
                       style={styles.button}
                       onPress={this._onLoginClick}>
-                      <Text style={[styles.buttonText, {color: parseColor(LoginScreenModel.signInBtnTextColor)}]}>{LoginScreenModel.signInBtnText}</Text>
+                      <Text style={[styles.buttonText, { color: parseColor(LoginScreenModel.signInBtnTextColor) }]}>{LoginScreenModel.signInBtnText}</Text>
                     </TouchableOpacity>
                   </LinearGradient>
                   {this._showLogin()}
                   <Text
-                    style={[styles.forgotPassword, {color: parseColor(LoginScreenModel.forgotPwdBtnTextColor)}]}
+                    style={[styles.forgotPassword, { color: parseColor(LoginScreenModel.forgotPwdBtnTextColor) }]}
                     onPress={this._onForgotPasswordClick}>
                     {LoginScreenModel.forgotPwdBtnText}
-                </Text>
+                  </Text>
                   <View
                     style={{
                       width: 170,

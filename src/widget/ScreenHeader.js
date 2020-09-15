@@ -49,7 +49,7 @@ export class ScreenHeader extends Component<Props, State> {
 
   render() {
     return (
-      <View style={styles.headerContainer}>
+      <View style={[styles.headerContainer, {backgroundColor: parseColor(GlobalAppModel.primaryColor)}]}>
         <TouchableOpacity onPress={() => {
           if (this.props.isGoBack) {
             if (this.props.onGoBack) {
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: parseColor(GlobalAppModel.primaryColor), // '#012345',
+    backgroundColor: '#012345',
   },
   leftIcon: {
     color: 'white',

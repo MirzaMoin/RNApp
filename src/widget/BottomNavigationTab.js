@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity, Text } from 'react-native';
-import { Card } from 'react-native-elements';
 import HomeModel from './../model/HomeModel';
 import GlobalAppModel from './../model/GlobalAppModel';
+import FooterMenuModel from './../model/FooterMenuModel';
 import { parseColor } from './../utils/utility';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 
 export default class BottomNavigationTab extends Component {
   constructor() {
-    console.log('Constructor called');
     super();
     this.state = {
       title: 'HomeScreen',
@@ -16,32 +15,28 @@ export default class BottomNavigationTab extends Component {
     };
   }
 
-  _renderBottomMenuItem = (title, index, icon) => {
+  _renderBottomMenuItem = menuItem => {
+    const footerMenu = new FooterMenuModel(menuItem)
     return (
       <TouchableOpacity
-        activeOpacity={this.state.tabIndex == index ? 1 : 0.6}
-        style={[
-          styles.footerMenuItem,
-          //{ flex: this.state.tabIndex == index ? 3 : 1 },
-          //{ backgroundColor: this.state.tabIndex == index ? this._menuSelectColor[index] : '#012345' },
-          //this.state.tabIndex == index ? { margin: 9, borderRadius: 40, paddingVertical: 7 } : {}
-        ]}
+        activeOpacity={0.4}
+        style={styles.footerMenuItem}
         onPress={() => {
-          this.setState({abs: ''})
           //this.props.navigation.navigate('offer')
-          /*if (HomeModel.homePageRibbonLinkType == 'external') {
+          console.log(`${footerMenu.footerInternalLinkUrl}`)
+          if (footerMenu.footerLinkType == 'external') {
             try {
               this.props.navigation.push('webScreen', {
-                title: HomeModel.homePageRibbonText,
-                webURL: HomeModel.homePageTopButtonLink,
+                title: footerMenu.footerText,
+                webURL: footerMenu.footerExternalLinkUrl,
               });
-            } catch (Exeption) { console.log(`Èrror : ${Exeption}`) }
+            } catch (Exeption) { console.log(`Error : ${Exeption}`) }
           } else {
-            this.props.navigation.push(HomeModel.homePageTopButtonLink);
-          }*/
+            this.props.navigation.push(footerMenu.footerInternalLinkUrl);
+          }
         }}>
-        <Icon name={icon} style={{ fontSize: this.state.tabIndex == index || true ? 20 : 18, color: 'white' }} />
-        {/*<Text lineBreakMode={'tail'} numberOfLines={1} style={styles.footerMenuSelectedItemText}>{title}</Text>*/}
+        <Icon name={'home'} style={{ fontSize: 19, color: 'white' }} />
+        <Text lineBreakMode={'tail'} numberOfLines={1} style={styles.footerMenuSelectedItemText}>{footerMenu.footerText}</Text>
       </TouchableOpacity>
     );
   }
@@ -49,12 +44,12 @@ export default class BottomNavigationTab extends Component {
   render() {
     if (HomeModel.homePageDisplayFooter && HomeModel.footerLinks.length > 0) {
       return (
-        <View style={styles.footerContainer}>
-          {this._renderBottomMenuItem('Home', 0, 'home')}
-          {this._renderBottomMenuItem('Transaction', 1, 'exchange-alt')}
-          {this._renderBottomMenuItem('Offer', 2, 'tag')}
-          {this._renderBottomMenuItem('Notification', 3, 'bell')}
-          {this._renderBottomMenuItem('More', 4, 'ellipsis-h')}
+        <View style={[styles.footerContainer,{backgroundColor: parseColor(GlobalAppModel.footerColor)}]}>
+          {
+            HomeModel.footerLinks.map((item) => {
+             return this._renderBottomMenuItem(item)
+            })
+          }
         </View>
       );
     } else {
@@ -65,8 +60,8 @@ export default class BottomNavigationTab extends Component {
 
 const styles = {
   footerContainer: {
-    height: 50,
-    backgroundColor: parseColor(GlobalAppModel.footerColor),
+    minHeight: 50,
+    backgroundColor: '#012345',
     alignItems: 'center',
     justifyContent: 'space-around',
     flexDirection: 'row',
@@ -76,33 +71,14 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     color: 'white',
-    paddingVertical: 15,
+    paddingVertical: 10,
     flexDirection: 'column',
-  },
-  footerMenuItemImage: {
-    height: 20,
-    width: 20,
-    tintColor: 'white',
-  },
-  footerMenuSelectedItem: {
-    height: 24,
-    //width: 24,
-    tintColor: 'white',
-  },
-  footerMenuIdelItem: {
-    height: 18,
-    //width: 18,
-    tintColor: '#fff',
   },
   footerMenuSelectedItemText: {
     color: 'white',
-    fontSize: 15,
-    paddingTop: 5,
+    fontSize: 13,
+    marginTop: 3,
     paddingHorizontal: 5,
     marginLeft: 5,
-  },
-  footerMenuIdelItemText: {
-    color: '#000',
-    fontSize: 10,
   },
 };

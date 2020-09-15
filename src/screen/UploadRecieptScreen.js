@@ -132,7 +132,7 @@ export default class UploadReceiptScreen extends Component {
             dateDetails: response.responsedata.dateDetails || {},
             categories: response.responsedata.categories || [],
             settingsDetails: response.responsedata.settingsDetails || {},
-             selectedLocation: selectedLocation,
+            selectedLocation: selectedLocation,
             selectedCategory: selectedCategory
           });
         }

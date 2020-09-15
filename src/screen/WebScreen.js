@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
 import {
     View,
-    Text,
-    Image,
     SafeAreaView,
-    TouchableOpacity,
-    ImageBackground,
     AsyncStorage,
     ActivityIndicator,
+    TouchableOpacity,
+    Text
 } from 'react-native';
+import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import WebView from 'react-native-webview'
 import { ScreenHeader } from '../widget/ScreenHeader';
 import GlobalAppModel from './../model/GlobalAppModel';
-import ScrollableTabView, {
-    ScrollableTabBar,
-} from 'react-native-scrollable-tab-view';
+import { parseColor } from './../utils/utility';
+import LoadingScreen from './../widget/LoadingScreen';
 
 export default class WebScreen extends Component {
     static navigationOptions = {
@@ -76,29 +74,71 @@ export default class WebScreen extends Component {
             <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
                 <ScreenHeader
                     navigation={this.props.navigation}
-                    title={this.props.navigation.state.params.title}
-                    userPoint={this.state.userPoint || '0'} 
+                    title={'Google' || this.props.navigation.state.params.title}
+                    userPoint={this.state.userPoint || '0'}
                     isGoBack={true}
                     onGoBack={() => {
                         this.props.navigation.goBack();
                         //this.wv.goBack();
-                    }}/>
+                    }} />
                 <View style={{ flex: 1 }}>
                     <WebView
-                    ref={(ref) => this.wv= ref}
+                        ref={(ref) => this.wv = ref}
                         source={{
-                            uri: this.props.navigation.state.params.webURL
+                            uri: 'https://www.google.com' || this.props.navigation.state.params.webURL
                         }}
                         onLoadStart={() => this.setState({ isLoading: true })}
                         onLoad={() => this.setState({ isLoading: false })}
                         onLoadEnd={() => this.setState({ isLoading: false })}
-                        onError={()=>{
+                        onError={() => {
                             //console.log('faytu')
+                        }}
+                        onNavigationStateChange={navState => {
+                            this.setState({
+                                setCanGoBack: navState.canGoBack,
+                                setCanGoForward: navState.canGoForward,
+                                setCurrentUrl: navState.url,
+                            });
+
                         }}
                     />
                     {this._showLoading()}
                 </View>
+                <View style={[styles.tabBarContainer, {backgroundColor:parseColor(GlobalAppModel.footerColor)}]}>
+                    <TouchableOpacity
+                        disabled={!this.state.setCanGoBack}
+                        onPress={() => {
+                            if (this.state.setCanGoBack) {
+                                this.wv.goBack()
+                            }
+                        }}>
+                        <MDIcon name={'arrow-back'} style={{ color: this.state.setCanGoBack ? 'white' : 'rgba(180,180,180,1)', fontSize: 25, padding: 10 }} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => {
+                            this.wv.reload();
+                        }}>
+                        <MDIcon name={'refresh'} style={{ color: 'white', fontSize: 25, padding: 10 }} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        disabled={!this.state.setCanGoForward}
+                        onPress={() => {
+                            if (this.state.setCanGoForward) {
+                                this.wv.goForward()
+                            }
+                        }}>
+                        <MDIcon name={'arrow-forward'} style={{ color: this.state.setCanGoForward ? 'white' : 'rgba(180,180,180,1)', fontSize: 25, padding: 10 }} />
+                    </TouchableOpacity>
+                </View>
             </SafeAreaView>
         );
     }
+}
+
+const styles = {
+    tabBarContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        backgroundColor: '#012345'
+    },
 }
