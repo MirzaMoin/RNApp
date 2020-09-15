@@ -17,6 +17,7 @@ import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import ImageLoader from './../widget/ImageLoader';
 import Toast from 'react-native-root-toast';
+import BottomNavigationTab from './../widget/BottomNavigationTab';
 import { parseColor } from './../utils/utility';
 import LoadingScreen from '../widget/LoadingScreen';
 import GlobalAppModel from '../model/GlobalAppModel';
@@ -285,6 +286,7 @@ export default class OfferScreen extends Component {
           title={'Offers'}
           userPoint={this.state.userPoint} />
         {this._renderBody()}
+        <BottomNavigationTab navigation={this.props.navigation} />
       </View>
     );
   }

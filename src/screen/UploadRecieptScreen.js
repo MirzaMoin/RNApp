@@ -17,6 +17,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Toast from 'react-native-root-toast';
 import TextInput from 'react-native-textinput-with-icons';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+import BottomNavigationTab from './../widget/BottomNavigationTab';
 import DatePicker from 'react-native-datepicker';
 import ImagePicker from 'react-native-image-picker';
 import LoadingScreen from '../widget/LoadingScreen';
@@ -639,6 +640,7 @@ export default class UploadReceiptScreen extends Component {
           title={'Upload Receipt'}
           userPoint={this.state.userPoint} />
         {this._renderBody()}
+        <BottomNavigationTab navigation={this.props.navigation} />
       </View>
     );
   }

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
   SafeAreaView,
   TouchableOpacity,
   ImageBackground,
@@ -11,6 +10,7 @@ import {
   AsyncStorage,
   StatusBar,
   StyleSheet,
+  BackHandler,
 } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
@@ -19,14 +19,15 @@ import ImageLoader from './../widget/ImageLoader';
 import AnimateNumber from './../widget/AnimateNumber';
 import { Header } from 'react-navigation-stack';
 import LinearGradient from 'react-native-linear-gradient';
-import { max } from 'react-native-reanimated';
 import HomeModel from './../model/HomeModel';
 import MenuLinkModel from './../model/MenuLinkModel';
 import GlobalAppModel from './../model/GlobalAppModel';
 import { parseColor } from './../utils/utility';
 import BottomNavigationTab from './../widget/BottomNavigationTab';
+import Toast from 'react-native-root-toast';
 
 const maxWidth = Dimensions.get('window').width;
+var extipAppCount = 0;
 
 export default class HomeScreen extends Component {
   static navigationOptions = {
@@ -43,7 +44,31 @@ export default class HomeScreen extends Component {
   }
 
   componentWillMount() {
+    extipAppCount = 0;
     this._getStoredData();
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
+
+  handleBackButtonClick() {
+    if(extipAppCount == 0) {
+      Toast.show('Press Back again to Exit.', {
+        duration: Toast.durations.LONG,
+        position: Toast.positions.CENTER,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0,
+      });
+      extipAppCount = extipAppCount + 1
+      setTimeout(
+        () => { extipAppCount = 0 },
+        Toast.durations.LONG
+      )
+    } else {
+      BackHandler.exitApp();
+    }
+    
+    return true;
   }
 
   _getStoredData = async () => {
@@ -51,72 +76,43 @@ export default class HomeScreen extends Component {
       var userID, webformID, firstName = '', lastName = '', profile = '', userPoint = '';
 
       await AsyncStorage.getItem('userID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            userID = value
-          }
+        if (value) {
+          userID = value
         }
       });
 
       await AsyncStorage.getItem('webformID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            webformID = value
-          }
+        if (value) {
+          webformID = value
         }
       });
 
       await AsyncStorage.getItem('firstName', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            firstName = value;
-          }
+        if (value) {
+          firstName = value;
         }
       });
 
       await AsyncStorage.getItem('lastName', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            lastName = value
-          }
+        if (value) {
+          lastName = value
         }
       });
 
       await AsyncStorage.getItem('profilePitcure', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
+        if (value) {
+          profile = value
         } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            profile = value
-          } else {
-            profile = ''
-          }
+          profile = ''
         }
       });
 
       await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            userPoint = value
-          }
+        if (value) {
+          userPoint = value
         }
       });
+
       this.setState({
         userID: userID,
         webformID: webformID,
@@ -125,198 +121,9 @@ export default class HomeScreen extends Component {
         userPoint: userPoint,
       });
     } catch (error) {
-      // Error saving data
       console.log(error)
     }
   };
-
-  _renderScreens = () => {
-    switch (this.state.tabIndex) {
-      case 0:
-        console.log('0 lauded');
-        return <View />;
-      case 1:
-        console.log('1 lauded');
-        return <View />;
-      case 2:
-        console.log('2 lauded');
-        return <View />;
-      case 3:
-        console.log('3 lauded');
-        return <View />;
-      case 4:
-        console.log('4 lauded');
-        this.Standard.open();
-        return;
-      case 5:
-        console.log('3 lauded');
-        return <View />;
-      case 6:
-        console.log('4 lauded');
-        return <View />;
-      case 7:
-        console.log('4 lauded');
-        return <View />;
-      case 8:
-        console.log('4 lauded');
-        return <View />;
-      case 9:
-        console.log('4 lauded');
-        return <View />;
-      default:
-        console.log('default lauded');
-        return <View />;
-    }
-  };
-
-  data = {
-    lists: [
-      {
-        icon: 'photo-camera',
-        label: 'Take photo',
-        position: 5,
-      },
-      {
-        icon: 'photo',
-        label: 'Choose image',
-        position: 6,
-      },
-      {
-        icon: 'brush',
-        label: 'Drawing',
-        position: 7,
-      },
-      {
-        icon: 'mic',
-        label: 'Recording',
-        position: 8,
-      },
-      {
-        icon: 'check-box',
-        label: 'Checkboxes',
-        position: 9,
-      },
-      {
-        icon: 'photo-camera',
-        label: 'Take photo',
-        position: 5,
-      },
-      {
-        icon: 'photo',
-        label: 'Choose image',
-        position: 6,
-      },
-      {
-        icon: 'brush',
-        label: 'Drawing',
-        position: 7,
-      },
-      {
-        icon: 'mic',
-        label: 'Recording',
-        position: 8,
-      },
-      {
-        icon: 'check-box',
-        label: 'Checkboxes',
-        position: 9,
-      },
-    ],
-    grids: [
-      {
-        label: 'Facebook',
-        icon: 'facebook',
-        color: '#3b5998',
-      },
-      {
-        label: 'Twitter',
-        icon: 'twitter',
-        color: '#38A1F3',
-      },
-      {
-        label: 'Google+',
-        icon: 'google-plus-official',
-        color: '#DD4B39',
-      },
-      {
-        label: 'Linkedin',
-        icon: 'linkedin',
-        color: '#0077B5',
-      },
-      {
-        label: 'Dropbox',
-        icon: 'dropbox',
-        color: '#3d9ae8',
-      },
-      {
-        label: 'Reddit',
-        icon: 'reddit-alien',
-        color: '#FF4301',
-      },
-      {
-        label: 'Skype',
-        icon: 'skype',
-        color: '#00aff0',
-      },
-      {
-        label: 'Pinterest',
-        icon: 'pinterest',
-        color: '#c8232c',
-      },
-      {
-        label: 'Flickr',
-        icon: 'flickr',
-        color: '#ff0084',
-      },
-      {
-        label: 'VK',
-        icon: 'vk',
-        color: '#4c75a3',
-      },
-      {
-        label: 'Dribbble',
-        icon: 'dribbble',
-        color: '#ea4c89',
-      },
-      {
-        label: 'Telegram',
-        icon: 'send',
-        color: '#0088cc',
-      },
-    ],
-  };
-
-  _menuSelectColor = [
-    '#009688',
-    '#2196f3',
-    '#673ab7',
-    '#00bcd4',
-    '#009688',
-  ];
-
-  // sendering bottom navigation menu
-  _renderBottomMenuItem = (title, index, icon) => {
-    return (
-      <TouchableOpacity
-        activeOpacity={this.state.tabIndex == index ? 1 : 0.6}
-        style={[
-          styles.footerMenuItem,
-          //{ flex: this.state.tabIndex == index ? 3 : 1 },
-          //{ backgroundColor: this.state.tabIndex == index ? this._menuSelectColor[index] : '#012345' },
-          //this.state.tabIndex == index ? { margin: 9, borderRadius: 40, paddingVertical: 7 } : {}
-        ]}
-        onPress={() => {
-          if (index == 4) {
-            this.Standard.open();
-          } else {
-            this.setState({ title: title, tabIndex: index });
-          }
-        }}>
-        <Icon name={icon} style={{ fontSize: this.state.tabIndex == index || true ? 20 : 18, color: 'white' }} />
-        {/*<Text lineBreakMode={'tail'} numberOfLines={1} style={styles.footerMenuSelectedItemText}>{title}</Text>*/}
-      </TouchableOpacity>
-    );
-  }
 
   // top container for showing point and image with gradient color
   _renderTopContainer = () => {
@@ -391,7 +198,6 @@ export default class HomeScreen extends Component {
             data={HomeModel.menuLinks}
             renderItem={({ item, index }) => {
               const menuLink = new MenuLinkModel(item);
-              //menuLink.setMenuLink(item);
               return (
                 <>
                   <View style={{ height: 2, backgroundColor: 'rgba(153,153,153,1)' }} />
@@ -434,11 +240,11 @@ export default class HomeScreen extends Component {
               try {
                 this.props.navigation.push('webScreen', {
                   title: HomeModel.homePageRibbonText,
-                  webURL: HomeModel.homePageTopButtonLink,
+                  webURL: HomeModel.homePageRibbonLink,
                 });
               } catch (Exeption) { console.log(`Èrror : ${Exeption}`) }
             } else {
-              this.props.navigation.push(HomeModel.homePageTopButtonLink);
+              this.props.navigation.push(HomeModel.homePageRibbonLink);
             }
           }}>
           <View style={{ width: '100%', padding: 5, backgroundColor: parseColor(HomeModel.homePageRibbonBackgroundColor), flexDirection: 'row' }}>
@@ -489,39 +295,7 @@ export default class HomeScreen extends Component {
             {this._renderRebbon(HomeModel.homePageRibbonPosition == 'Middle')}
             {this._renderBottomContainer()}
           </View>
-          {/*HomeModel.homePageDisplayFooter && <View style={[styles.footerContainer, {backgroundColor: parseColor(GlobalAppModel.footerColor)}]}>
-            {this._renderBottomMenuItem('Home', 0, 'home')}
-            {this._renderBottomMenuItem('Transaction', 1, 'exchange-alt')}
-            {this._renderBottomMenuItem('Offer', 2, 'tag')}
-            {this._renderBottomMenuItem('Notification', 3, 'bell')}
-            {this._renderBottomMenuItem('More', 4, 'ellipsis-h')}
-          </View>*/}
-          <BottomNavigationTab 
-           navigation={this.props.navigation}/>
-          <RBSheet
-            ref={ref => {
-              this.Standard = ref;
-            }}
-            height={330}>
-            <View style={styles.listContainer}>
-              <Text style={styles.listTitle}>Option Menu</Text>
-              {this.data.lists.map(list => (
-                <TouchableOpacity
-                  key={list.icon}
-                  style={styles.listButton}
-                  onPress={() => {
-                    this.setState({
-                      title: list.label,
-                      tabIndex: list.position,
-                    });
-                    this.Standard.close();
-                  }}>
-                  <MDIcon name={list.icon} style={styles.listIcon} />
-                  <Text style={styles.listLabel}>{list.label}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </RBSheet>
+          <BottomNavigationTab navigation={this.props.navigation}/>
         </SafeAreaView>
       </View>
     );

@@ -74,7 +74,7 @@ export default class WebScreen extends Component {
             <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
                 <ScreenHeader
                     navigation={this.props.navigation}
-                    title={'Google' || this.props.navigation.state.params.title}
+                    title={this.props.navigation.state.params.title}
                     userPoint={this.state.userPoint || '0'}
                     isGoBack={true}
                     onGoBack={() => {
@@ -85,7 +85,7 @@ export default class WebScreen extends Component {
                     <WebView
                         ref={(ref) => this.wv = ref}
                         source={{
-                            uri: 'https://www.google.com' || this.props.navigation.state.params.webURL
+                            uri: this.props.navigation.state.params.webURL
                         }}
                         onLoadStart={() => this.setState({ isLoading: true })}
                         onLoad={() => this.setState({ isLoading: false })}

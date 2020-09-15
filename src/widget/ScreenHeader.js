@@ -63,7 +63,7 @@ export class ScreenHeader extends Component<Props, State> {
         }}>
           <MDIcon name={'arrow-back'} style={styles.leftIcon} />
         </TouchableOpacity>
-        <Text style={styles.title}>{this.props.title}</Text>
+        <Text numberOfLines={1} style={styles.title}>{this.props.title}</Text>
         {this._renderPoint(this.props.userPoint)}
         {this._buildFilter()}
       </View>
@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     flex: 1,
+    marginRight: 10,
   },
   point: {
     color: 'white',

@@ -6,6 +6,7 @@ import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { ScrollView } from 'react-native-gesture-handler';
 import ReadMore from 'react-native-read-more-text';
 import ImageLoader from './../widget/ImageLoader';
+import BottomNavigationTab from './../widget/BottomNavigationTab';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import LoadingScreen from '../widget/LoadingScreen';
 import GlobalAppModel from '../model/GlobalAppModel';
@@ -250,6 +251,7 @@ export default class WayToEarnScreen extends Component {
           title={'Way to Earn'}
           userPoint={this.state.userPoint || '0'} />
         {this._renderBody()}
+        <BottomNavigationTab navigation={this.props.navigation} />
       </View>
     );
   }

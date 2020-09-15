@@ -16,6 +16,7 @@ import APIConstant from './../api/apiConstant';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import ImageLoader from './../widget/ImageLoader';
 import { max } from 'react-native-reanimated';
+import BottomNavigationTab from './../widget/BottomNavigationTab';
 import LoadingScreen from '../widget/LoadingScreen';
 import GlobalAppModel from '../model/GlobalAppModel';
 var loadingImage = '';
@@ -179,6 +180,7 @@ export default class RPGScreen extends Component {
           title={'Rewards Entry Goal'}
           userPoint={this.state.userPoint} />
         {this._renderBody()}
+        <BottomNavigationTab navigation={this.props.navigation} />
       </View>
     );
   }

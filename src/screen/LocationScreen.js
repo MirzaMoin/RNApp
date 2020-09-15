@@ -26,6 +26,7 @@ import { ScreenHeader } from '../widget/ScreenHeader';
 import GetLocation from 'react-native-get-location'
 import LoginScreenModel from './../model/LoginScreenModel';
 import GlobalAppModel from '../model/GlobalAppModel';
+import BottomNavigationTab from './../widget/BottomNavigationTab';
 import LoadingScreen from '../widget/LoadingScreen';
 var loadingImage = '';
 
@@ -308,6 +309,7 @@ export default class LocationScreen extends Component {
     } else {
       return (
         <View style={styles.mainContainer}>
+          <View style={{flex:1, flexDirection: 'column-reverse'}}>
           <MapView
             style={{ flex: 1 }}
             initialRegion={{
@@ -352,6 +354,9 @@ export default class LocationScreen extends Component {
               </View>
             </TouchableOpacity>
           </View>
+          
+          </View>
+          <BottomNavigationTab navigation={this.props.navigation} />
           <RBSheet
             ref={ref => {
               this.locationListSheet = ref;
@@ -423,7 +428,7 @@ export default class LocationScreen extends Component {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    flexDirection: 'column-reverse',
+    flexDirection: 'column',
     backgroundColor: 'rgba(256,256,256,1)',
   },
   buttonContainer: {

@@ -6,7 +6,13 @@ import FooterMenuModel from './../model/FooterMenuModel';
 import { parseColor } from './../utils/utility';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 
-export default class BottomNavigationTab extends Component {
+type Props = {
+  navigation?: ?Object,
+}
+
+type State = {}
+
+export default class BottomNavigationTab extends Component<Props, State> {
   constructor() {
     super();
     this.state = {
@@ -22,8 +28,6 @@ export default class BottomNavigationTab extends Component {
         activeOpacity={0.4}
         style={styles.footerMenuItem}
         onPress={() => {
-          //this.props.navigation.navigate('offer')
-          console.log(`${footerMenu.footerInternalLinkUrl}`)
           if (footerMenu.footerLinkType == 'external') {
             try {
               this.props.navigation.push('webScreen', {
@@ -32,10 +36,12 @@ export default class BottomNavigationTab extends Component {
               });
             } catch (Exeption) { console.log(`Error : ${Exeption}`) }
           } else {
-            this.props.navigation.push(footerMenu.footerInternalLinkUrl);
+            if(footerMenu.footerInternalLinkUrl !== this.props.navigation.state.routeName){
+              this.props.navigation.push(footerMenu.footerInternalLinkUrl);
+            }
           }
         }}>
-        <Icon name={'home'} style={{ fontSize: 19, color: 'white' }} />
+        <Icon name={footerMenu.footerIcon} style={{ fontSize: 19, color: 'white' }} />
         <Text lineBreakMode={'tail'} numberOfLines={1} style={styles.footerMenuSelectedItemText}>{footerMenu.footerText}</Text>
       </TouchableOpacity>
     );

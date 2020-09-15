@@ -35,6 +35,7 @@ class GlobalAppModel {
         this.footerColor = appColor.footerColor;
         this.primaryButtonColor = appColor.primaryButtonColor;
         this.secondaryButtonColor = appColor.secondaryButtonColor;
+        this.loadingPageColor = appColor.loadingPageColor;
     }
 
     setGlobalAppData(appData) {

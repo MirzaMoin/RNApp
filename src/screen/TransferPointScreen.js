@@ -10,11 +10,11 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
-import { BottomNavigationTab } from './../widget/BottomNavigationTab';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import SwipeButton from 'rn-swipe-button';
+import BottomNavigationTab from './../widget/BottomNavigationTab';
 
 export default class TransferPointScreen extends Component {
   static navigationOptions = {
@@ -274,7 +274,7 @@ export default class TransferPointScreen extends Component {
             />
           </View>
         </View>
-        <BottomNavigationTab />
+        <BottomNavigationTab navigation={this.props.navigation} />
       </View>
     );
   }

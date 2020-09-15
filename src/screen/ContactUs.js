@@ -13,7 +13,6 @@ import {
   Alert,
   ActivityIndicator
 } from 'react-native';
-import { BottomNavigationTab } from './../widget/BottomNavigationTab';
 import TextInput from 'react-native-textinput-with-icons';
 import { isValidEmail, isValidPhoneNo } from './../utils/utility';
 import MapView, { AnimatedRegion, Marker } from 'react-native-maps';
@@ -22,6 +21,7 @@ import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import GlobalAppModel from './../model/GlobalAppModel';
 import { ScreenHeader } from '../widget/ScreenHeader';
+import BottomNavigationTab from './../widget/BottomNavigationTab';
 
 export default class ContactUs extends Component {
   static navigationOptions = {
@@ -368,6 +368,7 @@ export default class ContactUs extends Component {
                 </View>
               </View>
             </ScrollView>
+            <BottomNavigationTab navigation={this.props.navigation} />
           </View>
         </KeyboardAvoidingView>
       </SafeAreaView>

@@ -21,6 +21,7 @@ import { Header } from 'react-navigation-stack';
 import { Card } from 'react-native-elements';
 import ImageLoader from './../widget/ImageLoader';
 import Filters from './../widget/FilterData';
+import BottomNavigationTab from './../widget/BottomNavigationTab';
 import GlobalAppModel from '../model/GlobalAppModel';
 import LoadingScreen from '../widget/LoadingScreen';
 var loadingImage = '';
@@ -413,6 +414,7 @@ export default class LeaderBoardScreen extends Component {
           buildFilter={true}
           onPress={() => { this.showPicker() }} />
         {this._renderBody()}
+        <BottomNavigationTab navigation={this.props.navigation} />
       </View>
     );
   }

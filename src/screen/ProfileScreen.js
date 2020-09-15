@@ -36,6 +36,7 @@ import Toast from 'react-native-root-toast';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import ImagePicker from 'react-native-image-picker';
 import ImageLoader from './../widget/ImageLoader';
+import BottomNavigationTab from './../widget/BottomNavigationTab';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import LoadingScreen from '../widget/LoadingScreen';
 import GlobalAppModel from '../model/GlobalAppModel';
@@ -2096,6 +2097,7 @@ export default class ProfileScreen extends Component {
           behavior="padding"
           enabled={Platform.OS === 'ios' ? true : false}>
           {this._showForm()}
+          <BottomNavigationTab navigation={this.props.navigation} />
         </KeyboardAvoidingView>
       </MenuProvider>
     );

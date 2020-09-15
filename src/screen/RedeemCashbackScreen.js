@@ -18,6 +18,7 @@ import SwipeButton from 'rn-swipe-button';
 import { Card } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import Toast from 'react-native-root-toast';
+import BottomNavigationTab from './../widget/BottomNavigationTab';
 import LoadingScreen from '../widget/LoadingScreen';
 import GlobalAppModel from '../model/GlobalAppModel';
 var loadingImage = '';
@@ -34,7 +35,8 @@ export default class RedeemCashbackScreen extends Component {
   constructor() {
     super();
     this.state = {
-      isLoading: true
+      isLoading: true,
+      isLoadingForm: true
     };
   }
 
@@ -283,7 +285,6 @@ export default class RedeemCashbackScreen extends Component {
                 {this._renderSuggession()}
               </View>
             </View>
-          </ScrollView>
           <Card
             containerStyle={{
               borderTopLeftRadius: 15,
@@ -298,13 +299,14 @@ export default class RedeemCashbackScreen extends Component {
             </Text>
               <View
                 style={{
-                  marginVertical: 10,
+                  marginTop: 10,
                   borderColor: this.state.otherAmounterror ? 'red' : 'rgba(153,153,153,0.5)',
                   borderWidth: 2,
                   paddingHorizontal: 10,
                   marginHorizontal: 5,
                   borderRadius: 10,
-                  flexDirection: 'row'
+                  flexDirection: 'row',
+                  marginBottom: 0
                 }}>
                 <Text style={{ alignSelf: 'center', fontSize: 16 }}>$</Text>
                 <TextInput
@@ -320,6 +322,7 @@ export default class RedeemCashbackScreen extends Component {
                 />
               </View></View>}
 
+                <View style={{height: 10}}/>
             <SwipeButton
               thumbIconBackgroundColor="#FFFFFF"
               containerStyle={{ backgroundColor: '#012345' }}
@@ -336,6 +339,7 @@ export default class RedeemCashbackScreen extends Component {
               }} />
           </Card>
 
+          </ScrollView>
         </View>
       )
     }
@@ -349,6 +353,7 @@ export default class RedeemCashbackScreen extends Component {
           title={'Redeem Cashback'}
           userPoint={this.state.userPoint} />
         {this._renderBody()}
+        <BottomNavigationTab navigation={this.props.navigation} />
       </View>
     );
   }

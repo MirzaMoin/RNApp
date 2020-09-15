@@ -8,6 +8,10 @@ import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 
 export default class TransactionHistory extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+  
   constructor() {
     console.log('Constructor called');
     super();
@@ -67,7 +71,7 @@ export default class TransactionHistory extends Component {
   }
 
   _getStoredData = async () => {
-    this.setState({isLoading: true});
+    this.setState({ isLoading: true });
     try {
       await AsyncStorage.getItem('reedemablePoints', (err, value) => {
         if (err) {
@@ -114,11 +118,11 @@ export default class TransactionHistory extends Component {
 
   _callTransactionHistory = () => {
     makeRequest(
-      `${APIConstant.BASE_URL}${APIConstant.GET_WAYTO_EARN_DATA}?RewardProgramId=${APIConstant.RPID}&ContactID=${this.state.userID}`,
+      `${APIConstant.BASE_URL}${APIConstant.GET_TRANSACTION_HISTORY}?RewardProgramId=${APIConstant.RPID}&ContactID=${this.state.userID}`,
       'get',
     )
       .then(response => {
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
         if (response.statusCode == 0) {
           Alert.alert('Oppss...', response.statusMessage);
         } else {
@@ -133,6 +137,9 @@ export default class TransactionHistory extends Component {
   render() {
     return (
       <View style={styles.mainContainer}>
+        <ScreenHeader
+          title={'Transaction History'}
+          userPoint={this.state.userPoint} />
         <View style={{ hegith: 150 }}>
           <Image
             style={{ height: 150 }}
