@@ -281,8 +281,6 @@ export default class HomeScreen extends Component {
     );
   }
 
-
-  // ofr multiple login complonent add motiple layout tothe same page and render based on theme
   render() {
     return (
       <View style={{ flex: 1, flexDirection: 'row' }}>

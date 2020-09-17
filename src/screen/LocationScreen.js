@@ -381,6 +381,7 @@ export default class LocationScreen extends Component {
                 <TextInput
                   placeholder="Location Name"
                   style={{ flex: 1 }}
+                  value={this.state.search}
                   onChangeText={(text) => {
                     this.setState({
                       search: text
