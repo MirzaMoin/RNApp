@@ -3,7 +3,7 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
+  TouchableNativeFeedback,
   ScrollView,
   Linking,
 } from 'react-native';
@@ -125,27 +125,27 @@ export default class NotificationScreen extends Component {
               is text information this is text information this is text
             </Text>
             <View style={styles.socailIconContainer}>
-              <TouchableOpacity
+              <TouchableNativeFeedback
                 style={{ margin: 10 }}
                 onPress={this.shareLinkWithShareDialog}>
                 <Icon
                   name={'facebook-square'}
                   style={{ fontSize: 60, color: '#3b5998' }}
                 />
-              </TouchableOpacity>
-              <TouchableOpacity style={{ margin: 10 }}>
+              </TouchableNativeFeedback>
+              <TouchableNativeFeedback style={{ margin: 10 }}>
                 <Icon
                   name={'linkedin-square'}
                   style={{ fontSize: 60, color: '#0e76a8' }}
                 />
-              </TouchableOpacity>
-              <TouchableOpacity style={{ margin: 10 }}>
+              </TouchableNativeFeedback>
+              <TouchableNativeFeedback style={{ margin: 10 }}>
                 <Icon
                   name={'tumblr-square'}
                   style={{ fontSize: 60, color: '#34526f' }}
                 />
-              </TouchableOpacity>
-              <TouchableOpacity
+              </TouchableNativeFeedback>
+              <TouchableNativeFeedback
                 style={{ margin: 10 }}
                 onPress={() => {
                   try {
@@ -163,13 +163,13 @@ export default class NotificationScreen extends Component {
                   name={'twitter-square'}
                   style={{ fontSize: 60, color: '#00acee' }}
                 />
-              </TouchableOpacity>
-              <TouchableOpacity style={{ margin: 10 }}>
+              </TouchableNativeFeedback>
+              <TouchableNativeFeedback style={{ margin: 10 }}>
                 <Icon
                   name={'pinterest-square'}
                   style={{ fontSize: 60, color: '#c8232c' }}
                 />
-              </TouchableOpacity>
+              </TouchableNativeFeedback>
             </View>
 
             <Text style={{ fontSize: 16, textAlign: 'justify' }}>

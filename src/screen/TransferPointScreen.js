@@ -3,7 +3,7 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
+  TouchableNativeFeedback,
   TextInput,
   Alert,
   AsyncStorage,

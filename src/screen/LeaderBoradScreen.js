@@ -3,7 +3,7 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
+  TouchableNativeFeedback,
   Alert,
   AsyncStorage,
   ActivityIndicator,
@@ -287,7 +287,7 @@ export default class LeaderBoardScreen extends Component {
               padding: 5,
               marginRight: 7,
             }}>
-              <TouchableOpacity
+              <TouchableNativeFeedback
                 activeOpacity={0.8}
                 onPress={() => {
                   this._showToast(`To qualify ${this.state.qualificationCriteria.referralToQualify} Share requireds`)
@@ -296,7 +296,7 @@ export default class LeaderBoardScreen extends Component {
                   <MDIcon name={'share'} style={{ fontSize: 17 }} />
                   <Text style={{ flex: 1, fontSize: 15, marginHorizontal: 10, textAlign: 'center', }}>Requried {this.state.qualificationCriteria.referralToQualify || 2}</Text>
                 </View>
-              </TouchableOpacity>
+              </TouchableNativeFeedback>
             </Card>
 
             <Card containerStyle={{
@@ -307,7 +307,7 @@ export default class LeaderBoardScreen extends Component {
               padding: 5,
               marginRight: 7,
             }}>
-              <TouchableOpacity
+              <TouchableNativeFeedback
                 activeOpacity={0.8}
                 onPress={() => {
                   this._showToast(`To qualify refere atlist ${this.state.qualificationCriteria.referralToQualify} Friends `)
@@ -316,7 +316,7 @@ export default class LeaderBoardScreen extends Component {
                   <MDIcon name={'group-add'} style={{ fontSize: 20 }} />
                   <Text style={{ flex: 1, fontSize: 15, marginHorizontal: 10, textAlign: 'center', }}>Requried {this.state.qualificationCriteria.referralToQualify || 2}</Text>
                 </View>
-              </TouchableOpacity>
+              </TouchableNativeFeedback>
             </Card>
           </View>
           <View style={{

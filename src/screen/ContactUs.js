@@ -4,7 +4,7 @@ import {
   Text,
   Image,
   SafeAreaView,
-  TouchableOpacity,
+  TouchableNativeFeedback,
   Platform,
   KeyboardAvoidingView,
   ScrollView,
@@ -226,11 +226,11 @@ export default class ContactUs extends Component {
     if(this.state.isLoading) {
       return <ActivityIndicator style={{marginTop: 10}} size={30} />
     } else {
-      return <TouchableOpacity
+      return <TouchableNativeFeedback
       style={styles.buttonContainer}
       onPress={() => this._validateData()}>
       <Text style={styles.button}>Send Message</Text>
-    </TouchableOpacity> 
+    </TouchableNativeFeedback> 
     }
 
   }

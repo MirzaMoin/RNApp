@@ -3,7 +3,7 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
+  TouchableNativeFeedback,
   FlatList,
   ActivityIndicator,
   AsyncStorage,
@@ -206,7 +206,7 @@ export default class OfferScreen extends Component {
           scrollEnabled={true}
           data={this.state.offerList}
           renderItem={({ item, index }) => (
-            <TouchableOpacity
+            <TouchableNativeFeedback
               activeOpacity={0.8}
               onPress={() => {
                 this.props.navigation.navigate('offerDetail', {
@@ -271,7 +271,7 @@ export default class OfferScreen extends Component {
 
                 </View>
               </View>
-            </TouchableOpacity>
+            </TouchableNativeFeedback>
           )}
         />
       );

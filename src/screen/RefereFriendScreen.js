@@ -4,7 +4,7 @@ import {
   Text,
   Image,
   SafeAreaView,
-  TouchableOpacity,
+  TouchableNativeFeedback,
   Platform,
   KeyboardAvoidingView,
   ScrollView,
@@ -81,7 +81,7 @@ export default class RefereFriendScreen extends Component {
                   source={require('./../../Image/referre_friend.jpg')}
                   resizeMode="center"
                 />*/}
-                <TouchableOpacity
+                <TouchableNativeFeedback
                   style={{
                     marginLeft: 10,
                     marginRight: 10,
@@ -117,7 +117,7 @@ export default class RefereFriendScreen extends Component {
                     }}>
                     Get Invite Link
                   </Text>
-                </TouchableOpacity>
+                </TouchableNativeFeedback>
                 <View
                   style={{
                     marginTop: 10,

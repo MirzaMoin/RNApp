@@ -4,7 +4,7 @@ import {
   Text,
   Image,
   SafeAreaView,
-  TouchableOpacity,
+  TouchableNativeFeedback,
   Platform,
   KeyboardAvoidingView,
   ScrollView,
@@ -194,7 +194,7 @@ export default class LocationScreen extends Component {
       <View style={styles.locationContainer}>
         <View style={{ flexDirection: 'row' }}>
           <MDIcon name={'location-on'} style={styles.locationIcon} />
-          <TouchableOpacity
+          <TouchableNativeFeedback
             onPress={() => {
               if (rowData.storeAddress.latitude && rowData.storeAddress.longitude) {
                 this._changeLocation(
@@ -205,7 +205,7 @@ export default class LocationScreen extends Component {
               } else { console.log('not possible') }
             }}>
             <Text style={styles.locationTitle}>{rowData.locationName}</Text>
-          </TouchableOpacity>
+          </TouchableNativeFeedback>
         </View>
         {this._renderAddress(rowData.storeAddress)}
         {this._parseWebURL(rowData.websiteUrl)}
@@ -243,9 +243,9 @@ export default class LocationScreen extends Component {
       return (
         <View style={{ flexDirection: 'row' }}>
           <MDIcon name={'open-in-browser'} style={styles.locationIcon} />
-          <TouchableOpacity onPress={() => this.openLink(url)}>
+          <TouchableNativeFeedback onPress={() => this.openLink(url)}>
             <Text style={styles.webTextText}>{urlNew}</Text>
-          </TouchableOpacity>
+          </TouchableNativeFeedback>
         </View>
       )
     }
@@ -256,9 +256,9 @@ export default class LocationScreen extends Component {
       return (
         <View style={{ flexDirection: 'row' }}>
           <MDIcon name={'directions'} style={styles.locationIcon} />
-          <TouchableOpacity onPress={() => this._showDirectionOnMap(address)}>
+          <TouchableNativeFeedback onPress={() => this._showDirectionOnMap(address)}>
             <Text style={styles.directionText}>Get Direction</Text>
-          </TouchableOpacity>
+          </TouchableNativeFeedback>
         </View>
       )
     }
@@ -292,11 +292,11 @@ export default class LocationScreen extends Component {
   _renderClearSearch = () => {
     if (this.state.search) {
       return (
-        <TouchableOpacity
+        <TouchableNativeFeedback
           activeOpacity={0.8}
           onPress={() => this.setState({ search: '' })}>
           <MDIcon name={'close'} style={{ fontSize: 24 }} />
-        </TouchableOpacity>
+        </TouchableNativeFeedback>
       )
     }
   }
@@ -338,7 +338,8 @@ export default class LocationScreen extends Component {
             />
           </MapView>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity
+            <TouchableNativeFeedback
+              style={styles.button}
               onPress={() => {
                 this.setState({
                   sheetIcon: 'keyboard-arrow-up',
@@ -352,7 +353,7 @@ export default class LocationScreen extends Component {
               <View style={styles.button}>
                 <MDIcon style={styles.buttonIcon} name={'menu'} />
               </View>
-            </TouchableOpacity>
+            </TouchableNativeFeedback>
           </View>
           
           </View>
@@ -372,9 +373,9 @@ export default class LocationScreen extends Component {
             <View style={styles.bottomSheetContainer}>
               <Text style={styles.bottomSheetTitle}>Locations</Text>
               <View style={styles.topIconContainer}>
-                <TouchableOpacity onPress={() => this._openSheetFull()}>
+                <TouchableNativeFeedback onPress={() => this._openSheetFull()}>
                   <MDIcon name={this.state.sheetIcon} style={{ fontSize: 30 }} />
-                </TouchableOpacity>
+                </TouchableNativeFeedback>
               </View>
               <View style={{ flexDirection: 'row', paddingHorizontal: 10, marginVertical: 5, borderWidth: 2, borderRadius: 5, borderColor: 'rgba(153,153,153,1)', alignItems: 'center', marginTop: 10 }}>
                 <MDIcon name={'search'} style={{ fontSize: 24 }} />

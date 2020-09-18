@@ -4,7 +4,7 @@ import {
   Text,
   Image,
   Modal,
-  TouchableOpacity,
+  TouchableNativeFeedback,
   SafeAreaView,
 } from 'react-native';
 import Swipeout from 'react-native-swipeout';
@@ -56,7 +56,7 @@ export default class NotificationDetailScreen extends Component {
                     paddingTop: 30,
                     paddingRight: 30,
                   }}>
-                  <TouchableOpacity
+                  <TouchableNativeFeedback
                     onPress={() => {
                       this.setState({ visible: false });
                     }}>
@@ -64,7 +64,7 @@ export default class NotificationDetailScreen extends Component {
                       style={{ fontSize: 30, color: 'white', marginLeft: 15 }}
                       name={'close'}
                     />
-                  </TouchableOpacity>
+                  </TouchableNativeFeedback>
                 </View>
               )}
               enableSwipeDown={true}

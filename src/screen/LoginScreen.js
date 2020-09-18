@@ -12,7 +12,7 @@ import {
   Text,
   View,
   Image,
-  TouchableOpacity,
+  TouchableNativeFeedback,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
@@ -824,7 +824,7 @@ export default class LoginScreen extends Component {
         <LinearGradient
           style={{ borderRadius: 10, margin: 5, width: 120, alignSelf: 'center' }}
           colors={[parseColor(LoginScreenModel.signInBtnGradientstartColor), parseColor(LoginScreenModel.signInBtnGradientStopColor)]}>
-          <TouchableOpacity
+          <TouchableNativeFeedback
             style={styles.button}
             onPress={() => {
               // this.props.navigation.navigate('App')
@@ -844,7 +844,7 @@ export default class LoginScreen extends Component {
 
             }}>
             <Text style={[styles.buttonText, { color: parseColor(LoginScreenModel.signInBtnTextColor) }]}>Login</Text>
-          </TouchableOpacity>
+          </TouchableNativeFeedback>
         </LinearGradient>
       );
     }
@@ -862,11 +862,11 @@ export default class LoginScreen extends Component {
           colors={[
             parseColor(LoginScreenModel.joinNowBtnGradientstartColor),
             parseColor(LoginScreenModel.joinNowBtnGradientStopColor)]}>
-          <TouchableOpacity
+          <TouchableNativeFeedback
             style={styles.button}
             onPress={this._onSignUpClick}>
             <Text style={[styles.buttonText, { color: LoginScreenModel.joinNowBtnTextColor }]}>{this.state.isShowSignUp ? 'Register' : `${LoginScreenModel.joinNowBtnText}`}</Text>
-          </TouchableOpacity>
+          </TouchableNativeFeedback>
         </LinearGradient>
       );
     }
@@ -2093,7 +2093,7 @@ export default class LoginScreen extends Component {
       );
     } else {
       return (
-        <TouchableOpacity
+        <TouchableNativeFeedback
           style={[styles.button, { backgroundColor: this.state.isTimer ? '#1d5799' : '#6b9fdb' }]}
           disabled={this.state.isTimer}
           onPress={() => {
@@ -2112,7 +2112,7 @@ export default class LoginScreen extends Component {
             }
           }}>
           <Text style={styles.buttonText}>Send Password</Text>
-        </TouchableOpacity>
+        </TouchableNativeFeedback>
       );
     }
   }
@@ -2199,11 +2199,11 @@ export default class LoginScreen extends Component {
                   <LinearGradient
                     style={{ borderRadius: 10, margin: 5 }}
                     colors={[parseColor(LoginScreenModel.signInBtnGradientstartColor), parseColor(LoginScreenModel.signInBtnGradientStopColor)]}>
-                    <TouchableOpacity
+                    <TouchableNativeFeedback
                       style={styles.button}
                       onPress={this._onLoginClick}>
                       <Text style={[styles.buttonText, { color: parseColor(LoginScreenModel.signInBtnTextColor) }]}>{LoginScreenModel.signInBtnText}</Text>
-                    </TouchableOpacity>
+                    </TouchableNativeFeedback>
                   </LinearGradient>
                   {this._showLogin()}
                   <Text

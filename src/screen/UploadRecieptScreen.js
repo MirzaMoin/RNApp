@@ -3,7 +3,7 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
+  TouchableNativeFeedback,
   Alert,
   AsyncStorage,
   ActivityIndicator,
@@ -517,13 +517,13 @@ export default class UploadReceiptScreen extends Component {
       return <ActivityIndicator size={'large'} style={{ margin: 20 }} />
     } else {
       return (
-        <TouchableOpacity
+        <TouchableNativeFeedback
           underlayColor="#030a91"
           activeOpacity={0.8}
           style={styles.button}
           onPress={() => this._prepareForm()}>
           <Text style={styles.buttonText}>Submit</Text>
-        </TouchableOpacity>
+        </TouchableNativeFeedback>
       );
     }
   }
@@ -577,7 +577,7 @@ export default class UploadReceiptScreen extends Component {
       )
     } else {
       return (
-        <TouchableOpacity
+        <TouchableNativeFeedback
           activeOpacity={0.8}
           onPress={() => {
             this._handleImageClick(index)
@@ -589,7 +589,7 @@ export default class UploadReceiptScreen extends Component {
               }}
               style={{ height: 40, width: 40, alignSelf: 'center' }} />
           </View>
-        </TouchableOpacity>
+        </TouchableNativeFeedback>
       )
     }
   }

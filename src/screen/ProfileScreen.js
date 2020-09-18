@@ -4,7 +4,7 @@ import {
   Text,
   Image,
   SafeAreaView,
-  TouchableOpacity,
+  TouchableNativeFeedback,
   ImageBackground,
   Platform,
   KeyboardAvoidingView,
@@ -1847,13 +1847,13 @@ export default class ProfileScreen extends Component {
     if (this._visibleFields.indexOf(fieldsData.profilePictureRequired) > -1) {
       //console.log(`Profiel image state: ${this.state.signup.profileImage}`)
       return (
-        <TouchableOpacity
+        <TouchableNativeFeedback
           activeOpacity={0.7}
           onPress={() => {
             this._handleImageClick();
           }}
-          style={{ marginBottom: 10, flexDirection: 'column-reverse' }}
-        >
+          style={styles.profileContainer}>
+          <View style={{ marginBottom: 10, flexDirection: 'column-reverse' }}>
           <ImageLoader
             title={`${this.state.signup.firstName || ''} ${this.state.signup.lastName || ''}`}
             src={this.state.profileImagePath || this.state.signup.profileImage}
@@ -1862,7 +1862,8 @@ export default class ProfileScreen extends Component {
             style={styles.profileContainer}
             titleStyle={{ fontSize: 30 }} />
           <MDIcon name={'add'} style={{ fontSize: 20, position: 'absolute', backgroundColor: 'white', borderWidth: 1, borderColor: '#000000', borderRadius: 30, alignSelf: 'flex-end', textAlign: 'center', padding: 5, height: 30, width: 30 }} />
-        </TouchableOpacity>
+          </View>
+        </TouchableNativeFeedback>
       )
     }
   }
@@ -1913,7 +1914,7 @@ export default class ProfileScreen extends Component {
                 />
                 <View style={{ height: 1, width: maxWidth, backgroundColor: 'black' }} />
               </View>
-              <TouchableOpacity
+              <TouchableNativeFeedback
                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}
                 onPress={() => {
                   var dates = this.state.signup.additionalBirthDates;
@@ -1926,7 +1927,7 @@ export default class ProfileScreen extends Component {
                   });
                 }}>
                 <MDIcon name={'delete'} style={{ fontSize: 24, margin: 5, color: 'grey' }} />
-              </TouchableOpacity>
+              </TouchableNativeFeedback>
             </View>
           )
         })
@@ -2070,13 +2071,13 @@ export default class ProfileScreen extends Component {
     } else {
       return (
         <View style={styles.subContainer}>
-          <TouchableOpacity
+          <TouchableNativeFeedback
             underlayColor="#030a91"
             activeOpacity={0.8}
             style={styles.button}
             onPress={() => this._prepareForm()}>
             <Text style={styles.buttonText}>Save</Text>
-          </TouchableOpacity>
+          </TouchableNativeFeedback>
         </View>
       );
     }

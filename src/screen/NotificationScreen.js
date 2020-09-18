@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 import { Header } from 'react-navigation-stack';
 import { Avatar } from 'react-native-elements';
 import { Card } from 'react-native-elements';
@@ -266,7 +266,7 @@ export default class NotificationScreen extends Component {
               }
             />
           </TouchableHighlight>
-          <TouchableOpacity
+          <TouchableNativeFeedback
             onPress={() => this._deleteMultipleNotification()}
             onLongPress={() =>
               Toast.show('Delete checked notification', Toast.LONG)
@@ -282,7 +282,7 @@ export default class NotificationScreen extends Component {
               }}
               name={'delete'}
             />
-          </TouchableOpacity>
+          </TouchableNativeFeedback>
         </View>
       );
   };
@@ -373,7 +373,7 @@ export default class NotificationScreen extends Component {
               flexDirection: 'row',
               backgroundColor: '#012340',
             }}>
-            <TouchableOpacity
+            <TouchableNativeFeedback
               style={{ justifyContent: 'center', flex: 1 }}
               onPress={() => {
                 this.props.navigation.toggleDrawer();
@@ -387,7 +387,7 @@ export default class NotificationScreen extends Component {
                 }}
                 name={'menu'}
               />
-            </TouchableOpacity>
+            </TouchableNativeFeedback>
             <Text
               style={{
                 fontSize: 20,

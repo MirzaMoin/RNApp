@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, AsyncStorage, ActivityIndicator, Alert, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, AsyncStorage, ActivityIndicator, Alert, TouchableNativeFeedback } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import TextInput from 'react-native-textinput-with-icons';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import { ScreenHeader } from '../widget/ScreenHeader';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class ChangePassword extends Component {
   static navigationOptions = {

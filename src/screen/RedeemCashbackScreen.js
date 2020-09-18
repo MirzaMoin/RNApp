@@ -3,7 +3,7 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
+  TouchableNativeFeedback,
   TextInput,
   Alert,
   AsyncStorage,
@@ -210,7 +210,7 @@ export default class RedeemCashbackScreen extends Component {
         for (var i = amount; i <= this.state.amount; i = i + amount) {
           const tmp = i;
           sugessions.push(
-            <TouchableOpacity
+            <TouchableNativeFeedback
               style={{ marginHorizontal: 5 }}
               activeOpacity={0.8}
               onPress={() => {
@@ -221,7 +221,7 @@ export default class RedeemCashbackScreen extends Component {
               <View style={{ padding: 10, paddingHorizontal: 15, minHeight: 50, borderRadius: 25, backgroundColor: '#012345', justifyContent: 'center', alignSelf: 'center', alignContent: 'center' }}>
                 <Text style={{ color: 'white', alignSelf: 'center', fontSize: 18 }}>${tmp}</Text>
               </View>
-            </TouchableOpacity>
+            </TouchableNativeFeedback>
           )
         }
         return (
@@ -259,7 +259,7 @@ export default class RedeemCashbackScreen extends Component {
               </View>
               <View style={{ paddingHorizontal: 10, flex: 1, paddingTop: 5 }}>
                 <Text style={{ fontSize: 24, padding: 10, paddingBottom: 0 }}>How much chashback would you like to?</Text>
-                <TouchableOpacity
+                <TouchableNativeFeedback
                   activeOpacity={0.8}
                   onPress={() => this.setState({ otherAmount: this.state.amount })}>
                   <View style={{ borderRadius: 15, height: 180, width: '90%', alignItems: 'center', justifyContent: 'center', alignContent: 'center', alignSelf: 'center', marginVertical: 10 }}>
@@ -281,7 +281,7 @@ export default class RedeemCashbackScreen extends Component {
                       <Text style={{ fontSize: 30, color: 'white', alignSelf: 'center', marginTop: 50 }}>${this.state.amount || '0'}</Text>
                     </View>
                   </View>
-                </TouchableOpacity>
+                </TouchableNativeFeedback>
                 {this._renderSuggession()}
               </View>
             </View>

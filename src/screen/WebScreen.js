@@ -4,7 +4,7 @@ import {
     SafeAreaView,
     AsyncStorage,
     ActivityIndicator,
-    TouchableOpacity,
+    TouchableNativeFeedback,
     Text
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
@@ -105,7 +105,7 @@ export default class WebScreen extends Component {
                     {this._showLoading()}
                 </View>
                 <View style={[styles.tabBarContainer, {backgroundColor:parseColor(GlobalAppModel.footerColor)}]}>
-                    <TouchableOpacity
+                    <TouchableNativeFeedback
                         disabled={!this.state.setCanGoBack}
                         onPress={() => {
                             if (this.state.setCanGoBack) {
@@ -113,14 +113,14 @@ export default class WebScreen extends Component {
                             }
                         }}>
                         <MDIcon name={'arrow-back'} style={{ color: this.state.setCanGoBack ? 'white' : 'rgba(180,180,180,1)', fontSize: 25, padding: 10 }} />
-                    </TouchableOpacity>
-                    <TouchableOpacity
+                    </TouchableNativeFeedback>
+                    <TouchableNativeFeedback
                         onPress={() => {
                             this.wv.reload();
                         }}>
                         <MDIcon name={'refresh'} style={{ color: 'white', fontSize: 25, padding: 10 }} />
-                    </TouchableOpacity>
-                    <TouchableOpacity
+                    </TouchableNativeFeedback>
+                    <TouchableNativeFeedback
                         disabled={!this.state.setCanGoForward}
                         onPress={() => {
                             if (this.state.setCanGoForward) {
@@ -128,7 +128,7 @@ export default class WebScreen extends Component {
                             }
                         }}>
                         <MDIcon name={'arrow-forward'} style={{ color: this.state.setCanGoForward ? 'white' : 'rgba(180,180,180,1)', fontSize: 25, padding: 10 }} />
-                    </TouchableOpacity>
+                    </TouchableNativeFeedback>
                 </View>
             </SafeAreaView>
         );
