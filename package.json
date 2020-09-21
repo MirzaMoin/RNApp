@@ -23,6 +23,7 @@
     "react-native-drawer-layout": "^2.0.0",
     "react-native-elements": "^1.2.7",
     "react-native-fbsdk": "^1.1.2",
+    "react-native-firebase": "^5.6.0",
     "react-native-gesture-handler": "^1.5.2",
     "react-native-get-location": "^1.4.3",
     "react-native-global-font": "^1.0.2",

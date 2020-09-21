@@ -18,6 +18,8 @@ import APIConstant from './../api/apiConstant';
 import HomeModel  from './../model/HomeModel';
 import LoginScreenModel  from './../model/LoginScreenModel';
 import GlobalAppModel  from './../model/GlobalAppModel';
+import firebase from 'react-native-firebase';
+import Toast from 'react-native-root-toast';
 //import MenuLinkModel  from './../model/MenuLinkModel';
 //import MenuPermissionModel  from './../model/MenuPermissionModel';
 
@@ -72,9 +74,31 @@ export default class SplashScreen extends Component {
     }
   }
 
-  componentWillMount() {
+  getParameterFromUrl(url, parm) {
+    var re = new RegExp(".*[?&]" + parm + "=([^&]+)(&|$)");
+    var match = url.match(re);
+    return (match ? match[1] : "");
+  }
+
+  async componentWillMount() {
     this._storeBOData();
     this._callGetAppIntakeData()
+    console.log(`startubg bro now oringfi`)
+    let url = await firebase.links().getInitialLink();
+    firebase.links().getInit
+    console.log(`URL : ${url} :`)
+    if(url === 'some_condition_here'){
+    //code to execute
+    }
+    const ID = this.getParameterFromUrl(url, "invitedBy");
+    Toast.show(`Link from : invitedBy ${ID}`, {
+      duration: Toast.durations.LONG,
+      position: Toast.positions.CENTER,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+    });
     //this._getLoginData();
   }
 

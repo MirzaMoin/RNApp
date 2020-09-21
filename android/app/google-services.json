@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "757739001851",
+    "firebase_url": "https://rnbeacon-55576.firebaseio.com",
+    "project_id": "rnbeacon-55576",
+    "storage_bucket": "rnbeacon-55576.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757739001851:android:057999d34f344f461d1d5e",
+        "android_client_info": {
+          "package_name": "com.rrbeacon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "757739001851-aprlaqmrlf3nruu7k7jmlglv60handp3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rrbeacon",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "757739001851-apht8q3kg9e3dp742k2mnglandp9q8vs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNuw271OdH8VJEGCLLDzsIYEIIgpe9Sk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "757739001851-apht8q3kg9e3dp742k2mnglandp9q8vs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

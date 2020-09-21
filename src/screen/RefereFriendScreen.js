@@ -15,13 +15,85 @@ import {
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { BottomNavigationTab } from './../widget/BottomNavigationTab';
+import BottomNavigationTab  from './../widget/BottomNavigationTab';
 import apiConstant from '../api/apiConstant';
+import { ScreenHeader } from '../widget/ScreenHeader';
+//import dynamicLinks, { firebase } from '@react-native-firebase/dynamic-links';
+//import firebase
+import firebase from 'react-native-firebase';
+const SENDER_UID = 'USER1234';
 
-export default class RefereFriendScreen extends Component {
+class RefereFriendScreen extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   constructor() {
     super();
+    this.state={
+      userPoint: '',
+    }
   }
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      loadingImage = GlobalAppModel.getLoadingImage();
+      this.setState({
+        isLoading: true
+      });
+      this._getStoredData();
+    });
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove();
+  }
+
+  _getStoredData = async () => {
+    try {
+      await AsyncStorage.getItem('userID', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            this.setState({
+              userID: value,
+            })
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            this.setState({
+              userPoint: value,
+            })
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('webformID', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            this.setState({
+              webformID: value,
+            }, () => { this._callRPGData() });
+          } else {
+          }
+        }
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   static navigationOptions = props => {
     return {
@@ -36,10 +108,44 @@ export default class RefereFriendScreen extends Component {
       .catch(errorMsg => console.log(errorMsg));
   };
 
+   _buildLink = async () => {
+    /*const link = await dynamicLinks().buildLink({
+      link: 'https://rrbeacon.page.link/naxz',
+      // domainUriPrefix is created in your Firebase console
+      domainUriPrefix: 'https://rrbeacon.page.link/',
+      // optional set up which updates Firebase analytics campaign
+      // "banner". This also needs setting up before hand
+      analytics: {
+        campaign: 'banner',
+      },
+    });
+  
+    return link;*/
+    console.log(`strat`)
+    const link = `https://rrbeacon.page.link/naxz?invitedBy=${SENDER_UID}`;
+    console.log(`strat 1`)
+    const dynamicLinkDomain = 'https://rrbeacon.page.link/';
+    console.log(`strat 2`)
+    //call  DynamicLink constructor
+    const DynamicLink = new firebase.links.DynamicLink(link, dynamicLinkDomain);
+    DynamicLink.android.setPackageName('com.rrbeacon')
+    DynamicLink.android.setFallbackUrl('https://play.google.com/store/apps/details?id=com.rrbeacon')
+    DynamicLink.ios.setBundleId('com.rrbeacon')
+    
+    console.log(`strat 3`)
+    //get the generatedLink
+    const generatedLink = await firebase.links().createDynamicLink(DynamicLink);
+    console.log('created link', generatedLink);
+  }
+
   render() {
     const { width } = Dimensions.get('window');
     return (
       <View style={styles.container}>
+        <ScreenHeader
+          navigation={this.props.navigation}
+          title={'Rewards Entry Goal'}
+          userPoint={this.state.userPoint} />
         <View style={{ hegith: 150 }}>
           <Image
             style={{ height: 150 }}
@@ -141,6 +247,10 @@ export default class RefereFriendScreen extends Component {
                     />
                   </View>
                   <Text
+                    onPress={()=>{
+                      this._buildLink()
+                      console.log(`Somethig : `)
+                    }}
                     style={{
                       fontSize: 18,
                       backgroundColor: '#fff',
@@ -188,6 +298,8 @@ export default class RefereFriendScreen extends Component {
     );
   }
 }
+
+export default RefereFriendScreen;
 
 const styles = {
   container: {
