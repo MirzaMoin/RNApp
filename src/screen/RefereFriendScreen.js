@@ -12,16 +12,21 @@ import {
   TextInput,
   Share,
   Linking,
+  AsyncStorage,
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import BottomNavigationTab  from './../widget/BottomNavigationTab';
+import Icon from 'react-native-vector-icons/dist/FontAwesome5';
+import BottomNavigationTab from './../widget/BottomNavigationTab';
 import apiConstant from '../api/apiConstant';
+import { ShareDialog } from 'react-native-fbsdk';
 import { ScreenHeader } from '../widget/ScreenHeader';
 //import dynamicLinks, { firebase } from '@react-native-firebase/dynamic-links';
 //import firebase
 import firebase from 'react-native-firebase';
 const SENDER_UID = 'USER1234';
+
+const maxWidth = Dimensions.get('window').width;
+const imageHeight = (maxWidth / 16) * 9;
 
 class RefereFriendScreen extends Component {
   static navigationOptions = {
@@ -30,18 +35,20 @@ class RefereFriendScreen extends Component {
 
   constructor() {
     super();
-    this.state={
-      userPoint: '',
+    this.state = {
+      userPoint: '0',
+      inviteLink: '',
     }
   }
 
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
-      loadingImage = GlobalAppModel.getLoadingImage();
+      //loadingImage = GlobalAppModel.getLoadingImage();
       this.setState({
         isLoading: true
       });
+      //this._buildLink()
       this._getStoredData();
     });
   }
@@ -85,7 +92,7 @@ class RefereFriendScreen extends Component {
           if (value) {
             this.setState({
               webformID: value,
-            }, () => { this._callRPGData() });
+            });
           } else {
           }
         }
@@ -95,11 +102,6 @@ class RefereFriendScreen extends Component {
     }
   };
 
-  static navigationOptions = props => {
-    return {
-      drawerLockMode: 'locked-closed',
-    };
-  };
   _ShareMessage = msg => {
     Share.share({
       message: msg.toString(),
@@ -108,34 +110,19 @@ class RefereFriendScreen extends Component {
       .catch(errorMsg => console.log(errorMsg));
   };
 
-   _buildLink = async () => {
-    /*const link = await dynamicLinks().buildLink({
-      link: 'https://rrbeacon.page.link/naxz',
-      // domainUriPrefix is created in your Firebase console
-      domainUriPrefix: 'https://rrbeacon.page.link/',
-      // optional set up which updates Firebase analytics campaign
-      // "banner". This also needs setting up before hand
-      analytics: {
-        campaign: 'banner',
-      },
-    });
-  
-    return link;*/
-    console.log(`strat`)
-    const link = `https://rrbeacon.page.link/naxz?invitedBy=${SENDER_UID}`;
-    console.log(`strat 1`)
+  _buildLink = async invitedFrom => {
+    const link = `https://rrbeacon.page.link/naxz?invitedBy=${this.state.userID}&invitedFrom=${invitedFrom}`;
     const dynamicLinkDomain = 'https://rrbeacon.page.link/';
-    console.log(`strat 2`)
-    //call  DynamicLink constructor
     const DynamicLink = new firebase.links.DynamicLink(link, dynamicLinkDomain);
     DynamicLink.android.setPackageName('com.rrbeacon')
     DynamicLink.android.setFallbackUrl('https://play.google.com/store/apps/details?id=com.rrbeacon')
     DynamicLink.ios.setBundleId('com.rrbeacon')
-    
-    console.log(`strat 3`)
-    //get the generatedLink
-    const generatedLink = await firebase.links().createDynamicLink(DynamicLink);
-    console.log('created link', generatedLink);
+    DynamicLink.ios.setFallbackUrl('https://www.facebook.com')
+    // Add ios app details.
+    const generatedLink = await firebase.links().createShortDynamicLink(DynamicLink);
+    //this.setState({ inviteLink: generatedLink });
+    console.log(`Ìntite from : ${invitedFrom} : ${generatedLink}`)
+    return generatedLink;
   }
 
   render() {
@@ -144,26 +131,26 @@ class RefereFriendScreen extends Component {
       <View style={styles.container}>
         <ScreenHeader
           navigation={this.props.navigation}
-          title={'Rewards Entry Goal'}
+          title={'Refer Friend'}
           userPoint={this.state.userPoint} />
-        <View style={{ hegith: 150 }}>
-          <Image
-            style={{ height: 150 }}
-            source={{
-              uri:
-                apiConstant.HEADER_IMAGE,
-            }}
-            resizeMode="cover"
-          />
-          <View style={styles.imageOverlay} />
-        </View>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <ScrollView
             showsVerticalScrollIndicator={false}
             bounces={false}
             contentContainerStyle={styles.baseScrollView}>
             <View>
-              <View style={{ flex: 1, marginTop: 15 }}>
+              <View style={{ hegith: imageHeight, width: maxWidth }}>
+                <Image
+                  style={{ height: imageHeight }}
+                  source={{
+                    uri:
+                      apiConstant.HEADER_IMAGE,
+                  }}
+                  resizeMode="cover"
+                />
+                <View style={styles.imageOverlay} />
+              </View>
+              <View style={{ flex: 1, marginVertical: 15, marginHorizontal: '10%' }}>
                 <Text
                   style={{
                     textAlign: 'center',
@@ -177,7 +164,7 @@ class RefereFriendScreen extends Component {
                     marginLeft: 20,
                     marginRight: 20,
                     textAlign: 'center',
-                    marginTop: 5,
+                    marginTop: 10,
                     minHeight: 150,
                   }}>
                   For every frind that join, you will recive $20{' '}
@@ -197,8 +184,9 @@ class RefereFriendScreen extends Component {
                     alignSelf: 'center',
                     flexDirection: 'row',
                   }}
-                  onPress={() => {
-                    this._ShareMessage('hello firend sw');
+                  onPress={async () => {
+                    const link = await this._buildLink('Self')
+                    this._ShareMessage(link);
                     // Linking.canOpenURL('mailto:example@gmail.com?subject=example&body=example')
                     //   .then(supported => {
                     //     if (!supported) {
@@ -247,47 +235,112 @@ class RefereFriendScreen extends Component {
                     />
                   </View>
                   <Text
-                    onPress={()=>{
-                      this._buildLink()
-                      console.log(`Somethig : `)
-                    }}
                     style={{
                       fontSize: 18,
                       backgroundColor: '#fff',
                       fontWeight: 'bold',
                       paddingLeft: 25,
                       paddingRight: 25,
+                      marginVertical: 25
                     }}>
-                    Share with Link
+                    Share Link with
                   </Text>
                 </View>
                 <View
                   style={{
                     flex: 1,
                     flexDirection: 'row',
-                    marginTop: 10,
-                    justifyContent: 'center',
+                    justifyContent: 'space-between',
+
                   }}>
-                  <Icon
-                    name={'facebook'}
-                    style={{ fontSize: 25, margin: 10, color: '#3b5998' }}
-                  />
-                  <Icon
-                    name={'whatsapp'}
-                    style={{ fontSize: 25, margin: 10, color: '#4fce5d' }}
-                  />
-                  <MDIcon
-                    name={'mail-outline'}
-                    style={{ fontSize: 27, margin: 10, color: '#b23121' }}
-                  />
-                  <Icon
-                    name={'twitter'}
-                    style={{ fontSize: 25, margin: 10, color: '#00acee' }}
-                  />
-                  <Icon
-                    name={'commenting-o'}
-                    style={{ fontSize: 25, margin: 10, color: 'blue' }}
-                  />
+                  <TouchableNativeFeedback
+                    onPress={async () => {
+                      const link = await this._buildLink('Facebook')
+                      const shareLinkContent = {
+                        contentType: 'link',
+                        contentUrl: link,
+                        contentDescription: 'Wow, check out this great site!',
+                      };
+                      ShareDialog.canShow(shareLinkContent)
+                        .then(function (canShow) {
+                          if (canShow) {
+                            return ShareDialog.show(shareLinkContent);
+                          }
+                        })
+                        .then(
+                          function (result) {
+                            if (result.isCancelled) {
+                              console.log('Share cancelled');
+                            } else {
+                              console.log('Share success with postId: ' + result.postId);
+                            }
+                          },
+                          function (error) {
+                            console.log('Share fail with error: ' + error);
+                          },
+                        );
+                    }}>
+                    <Icon
+                      name={'facebook'}
+                      style={{ fontSize: 35, padding: 10, color: '#3b5998' }}
+                    />
+                  </TouchableNativeFeedback>
+
+                  <TouchableNativeFeedback
+                    onPress={async () => {
+                      const link = await this._buildLink('WhatsApp')
+                      const url = `https://wa.me/?text=${link}`;
+                      Linking.openURL(url);
+                    }}>
+                    <Icon
+                      name={'whatsapp'}
+                      style={{ fontSize: 35, padding: 10, color: '#4fce5d' }}
+                    />
+                  </TouchableNativeFeedback>
+
+                  <TouchableNativeFeedback
+                    onPress={async() => {
+                      const link = await this._buildLink('Email')
+                      const url = `mailto:?subject=Imvite and Earn&body=${link}`;
+                      Linking.openURL(url);
+                    }}>
+                    <Icon
+                      name={'envelope'}
+                      style={{ fontSize: 35, padding: 10, color: '#b23121' }}
+                    />
+                  </TouchableNativeFeedback>
+
+                  <TouchableNativeFeedback
+                    onPress={ async () => {
+                      try {
+                        const link = await this._buildLink('Twitter')
+                        const linkOpen = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Welcomer to the app click the link to install app`)}&url=${encodeURIComponent(link)}`
+                        Linking.openURL(linkOpen);
+                      } catch (error) {
+                        console.log('Error opening link', error);
+                      }
+                    }}>
+                    <Icon
+                      name={'twitter'}
+                      style={{ fontSize: 35, padding: 10, color: '#00acee' }}
+                    />
+                  </TouchableNativeFeedback>
+
+                  <TouchableNativeFeedback
+                    onPress={ async () => {
+                      try {
+                        const link = await this._buildLink('SMS')
+                        const url = `sms:${Platform.OS === "ios" ? "&" : "?"}body=${link}`
+                        Linking.openURL(url);
+                      } catch (error) {
+                        console.log(`èrror while twitting ${error}`)
+                      }
+                    }}>
+                    <Icon
+                      name={'comment-dots'}
+                      style={{ fontSize: 35, padding: 10, color: '#3949ab' }}
+                    />
+                  </TouchableNativeFeedback>
                 </View>
               </View>
             </View>

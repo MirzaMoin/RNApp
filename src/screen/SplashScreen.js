@@ -90,8 +90,9 @@ export default class SplashScreen extends Component {
     if(url === 'some_condition_here'){
     //code to execute
     }
-    const ID = this.getParameterFromUrl(url, "invitedBy");
-    Toast.show(`Link from : invitedBy ${ID}`, {
+    const ID = this.getParameterFromUrl(url, 'invitedBy');
+    const invitedBy = this.getParameterFromUrl(url, 'invitedFrom')
+    Toast.show(`Link from ${invitedBy}\ninvitedBy ${ID}`, {
       duration: Toast.durations.LONG,
       position: Toast.positions.CENTER,
       shadow: true,
