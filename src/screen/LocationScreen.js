@@ -165,7 +165,7 @@ export default class LocationScreen extends Component {
       this.locationListSheet.close()
       this.props.navigation.push('webScreen', {
         title: 'Location',
-        webURL: 'https://hardikpatel.dev',
+        webURL: link,
       });
     }catch(Exeption) {
       console.log(`Somethign wring : ${Exeption}`)

@@ -15,6 +15,10 @@ class HomeModel {
     homePageRibbonBackgroundColor;
     homePageRibbonLinkType;
     homePageRibbonLink;
+    homePageRibbonDisplayIcon;
+    homePageRibbonIcon;
+    homePageRibbonIconPosition;
+    HomePageRibbonTextMarquee;
     homePageTopBackgroundImage;
     homePageTopBackgroundGradientStartColor;
     homePageTopBackgroundGradientStopColor;
@@ -55,6 +59,10 @@ class HomeModel {
         this.homePageRibbonBackgroundColor = data.homePageRibbonBackgroundColor;
         this.homePageRibbonLinkType = data.homePageRibbonLinkType;
         this.homePageRibbonLink = data.homePageRibbonLink;
+        this.homePageRibbonDisplayIcon = data.homePageRibbonDisplayIcon;
+        this.homePageRibbonIcon = data.homePageRibbonIcon;
+        this.homePageRibbonIconPosition = data.homePageRibbonIconPosition;
+        this.HomePageRibbonTextMarquee = data.HomePageRibbonTextMarquee;
         this.homePageTopBackgroundImage = data.homePageTopBackgroundImage;
         this.homePageTopBackgroundGradientStartColor = data.homePageTopBackgroundGradientStartColor;
         this.homePageTopBackgroundGradientStopColor = data.homePageTopBackgroundGradientStopColor;

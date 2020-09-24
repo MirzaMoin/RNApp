@@ -25,6 +25,7 @@ import GlobalAppModel from './../model/GlobalAppModel';
 import { parseColor } from './../utils/utility';
 import BottomNavigationTab from './../widget/BottomNavigationTab';
 import Toast from 'react-native-root-toast';
+import Marquee from '../widget/Marquee';
 
 const maxWidth = Dimensions.get('window').width;
 var extipAppCount = 0;
@@ -50,7 +51,7 @@ export default class HomeScreen extends Component {
   }
 
   handleBackButtonClick() {
-    if(extipAppCount == 0) {
+    if (extipAppCount == 0) {
       Toast.show('Press Back again to Exit.', {
         duration: Toast.durations.LONG,
         position: Toast.positions.CENTER,
@@ -67,7 +68,7 @@ export default class HomeScreen extends Component {
     } else {
       BackHandler.exitApp();
     }
-    
+
     return true;
   }
 
@@ -153,8 +154,8 @@ export default class HomeScreen extends Component {
           <View style={{ height: 2, backgroundColor: 'white', width: '50%', margin: 5 }} />
           <TouchableOpacity
             activeOpacity={0.8}
-            style={{marginTop: 10}}
-            onPress={()=> {
+            style={{ marginTop: 10 }}
+            onPress={() => {
               if (HomeModel.homePageTopButtonLinkType == 'external') {
                 try {
                   this.props.navigation.push('webScreen', {
@@ -248,8 +249,14 @@ export default class HomeScreen extends Component {
             }
           }}>
           <View style={{ width: '100%', padding: 5, backgroundColor: parseColor(HomeModel.homePageRibbonBackgroundColor), flexDirection: 'row' }}>
-            <Text style={{ fontSize: 15, color: parseColor(HomeModel.homePageRibbonTextColor), paddingLeft: 10, flex: 1, alignSelf: 'center' }}>{HomeModel.homePageRibbonText}</Text>
-            <Icon name={'share-square'} style={{ color: '#0282C6', fontSize: 20 }} />
+            {HomeModel.homePageRibbonIconPosition == 'Left' && <Icon name={'share-square'} style={{ color: '#0282C6', fontSize: 20 }} />}
+            {!HomeModel.HomePageRibbonTextMarquee && <Text numberOfLines={1} ellipsizeMode={'clip'} style={{ fontSize: 15, color: parseColor(HomeModel.homePageRibbonTextColor), paddingHorizontal: 10, flex: 1, alignSelf: 'center' }}>{HomeModel.homePageRibbonText}</Text>}
+            {HomeModel.HomePageRibbonTextMarquee && <Marquee
+              loop = {-1}
+              style={{flex: 1, flexDirection: 'row', marginHorizontal: 10}}>
+              <Text style={{ fontSize: 15, color: parseColor(HomeModel.homePageRibbonTextColor), flex: 1, alignSelf: 'center' }}>{HomeModel.homePageRibbonText}</Text>
+            </Marquee>}
+            {HomeModel.homePageRibbonIconPosition == 'Right' && <Icon name={'share-square'} style={{ color: '#0282C6', fontSize: 20 }} />}
           </View>
         </TouchableOpacity>
       );
@@ -259,7 +266,7 @@ export default class HomeScreen extends Component {
   // screen toolbar
   _renderToolBar = () => {
     return (
-      <View style={[styles.headerContainer, {backgroundColor: parseColor(GlobalAppModel.primaryColor)}]}>
+      <View style={[styles.headerContainer, { backgroundColor: parseColor(GlobalAppModel.primaryColor) }]}>
         <TouchableOpacity onPress={() => {
           this.props.navigation.openDrawer();
         }}>
@@ -293,7 +300,7 @@ export default class HomeScreen extends Component {
             {this._renderRebbon(HomeModel.homePageRibbonPosition == 'Middle')}
             {this._renderBottomContainer()}
           </View>
-          <BottomNavigationTab navigation={this.props.navigation}/>
+          <BottomNavigationTab navigation={this.props.navigation} />
         </SafeAreaView>
       </View>
     );

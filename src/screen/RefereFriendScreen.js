@@ -169,11 +169,6 @@ class RefereFriendScreen extends Component {
                   }}>
                   For every frind that join, you will recive $20{' '}
                 </Text>
-                {/*<Image
-                  style={{flex: 1, height: 200, width: undefined}}
-                  source={require('./../../Image/referre_friend.jpg')}
-                  resizeMode="center"
-                />*/}
                 <TouchableNativeFeedback
                   style={{
                     marginLeft: 10,
@@ -199,6 +194,7 @@ class RefereFriendScreen extends Component {
                     //     console.error('An error occurred', err)
                     //   })
                   }}>
+                  <View style={{justifyContent: 'center'}}>
                   <Text
                     style={{
                       flex: 1,
@@ -209,8 +205,10 @@ class RefereFriendScreen extends Component {
                       color: 'white',
                       padding: 15,
                     }}>
-                    Get Invite Link
+                    Share/Copy Invite Link
                   </Text>
+                  <Icon name={'share-alt'} style={{color: 'white', fontSize: 20, position: 'absolute', alignSelf: 'flex-end', margin: 10, paddingRight: 15}} />
+                  </View>
                 </TouchableNativeFeedback>
                 <View
                   style={{

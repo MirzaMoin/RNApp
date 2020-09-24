@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>757739001851-1figk5703uqf94agrmldaf3m15t0ci8a.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.757739001851-1figk5703uqf94agrmldaf3m15t0ci8a</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>757739001851-aprlaqmrlf3nruu7k7jmlglv60handp3.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAnMUGeHLKwgmFIRDf7rcl0vEBy4x-qznA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>757739001851</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.rrbeacon</string>
+	<key>PROJECT_ID</key>
+	<string>rnbeacon-55576</string>
+	<key>STORAGE_BUCKET</key>
+	<string>rnbeacon-55576.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:757739001851:ios:1bb002b8361480481d1d5e</string>
+	<key>DATABASE_URL</key>
+	<string>https://rnbeacon-55576.firebaseio.com</string>
+</dict>
+</plist>
