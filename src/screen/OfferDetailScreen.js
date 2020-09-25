@@ -2,19 +2,14 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
-  TouchableOpacity,
-  FlatList,
   ActivityIndicator,
   AsyncStorage,
   Dimensions,
   BackHandler,
-  Platform,
   Linking,
   Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Card } from 'react-native-elements';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImageLoader from './../widget/ImageLoader';

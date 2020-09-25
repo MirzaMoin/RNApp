@@ -62,7 +62,7 @@ class HomeModel {
         this.homePageRibbonDisplayIcon = data.homePageRibbonDisplayIcon;
         this.homePageRibbonIcon = data.homePageRibbonIcon;
         this.homePageRibbonIconPosition = data.homePageRibbonIconPosition;
-        this.HomePageRibbonTextMarquee = data.HomePageRibbonTextMarquee;
+        this.homePageRibbonTextMarquee = data.homePageRibbonTextMarquee;
         this.homePageTopBackgroundImage = data.homePageTopBackgroundImage;
         this.homePageTopBackgroundGradientStartColor = data.homePageTopBackgroundGradientStartColor;
         this.homePageTopBackgroundGradientStopColor = data.homePageTopBackgroundGradientStopColor;
