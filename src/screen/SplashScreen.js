@@ -39,6 +39,26 @@ export default class SplashScreen extends Component {
 
   _getLoginData = async () => {
     try {
+        var inviteFrom, inviteBy;
+      await AsyncStorage.getItem('inviteFrom', (err, value) => {
+        if (value) {
+          inviteFrom = value
+        }
+      });
+
+      await AsyncStorage.getItem('inviteBy', (err, value) => {
+        if(value){
+          Toast.show(`inviteFrom ${inviteFrom}\n${value}`, {
+            duration: Toast.durations.LONG,
+            position: Toast.positions.CENTER,
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+            delay: 0,
+          });
+        }
+      });
+
       await AsyncStorage.getItem('isLogin', (err, value) => {
         if (err) {
           this.props.navigation.navigate('Auth');
@@ -100,6 +120,16 @@ export default class SplashScreen extends Component {
       hideOnPress: true,
       delay: 0,
     });
+    
+    await AsyncStorage.setItem(
+      'inviteFrom',
+      invitedBy
+    );
+
+    await AsyncStorage.setItem(
+      'inviteBy',
+      ID
+    );
     //this._getLoginData();
   }
 

@@ -15,10 +15,12 @@ type State = {}
 export default class Marquee extends Component<Props, State> {
   constructor(props) {
     super(props);
+    
     this.state = {
       fakeRender: true,
       scrollValue: null,
     }
+
     this.isPlay = false;
     this.width = null;
     this.contentWidth = null;
@@ -34,16 +36,12 @@ export default class Marquee extends Component<Props, State> {
     this.reUpdate = this.reUpdate.bind(this)
   }
 
-
-
   start() {
     this.startWaiting = true;
     if (this.startWaiting && this.width != null && this.contentWidth != null) {
       this.startAnim();
     }
   }
-
-
 
   puase() {
     if (this.isPlay) {
@@ -53,7 +51,6 @@ export default class Marquee extends Component<Props, State> {
     }
   }
 
-
   //doesn't works
   stop() {
     if (this.isPlay) {
@@ -62,7 +59,6 @@ export default class Marquee extends Component<Props, State> {
       this.isPlay = false;
     }
   }
-
 
   reUpdate() {
     if (this.props.autoPlay == false) {
@@ -83,7 +79,6 @@ export default class Marquee extends Component<Props, State> {
     }
   }
 
-
   resume() {
     if (this.animation != null && !this.isPlay) {
       this.animation.start(() => { this.end() });
@@ -91,7 +86,6 @@ export default class Marquee extends Component<Props, State> {
     }
     this.isAminEnded = true;
   }
-
 
   end() {
     if (this.isAminEnded) {
@@ -105,12 +99,9 @@ export default class Marquee extends Component<Props, State> {
     }
   }
 
-
-
   setContent(content) {
     this.content = content;
   }
-
 
   parentLayout(e) {
     if (this.width == null) {
@@ -125,7 +116,6 @@ export default class Marquee extends Component<Props, State> {
     }
   }
 
-
   contentLayout(e) {
     if (this.contentWidth == null) {
       if (this.direction == "rtl" || this.direction == "ltr") {
@@ -138,8 +128,6 @@ export default class Marquee extends Component<Props, State> {
       this.startAnim();
     }
   }
-
-
 
   startAnim() {
     this.setState({ fakeRender: false, scrollValue: new Animated.Value(-this.contentWidth) }, () => {

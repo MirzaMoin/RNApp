@@ -110,11 +110,13 @@ export default class AnimateNumber extends React.Component<Props, State> {
       this.props.onFinish();
       return
     }
+
     if (this.direction === true) {
       if (parseFloat(this.state.value) <= parseFloat(prevProps.value)) {
         this.startAnimate();
       }
     }
+    
     else if (this.direction === false) {
       if (parseFloat(this.state.value) >= parseFloat(prevProps.value)) {
         this.startAnimate();

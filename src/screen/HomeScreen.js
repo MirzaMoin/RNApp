@@ -196,7 +196,6 @@ export default class HomeScreen extends Component {
 
   // bottom container for showing dynamic internal and external links
   _renderBottomContainer = () => {
-    console.log(`Text Align : ${HomeModel.homePageBottomTextAlign}`);
     return (
       <ImageBackground
         ref={(ref) => (this.viewParent = ref)}
@@ -207,48 +206,66 @@ export default class HomeScreen extends Component {
           uri: HomeModel.homePageBottomBackgroundImage,
         }}
         resizeMode="cover">
-        <LinearGradient
-          opacity={HomeModel.homePageBottomBackgroundOpacity}
-          colors={[parseColor(HomeModel.homePageBottomBackgroundGradientStartColor), parseColor(HomeModel.homePageBottomBackgroundGradientStopColor)]}
-          style={{ flexDirection: 'column', flex: 1 }}>
+        <View>
+          <LinearGradient
+            opacity={HomeModel.homePageBottomBackgroundOpacity}
+            colors={[parseColor(HomeModel.homePageBottomBackgroundGradientStartColor), parseColor(HomeModel.homePageBottomBackgroundGradientStopColor)]}
+            style={{ flexDirection: 'column', height: '100%', width: '100%', position: 'absolute' }} />
           <FlatList
             showsVerticalScrollIndicator={false}
             scrollEnabled={true}
             data={HomeModel.menuLinks}
             renderItem={({ item, index }) => {
               const menuLink = new MenuLinkModel(item);
-              if (this.state.bottomContainerMenuItemHeight)
+              if (this.state.bottomContainerMenuItemHeight) {
+                //console.log(`Text Align : ${index} : ${JSON.stringify(menuLink)}`);
                 return (
-                  <View>
-                    <View style={{ height: 2, backgroundColor: 'rgba(153,153,153,1)' }} />
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      onPress={() => {
-                        if (menuLink.menuLinkType == 'external') {
-                          try {
-                            this.props.navigation.push('webScreen', {
-                              title: menuLink.menuText,
-                              webURL: menuLink.menuExternalLinkUrl,
-                            });
-                          } catch (Exeption) { console.log(`Èrror : ${Exeption}`) }
-                        } else {
-                          this.props.navigation.push(menuLink.menuInternalLinkUrl);
-                        }
-                      }}
-                      style={{ padding: 10, flexDirection: 'row', height: this.state.bottomContainerMenuItemHeight || 75 }}>
-                      {HomeModel.homePageBottomDisplayIcon && <Icon name={menuLink.icon} style={{ fontSize: 30, color: parseColor(HomeModel.homePageBottomIconColor), backgroundColor: HomeModel.homePageBottomIconShape == 'none' ? '' : parseColor(HomeModel.homePageBottomIconBackgroundColor), padding: 10, borderRadius: HomeModel.homePageBottomIconShape == 'round' ? 50 : 5, marginHorizontal: 10, width: 55, height: 55, textAlign: 'center', alignSelf: 'center' }} />}
-                      <Text style={{ flex: 1, paddingHorizontal: 10, fontSize: 18, alignSelf: 'center', color: parseColor(MenuLinkModel.menuTextColor), textAlign: HomeModel.homePageBottomTextAlign.toLowerCase() }}>{menuLink.menuText || ''}</Text>
-                      {HomeModel.homePageBottomDisplayArrowIcon && <MDIcon name={'keyboard-arrow-right'} style={{ alignSelf: 'center', fontSize: 30, color: parseColor(HomeModel.homePageBottomArrowColor) }} />}
-                    </TouchableOpacity>
-                  </View>
+                  <ImageBackground
+                    style={{ flexDirection: 'column', flex: 1, width: maxWidth }}
+                    opacity={1}
+                    source={{
+                      uri: menuLink.menuBackgroudImage,
+                    }}
+                    resizeMode="cover">
+                    <View>
+                      <LinearGradient
+                        colors={[parseColor(menuLink.menuTopColor), parseColor(menuLink.menuBottomColor)]}
+                        opacity={menuLink.menuOpacity}
+                        style={{ height: this.state.bottomContainerMenuItemHeight, width: '100%', position: 'absolute' }} />
+                      <View>
+                        <View style={{ height: 1, backgroundColor: 'rgba(153,153,153,1)' }} />
+                        <TouchableOpacity
+                          activeOpacity={0.8}
+                          onPress={() => {
+                            if (menuLink.menuLinkType == 'external') {
+                              try {
+                                this.props.navigation.push('webScreen', {
+                                  title: menuLink.menuText,
+                                  webURL: menuLink.menuExternalLinkUrl,
+                                });
+                              } catch (Exeption) { console.log(`Èrror : ${Exeption}`) }
+                            } else {
+                              this.props.navigation.push(menuLink.menuInternalLinkUrl);
+                            }
+                          }}
+                          style={{ padding: 10, flexDirection: 'row', height: this.state.bottomContainerMenuItemHeight || 75 }}>
+                          {HomeModel.homePageBottomDisplayIcon && <Icon name={menuLink.icon} style={{ fontSize: 30, color: parseColor(HomeModel.homePageBottomIconColor), backgroundColor: HomeModel.homePageBottomIconShape == 'none' ? '' : parseColor(HomeModel.homePageBottomIconBackgroundColor), padding: 10, borderRadius: HomeModel.homePageBottomIconShape == 'round' ? 50 : 5, marginHorizontal: 10, width: 55, height: 55, textAlign: 'center', alignSelf: 'center' }} />}
+                          <Text style={{ flex: 1, paddingHorizontal: 10, fontSize: 18, alignSelf: 'center', color: parseColor(MenuLinkModel.menuTextColor), textAlign: HomeModel.homePageBottomTextAlign.toLowerCase() }}>{menuLink.menuText || ''}</Text>
+                          {HomeModel.homePageBottomDisplayArrowIcon && <MDIcon name={'keyboard-arrow-right'} style={{ alignSelf: 'center', fontSize: 30, color: parseColor(HomeModel.homePageBottomArrowColor) }} />}
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </ImageBackground>
                 );
+              }
             }}
           />
-        </LinearGradient>
+        </View>
       </ImageBackground>
     );
   }
 
+  // rendering hribbon text as simple text or marquee
   _renderHomePageRibbonText = () => {
     if (HomeModel.homePageRibbonTextMarquee) {
       return (
@@ -263,6 +280,7 @@ export default class HomeScreen extends Component {
     }
   }
 
+  // rendering ribbon icon based on possition and visibility
   _renderRibbonIcon = position => {
     if (HomeModel.homePageRibbonDisplayIcon && HomeModel.homePageRibbonIconPosition == position) {
       return <Icon name={HomeModel.homePageRibbonIcon} style={{ color: '#0282C6', fontSize: 20, marginLeft: 5 }} />
@@ -288,7 +306,7 @@ export default class HomeScreen extends Component {
               this.props.navigation.push(HomeModel.homePageRibbonLink);
             }
           }}>
-          <View style={{ width: '100%', padding: 5, backgroundColor: parseColor(HomeModel.homePageRibbonBackgroundColor), flexDirection: 'row', minHeight: 28}}>
+          <View style={{ width: '100%', padding: 5, backgroundColor: parseColor(HomeModel.homePageRibbonBackgroundColor), flexDirection: 'row', minHeight: 28 }}>
             {this._renderRibbonIcon('Left')}
             {this._renderHomePageRibbonText()}
             {this._renderRibbonIcon('Right')}

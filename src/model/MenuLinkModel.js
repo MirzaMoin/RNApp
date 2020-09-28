@@ -7,6 +7,10 @@ export default class MenuLinkModel {
     menuInternalLinkUrl;
     menuExternalLinkUrl;
     icon;
+    menuTopColor;
+    menuBottomColor;
+    menuBackgroudImage;
+    menuOpacity;
 
     constructor(data) {
         this.menuText = data.menuText;
@@ -15,5 +19,9 @@ export default class MenuLinkModel {
         this.menuInternalLinkUrl = data.menuInternalLinkUrl;
         this.menuExternalLinkUrl = data.menuExternalLinkUrl;
         this.icon = data.icon;
+        this.menuTopColor = data.menuTopColor;
+        this.menuBottomColor = data.menuBottomColor;
+        this.menuBackgroudImage = data.menuBackgroudImage;
+        this.menuOpacity = data.menuOpacity;
     }
 }
