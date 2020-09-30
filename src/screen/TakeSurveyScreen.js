@@ -8,20 +8,32 @@ import {
   Linking,
   FlatList,
   TouchableHighlight,
+  StyleSheet,
+  Dimensions,
+  AsyncStorage
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
-import { ShareDialog } from 'react-native-fbsdk';
-import { BottomNavigationTab } from './../widget/BottomNavigationTab';
+import BottomNavigationTab from './../widget/BottomNavigationTab';
 import ScrollableTabView, {
   ScrollableTabBar,
 } from 'react-native-scrollable-tab-view';
-import { NotificaitonScreen } from './NotificationScreen';
 import CustomTab from './../widget/CustomTab';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
+import { ScreenHeader } from '../widget/ScreenHeader';
+import GlobalAppModel from '../model/GlobalAppModel';
+import Moment from 'moment';
+import LoadingScreen from '../widget/LoadingScreen';
+const maxWidth = Dimensions.get('window').width;
+const imageHeight = (maxWidth / 16) * 9;
+var loadingImage = '';
 
 export default class TakeSurveyScreen extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   constructor() {
     super();
     this.state = {
@@ -29,81 +41,87 @@ export default class TakeSurveyScreen extends Component {
       dataSoureTaken: [],
       isFetchingUntaken: true,
       isFetchingTaken: true,
+      isLoading: true,
     };
   }
 
-  dataUntakenSurvey = [
-    {
-      id: 1,
-      title: 'New launched Pizza overview',
-      date: 'Today',
-    },
-    {
-      id: 2,
-      title: 'How was the new year party',
-      date: '20/03/2020',
-    },
-    {
-      id: 3,
-      title: 'What do you think about our new theme',
-      date: '19/03/2020',
-    },
-  ];
 
-  dataTakenSurvey = [
-    {
-      id: 1,
-      title: 'New year party theme and music',
-      date: 'Today',
-      point: 6,
-    },
-    {
-      id: 2,
-      title: 'Our new launched burger',
-      date: '20/03/2020',
-      point: 7,
-    },
-    {
-      id: 3,
-      title: 'What do you think about us',
-      date: '19/03/2020',
-      point: 15,
-    },
-  ];
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      loadingImage = GlobalAppModel.getLoadingImage();
+      this.setState({
+        isFetchingUntaken: true,
+        isLoading: true,
+      });
+      this._getStoredData();
+    });
+  }
 
-  getUntakenSurvey = () => {
-    makeRequest(APIConstant.BASE_URL + APIConstant.USERS, 'get')
+  componentWillUnmount() {
+    this.focusListener.remove();
+  }
+
+  _getStoredData = async () => {
+    try {
+
+      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            this.setState({
+              userPoint: value,
+            })
+          }
+        }
+      });
+
+      await AsyncStorage.getItem('userID', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          //const val = JSON.parse(value);
+          if (value) {
+            this.setState({
+              userID: value,
+            })
+          }
+        }
+      });
+
+      this._getSurveyList();
+    } catch (error) {
+      // Error saving data
+      console.log(error)
+    }
+  };
+
+  _getSurveyList = () => {
+    makeRequest(
+      `${APIConstant.BASE_URL}${APIConstant.GET_SURVEY_LIST}?RewardProgramId=${APIConstant.RPID}&ContactID=${this.state.userID}`, 'get')
       .then(response => {
-        console.log(JSON.stringify(response));
+        //console.log(JSON.stringify(response));
         this.setState({
           isFetchingUntaken: false,
-          dataSoureUntaken: response.data,
+          isFetchingTaken: false,
+          isLoading: false,
+          dataSoureUntaken: response.responsedata.unTaken || [],
+          dataSoureTaken: response.responsedata.completed || [],
         });
       })
       .catch(error => console.log('error : ' + error));
   };
 
-  _wait = timeout => {
-    let that = this;
-    return new Promise(resolve => {
-      setTimeout(function () {
-        that.setState({ isFetchingTaken: false, isFetchingUntaken: false });
-      }, 3000);
-    });
-  };
-
   onRefreshTaken() {
-    this.setState({ isFetchingTaken: true }, function () {
-      this._wait(5000);
-      this.setState({
-        dataSoure: this.data,
-      });
+    this.setState({ isFetchingTaken: true }, () => {
+      this._getSurveyList();
     });
   }
 
   onRefreshUnaken() {
-    this.setState({ isFetchingUntaken: true }, function () {
-      this.getUntakenSurvey();
+    this.setState({ isFetchingUntaken: true }, () => {
+      this._getSurveyList();
     });
   }
 
@@ -112,8 +130,9 @@ export default class TakeSurveyScreen extends Component {
       <TouchableHighlight
         underlayColor="rgba(192,192,192,1,0.6)"
         onPress={() => {
-          this.props.navigation.navigate('SurveyForm', {
-            notification: itemData,
+          this.props.navigation.push('webScreen', {
+            title: itemData.surveyTitle || 'Survey',
+            webURL: itemData.surveyLink,
           });
         }}>
         <View style={{ backgroundColor: 'rgba(256,256,256,1)', padding: 5 }}>
@@ -127,7 +146,7 @@ export default class TakeSurveyScreen extends Component {
                 <Text
                   numberOfLines={1}
                   style={{ fontSize: 18, flex: 1, padding: 1, paddingRight: 5 }}>
-                  {itemData.email}
+                  {itemData.surveyTitle}
                 </Text>
               </View>
               <View style={{ flexDirection: 'row' }}>
@@ -141,7 +160,7 @@ export default class TakeSurveyScreen extends Component {
                   }}
                 />
                 <Text style={{ fontSize: 12, padding: 1, color: 'gray' }}>
-                  {itemData.first_name}
+                {Moment(itemData.surveySendDate).format('DD MMM YYYY')}
                 </Text>
               </View>
             </View>
@@ -170,12 +189,7 @@ export default class TakeSurveyScreen extends Component {
   renderTakenRow = (itemData, index) => {
     return (
       <TouchableHighlight
-        underlayColor="rgba(192,192,192,1,0.6)"
-        onPress={() => {
-          this.props.navigation.navigate('SurveyForm', {
-            notification: itemData,
-          });
-        }}>
+        underlayColor="rgba(192,192,192,1,0.6)">
         <View style={{ backgroundColor: 'rgba(256,256,256,1)', padding: 5 }}>
           <View style={styles.subContainer}>
             <View style={styles.messageContainer}>
@@ -187,7 +201,7 @@ export default class TakeSurveyScreen extends Component {
                 <Text
                   numberOfLines={1}
                   style={{ fontSize: 18, flex: 1, padding: 1, paddingRight: 5 }}>
-                  {itemData.title}
+                  {itemData.surveyTitle}
                 </Text>
               </View>
               <View style={{ flexDirection: 'row' }}>
@@ -202,7 +216,7 @@ export default class TakeSurveyScreen extends Component {
                     }}
                   />
                   <Text style={{ fontSize: 12, padding: 1, color: 'gray' }}>
-                    {itemData.date}
+                  {Moment(itemData.surveySendDate).format('DD MMM YYYY')}
                   </Text>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -222,7 +236,7 @@ export default class TakeSurveyScreen extends Component {
                       color: 'gray',
                       marginLeft: -5,
                     }}>
-                    {itemData.point}
+                    {itemData.surveyPoints}
                   </Text>
                 </View>
               </View>
@@ -248,73 +262,97 @@ export default class TakeSurveyScreen extends Component {
       </TouchableHighlight>
     );
   };
-  componentDidMount() {
-    this.getUntakenSurvey();
-    this.setState({
-      dataSoureTaken: this.dataTakenSurvey,
-      isFetchingTaken: false,
-    });
+
+  _renderTakenSurvey = () => {
+    
+  }
+
+  _renderBody = () => {
+    if(this.state.isLoading) {
+      return <LoadingScreen LoadingImage={loadingImage} />
+    } else {
+      return (
+        <View style={{flex: 1}}>
+        <View style={{ hegith: imageHeight }}>
+            <Image
+              style={{ height: imageHeight }}
+              source={{
+                uri:
+                  APIConstant.HEADER_IMAGE,
+              }}
+              resizeMode="cover"
+            />
+            <View style={styles.imageOverlay} />
+          </View>
+        <ScrollableTabView
+        tabBarInactiveTextColor={'white'}
+        tabBarActiveTextColor={'#13538E'}
+        tabBarUnderlineStyle={{ height: 0 }}
+        tabBarTextStyle={{ fontSize: 18 }}
+        renderTabBar={() => (
+          <CustomTab inactiveTabStyle="rgba(19,83,142,1)" />
+        )}>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          scrollEnabled={true}
+          data={this.state.dataSoureUntaken}
+          ListEmptyComponent={() => {
+            return (<View style={{ flex: 1, height: '100%', alignContent: 'center', justifyContent: 'center', }}>
+              <Text style={{ fontSize: 20, alignSelf: 'center', marginTop: 150 }}>No Survey Found</Text>
+            </View>)
+          }}
+          renderItem={({ item, index }) => this.renderUntakenRow(item, index)}
+          keyExtractor={item => item.surveyID}
+          onRefresh={() => this.onRefreshUnaken()}
+          refreshing={this.state.isFetchingUntaken}
+          tabLabel={'Untaken'}
+        />
+
+        <FlatList
+          style={{ flex: 1, paddingBottom: 10 }}
+          showsVerticalScrollIndicator={false}
+          scrollEnabled={true}
+          data={this.state.dataSoureTaken}
+          ListEmptyComponent={() => {
+            return (<View style={{ flex: 1, height: '100%', alignContent: 'center', justifyContent: 'center', }}>
+              <Text style={{ fontSize: 20, alignSelf: 'center', marginTop: 150 }}>No Survey Found</Text>
+            </View>)
+          }}
+          renderItem={({ item, index }) => this.renderTakenRow(item, index)}
+          keyExtractor={item => item.surveyID}
+          onRefresh={() => this.onRefreshTaken()}
+          refreshing={this.state.isFetchingTaken}
+          tabLabel={'Taken'}
+        />
+      </ScrollableTabView>
+          </View>
+      )
+    }
   }
 
   render() {
     return (
       <View style={styles.mainContainer}>
-        <View style={{ hegith: 150 }}>
-          <Image
-            style={{ height: 150 }}
-            source={{
-              uri:
-                'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
-            }}
-            resizeMode="cover"
-          />
-          <View style={styles.imageOverlay} />
-        </View>
-        <ScrollableTabView
-          tabBarInactiveTextColor={'white'}
-          tabBarActiveTextColor={'#13538E'}
-          tabBarUnderlineStyle={{ backgroundColor: '#13538E' }}
-          tabBarTextStyle={{ fontSize: 18 }}
-          renderTabBar={() => (
-            <CustomTab inactiveTabStyle="rgba(19,83,142,1)" />
-          )}>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            scrollEnabled={this.state.dataSoureUntaken.length > 3}
-            data={this.state.dataSoureUntaken}
-            renderItem={({ item, index }) => this.renderUntakenRow(item, index)}
-            keyExtractor={item => item.id.toString()}
-            onRefresh={() => this.onRefreshUnaken()}
-            refreshing={this.state.isFetchingUntaken}
-            tabLabel={'Untaken'}
-          />
-
-          <FlatList
-            style={{ flex: 1, paddingBottom: 10 }}
-            showsVerticalScrollIndicator={false}
-            scrollEnabled={this.dataTakenSurvey.length > 3}
-            data={this.state.dataSoureTaken}
-            renderItem={({ item, index }) => this.renderTakenRow(item, index)}
-            keyExtractor={item => item.id.toString()}
-            onRefresh={() => this.onRefreshTaken()}
-            refreshing={this.state.isFetchingTaken}
-            tabLabel={'Taken'}
-          />
-        </ScrollableTabView>
-        <BottomNavigationTab />
+        <ScreenHeader
+          navigation={this.props.navigation}
+          title={'Survey'}
+          userPoint={this.state.userPoint || '0'} />
+        {this._renderBody()}
+        <BottomNavigationTab
+          navigation={this.props.navigation} />
       </View>
     );
   }
 }
 
-const styles = {
+const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'rgba(256,256,256,1)',
   },
   imageOverlay: {
-    height: 150,
+    height: imageHeight,
     width: '100%',
     position: 'absolute',
     backgroundColor: 'rgba(0,0,0,0.35)',
@@ -394,4 +432,4 @@ const styles = {
     alignItems: 'center',
     fontSize: 40,
   },
-};
+});

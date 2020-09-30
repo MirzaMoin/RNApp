@@ -30,4 +30,5 @@ module.exports = {
   GET_APP_INTAKEDATA: 'UserAccountProfile/AppIntakeLayoutData',
   SUBMIT_CONTACT_US: 'UserProfile/ContactUs',
   GET_TRANSACTION_HISTORY: 'UserAccountProfile/TransactionHistory',
+  GET_SURVEY_LIST: 'UserAccountProfile/GetSurveyList',
 };

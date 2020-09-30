@@ -13,6 +13,7 @@ import {
   Picker,
   AsyncStorage,
   Alert,
+  BackHandler
 } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import TextInput from 'react-native-textinput-with-icons';
@@ -87,6 +88,9 @@ export default class ProfileScreen extends Component {
 
   componentDidMount() {
     const { navigation } = this.props;
+    BackHandler.addEventListener('hardwareBackPress', ()=>{
+      navigation.goBack();
+    });
     this.focusListener = navigation.addListener('didFocus', () => {
       loadingImage = GlobalAppModel.getLoadingImage();
       this.setState({

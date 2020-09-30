@@ -4,7 +4,7 @@ import {
   Text,
   Image,
   SafeAreaView,
-  TouchableOpacity,
+  ToNuchableOpacity,
   ImageBackground,
   AsyncStorage,
 } from 'react-native';

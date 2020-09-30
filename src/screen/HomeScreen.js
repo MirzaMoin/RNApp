@@ -68,7 +68,6 @@ export default class HomeScreen extends Component {
     } else {
       BackHandler.exitApp();
     }
-
     return true;
   }
 
@@ -329,7 +328,7 @@ export default class HomeScreen extends Component {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            this.props.navigation.navigate('profileScreen')
+            this.props.navigation.push('profileScreen')
           }}>
           <ImageLoader
             title={this.state.userFullName}
@@ -353,7 +352,8 @@ export default class HomeScreen extends Component {
             {this._renderRebbon(HomeModel.homePageRibbonPosition == 'Middle')}
             {this._renderBottomContainer()}
           </View>
-          <BottomNavigationTab navigation={this.props.navigation} />
+          <BottomNavigationTab
+           navigation={this.props.navigation} />
         </SafeAreaView>
       </View>
     );
