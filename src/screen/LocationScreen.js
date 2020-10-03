@@ -2,29 +2,23 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
   SafeAreaView,
   TouchableNativeFeedback,
   Platform,
-  KeyboardAvoidingView,
-  ScrollView,
   Dimensions,
   FlatList,
   Linking,
   AsyncStorage,
-  ActivityIndicator,
   StyleSheet,
   TextInput
 } from 'react-native';
 import MapView, { AnimatedRegion, Marker } from 'react-native-maps';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { Card } from 'react-native-elements';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import GetLocation from 'react-native-get-location'
-import LoginScreenModel from './../model/LoginScreenModel';
 import GlobalAppModel from '../model/GlobalAppModel';
 import BottomNavigationTab from './../widget/BottomNavigationTab';
 import LoadingScreen from '../widget/LoadingScreen';
@@ -58,35 +52,13 @@ export default class LocationScreen extends Component {
         isLoading: true,
       });
       this._getCurrentLocation();
-      this._getStoredData();
+      this._getLocationData()
     });
   }
 
   componentWillUnmount() {
     this.focusListener.remove();
   }
-
-  _getStoredData = async () => {
-    try {
-      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          if (value) {
-            this.setState({
-              userPoint: value,
-            }, () => this._getLocationData())
-          } else {
-            this.setState({
-              userPoint: '0',
-            }, () => this._getLocationData())
-          }
-        }
-      });
-    } catch (error) {
-      console.log(error)
-    }
-  };
 
   _getCurrentLocation = () => {
     GetLocation.getCurrentPosition({
@@ -109,7 +81,7 @@ export default class LocationScreen extends Component {
   _getLocationData = () => {
 
     makeRequest(
-      `${APIConstant.BASE_URL}${APIConstant.GET_LOCATION_DATA}?RewardProgramID=${APIConstant.RPID}`,
+      `${APIConstant.BASE_URL}${APIConstant.GET_LOCATION_DATA}?RewardProgramID=${GlobalAppModel.rewardProgramId}`,
       'get',
     )
       .then(response => {
@@ -410,7 +382,7 @@ export default class LocationScreen extends Component {
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Locations'}
-          userPoint={this.state.userPoint} />
+          userPoint={GlobalAppModel.redeemablePoint} />
         {this._renderBody()}
       </SafeAreaView>
     );

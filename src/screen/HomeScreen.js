@@ -73,19 +73,7 @@ export default class HomeScreen extends Component {
 
   _getStoredData = async () => {
     try {
-      var userID, webformID, firstName = '', lastName = '', profile = '', userPoint = '';
-
-      await AsyncStorage.getItem('userID', (err, value) => {
-        if (value) {
-          userID = value
-        }
-      });
-
-      await AsyncStorage.getItem('webformID', (err, value) => {
-        if (value) {
-          webformID = value
-        }
-      });
+      var firstName = '', lastName = '', profile = '';
 
       await AsyncStorage.getItem('firstName', (err, value) => {
         if (value) {
@@ -107,18 +95,9 @@ export default class HomeScreen extends Component {
         }
       });
 
-      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-        if (value) {
-          userPoint = value
-        }
-      });
-
       this.setState({
-        userID: userID,
-        webformID: webformID,
         userFullName: `${firstName} ${lastName}`,
         userProfileImage: profile,
-        userPoint: userPoint,
       });
     } catch (error) {
       console.log(error)
@@ -127,6 +106,7 @@ export default class HomeScreen extends Component {
 
   // top container for showing point and image with gradient color
   _renderTopContainer = () => {
+    console.log(`Global App Data: ${GlobalAppModel.rewardProgramId}`);
     return (
       <ImageBackground
         style={{ flexDirection: 'column', height: (maxWidth / 16) * 9, width: maxWidth }}
@@ -144,7 +124,7 @@ export default class HomeScreen extends Component {
           </View>
           <View style={{ height: 2, backgroundColor: 'white', width: '50%', margin: 5 }} />
           <AnimateNumber
-            value={this.state.userPoint || 0}
+            value={GlobalAppModel.redeemablePoint || 0}
             formatter={(val) => {
               return <Text
                 style={{ fontSize: 26, color: 'white', fontFamily: 'bold', padding: 5 }}

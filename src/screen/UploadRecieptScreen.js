@@ -10,7 +10,6 @@ import {
   TouchableOpacity
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import { ScreenHeader } from '../widget/ScreenHeader';
@@ -46,7 +45,7 @@ export default class UploadReceiptScreen extends Component {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
       loadingImage = GlobalAppModel.getLoadingImage();
-      this._getStoredData();
+      this._callGetUploadReceiptScreenData()
     });
   }
 
@@ -54,50 +53,6 @@ export default class UploadReceiptScreen extends Component {
     this.focusListener.remove();
   }
 
-  _getStoredData = async () => {
-    try {
-      await AsyncStorage.getItem('userID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              isLoading: true,
-              userID: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          if (value) {
-            this.setState({
-              userPoint: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('webformID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              webformID: value,
-            }, () => { this._callGetUploadReceiptScreenData() });
-          }
-        }
-      });
-    } catch (error) {
-      console.log(error)
-    }
-  };
 
   _showToast = message => {
     Toast.show(message, {
@@ -112,7 +67,7 @@ export default class UploadReceiptScreen extends Component {
 
   _callGetUploadReceiptScreenData = () => {
     makeRequest(
-      `${APIConstant.BASE_URL}${APIConstant.GET_UPLOAD_RECEIPT_SCREEN_DATA}?RewardProgramID=${APIConstant.RPID}&WebFormID=${this.state.webformID}`,
+      `${APIConstant.BASE_URL}${APIConstant.GET_UPLOAD_RECEIPT_SCREEN_DATA}?RewardProgramID=${GlobalAppModel.rewardProgramId}&WebFormID=${GlobalAppModel.webFormID}`,
       'get',
     )
       .then(response => {
@@ -220,8 +175,8 @@ export default class UploadReceiptScreen extends Component {
 
   _callUploadReceiptData = isCheckStatusCode => {
     const request = {
-      contactID: this.state.userID,
-      rewardProgramID: APIConstant.RPID,
+      contactID: GlobalAppModel.userID,
+      rewardProgramID: GlobalAppModel.rewardProgramId,
       addressID: this.state.selectedLocation || '',
       receiptCategoryID: this.state.selectedCategory || '',
       amount: this.state.subTotal,
@@ -266,14 +221,14 @@ export default class UploadReceiptScreen extends Component {
 
     this.state.selectedImages.map((image, index) => {
       data.append("files", {
-        name: `${this.state.userID}_${new Date().getTime()}_${index}`,
+        name: `${GlobalAppModel.userID}_${new Date().getTime()}_${index}`,
         type: 'ímage/jpeg',
         uri:
           Platform.OS === "android" ? image : image.replace("file://", "")
       });
     })
 
-    data.append('RewardProgramID', APIConstant.RPID);
+    data.append('RewardProgramID', GlobalAppModel.rewardProgramId);
     data.append('ReceiptUploadID', uploadId);
 
     makeRequest(
@@ -551,15 +506,6 @@ export default class UploadReceiptScreen extends Component {
         this.setState({
           selectedImages: images,
         })
-        /*ImageCropPicker.openCropper({
-          path: `file://${response.path}`,
-          width: 500,
-          height: 500,
-          cropping: true,
-          cropperCircleOverlay: true,
-        }).then(image => {
-          console.log(image);
-        });*/
       }
     });
   }
@@ -639,7 +585,7 @@ export default class UploadReceiptScreen extends Component {
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Upload Receipt'}
-          userPoint={this.state.userPoint} />
+          userPoint={GlobalAppModel.redeemablePoint} />
         {this._renderBody()}
         <BottomNavigationTab navigation={this.props.navigation} />
       </View>
@@ -664,7 +610,7 @@ const styles = {
     marginTop: 15,
     borderRadius: 10,
     alignSelf: 'center',
-    backgroundColor: '#012345',
+    backgroundColor: GlobalAppModel.primaryButtonColor || '#012345',
   },
   buttonText: {
     color: 'white',

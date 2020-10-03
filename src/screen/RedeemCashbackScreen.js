@@ -45,57 +45,13 @@ export default class RedeemCashbackScreen extends Component {
     this.focusListener = navigation.addListener('didFocus', () => {
       loadingImage = GlobalAppModel.getLoadingImage();
       this.setState({ isLoadingForm: true })
-      this._getStoredData();
+      this._callGetRedeemCashback()
     });
   }
 
   componentWillUnmount() {
     this.focusListener.remove();
   }
-
-  _getStoredData = async () => {
-    try {
-      await AsyncStorage.getItem('userID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              userID: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          if (value) {
-            this.setState({
-              userPoint: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('webformID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              webformID: value,
-            }, () => { this._callGetRedeemCashback() });
-          }
-        }
-      });
-    } catch (error) {
-      console.log(error)
-    }
-  };
 
   _showToast = message => {
     Toast.show(message, {
@@ -110,7 +66,7 @@ export default class RedeemCashbackScreen extends Component {
 
   _callGetRedeemCashback = () => {
     makeRequest(
-      `${APIConstant.BASE_URL}${APIConstant.GET_CASHBACK_SCREEN_DATA}?RewardProgramID=${APIConstant.RPID}&ContactID=${this.state.userID}`,
+      `${APIConstant.BASE_URL}${APIConstant.GET_CASHBACK_SCREEN_DATA}?RewardProgramID=${GlobalAppModel.rewardProgramId}&ContactID=${GlobalAppModel.userID}`,
       'get',
     )
       .then(response => {
@@ -163,9 +119,9 @@ export default class RedeemCashbackScreen extends Component {
 
   _callRedeemCashbackTransaction = () => {
     const request = {
-      rewardProgramID: APIConstant.RPID,
-      contactID: this.state.userID,
-      webFormID: this.state.webformID,
+      rewardProgramID: GlobalAppModel.rewardProgramId,
+      contactID: GlobalAppModel.userID,
+      webFormID: GlobalAppModel.webFormID,
       cashbackAmount: this.state.otherAmount
     };
 
@@ -191,6 +147,7 @@ export default class RedeemCashbackScreen extends Component {
 
   _processAfterTransfer = async point => {
     await AsyncStorage.setItem('reedemablePoints', point.toString());
+    GlobalAppModel.setRedeemablePoint(point.toString());
     this.setState({
       userPoint: point,
       otherAmount: '',
@@ -351,7 +308,7 @@ export default class RedeemCashbackScreen extends Component {
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Redeem Cashback'}
-          userPoint={this.state.userPoint} />
+          userPoint={GlobalAppModel.redeemablePoint} />
         {this._renderBody()}
         <BottomNavigationTab navigation={this.props.navigation} />
       </View>

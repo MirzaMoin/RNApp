@@ -41,6 +41,7 @@ import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import Toast from 'react-native-root-toast';
 import { max } from 'react-native-reanimated';
 import LoginScreenModel from './../model/LoginScreenModel';
+import GlobalAppModel  from './../model/GlobalAppModel';
 
 const { width } = Dimensions.get('window')
 const maxWidth = width - (width * 20 / 100)
@@ -100,7 +101,7 @@ export default class LoginScreen extends Component {
   _getStoredData = async () => {
     try {
       var userName, password, isRemeber;
-      await AsyncStorage.getItem('webformID', (err, value) => {
+      /*await AsyncStorage.getItem('webformID', (err, value) => {
         if (err) {
           //this.props.navigation.navigate('Auth');
         } else {
@@ -111,7 +112,7 @@ export default class LoginScreen extends Component {
             })
           }
         }
-      });
+      });*/
 
       await AsyncStorage.getItem('isRemember', (err, value) => {
         if (err) {
@@ -249,6 +250,9 @@ export default class LoginScreen extends Component {
         await AsyncStorage.setItem('isRemember', JSON.stringify(false));
         console.log('not');
       }
+
+      GlobalAppModel.setUserID(response.contactData.contactID);
+      GlobalAppModel.setRedeemablePoint(response.contactData.reedemablePoints ? response.contactData.reedemablePoints.toString() : '');
       await AsyncStorage.setItem('userID', response.contactData.contactID);
       await AsyncStorage.setItem('pointBalance', response.contactData.pointBalance ? response.contactData.pointBalance.toString() : '');
       await AsyncStorage.setItem('reedemablePoints', response.contactData.reedemablePoints ? response.contactData.reedemablePoints.toString() : '');
@@ -277,7 +281,7 @@ export default class LoginScreen extends Component {
   _callForgotPassword = () => {
     this._startTimer();
     makeRequest(
-      `${APIConstant.BASE_URL}${APIConstant.FORGET_PASSWORD}?RPToken=${APIConstant.RPTOKEN}&WebFormID=${this.state.webformID}&EmailAddressOrMobileNo=${this.state.forgotPassword}`,
+      `${APIConstant.BASE_URL}${APIConstant.FORGET_PASSWORD}?RPToken=${APIConstant.RPTOKEN}&WebFormID=${GlobalAppModel.webFormID}&EmailAddressOrMobileNo=${this.state.forgotPassword}`,
       'get',
     )
       .then(response => {
@@ -299,7 +303,7 @@ export default class LoginScreen extends Component {
   // webform data to show signup form
   _callWebFormData = () => {
     makeRequest(
-      `${APIConstant.BASE_URL}${APIConstant.GET_WEBFORMFIELD_DATA}?RewardProgramID=78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20&WebFormId=${this.state.webformID}`,
+      `${APIConstant.BASE_URL}${APIConstant.GET_WEBFORMFIELD_DATA}?RewardProgramID=78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20&WebFormId=${GlobalAppModel.webFormID}`,
       'get',
     )
       .then(response => {
@@ -356,7 +360,7 @@ export default class LoginScreen extends Component {
       address2: this.state.signup.address2 || null,
       address3: this.state.signup.address3 || null,
       isAllowPush: true,
-      webFormID: this.state.webformID,
+      webFormID: GlobalAppModel.webFormID,
       customFiledsValue: JSON.stringify(this.state.signup.customData),
       contactListID: '78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20',
       referelContactID: this.state.invitedBy || null,
@@ -386,6 +390,8 @@ export default class LoginScreen extends Component {
   // Store Login data
   _storeSignupData = async response => {
     try {
+      GlobalAppModel.setUserID(response.contactData.contactID);
+      GlobalAppModel.setRedeemablePoint('');
       await AsyncStorage.setItem('isLogin', JSON.stringify(true));
       await AsyncStorage.setItem('userID', response.contactData.contactID);
       await AsyncStorage.setItem('firstName', this.state.signup.firstName || '');

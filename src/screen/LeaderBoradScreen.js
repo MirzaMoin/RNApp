@@ -6,18 +6,14 @@ import {
   TouchableNativeFeedback,
   Alert,
   AsyncStorage,
-  ActivityIndicator,
   FlatList,
-  ScrollView,
   Dimensions
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import Toast from 'react-native-root-toast';
-import { Header } from 'react-navigation-stack';
 import { Card } from 'react-native-elements';
 import ImageLoader from './../widget/ImageLoader';
 import Filters from './../widget/FilterData';
@@ -70,58 +66,14 @@ export default class LeaderBoardScreen extends Component {
   _getStoredData = async () => {
     try {
       await AsyncStorage.getItem('profilePitcure', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
+        if (value) {
+          /*Alert.alert('New Update Profile', 'Please add profile picture and update your profile to participate in Leader board',[
+            {text: 'Cancel'},{text: 'Update', onPress: this._processFurther}
+          ]);*/
         } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            /*Alert.alert('New Update Profile', 'Please add profile picture and update your profile to participate in Leader board',[
-              {text: 'Cancel'},{text: 'Update', onPress: this._processFurther}
-            ]);*/
-          } else {
-            Alert.alert('Update Profile', 'Please add profile picture and update your profile to participate in Leader board', [
-              { text: 'Cancel' }, { text: 'Update', onPress: this._processFurther }
-            ]);
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('userID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              isLoading: true,
-              userID: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          if (value) {
-            this.setState({
-              userPoint: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('webformID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              webformID: value,
-            }, () => { this._callGetLeaderBoardScreenData() });
-          }
+          Alert.alert('Update Profile', 'Please add profile picture and update your profile to participate in Leader board', [
+            { text: 'Cancel', onPress: this._callGetLeaderBoardScreenData }, { text: 'Update', onPress: this._processFurther }
+          ]);
         }
       });
     } catch (error) {

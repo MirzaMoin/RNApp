@@ -2,19 +2,9 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
-  TouchableOpacity,
   ScrollView,
-  Linking,
 } from 'react-native';
 import { Card } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { ShareDialog } from 'react-native-fbsdk';
-import { BottomNavigationTab } from './../widget/BottomNavigationTab';
-import ScrollableTabView, {
-  ScrollableTabBar,
-} from 'react-native-scrollable-tab-view';
-import { NotificaitonScreen } from './NotificationScreen';
 import StepIndicator from 'react-native-step-indicator';
 import StarRating from 'react-native-star-rating';
 import TextInput from 'react-native-textinput-with-icons';

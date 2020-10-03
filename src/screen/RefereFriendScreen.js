@@ -3,27 +3,21 @@ import {
   View,
   Text,
   Image,
-  SafeAreaView,
   TouchableNativeFeedback,
   Platform,
-  KeyboardAvoidingView,
   ScrollView,
   Dimensions,
-  TextInput,
   Share,
   Linking,
   AsyncStorage,
 } from 'react-native';
-import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 import BottomNavigationTab from './../widget/BottomNavigationTab';
 import apiConstant from '../api/apiConstant';
 import { ShareDialog } from 'react-native-fbsdk';
 import { ScreenHeader } from '../widget/ScreenHeader';
-//import dynamicLinks, { firebase } from '@react-native-firebase/dynamic-links';
-//import firebase
 import firebase from 'react-native-firebase';
-const SENDER_UID = 'USER1234';
+import GlobalAppModel from '../model/GlobalAppModel';
 
 const maxWidth = Dimensions.get('window').width;
 const imageHeight = (maxWidth / 16) * 9;
@@ -48,59 +42,12 @@ class RefereFriendScreen extends Component {
       this.setState({
         isLoading: true
       });
-      //this._buildLink()
-      this._getStoredData();
     });
   }
 
   componentWillUnmount() {
     this.focusListener.remove();
   }
-
-  _getStoredData = async () => {
-    try {
-      await AsyncStorage.getItem('userID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              userID: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          if (value) {
-            this.setState({
-              userPoint: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('webformID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              webformID: value,
-            });
-          } else {
-          }
-        }
-      });
-    } catch (error) {
-      console.log(error)
-    }
-  };
 
   _ShareMessage = msg => {
     Share.share({
@@ -111,7 +58,7 @@ class RefereFriendScreen extends Component {
   };
 
   _buildLink = async invitedFrom => {
-    const link = `https://rrbeacon.page.link/naxz?invitedBy=${this.state.userID}&invitedFrom=${invitedFrom}`;
+    const link = `https://rrbeacon.page.link/naxz?invitedBy=${GlobalAppModel.userID}&invitedFrom=${invitedFrom}`;
     const dynamicLinkDomain = 'https://rrbeacon.page.link/';
     const DynamicLink = new firebase.links.DynamicLink(link, dynamicLinkDomain);
     DynamicLink.android.setPackageName('com.rrbeacon')
@@ -132,7 +79,7 @@ class RefereFriendScreen extends Component {
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Refer Friend'}
-          userPoint={this.state.userPoint} />
+          userPoint={GlobalAppModel.redeemablePoint} />
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <ScrollView
             showsVerticalScrollIndicator={false}
@@ -198,7 +145,7 @@ class RefereFriendScreen extends Component {
                   <Text
                     style={{
                       flex: 1,
-                      backgroundColor: '#012340',
+                      backgroundColor: GlobalAppModel.primaryButtonColor || '#012340',
                       textAlign: 'center',
                       fontSize: 16,
                       borderRadius: 10,
@@ -207,7 +154,7 @@ class RefereFriendScreen extends Component {
                     }}>
                     Share/Copy Invite Link
                   </Text>
-                  <Icon name={'share-alt'} style={{color: 'white', fontSize: 20, position: 'absolute', alignSelf: 'flex-end', margin: 10, paddingRight: 15}} />
+                  <Icon name={'share-alt'} style={{color: 'white', fontSize: .20, position: 'absolute', alignSelf: 'flex-end', margin: 10, paddingRight: 15}} />
                   </View>
                 </TouchableNativeFeedback>
                 <View

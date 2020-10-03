@@ -46,13 +46,11 @@ import {
 } from './src/beacons/proximityObserver';
 import ImageLoader from './src/widget/ImageLoader';
 
-import Screen1 from './pages/Screen1';
 import Screen2 from './pages/Screen2';
 
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 import { MenuProvider } from 'react-native-popup-menu';
 import MenuPermissionModel from './src/model/MenuPermissionModel';
-import firebase from 'react-native-firebase';
 
 /*RNEP.locationPermission.request().then(permission => {
   if (permission != RNEP.locationPermission.DENIED) {
@@ -151,48 +149,31 @@ class DrawerHeaderComponent extends Component {
       var fName = '', lName = '', profile = '', email = '';
       var isUpdateState = false;
       await AsyncStorage.getItem('profilePitcure', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            profile = value;
-            if (value === this.state.userImage) {
-              isUpdateState = false;
-            } else {
-              isUpdateState = true;
-            }
+        if (value) {
+          profile = value;
+          if (value === this.state.userImage) {
+            isUpdateState = false;
+          } else {
+            isUpdateState = true;
           }
         }
       });
 
       await AsyncStorage.getItem('firstName', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          if (value) {
-            fName = value;
-          }
+        if (value) {
+          fName = value;
         }
       });
 
       await AsyncStorage.getItem('lastName', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          if (value) {
-            lName = value;
-          }
+        if (value) {
+          lName = value;
         }
       });
 
       await AsyncStorage.getItem('emailAddress', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          if (value) {
-            email = value;
-          }
+        if (value) {
+          email = value;
         }
       });
 
@@ -209,13 +190,6 @@ class DrawerHeaderComponent extends Component {
           userImage: profile,
         });
       }
-
-      /*this.setState({
-        name: `${fName} ${lName}`,
-        email: email,
-        userImage: profile,
-      })*/
-
     } catch (error) {
       // Error saving data
       console.log(`Drawer HeaderComponent: ${error}`)
@@ -237,13 +211,6 @@ class DrawerHeaderComponent extends Component {
     this._getStoredData();
     return (
       <View style={{ flexDirection: 'column' }} ref={(ref) => (this.viewParent = ref)} onLayout={this.onPageLayout}>
-        {/*<Image
-          style={{width: this.state.width || '100%', height: this.state.width || 200}}
-          source={{
-            uri:
-              this.state.userImage || '',
-          }}
-        />*/}
         <ImageLoader
           title={this.state.name}
           src={this.state.userImage}
@@ -633,6 +600,8 @@ const CreateDrawerComponent = props => (
             //_storeLououtData();
             try {
               await AsyncStorage.setItem('isLogin', JSON.stringify(false));
+              await AsyncStorage.removeItem('reedemablePoints');
+              await AsyncStorage.removeItem('userID');
             } catch (error) {
               // Error saving data
             }

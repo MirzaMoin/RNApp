@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, AsyncStorage, ActivityIndicator, Alert, TouchableNativeFeedback } from 'react-native';
-import MDIcon from 'react-native-vector-icons/MaterialIcons';
+import { StyleSheet, View, Text, AsyncStorage, ActivityIndicator, Alert } from 'react-native';
 import TextInput from 'react-native-textinput-with-icons';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
@@ -44,46 +43,12 @@ export default class ChangePassword extends Component {
         newPasswordError: '',
         confirmPasswordError: '',
       });
-      this._getStoredData();
     });
   }
 
   componentWillUnmount() {
     this.focusListener.remove();
   }
-
-  _getStoredData = async () => {
-    try {
-      await AsyncStorage.getItem('userID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              userID: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('webformID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              webformID: value,
-            });
-          } else {
-          }
-        }
-      });
-    } catch (error) {
-      console.log(error)
-    }
-  };
 
   _prepareForm = () => {
     var isCall = true;
@@ -144,8 +109,8 @@ export default class ChangePassword extends Component {
 
   _callChangePassword = () => {
     const request = {
-      contactID: this.state.userID,
-      webFormID: this.state.webformID,
+      contactID: GlobalAppModel.userID,
+      webFormID: GlobalAppModel.webFormID,
       rpToken: APIConstant.RPTOKEN,
       oldPassword: this.state.password,
       newPassword: this.state.newPassword,
@@ -203,7 +168,7 @@ export default class ChangePassword extends Component {
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Change Password'}
-          userPoint={this.state.userPoint} />
+          userPoint={GlobalAppModel.redeemablePoint} />
         <View style={styles.MainContainer}>
           <TextInput
             label="Current Password"

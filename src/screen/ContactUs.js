@@ -9,7 +9,6 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Dimensions,
-  AsyncStorage,
   Alert,
   ActivityIndicator
 } from 'react-native';
@@ -32,8 +31,6 @@ export default class ContactUs extends Component {
     console.log('Constructor called');
     super();
     this.state = {
-      title: 'HomeScreen',
-      tabIndex: 1,
       firstName: '',
       errorFirstName: '',
       lastName: '',
@@ -50,58 +47,24 @@ export default class ContactUs extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
-      this._getStoredData();
+      this.setState({
+        firstName: '',
+        errorFirstName: '',
+        lastName: '',
+        errorLastName: '',
+        email: '',
+        errorEmail: '',
+        mobile: '',
+        errorMobile: '',
+        message: '',
+        errorMessage: '',
+      })
     });
   }
 
   componentWillUnmount() {
     this.focusListener.remove();
   }
-
-  _getStoredData = async () => {
-    try {
-      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          if (value) {
-            this.setState({
-              userPoint: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('userID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              userID: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('webformID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              webformID: value,
-            })
-          } else {
-          }
-        }
-      });
-    } catch (error) {
-      console.log(error)
-    }
-  };
 
   _validateData = () => {
     if (this._validateFirstName(this.state.firstName)) {
@@ -186,9 +149,9 @@ export default class ContactUs extends Component {
   _callSubmitContatUsData = () => {
 
     const request = {
-      rewardProgramID: APIConstant.RPID,
-      webFormID: this.state.webformID,
-      contactID: this.state.userID,
+      rewardProgramID: GlobalAppModel.rewardProgramId,
+      webFormID: GlobalAppModel.webFormID,
+      contactID: GlobalAppModel.userID,
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       emailId: this.state.email,
@@ -243,7 +206,7 @@ export default class ContactUs extends Component {
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Contact Us'}
-          userPoint={this.state.userPoint} />
+          userPoint={GlobalAppModel.redeemablePoint} />
         <KeyboardAvoidingView
           style={{ flex: 1 }}
           behavior="padding"

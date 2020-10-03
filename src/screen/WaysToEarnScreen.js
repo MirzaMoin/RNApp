@@ -24,8 +24,6 @@ export default class WayToEarnScreen extends Component {
     console.log('Constructor called');
     super();
     this.state = {
-      title: 'HomeScreen',
-      tabIndex: 1,
       desc: -1,
       screenData: {},
       isLoading: true,
@@ -44,10 +42,11 @@ export default class WayToEarnScreen extends Component {
     this.focusListener = navigation.addListener('didFocus', () => {
       loadingImage = GlobalAppModel.getLoadingImage();
       this.setState({
-        title: 'Profile',
-        tabIndex: 0,
+        desc: -1,
+        screenData: {},
+        isLoading: true,
       });
-      this._getStoredData();
+      this._callGetWayToEarnScreenData()
     });
   }
 
@@ -55,58 +54,10 @@ export default class WayToEarnScreen extends Component {
     this.focusListener.remove();
   }
 
-  _getStoredData = async () => {
-    try {
-
-      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          if (value) {
-            this.setState({
-              userPoint: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('userID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              userID: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('webformID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              isLoading: true,
-              webformID: value,
-            }, () => this._callGetWayToEarnScreenData())
-          } else {
-          }
-        }
-      });
-    } catch (error) {
-      // Error saving data
-      console.log(error)
-    }
-  };
-
   _callGetWayToEarnScreenData = () => {
     console.log('way to earn');
     makeRequest(
-      `${APIConstant.BASE_URL}${APIConstant.GET_WAYTO_EARN_DATA}?RPToken=${APIConstant.RPTOKEN}&ContactId=${this.state.userID}&WebFormID=${this.state.webformID}`,
+      `${APIConstant.BASE_URL}${APIConstant.GET_WAYTO_EARN_DATA}?RPToken=${APIConstant.RPTOKEN}&ContactId=${GlobalAppModel.userID}&WebFormID=${GlobalAppModel.webFormID}`,
       'get',
     )
       .then(response => {
@@ -249,7 +200,7 @@ export default class WayToEarnScreen extends Component {
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Way to Earn'}
-          userPoint={this.state.userPoint || '0'} />
+          userPoint={GlobalAppModel.redeemablePoint || '0'} />
         {this._renderBody()}
         <BottomNavigationTab navigation={this.props.navigation} />
       </View>

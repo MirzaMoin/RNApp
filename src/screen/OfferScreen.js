@@ -5,13 +5,11 @@ import {
   Image,
   TouchableNativeFeedback,
   FlatList,
-  ActivityIndicator,
   AsyncStorage,
   Dimensions,
   Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Card } from 'react-native-elements';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
@@ -103,43 +101,8 @@ export default class OfferScreen extends Component {
     try {
       this.setState({
         isLoading: isRefresh,
-      })
-      await AsyncStorage.getItem('userID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              userID: value,
-            })
-          }
-        }
       });
 
-      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          if (value) {
-            this.setState({
-              userPoint: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('webformID', (err, value) => {
-        if (err) {
-          console.log('null webform')
-        } else {
-          if (value) {
-            this.setState({
-              webformID: value,
-            });
-          }
-        }
-      });
       if (!isRefresh) {
         isRefresh = true;
       }
@@ -162,7 +125,7 @@ export default class OfferScreen extends Component {
 
   _callGetOffers = () => {
     makeRequest(
-      `${APIConstant.BASE_URL}${APIConstant.GET_OFFER_LIST}?RewardProgramID=${APIConstant.RPID}&ContactID=${this.state.userID}`,
+      `${APIConstant.BASE_URL}${APIConstant.GET_OFFER_LIST}?RewardProgramID=${GlobalAppModel.rewardProgramId}&ContactID=${GlobalAppModel.userID}`,
       'get',
     )
       .then(response => {
@@ -214,9 +177,9 @@ export default class OfferScreen extends Component {
                   addressDetails: this.state.addressDetails,
                   userDetails: this.state.userDetails,
                   redeemSetting: this.state.redeemSetting,
-                  userID: this.state.userID,
-                  webformID: this.state.webformID,
-                  userPoint: this.state.userPoint,
+                  userID: GlobalAppModel.userID,
+                  webformID: GlobalAppModel.webFormID,
+                  userPoint: GlobalAppModel.redeemablePoint,
                   onGoBack: () => this._onGoBack(),
                 });
               }}>
@@ -284,7 +247,7 @@ export default class OfferScreen extends Component {
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Offers'}
-          userPoint={this.state.userPoint} />
+          userPoint={GlobalAppModel.redeemablePoint} />
         {this._renderBody()}
         <BottomNavigationTab navigation={this.props.navigation} />
       </View>

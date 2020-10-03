@@ -48,7 +48,7 @@ export default class TakeSurveyScreen extends Component {
         isFetchingUntaken: true,
         isLoading: true,
       });
-      this._getStoredData();
+      this._getSurveyList();
     });
   }
 
@@ -56,32 +56,9 @@ export default class TakeSurveyScreen extends Component {
     this.focusListener.remove();
   }
 
-  _getStoredData = async () => {
-    try {
-
-      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-          if (value) {
-            this.setState({
-              userPoint: value,
-            })
-          }
-      });
-
-      await AsyncStorage.getItem('userID', (err, value) => {if (value) {
-            this.setState({
-              userID: value,
-            })
-          }
-      });
-      this._getSurveyList();
-    } catch (error) {
-      console.log(error)
-    }
-  };
-
   _getSurveyList = () => {
     makeRequest(
-      `${APIConstant.BASE_URL}${APIConstant.GET_SURVEY_LIST}?RewardProgramId=${APIConstant.RPID}&ContactID=${this.state.userID}`, 'get')
+      `${APIConstant.BASE_URL}${APIConstant.GET_SURVEY_LIST}?RewardProgramId=${GlobalAppModel.rewardProgramId}&ContactID=${GlobalAppModel.userID}`, 'get')
       .then(response => {
         this.setState({
           isFetchingUntaken: false,
@@ -309,7 +286,7 @@ export default class TakeSurveyScreen extends Component {
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Survey'}
-          userPoint={this.state.userPoint || '0'} />
+          userPoint={GlobalAppModel.redeemablePoint || '0'} />
         {this._renderBody()}
         <BottomNavigationTab
           navigation={this.props.navigation} />

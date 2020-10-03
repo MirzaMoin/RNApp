@@ -2,22 +2,16 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
-  SafeAreaView,
   TouchableNativeFeedback,
-  ImageBackground,
   Platform,
   KeyboardAvoidingView,
   ScrollView,
   Dimensions,
-  Picker,
   AsyncStorage,
   Alert,
   BackHandler
 } from 'react-native';
-import RBSheet from 'react-native-raw-bottom-sheet';
 import TextInput from 'react-native-textinput-with-icons';
-import ModalDropdown from 'react-native-modal-dropdown';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import { ActivityIndicator } from 'react-native';
@@ -100,7 +94,7 @@ export default class ProfileScreen extends Component {
         title: 'Profile',
         tabIndex: 0,
       });
-      this._getStoredData();
+      this._callGetUserData();
     });
   }
 
@@ -108,57 +102,9 @@ export default class ProfileScreen extends Component {
     this.focusListener.remove();
   }
 
-  _getStoredData = async () => {
-    try {
-
-      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          if (value) {
-            this.setState({
-              userPoint: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('userID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              userID: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('webformID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              isLoadingSignupform: true,
-              webformID: value,
-            }, () => this._callGetUserData())
-          } else {
-          }
-        }
-      });
-    } catch (error) {
-      // Error saving data
-      console.log(error)
-    }
-  };
-
   _callGetUserData = () => {
     makeRequest(
-      `${APIConstant.BASE_URL}${APIConstant.GET_CONTACT_DATA}?RewardProgramID=78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20&ContactId=${this.state.userID}`,
+      `${APIConstant.BASE_URL}${APIConstant.GET_CONTACT_DATA}?RewardProgramID=78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20&ContactId=${GlobalAppModel.userID}`,
       'get',
     )
       .then(response => {
@@ -202,7 +148,7 @@ export default class ProfileScreen extends Component {
             address2: contactData.address2,
             address3: contactData.address3,
             isAllowPush: true,
-            webFormID: this.state.webformID,
+            webFormID: GlobalAppModel.webFormID,
             customData: contactData.customFiledsValue ? JSON.parse(contactData.customFiledsValue) : [],
             contactListID: contactData.contactListID,
             additionalBirthDates: contactData.additionalBirthDates ? JSON.parse(contactData.additionalBirthDates) : [],
@@ -220,7 +166,7 @@ export default class ProfileScreen extends Component {
 
   _callWebFormData = () => {
     makeRequest(
-      `${APIConstant.BASE_URL}${APIConstant.GET_WEBFORMFIELD_DATA}?RewardProgramID=78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20&WebFormId=${this.state.webformID}`,
+      `${APIConstant.BASE_URL}${APIConstant.GET_WEBFORMFIELD_DATA}?RewardProgramID=78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20&WebFormId=${GlobalAppModel.webFormID}`,
       'get',
     )
       .then(response => {
@@ -564,14 +510,14 @@ export default class ProfileScreen extends Component {
     const image = this.state.profileImageFile;
 
     data.append("ProfilePictureData", {
-      name: `${this.state.userID}_${new Date().getTime()}`,
+      name: `${GlobalAppModel.userID}_${new Date().getTime()}`,
       type: image.mime,
       uri:
         Platform.OS === "android" ? image.path : image.path.replace("file://", "")
     });
 
-    data.append('RewardProgramID', APIConstant.RPID);
-    data.append('ContactID', this.state.userID);
+    data.append('RewardProgramID', GlobalAppModel.rewardProgramId);
+    data.append('ContactID', GlobalAppModel.userID);
 
     makeRequest(
       APIConstant.BASE_URL + APIConstant.UPLOAD_PROFILE_IMAGE,
@@ -595,7 +541,7 @@ export default class ProfileScreen extends Component {
 
   _callUpdateUserProfile = userProfile => {
     const requrest = {
-      contactID: this.state.userID,
+      contactID: GlobalAppModel.userID,
       contactListID: this.state.signup.contactListID,
       firstName: this.state.signup.firstName,
       lastName: this.state.signup.lastName,
@@ -676,7 +622,7 @@ export default class ProfileScreen extends Component {
       signUpWebform: this.state.contactData.signUpWebform,
       isOptOut: this.state.contactData.isOptOut,
       languageID: this.state.contactData.languageID,
-      rewardProgramIDNew: APIConstant.RPID,
+      rewardProgramIDNew: GlobalAppModel.rewardProgramId,
       profilePitcure: userProfile,
       address2: this.state.signup.address2,
       address3: this.state.signup.address3,
@@ -2099,7 +2045,7 @@ export default class ProfileScreen extends Component {
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Profile'}
-          userPoint={this.state.userPoint || '0'} />
+          userPoint={GlobalAppModel.redeemablePoint || '0'} />
         <KeyboardAvoidingView
           style={styles.container}
           behavior="padding"

@@ -130,6 +130,7 @@ export default class OfferDetailScreen extends Component {
 
   _processFurther = async point => {
     await AsyncStorage.setItem('reedemablePoints', point.toString());
+    GlobalAppModel.setRedeemablePoint(point.toString());
     this.setState({ isRedeeming: true });
     this.handleBackButtonClick();
   }

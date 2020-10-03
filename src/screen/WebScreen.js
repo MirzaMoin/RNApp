@@ -40,24 +40,6 @@ export default class WebScreen extends Component {
         this.focusListener.remove();
     }
 
-    _getStoredData = async () => {
-        try {
-            await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-                if (err) {
-                    //this.props.navigation.navigate('Auth');
-                } else {
-                    if (value) {
-                        this.setState({
-                            userPoint: value,
-                        })
-                    }
-                }
-            });
-        } catch (error) {
-            console.log(error)
-        }
-    };
-
     _showLoading = () => {
         if (this.state.isLoading) {
             //console.log(`RenderRing loading Image ${GlobalAppModel.willShownLoadingImage} : ${GlobalAppModel.getLoadingImage()}`)
@@ -75,11 +57,10 @@ export default class WebScreen extends Component {
                 <ScreenHeader
                     navigation={this.props.navigation}
                     title={this.props.navigation.state.params.title}
-                    userPoint={this.state.userPoint || '0'}
+                    userPoint={GlobalAppModel.redeemablePoint || '0'}
                     isGoBack={true}
                     onGoBack={() => {
                         this.props.navigation.goBack();
-                        //this.wv.goBack();
                     }} />
                 <View style={{ flex: 1 }}>
                     <WebView
@@ -91,7 +72,7 @@ export default class WebScreen extends Component {
                         onLoad={() => this.setState({ isLoading: false })}
                         onLoadEnd={() => this.setState({ isLoading: false })}
                         onError={() => {
-                            //console.log('faytu')
+                            // error
                         }}
                         onNavigationStateChange={navState => {
                             this.setState({
@@ -104,7 +85,7 @@ export default class WebScreen extends Component {
                     />
                     {this._showLoading()}
                 </View>
-                <View style={[styles.tabBarContainer, {backgroundColor:parseColor(GlobalAppModel.footerColor)}]}>
+                <View style={[styles.tabBarContainer, { backgroundColor: parseColor(GlobalAppModel.footerColor) }]}>
                     <TouchableNativeFeedback
                         disabled={!this.state.setCanGoBack}
                         onPress={() => {

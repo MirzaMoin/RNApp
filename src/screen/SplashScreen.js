@@ -41,7 +41,7 @@ export default class SplashScreen extends Component {
 
   _getLoginData = async () => {
     try {
-        var inviteFrom, inviteBy;
+      /*var inviteFrom, inviteBy;
       await AsyncStorage.getItem('inviteFrom', (err, value) => {
         if (value) {
           inviteFrom = value
@@ -58,6 +58,18 @@ export default class SplashScreen extends Component {
             hideOnPress: true,
             delay: 0,
           });
+        }
+      });*/
+
+      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
+        if (value) {
+          GlobalAppModel.setRedeemablePoint(value)
+        }
+      });
+
+      await AsyncStorage.getItem('userID', (err, value) => {
+        if (value) {
+          GlobalAppModel.setUserID(value)
         }
       });
 
@@ -143,14 +155,14 @@ export default class SplashScreen extends Component {
     }
     const ID = this.getParameterFromUrl(url, 'invitedBy');
     const invitedBy = this.getParameterFromUrl(url, 'invitedFrom')
-    Toast.show(`Link from ${invitedBy}\ninvitedBy ${ID}`, {
+    /*Toast.show(`Link from ${invitedBy}\ninvitedBy ${ID}`, {
       duration: Toast.durations.LONG,
       position: Toast.positions.CENTER,
       shadow: true,
       animation: true,
       hideOnPress: true,
       delay: 0,
-    });
+    });*/
     
     await AsyncStorage.setItem(
       'inviteFrom',

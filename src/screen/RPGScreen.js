@@ -5,7 +5,6 @@ import {
   View,
   Text,
   AsyncStorage,
-  ActivityIndicator,
   Alert,
   ScrollView, FlatList,
   Dimensions,
@@ -15,7 +14,6 @@ import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import ImageLoader from './../widget/ImageLoader';
-import { max } from 'react-native-reanimated';
 import BottomNavigationTab from './../widget/BottomNavigationTab';
 import LoadingScreen from '../widget/LoadingScreen';
 import GlobalAppModel from '../model/GlobalAppModel';
@@ -43,7 +41,7 @@ export default class RPGScreen extends Component {
       this.setState({
         isLoading: true
       });
-      this._getStoredData();
+      this._callRPGData()
     });
   }
 
@@ -51,54 +49,9 @@ export default class RPGScreen extends Component {
     this.focusListener.remove();
   }
 
-  _getStoredData = async () => {
-    try {
-      await AsyncStorage.getItem('userID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              userID: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          if (value) {
-            this.setState({
-              userPoint: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('webformID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              webformID: value,
-            }, () => { this._callRPGData() });
-          } else {
-          }
-        }
-      });
-    } catch (error) {
-      console.log(error)
-    }
-  };
-
   _callRPGData = () => {
     makeRequest(
-      `${APIConstant.BASE_URL}${APIConstant.GET_RPG_DATA}?RPToken=${APIConstant.RPTOKEN}&ContactId=${this.state.userID}`,
+      `${APIConstant.BASE_URL}${APIConstant.GET_RPG_DATA}?RPToken=${APIConstant.RPTOKEN}&ContactId=${GlobalAppModel.userID}`,
       'get',
     )
       .then(response => {
@@ -179,7 +132,7 @@ export default class RPGScreen extends Component {
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Rewards Entry Goal'}
-          userPoint={this.state.userPoint} />
+          userPoint={GlobalAppModel.redeemablePoint} />
         {this._renderBody()}
         <BottomNavigationTab navigation={this.props.navigation} />
       </View>

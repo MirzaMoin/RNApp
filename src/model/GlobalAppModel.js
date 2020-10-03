@@ -9,7 +9,7 @@
  */
 import { parseColor } from './../utils/utility';
 class GlobalAppModel {
-    
+
     // Colors
     primaryColor;
     secondaryColor;
@@ -25,10 +25,11 @@ class GlobalAppModel {
     // Global app reuired data
     rewardProgramId;
     webFormID;
-    userID;
+    userID = '';
+    redeemablePoint = '';
     loadingPageColor;
 
-    constructor() {}
+    constructor() { }
     setAppColor(appColor) {
         this.primaryColor = parseColor(appColor.primaryColor);
         this.secondaryColor = parseColor(appColor.secondaryColor);
@@ -48,6 +49,10 @@ class GlobalAppModel {
         this.userID = userID;
     }
 
+    setRedeemablePoint(point) {
+        this.redeemablePoint = point;
+    }
+
     setLoadingImages(images) {
         this.loadingImages = images;
         this.willShownLoadingImage = 0;
@@ -61,7 +66,7 @@ class GlobalAppModel {
         if (this.loadingImages && this.loadingImages.length > 0) {
             var showingImage = this.loadingImages[this.willShownLoadingImage].imageUrl;
 
-            if (this.willShownLoadingImage < this.loadingImages.length -1) {                
+            if (this.willShownLoadingImage < this.loadingImages.length - 1) {
                 this.willShownLoadingImage = this.willShownLoadingImage + 1;
             } else {
                 this.willShownLoadingImage = 0;

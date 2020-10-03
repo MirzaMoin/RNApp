@@ -64,7 +64,7 @@ export default class TransactionHistory extends Component {
         filteredData: [],
       })
       loadingImage = GlobalAppModel.getLoadingImage();
-      this._getStoredData();
+      this._callTransactionHistory()
     });
   }
 
@@ -72,55 +72,9 @@ export default class TransactionHistory extends Component {
     this.focusListener.remove();
   }
 
-  _getStoredData = async () => {
-    this.setState({ isLoading: true });
-    try {
-      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          if (value) {
-            this.setState({
-              isLoading: true,
-              userPoint: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('webformID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              webformID: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('userID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              userID: value,
-            }, () => this._callTransactionHistory())
-          }
-        }
-      });
-    } catch (error) {
-      console.log(error)
-    }
-  };
-
   _callTransactionHistory = () => {
     makeRequest(
-      `${APIConstant.BASE_URL}${APIConstant.GET_TRANSACTION_HISTORY}?RewardProgramId=${APIConstant.RPID}&ContactID=${this.state.userID}`,
+      `${APIConstant.BASE_URL}${APIConstant.GET_TRANSACTION_HISTORY}?RewardProgramId=${GlobalAppModel.rewardProgramId}&ContactID=${GlobalAppModel.userID}`,
       'get',
     )
       .then(response => {
@@ -388,7 +342,7 @@ export default class TransactionHistory extends Component {
       <View style={styles.mainContainer}>
         <ScreenHeader
           title={'Transaction History'}
-          userPoint={this.state.userPoint}
+          userPoint={GlobalAppModel.redeemablePoint}
           navigation={this.props.navigation} />
         {this._renderBody()}
         <BottomNavigationTab navigation={this.props.navigation} />
