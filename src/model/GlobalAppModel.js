@@ -7,6 +7,7 @@
  * contains Loading Components
  * Contains Global id and required fields
  */
+import { parseColor } from './../utils/utility';
 class GlobalAppModel {
     
     // Colors
@@ -29,13 +30,13 @@ class GlobalAppModel {
 
     constructor() {}
     setAppColor(appColor) {
-        this.primaryColor = appColor.primaryColor;
-        this.secondaryColor = appColor.secondaryColor;
-        this.tertiaryColor = appColor.tertiaryColor;
-        this.footerColor = appColor.footerColor;
-        this.primaryButtonColor = appColor.primaryButtonColor;
-        this.secondaryButtonColor = appColor.secondaryButtonColor;
-        this.loadingPageColor = appColor.loadingPageColor;
+        this.primaryColor = parseColor(appColor.primaryColor);
+        this.secondaryColor = parseColor(appColor.secondaryColor);
+        this.tertiaryColor = parseColor(appColor.tertiaryColor);
+        this.footerColor = parseColor(appColor.footerColor);
+        this.primaryButtonColor = parseColor(appColor.primaryButtonColor);
+        this.secondaryButtonColor = parseColor(appColor.secondaryButtonColor);
+        this.loadingPageColor = parseColor(appColor.loadingPageColor);
     }
 
     setGlobalAppData(appData) {
@@ -53,7 +54,7 @@ class GlobalAppModel {
     }
 
     setLoadingPageColor(color) {
-        this.loadingPageColor = color;
+        this.loadingPageColor = parseColor(color);
     }
 
     getLoadingImage() {

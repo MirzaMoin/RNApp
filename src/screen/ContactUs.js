@@ -444,7 +444,7 @@ const styles = {
   },
   button: {
     flex: 1,
-    backgroundColor: '#012340',
+    backgroundColor: GlobalAppModel.primaryButtonColor || '#012340',
     textAlign: 'center',
     fontSize: 16,
     borderRadius: 10,

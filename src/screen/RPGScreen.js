@@ -174,7 +174,8 @@ export default class RPGScreen extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, flexDirection: 'column' }}>
+  
+  <View style={{ flex: 1, flexDirection: 'column' }}>
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Rewards Entry Goal'}

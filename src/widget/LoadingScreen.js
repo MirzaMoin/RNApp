@@ -21,7 +21,7 @@ export default class LoadingScreen extends Component<Props, State> {
                 source={{
                     uri: this.props.LoadingImage
                 }}/>
-            <ActivityIndicator style={{position: 'absolute', alignItems: 'center', height: '100%'}} size={30} />
+            <ActivityIndicator style={{position: 'absolute', alignItems: 'center', height: '100%'}} color={GlobalAppModel.tertiaryColor || 'white'} size={50} />
         </View>
       );
   }

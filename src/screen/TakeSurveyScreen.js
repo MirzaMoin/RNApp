@@ -3,21 +3,15 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
-  ScrollView,
-  Linking,
   FlatList,
   TouchableHighlight,
   StyleSheet,
   Dimensions,
   AsyncStorage
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import BottomNavigationTab from './../widget/BottomNavigationTab';
-import ScrollableTabView, {
-  ScrollableTabBar,
-} from 'react-native-scrollable-tab-view';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import CustomTab from './../widget/CustomTab';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
@@ -66,33 +60,21 @@ export default class TakeSurveyScreen extends Component {
     try {
 
       await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
           if (value) {
             this.setState({
               userPoint: value,
             })
           }
-        }
       });
 
-      await AsyncStorage.getItem('userID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
+      await AsyncStorage.getItem('userID', (err, value) => {if (value) {
             this.setState({
               userID: value,
             })
           }
-        }
       });
-
       this._getSurveyList();
     } catch (error) {
-      // Error saving data
       console.log(error)
     }
   };
@@ -101,7 +83,6 @@ export default class TakeSurveyScreen extends Component {
     makeRequest(
       `${APIConstant.BASE_URL}${APIConstant.GET_SURVEY_LIST}?RewardProgramId=${APIConstant.RPID}&ContactID=${this.state.userID}`, 'get')
       .then(response => {
-        //console.log(JSON.stringify(response));
         this.setState({
           isFetchingUntaken: false,
           isFetchingTaken: false,
@@ -113,14 +94,8 @@ export default class TakeSurveyScreen extends Component {
       .catch(error => console.log('error : ' + error));
   };
 
-  onRefreshTaken() {
+  _onRefreshList() {
     this.setState({ isFetchingTaken: true }, () => {
-      this._getSurveyList();
-    });
-  }
-
-  onRefreshUnaken() {
-    this.setState({ isFetchingUntaken: true }, () => {
       this._getSurveyList();
     });
   }
@@ -131,7 +106,7 @@ export default class TakeSurveyScreen extends Component {
         underlayColor="rgba(192,192,192,1,0.6)"
         onPress={() => {
           this.props.navigation.push('webScreen', {
-            title: itemData.surveyTitle || 'Survey',
+            title: 'Survey',
             webURL: itemData.surveyLink,
           });
         }}>
@@ -241,7 +216,8 @@ export default class TakeSurveyScreen extends Component {
                 </View>
               </View>
             </View>
-            <View style={{ flexDirection: 'row' }}>
+          
+          {/*  <View style={{ flexDirection: 'row' }}>
               <Text
                 style={{ alignSelf: 'center', fontSize: 16, color: '#13538E' }}>
                 Open
@@ -255,17 +231,14 @@ export default class TakeSurveyScreen extends Component {
                   color: '#13538E',
                 }}
               />
-            </View>
+              </View>*/}
+          
           </View>
           <View style={styles.saprator} />
         </View>
       </TouchableHighlight>
     );
   };
-
-  _renderTakenSurvey = () => {
-    
-  }
 
   _renderBody = () => {
     if(this.state.isLoading) {
@@ -303,7 +276,7 @@ export default class TakeSurveyScreen extends Component {
           }}
           renderItem={({ item, index }) => this.renderUntakenRow(item, index)}
           keyExtractor={item => item.surveyID}
-          onRefresh={() => this.onRefreshUnaken()}
+          onRefresh={() => this._onRefreshList()}
           refreshing={this.state.isFetchingUntaken}
           tabLabel={'Untaken'}
         />
@@ -320,7 +293,7 @@ export default class TakeSurveyScreen extends Component {
           }}
           renderItem={({ item, index }) => this.renderTakenRow(item, index)}
           keyExtractor={item => item.surveyID}
-          onRefresh={() => this.onRefreshTaken()}
+          onRefresh={() => this._onRefreshList()}
           refreshing={this.state.isFetchingTaken}
           tabLabel={'Taken'}
         />

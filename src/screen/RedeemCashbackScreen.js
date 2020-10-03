@@ -325,12 +325,12 @@ export default class RedeemCashbackScreen extends Component {
                 <View style={{height: 10}}/>
             <SwipeButton
               thumbIconBackgroundColor="#FFFFFF"
-              containerStyle={{ backgroundColor: '#012345' }}
+              containerStyle={{ backgroundColor: GlobalAppModel.primaryButtonColor || '#012345' }}
               swipeSuccessThreshold={90}
               thumbIconComponent={this._renderIcon}
               title="Slide to Redeem"
               titleColor={'white'}
-              railBackgroundColor={'#012345'}
+              railBackgroundColor={GlobalAppModel.primaryButtonColor || '#012345'}
               railFillBackgroundColor={'green'}
               shouldResetAfterSuccess
               disabled={this.state.isLoading}

@@ -102,6 +102,7 @@ export async function getLoginData() {
 
 export function parseColor(color, defaultColor = 'black') {
   try{
+    //console.log(`Ùtlil Color : ${color}`)
     if(color)
       return color.indexOf('#') == -1 ? `#${color}` : color;
     else

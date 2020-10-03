@@ -7,6 +7,7 @@ import {
   Alert,
   AsyncStorage,
   ActivityIndicator,
+  TouchableOpacity
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -517,13 +518,13 @@ export default class UploadReceiptScreen extends Component {
       return <ActivityIndicator size={'large'} style={{ margin: 20 }} />
     } else {
       return (
-        <TouchableNativeFeedback
+        <TouchableOpacity
           underlayColor="#030a91"
           activeOpacity={0.8}
           style={styles.button}
           onPress={() => this._prepareForm()}>
           <Text style={styles.buttonText}>Submit</Text>
-        </TouchableNativeFeedback>
+        </TouchableOpacity>
       );
     }
   }

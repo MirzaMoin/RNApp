@@ -6,6 +6,7 @@ import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import GlobalAppModel from '../model/GlobalAppModel';
 
 export default class ChangePassword extends Component {
   static navigationOptions = {
@@ -196,6 +197,7 @@ export default class ChangePassword extends Component {
   }
 
   render() {
+    console.log(`color : ${GlobalAppModel.primaryButtonColor}`)
     return (
       <View style={{ flex: 1, flexDirection: 'column' }}>
         <ScreenHeader
@@ -315,7 +317,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 5,
     alignSelf: 'center',
-    backgroundColor: '#012345',
+    backgroundColor: GlobalAppModel.primaryButtonColor || '#012345',
   },
   picker: {
     flex: 1,

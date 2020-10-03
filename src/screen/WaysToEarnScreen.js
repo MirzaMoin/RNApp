@@ -299,7 +299,7 @@ const styles = {
   btnRecentActivity: {
     padding: 5,
     paddingHorizontal: 10,
-    backgroundColor: '#4b92d2',
+    backgroundColor: GlobalAppModel.primaryButtonColor || '#4b92d2',
     fontWeight: 'bold',
     color: 'white',
     borderRadius: 5,

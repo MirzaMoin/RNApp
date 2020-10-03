@@ -270,16 +270,6 @@ export default class LocationScreen extends Component {
       longitude: long,
       address: `${storeAddress.address1}${storeAddress.address2}`,
     });
-    const duration = 500;
-    // this.marker._component.animateMarkerToCoordinate(
-    //   {
-    //     coordinate: new AnimatedRegion({
-    //       latitude: lat,
-    //       longitude: long,
-    //     }),
-    //   },
-    //   duration,
-    // );
   };
 
   _filterLocation = (text) => {

@@ -24,9 +24,11 @@ import Toast from 'react-native-root-toast';
 //import MenuPermissionModel  from './../model/MenuPermissionModel';
 
 export default class SplashScreen extends Component {
+  
   static navigationOptions = {
     header: null,
   };
+
   constructor() {
     console.log('Constructor called');
     super();
@@ -71,7 +73,6 @@ export default class SplashScreen extends Component {
           }
         }
       });
-
       // get APP INTAKE DATA
       //this._callGetAppIntakeData()
     } catch (error) {
@@ -103,6 +104,36 @@ export default class SplashScreen extends Component {
   async componentWillMount() {
     this._storeBOData();
     this._callGetAppIntakeData()
+    //this._getLoginData();
+  }
+
+  _callGetAppIntakeData = () => {
+    makeRequest(
+      `${APIConstant.BASE_URL}${APIConstant.GET_APP_INTAKEDATA}?RPToken=${APIConstant.RPTOKEN}`,
+      'get',
+    )
+      .then(response => {
+        //console.log(`Global App Response: ${JSON.stringify(response)}`)
+        if (response.statusCode == 0) {
+          Alert.alert('Oppss...', response.statusMessage);
+        } else {
+          LoginScreenModel.setLoginScreenData(response.responsedata.logInScreen);
+          HomeModel.setHomeScreenData(response.responsedata.homeScreen);
+          GlobalAppModel.setAppColor(response.responsedata.appColor);
+          GlobalAppModel.setLoadingImages(response.responsedata.loadingImages);
+          GlobalAppModel.setGlobalAppData(response.responsedata.appDetails);
+          this._getInviteData(response.responsedata.appDetails.rewardProgramId);
+          this._storeAppData();
+          this._getLoginData();
+        }
+      })
+      .catch(error => {
+        console.log('error : ' + error);
+        Alert.alert('Oppss...', `'Something went wrong please contact to support.`);
+      });
+  };
+
+  _getInviteData = async rpID => {
     console.log(`startubg bro now oringfi`)
     let url = await firebase.links().getInitialLink();
     firebase.links().getInit
@@ -130,30 +161,34 @@ export default class SplashScreen extends Component {
       'inviteBy',
       ID
     );
-    //this._getLoginData();
+    this._callSentLinkClickData(ID, url, rpID);
   }
 
-  _callGetAppIntakeData = () => {
+  _callSentLinkClickData = (invitedBy, link, rpID) => {
+    
+    const request = {
+      rewardProgramId: rpID,
+      referContactId: invitedBy,
+      visitedLink: link
+    };
+
     makeRequest(
-      `${APIConstant.BASE_URL}${APIConstant.GET_APP_INTAKEDATA}?RPToken=${APIConstant.RPTOKEN}`,
-      'get',
+      `${APIConstant.BASE_URL}${APIConstant.SENT_REFER_CLICK_DATA}`,
+      'post',
+      request
     )
       .then(response => {
         //console.log(`Global App Response: ${JSON.stringify(response)}`)
         if (response.statusCode == 0) {
-          Alert.alert('Oppss...', response.statusMessage);
+          //Alert.alert('Oppss...', response.statusMessage);
+          console.log('Érror')
         } else {
-          LoginScreenModel.setLoginScreenData(response.responsedata.logInScreen);
-          HomeModel.setHomeScreenData(response.responsedata.homeScreen);
-          GlobalAppModel.setAppColor(response.responsedata.appColor);
-          GlobalAppModel.setLoadingImages(response.responsedata.loadingImages);
-          this._storeAppData();
-          this._getLoginData();
+          console.log('çomplete')
         }
       })
       .catch(error => {
         console.log('error : ' + error);
-        Alert.alert('Oppss...', `'Something went wrong please contact to support.`);
+        //Alert.alert('Oppss...', `'Something went wrong please contact to support.`);
       });
   };
 

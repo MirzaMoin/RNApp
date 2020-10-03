@@ -31,4 +31,5 @@ module.exports = {
   SUBMIT_CONTACT_US: 'UserProfile/ContactUs',
   GET_TRANSACTION_HISTORY: 'UserAccountProfile/TransactionHistory',
   GET_SURVEY_LIST: 'UserAccountProfile/GetSurveyList',
+  SENT_REFER_CLICK_DATA: 'UserProfile/ShareLinkVisitDetails',
 };

@@ -75,6 +75,8 @@ export default class LoginScreen extends Component {
       isDisableEmailMenu: true,
       isDisableSMSMenu: true,
       isDisablePreferedMenu: true,
+      invitedBy: '',
+      signupType: 2,
     };
     this._getStoredData();
     var today = new Date();
@@ -149,6 +151,19 @@ export default class LoginScreen extends Component {
           isRememberPassword: isRemeber,
         })
       }
+
+      await AsyncStorage.getItem('inviteBy', (err, value) => {
+        if (err) {
+          //this.props.navigation.navigate('Auth');
+        } else {
+          if (value) {
+            this.setState({
+              invitedBy: value,
+              signupType: 9,
+            })
+          }
+        }
+      });
 
       console.log(`start ${userName} ${password} ${isRemeber}`)
 
@@ -311,7 +326,7 @@ export default class LoginScreen extends Component {
     const request = {
       contactID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       isEmailOptinConfirm: null,
-      signUpType: 0,
+      signUpType: this.state.signupType,
       useOfferID: 0,
       smsProvider: null,
       totalRequiredField: null,
@@ -344,6 +359,7 @@ export default class LoginScreen extends Component {
       webFormID: this.state.webformID,
       customFiledsValue: JSON.stringify(this.state.signup.customData),
       contactListID: '78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20',
+      referelContactID: this.state.invitedBy || null,
     }
 
     console.log(`Request: ${JSON.stringify(request)}`);
@@ -383,6 +399,7 @@ export default class LoginScreen extends Component {
       this.props.navigation.navigate('Main', {
         loginData: response,
       });
+      await AsyncStorage.removeItem('inviteBy');
     } catch (error) {
       console.log(error)
     }

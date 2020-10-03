@@ -41,6 +41,8 @@ import BottomNavigationTab from './../widget/BottomNavigationTab';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import LoadingScreen from '../widget/LoadingScreen';
 import GlobalAppModel from '../model/GlobalAppModel';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { parseColor } from './../utils/utility';
 var loadingImage = '';
 
 const { width } = Dimensions.get('window')
@@ -87,6 +89,7 @@ export default class ProfileScreen extends Component {
   }*/
 
   componentDidMount() {
+    console.log(`prof ${GlobalAppModel.primaryButtonColor}`)
     const { navigation } = this.props;
     BackHandler.addEventListener('hardwareBackPress', ()=>{
       navigation.goBack();
@@ -2075,13 +2078,13 @@ export default class ProfileScreen extends Component {
     } else {
       return (
         <View style={styles.subContainer}>
-          <TouchableNativeFeedback
+          <TouchableOpacity
             underlayColor="#030a91"
             activeOpacity={0.8}
             style={styles.button}
             onPress={() => this._prepareForm()}>
             <Text style={styles.buttonText}>Save</Text>
-          </TouchableNativeFeedback>
+          </TouchableOpacity>
         </View>
       );
     }
@@ -2150,7 +2153,8 @@ const styles = {
     flex: 1,
     padding: 5,
     textAlign: 'center',
-    backgroundColor: 'rgba(3,10,143,0.2)',
+    backgroundColor: GlobalAppModel.tertiaryColor || 'rgba(3,10,143,0.2)',
+    color: 'white',
     paddingBottom: 5,
     fontSize: 15,
   },
@@ -2169,7 +2173,7 @@ const styles = {
     padding: 5,
     alignSelf: 'center',
     maxWidth: 500,
-    backgroundColor: '#012345',
+    backgroundColor: GlobalAppModel.primaryButtonColor || '#012345',
   },
   picker: {
     flex: 1,
