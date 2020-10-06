@@ -33,10 +33,6 @@ export default class WayToEarnScreen extends Component {
 
   _showItem = 0;
 
-  /*componentWillMount() {
-    this._getStoredData();
-  }*/
-
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
@@ -55,7 +51,6 @@ export default class WayToEarnScreen extends Component {
   }
 
   _callGetWayToEarnScreenData = () => {
-    console.log('way to earn');
     makeRequest(
       `${APIConstant.BASE_URL}${APIConstant.GET_WAYTO_EARN_DATA}?RPToken=${APIConstant.RPTOKEN}&ContactId=${GlobalAppModel.userID}&WebFormID=${GlobalAppModel.webFormID}`,
       'get',
@@ -75,7 +70,6 @@ export default class WayToEarnScreen extends Component {
 
   _showImageIcon = (icon, title) => {
     if (icon) {
-      //console.log('show Image : ' + icon);
       return (
         <ImageLoader
           src={icon}
@@ -102,9 +96,6 @@ export default class WayToEarnScreen extends Component {
   }
 
   _showDescription = (index, text) => {
-    /*if (this.state.desc == index) {
-      return <Text style={styles.description}>{text}</Text>;
-    }*/
     return <ReadMore
       numberOfLines={1.5}
       renderTruncatedFooter={this._renderTruncatedFooter}

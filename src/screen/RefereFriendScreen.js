@@ -129,17 +129,6 @@ class RefereFriendScreen extends Component {
                   onPress={async () => {
                     const link = await this._buildLink('Self')
                     this._ShareMessage(link);
-                    // Linking.canOpenURL('mailto:example@gmail.com?subject=example&body=example')
-                    //   .then(supported => {
-                    //     if (!supported) {
-                    //       console.log('Cant handle url')
-                    //     } else {
-                    //       return Linking.openURL('message:this is frial')
-                    //     }
-                    //   })
-                    //   .catch(err => {
-                    //     console.error('An error occurred', err)
-                    //   })
                   }}>
                   <View style={{justifyContent: 'center'}}>
                   <Text
@@ -215,13 +204,13 @@ class RefereFriendScreen extends Component {
                         .then(
                           function (result) {
                             if (result.isCancelled) {
-                              console.log('Share cancelled');
+                              console.log('Share cancelled by user');
                             } else {
                               console.log('Share success with postId: ' + result.postId);
                             }
                           },
                           function (error) {
-                            console.log('Share fail with error: ' + error);
+                            console.log('Something went wrong while sharing social media: ' + error);
                           },
                         );
                     }}>

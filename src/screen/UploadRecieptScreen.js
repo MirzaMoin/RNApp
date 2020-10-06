@@ -5,7 +5,7 @@ import {
   Image,
   TouchableNativeFeedback,
   Alert,
-  AsyncStorage,
+  Dimensions,
   ActivityIndicator,
   TouchableOpacity
 } from 'react-native';
@@ -23,6 +23,8 @@ import ImagePicker from 'react-native-image-picker';
 import LoadingScreen from '../widget/LoadingScreen';
 import GlobalAppModel from '../model/GlobalAppModel';
 var loadingImage = '';
+const maxWidth = Dimensions.get('window').width;
+const imageHeight = (maxWidth / 16) * 9;
 
 export default class UploadReceiptScreen extends Component {
 
@@ -179,9 +181,9 @@ export default class UploadReceiptScreen extends Component {
       rewardProgramID: GlobalAppModel.rewardProgramId,
       addressID: this.state.selectedLocation || '',
       receiptCategoryID: this.state.selectedCategory || '',
-      amount: this.state.subTotal,
-      receiptDate: this.state.receiptDate,
-      receiptNumber: this.state.receiptNumber,
+      amount: this.state.subTotal || '',
+      receiptDate: this.state.receiptDate || '',
+      receiptNumber: this.state.receiptNumber || '',
       checkStatusCode5: isCheckStatusCode
     };
 
@@ -549,9 +551,9 @@ export default class UploadReceiptScreen extends Component {
         <ScrollView
           keyboardShouldPersistTaps={true}>
           <View style={{ flexDirection: 'column' }}>
-            <View style={{ hegith: 150 }}>
+            <View style={{ hegith: imageHeight }}>
               <Image
-                style={{ height: 150 }}
+                style={{ height: imageHeight }}
                 source={{
                   uri:
                     APIConstant.HEADER_IMAGE,
@@ -600,14 +602,14 @@ const styles = {
     backgroundColor: 'rgba(153,153,153,0.2)',
   },
   imageOverlay: {
-    height: 150,
+    height: imageHeight,
     width: '100%',
     position: 'absolute',
     backgroundColor: 'rgba(0,0,0,0.35)',
   },
   button: {
     minWidth: 120,
-    marginTop: 15,
+    marginVertical: 15,
     borderRadius: 10,
     alignSelf: 'center',
     backgroundColor: GlobalAppModel.primaryButtonColor || '#012345',

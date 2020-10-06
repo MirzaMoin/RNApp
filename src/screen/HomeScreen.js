@@ -218,7 +218,7 @@ export default class HomeScreen extends Component {
                           onPress={() => {
                             if (menuLink.menuLinkType == 'external') {
                               try {
-                                this.props.navigation.push('webScreen', {
+                                this.props.navigation.navigate('webScreen', {
                                   title: menuLink.menuText,
                                   webURL: menuLink.menuExternalLinkUrl,
                                 });

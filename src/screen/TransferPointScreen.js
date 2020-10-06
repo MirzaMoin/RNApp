@@ -14,6 +14,7 @@ import APIConstant from './../api/apiConstant';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import SwipeButton from 'rn-swipe-button';
 import BottomNavigationTab from './../widget/BottomNavigationTab';
+import GlobalAppModel from '../model/GlobalAppModel';
 
 export default class TransferPointScreen extends Component {
   static navigationOptions = {
@@ -29,58 +30,16 @@ export default class TransferPointScreen extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('didFocus', () => {
-      this._getStoredData();
+      this.setState({
+        transferAmount: '',
+        transferTo: '',
+      })
     });
   }
 
   componentWillUnmount() {
     this.focusListener.remove();
   }
-
-  _getStoredData = async () => {
-    try {
-      await AsyncStorage.getItem('userID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              userID: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('reedemablePoints', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          if (value) {
-            this.setState({
-              userPoint: value,
-            })
-          }
-        }
-      });
-
-      await AsyncStorage.getItem('webformID', (err, value) => {
-        if (err) {
-          //this.props.navigation.navigate('Auth');
-        } else {
-          //const val = JSON.parse(value);
-          if (value) {
-            this.setState({
-              webformID: value,
-            });
-          } else {
-          }
-        }
-      });
-    } catch (error) {
-      console.log(error)
-    }
-  };
 
   _prepareForm = () => {
     var isCall = true;
@@ -114,8 +73,8 @@ export default class TransferPointScreen extends Component {
 
   _callTransferPoint = () => {
     const request = {
-      rewardProgramID: APIConstant.RPID,
-      contactID: this.state.userID,
+      rewardProgramID: GlobalAppModel.rewardProgramId,
+      contactID: GlobalAppModel.userID,
       transferPoints: this.state.transferAmount,
       transferTo: this.state.transferTo
     };
@@ -139,11 +98,12 @@ export default class TransferPointScreen extends Component {
   }
 
   _processAfterTransfer = async () => {
-    var currentPoint = this.state.userPoint;
+    var currentPoint = GlobalAppModel.redeemablePoint;
     var transfer = this.state.transferAmount;
     const newPoint = currentPoint - transfer;
 
     await AsyncStorage.setItem('reedemablePoints', newPoint.toString());
+    GlobalAppModel.setRedeemablePoint(newPoint.toString());
     this.setState({
       userPoint: newPoint,
       transferAmount: '',
@@ -156,10 +116,12 @@ export default class TransferPointScreen extends Component {
   render() {
     return (
       <View style={styles.mainContainer}>
+        
         <ScreenHeader
           navigation={this.props.navigation}
           title={'Transfer Point'}
-          userPoint={this.state.userPoint} />
+          userPoint={GlobalAppModel.setRedeemablePoint} />
+        
         <View style={{ hegith: 150 }}>
           <Image
             style={{ height: 150 }}
@@ -169,9 +131,13 @@ export default class TransferPointScreen extends Component {
             }}
             resizeMode="cover"
           />
+        
           <View style={styles.imageOverlay} />
+        
         </View>
+        
         <View style={{ padding: 10, flex: 1, justifyContent: 'center' }}>
+          
           <Text
             style={{
               fontSize: 22,
@@ -180,7 +146,9 @@ export default class TransferPointScreen extends Component {
             }}>
             How many are you transfering?
           </Text>
+          
           <Text style={{ padding: 5, paddingLeft: 10, color: this.state.transferAmountError ? 'red' : 'black' }}>Enter Point Amount</Text>
+          
           <View
             style={{
               marginLeft: 10,
@@ -190,9 +158,10 @@ export default class TransferPointScreen extends Component {
               padding: 10,
               borderRadius: 10,
             }}>
+            
             <TextInput
               style={{ fontSize: 17, fontWeight: 'bold' }}
-              placeholder={`${this.state.userPoint || 50} PTS`}
+              placeholder={`${GlobalAppModel.redeemablePoint || 50} PTS`}
               keyboardType={'numeric'}
               onChangeText={(text) => {
                 this.setState({

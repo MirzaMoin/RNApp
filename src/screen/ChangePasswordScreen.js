@@ -115,7 +115,6 @@ export default class ChangePassword extends Component {
       oldPassword: this.state.password,
       newPassword: this.state.newPassword,
     }
-    //console.log(`Request : ${JSON.stringify(request)}`);
     makeRequest(
       `${APIConstant.BASE_URL}${APIConstant.CHANGE_PASSWORD}`,
       'post',
