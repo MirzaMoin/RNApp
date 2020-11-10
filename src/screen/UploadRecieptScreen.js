@@ -3,11 +3,12 @@ import {
   View,
   Text,
   Image,
-  TouchableNativeFeedback,
+  // TouchableNativeFeedback,
   Alert,
   Dimensions,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
+  SafeAreaView
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { makeRequest } from './../api/apiCall';
@@ -504,7 +505,8 @@ export default class UploadReceiptScreen extends Component {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         const images = this.state.selectedImages;
-        images[index] = `file://${response.path}`
+        // images[index] = `file://${response.path}`
+        images[index] = Platform == 'ios' ? `~/${response.path}` : `file://${response.path}`,
         this.setState({
           selectedImages: images,
         })
@@ -526,7 +528,8 @@ export default class UploadReceiptScreen extends Component {
       )
     } else {
       return (
-        <TouchableNativeFeedback
+        <TouchableOpacity
+          // <TouchableNativeFeedback
           activeOpacity={0.8}
           onPress={() => {
             this._handleImageClick(index)
@@ -538,7 +541,8 @@ export default class UploadReceiptScreen extends Component {
               }}
               style={{ height: 40, width: 40, alignSelf: 'center' }} />
           </View>
-        </TouchableNativeFeedback>
+          {/* </TouchableNativeFeedback> */}
+        </TouchableOpacity>
       )
     }
   }
@@ -583,14 +587,16 @@ export default class UploadReceiptScreen extends Component {
 
   render() {
     return (
-      <View style={styles.mainContainer}>
-        <ScreenHeader
-          navigation={this.props.navigation}
-          title={'Upload Receipt'}
-          userPoint={GlobalAppModel.redeemablePoint} />
-        {this._renderBody()}
-        <BottomNavigationTab navigation={this.props.navigation} />
-      </View>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.mainContainer}>
+          <ScreenHeader
+            navigation={this.props.navigation}
+            title={'Upload Receipt'}
+            userPoint={GlobalAppModel.redeemablePoint} />
+          {this._renderBody()}
+          <BottomNavigationTab navigation={this.props.navigation} />
+        </View>
+      </SafeAreaView>
     );
   }
 }

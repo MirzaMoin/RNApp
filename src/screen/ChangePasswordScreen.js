@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, AsyncStorage, ActivityIndicator, Alert } from 'react-native';
+import { StyleSheet, View, Text, AsyncStorage, ActivityIndicator, Alert, SafeAreaView } from 'react-native';
 import TextInput from 'react-native-textinput-with-icons';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
@@ -163,6 +163,7 @@ export default class ChangePassword extends Component {
   render() {
     console.log(`color : ${GlobalAppModel.primaryButtonColor}`)
     return (
+      <SafeAreaView style={{flex:1}}>
       <View style={{ flex: 1, flexDirection: 'column' }}>
         <ScreenHeader
           navigation={this.props.navigation}
@@ -265,7 +266,7 @@ export default class ChangePassword extends Component {
           {this._renderButton()}
         </View>
       </View>
-    );
+    </SafeAreaView>);
   }
 }
 

@@ -36,7 +36,7 @@ export default class SplashScreen extends Component {
 
   componentDidMount() {
     let fontName = 'regular'
-    GlobalFont.applyGlobal(fontName)
+    // GlobalFont.applyGlobal(fontName)
   }
 
   _getLoginData = async () => {

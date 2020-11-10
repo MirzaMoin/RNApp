@@ -3,7 +3,8 @@ import {
   View,
   Text,
   SafeAreaView,
-  TouchableNativeFeedback,
+  // TouchableNativeFeedback,
+  TouchableOpacity,
   Platform,
   Dimensions,
   FlatList,
@@ -139,7 +140,7 @@ export default class LocationScreen extends Component {
         title: 'Location',
         webURL: link,
       });
-    }catch(Exeption) {
+    } catch (Exeption) {
       console.log(`Somethign wring : ${Exeption}`)
     }
   };
@@ -166,7 +167,8 @@ export default class LocationScreen extends Component {
       <View style={styles.locationContainer}>
         <View style={{ flexDirection: 'row' }}>
           <MDIcon name={'location-on'} style={styles.locationIcon} />
-          <TouchableNativeFeedback
+          {/* <TouchableNativeFeedback */}
+          <TouchableOpacity
             onPress={() => {
               if (rowData.storeAddress.latitude && rowData.storeAddress.longitude) {
                 this._changeLocation(
@@ -177,7 +179,8 @@ export default class LocationScreen extends Component {
               } else { console.log('not possible') }
             }}>
             <Text style={styles.locationTitle}>{rowData.locationName}</Text>
-          </TouchableNativeFeedback>
+          </TouchableOpacity>
+          {/* </TouchableNativeFeedback> */}
         </View>
         {this._renderAddress(rowData.storeAddress)}
         {this._parseWebURL(rowData.websiteUrl)}
@@ -215,9 +218,12 @@ export default class LocationScreen extends Component {
       return (
         <View style={{ flexDirection: 'row' }}>
           <MDIcon name={'open-in-browser'} style={styles.locationIcon} />
-          <TouchableNativeFeedback onPress={() => this.openLink(url)}>
+          {/* <TouchableNativeFeedback  */}
+          <TouchableOpacity
+            onPress={() => this.openLink(url)}>
             <Text style={styles.webTextText}>{urlNew}</Text>
-          </TouchableNativeFeedback>
+          </TouchableOpacity>
+          {/* </TouchableNativeFeedback> */}
         </View>
       )
     }
@@ -228,9 +234,11 @@ export default class LocationScreen extends Component {
       return (
         <View style={{ flexDirection: 'row' }}>
           <MDIcon name={'directions'} style={styles.locationIcon} />
-          <TouchableNativeFeedback onPress={() => this._showDirectionOnMap(address)}>
+          {/* <TouchableNativeFeedback  */}
+          <TouchableOpacity onPress={() => this._showDirectionOnMap(address)}>
             <Text style={styles.directionText}>Get Direction</Text>
-          </TouchableNativeFeedback>
+          </TouchableOpacity>
+          {/* </TouchableNativeFeedback> */}
         </View>
       )
     }
@@ -254,11 +262,13 @@ export default class LocationScreen extends Component {
   _renderClearSearch = () => {
     if (this.state.search) {
       return (
-        <TouchableNativeFeedback
+        <TouchableOpacity
+          // <TouchableNativeFeedback
           activeOpacity={0.8}
           onPress={() => this.setState({ search: '' })}>
           <MDIcon name={'close'} style={{ fontSize: 24 }} />
-        </TouchableNativeFeedback>
+          {/* </TouchableNativeFeedback> */}
+        </TouchableOpacity>
       )
     }
   }
@@ -266,58 +276,60 @@ export default class LocationScreen extends Component {
   _renderBody = () => {
     if (this.state.isLoading) {
       return (
-        <LoadingScreen LoadingImage={loadingImage}/>
+        <LoadingScreen LoadingImage={loadingImage} />
       );
     } else {
       return (
         <View style={styles.mainContainer}>
-          <View style={{flex:1, flexDirection: 'column-reverse'}}>
-          <MapView
-            style={{ flex: 1 }}
-            initialRegion={{
-              latitude: this.state.latitude,
-              longitude: this.state.longitude,
-              latitudeDelta: 0.0522,
-              longitudeDelta: 0.0121,
-            }}
-            region={{
-              latitude: this.state.latitude,
-              longitude: this.state.longitude,
-              latitudeDelta: 0.0522,
-              longitudeDelta: 0.0121,
-            }}>
-            <Marker
-              ref={marker => {
-                this.marker = marker;
-              }}
-              coordinate={{
+          <View style={{ flex: 1, flexDirection: 'column-reverse' }}>
+            <MapView
+              style={{ flex: 1 }}
+              initialRegion={{
                 latitude: this.state.latitude,
                 longitude: this.state.longitude,
+                latitudeDelta: 0.0522,
+                longitudeDelta: 0.0121,
               }}
-              tracksViewChanges={true}
-              title={this.state.location}
-              description={this.state.address}
-            />
-          </MapView>
-          <View style={styles.buttonContainer}>
-            <TouchableNativeFeedback
-              style={styles.button}
-              onPress={() => {
-                this.setState({
-                  sheetIcon: 'keyboard-arrow-up',
-                  sheetHeight: 330,
-                });
-                let that = this;
-                setTimeout(function () {
-                  that.locationListSheet.open();
-                }, 100);
+              region={{
+                latitude: this.state.latitude,
+                longitude: this.state.longitude,
+                latitudeDelta: 0.0522,
+                longitudeDelta: 0.0121,
               }}>
-              <View style={styles.button}>
-                <MDIcon style={styles.buttonIcon} name={'menu'} />
-              </View>
-            </TouchableNativeFeedback>
-          </View>
-          
+              <Marker
+                ref={marker => {
+                  this.marker = marker;
+                }}
+                coordinate={{
+                  latitude: this.state.latitude,
+                  longitude: this.state.longitude,
+                }}
+                tracksViewChanges={true}
+                title={this.state.location}
+                description={this.state.address}
+              />
+            </MapView>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                // {/* <TouchableNativeFeedback */}
+                style={styles.button}
+                onPress={() => {
+                  this.setState({
+                    sheetIcon: 'keyboard-arrow-up',
+                    sheetHeight: 330,
+                  });
+                  let that = this;
+                  setTimeout(function () {
+                    that.locationListSheet.open();
+                  }, 100);
+                }}>
+                <View style={styles.button}>
+                  <MDIcon style={styles.buttonIcon} name={'menu'} />
+                </View>
+                {/* </TouchableNativeFeedback> */}
+              </TouchableOpacity>
+            </View>
+
           </View>
           <BottomNavigationTab navigation={this.props.navigation} />
           <RBSheet
@@ -335,9 +347,12 @@ export default class LocationScreen extends Component {
             <View style={styles.bottomSheetContainer}>
               <Text style={styles.bottomSheetTitle}>Locations</Text>
               <View style={styles.topIconContainer}>
-                <TouchableNativeFeedback onPress={() => this._openSheetFull()}>
+                {/* <TouchableNativeFeedback  */}
+                <TouchableOpacity onPress={() => this._openSheetFull()}>
                   <MDIcon name={this.state.sheetIcon} style={{ fontSize: 30 }} />
-                </TouchableNativeFeedback>
+                </TouchableOpacity>
+                {/* </TouchableNativeFeedback> */}
+
               </View>
               <View style={{ flexDirection: 'row', paddingHorizontal: 10, marginVertical: 5, borderWidth: 2, borderRadius: 5, borderColor: 'rgba(153,153,153,1)', alignItems: 'center', marginTop: 10 }}>
                 <MDIcon name={'search'} style={{ fontSize: 24 }} />

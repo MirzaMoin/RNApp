@@ -3,9 +3,11 @@ import {
   View,
   Text,
   Image,
-  TouchableNativeFeedback,
+  // TouchableNativeFeedback,
+  TouchableOpacity,
   ScrollView,
   Linking,
+  SafeAreaView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ShareDialog } from 'react-native-fbsdk';
@@ -14,7 +16,7 @@ import { BottomNavigationTab } from './../widget/BottomNavigationTab';
 
 let facebookParameters = '';
 
-export default class NotificationScreen extends Component {
+export default class SocialShareScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -94,93 +96,105 @@ export default class NotificationScreen extends Component {
 
   render() {
     return (
-      <View style={styles.mainContainer}>
-        <View style={{ hegith: 150 }}>
-          <Image
-            style={{ height: 150 }}
-            source={{
-              uri:
-                'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
-            }}
-            resizeMode="cover"
-          />
-          <View style={styles.imageOverlay} />
-        </View>
-        <ScrollView>
-          <View style={{ padding: 15, flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.mainContainer}>
+          <View style={{ hegith: 150 }}>
             <Image
-              style={styles.socialShareImage}
+              style={{ height: 150 }}
               source={{
                 uri:
-                  'https://i.pinimg.com/474x/68/b9/14/68b9148f7d8410ab7029476bb15a65aa.jpg',
+                  'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
               }}
-              resizeMode="contain"
+              resizeMode="cover"
             />
-            <Text style={styles.titleText}>Free Cash - RoboRewards</Text>
-            <Text style={styles.socialShareText}>
-              this is text information this is text information this is text
-              information this is text information this is text information this
-              is text information this is text information this is text
-              information this is text information this is text information this
-              is text information this is text information this is text
-            </Text>
-            <View style={styles.socailIconContainer}>
-              <TouchableNativeFeedback
-                style={{ margin: 10 }}
-                onPress={this.shareLinkWithShareDialog}>
-                <Icon
-                  name={'facebook-square'}
-                  style={{ fontSize: 60, color: '#3b5998' }}
-                />
-              </TouchableNativeFeedback>
-              <TouchableNativeFeedback style={{ margin: 10 }}>
-                <Icon
-                  name={'linkedin-square'}
-                  style={{ fontSize: 60, color: '#0e76a8' }}
-                />
-              </TouchableNativeFeedback>
-              <TouchableNativeFeedback style={{ margin: 10 }}>
-                <Icon
-                  name={'tumblr-square'}
-                  style={{ fontSize: 60, color: '#34526f' }}
-                />
-              </TouchableNativeFeedback>
-              <TouchableNativeFeedback
-                style={{ margin: 10 }}
-                onPress={() => {
-                  try {
-                    let intent = this.createTweetIntent(
-                      'Some text to tweet',
-                      'https://breakingscope.com/',
-                      'tag1,tag2,tag3',
-                    );
-                    Linking.openURL(intent);
-                  } catch (error) {
-                    console.log('Error opening link', error);
-                  }
-                }}>
-                <Icon
-                  name={'twitter-square'}
-                  style={{ fontSize: 60, color: '#00acee' }}
-                />
-              </TouchableNativeFeedback>
-              <TouchableNativeFeedback style={{ margin: 10 }}>
-                <Icon
-                  name={'pinterest-square'}
-                  style={{ fontSize: 60, color: '#c8232c' }}
-                />
-              </TouchableNativeFeedback>
-            </View>
-
-            <Text style={{ fontSize: 16, textAlign: 'justify' }}>
-              this is text information this is text information this is text
-              information this is text information this is text information this
-              is text information this is text information this is text
-            </Text>
+            <View style={styles.imageOverlay} />
           </View>
-        </ScrollView>
-        <BottomNavigationTab />
-      </View>
+          <ScrollView>
+            <View style={{ padding: 15, flex: 1 }}>
+              <Image
+                style={styles.socialShareImage}
+                source={{
+                  uri:
+                    'https://i.pinimg.com/474x/68/b9/14/68b9148f7d8410ab7029476bb15a65aa.jpg',
+                }}
+                resizeMode="contain"
+              />
+              <Text style={styles.titleText}>Free Cash - RoboRewards</Text>
+              <Text style={styles.socialShareText}>
+                this is text information this is text information this is text
+                information this is text information this is text information this
+                is text information this is text information this is text
+                information this is text information this is text information this
+                is text information this is text information this is text
+            </Text>
+              <View style={styles.socailIconContainer}>
+                {/* <TouchableNativeFeedback */}
+                <TouchableOpacity
+                  style={{ margin: 10 }}
+                  onPress={this.shareLinkWithShareDialog}>
+                  <Icon
+                    name={'facebook-square'}
+                    style={{ fontSize: 60, color: '#3b5998' }}
+                  />
+                </TouchableOpacity>
+                {/* </TouchableNativeFeedback> */}
+                {/* <TouchableNativeFeedback */}
+                <TouchableOpacity style={{ margin: 10 }}>
+                  <Icon
+                    name={'linkedin-square'}
+                    style={{ fontSize: 60, color: '#0e76a8' }}
+                  />
+                </TouchableOpacity>
+                {/* </TouchableNativeFeedback> */}
+                {/* <TouchableNativeFeedback */}
+                <TouchableOpacity style={{ margin: 10 }}>
+                  <Icon
+                    name={'tumblr-square'}
+                    style={{ fontSize: 60, color: '#34526f' }}
+                  />
+                </TouchableOpacity>
+                {/* </TouchableNativeFeedback> */}
+                {/* <TouchableNativeFeedback */}
+                <TouchableOpacity
+                  style={{ margin: 10 }}
+                  onPress={() => {
+                    try {
+                      let intent = this.createTweetIntent(
+                        'Some text to tweet',
+                        'https://breakingscope.com/',
+                        'tag1,tag2,tag3',
+                      );
+                      Linking.openURL(intent);
+                    } catch (error) {
+                      console.log('Error opening link', error);
+                    }
+                  }}>
+                  <Icon
+                    name={'twitter-square'}
+                    style={{ fontSize: 60, color: '#00acee' }}
+                  />
+                </TouchableOpacity>
+                {/* </TouchableNativeFeedback> */}
+                {/* <TouchableNativeFeedback */}
+                <TouchableOpacity style={{ margin: 10 }}>
+                  <Icon
+                    name={'pinterest-square'}
+                    style={{ fontSize: 60, color: '#c8232c' }}
+                  />
+                  {/* </TouchableNativeFeedback> */}
+                </TouchableOpacity>
+              </View>
+
+              <Text style={{ fontSize: 16, textAlign: 'justify' }}>
+                this is text information this is text information this is text
+                information this is text information this is text information this
+                is text information this is text information this is text
+            </Text>
+            </View>
+          </ScrollView>
+          <BottomNavigationTab />
+        </View>
+      </SafeAreaView>
     );
   }
 }

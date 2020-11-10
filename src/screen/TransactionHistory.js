@@ -14,6 +14,7 @@ import {
   TextInput,
   Animated,
   StyleSheet,
+  SafeAreaView,
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -24,7 +25,10 @@ import APIConstant from './../api/apiConstant';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import Moment from 'moment';
 import ImageLoader from './../widget/ImageLoader';
-import { TouchableNativeFeedback, TouchableOpacity } from 'react-native-gesture-handler';
+import {
+  // TouchableNativeFeedback, 
+  TouchableOpacity
+} from 'react-native-gesture-handler';
 import GlobalAppModel from '../model/GlobalAppModel';
 import LoadingScreen from '../widget/LoadingScreen';
 var loadingImage = '';
@@ -121,7 +125,8 @@ export default class TransactionHistory extends Component {
                     {menu.value.map(image => {
                       return (
                         <View>
-                          <TouchableNativeFeedback
+                          {/* <TouchableNativeFeedback */}
+                          <TouchableOpacity
                             activeOpacity={0.8}
                             onPress={() => {
                               this.setState({ visibleIamge: true, selectedImage: image })
@@ -130,7 +135,8 @@ export default class TransactionHistory extends Component {
                               src={image}
                               avatarName={'image'}
                               style={{ height: 70, width: 70, marginRight: 10, borderRadius: 5 }} />
-                          </TouchableNativeFeedback>
+                            {/* </TouchableNativeFeedback> */}
+                          </TouchableOpacity>
                           <Modal visible={this.state.visibleIamge && this.state.selectedImage == image} transparent={true}>
                             <ImageViewer
                               animationType="fade"
@@ -144,7 +150,8 @@ export default class TransactionHistory extends Component {
                                     paddingTop: 30,
                                     paddingRight: 30,
                                   }}>
-                                  <TouchableNativeFeedback
+                                  {/* <TouchableNativeFeedback */}
+                                  <TouchableOpacity
                                     onPress={() => {
                                       this.setState({ visibleIamge: false, selectedImage: '' });
                                     }}>
@@ -152,7 +159,8 @@ export default class TransactionHistory extends Component {
                                       style={{ fontSize: 30, color: 'white', marginLeft: 15 }}
                                       name={'close'}
                                     />
-                                  </TouchableNativeFeedback>
+                                    {/* </TouchableNativeFeedback> */}
+                                  </TouchableOpacity>
                                 </View>
                               )}
                               enableSwipeDown={true}
@@ -192,11 +200,13 @@ export default class TransactionHistory extends Component {
   _renderClearSearch = () => {
     if (this.state.search) {
       return (
-        <TouchableNativeFeedback
+        <TouchableOpacity
+          // <TouchableNativeFeedback
           activeOpacity={0.8}
           onPress={() => this.setState({ search: '' })}>
           <MDIcon name={'close'} style={{ fontSize: 24 }} />
-        </TouchableNativeFeedback>
+          {/* </TouchableNativeFeedback> */}
+        </TouchableOpacity>
       )
     }
   }
@@ -339,14 +349,16 @@ export default class TransactionHistory extends Component {
 
   render() {
     return (
-      <View style={styles.mainContainer}>
-        <ScreenHeader
-          title={'Transaction History'}
-          userPoint={GlobalAppModel.redeemablePoint}
-          navigation={this.props.navigation} />
-        {this._renderBody()}
-        <BottomNavigationTab navigation={this.props.navigation} />
-      </View>
+      <SafeAreaView style={{flex:1}}>
+        <View style={styles.mainContainer}>
+          <ScreenHeader
+            title={'Transaction History'}
+            userPoint={GlobalAppModel.redeemablePoint}
+            navigation={this.props.navigation} />
+          {this._renderBody()}
+          <BottomNavigationTab navigation={this.props.navigation} />
+        </View>
+      </SafeAreaView>
     );
   }
 }

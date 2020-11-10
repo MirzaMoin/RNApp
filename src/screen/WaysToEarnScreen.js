@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, FlatList, AsyncStorage, ActivityIndicator, Dimensions } from 'react-native';
+import { View, Text, Image, FlatList, AsyncStorage, ActivityIndicator, Dimensions, SafeAreaView } from 'react-native';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
@@ -187,14 +187,16 @@ export default class WayToEarnScreen extends Component {
     this._showItem = 0;
 
     return (
-      <View style={styles.mainContainer}>
-        <ScreenHeader
-          navigation={this.props.navigation}
-          title={'Way to Earn'}
-          userPoint={GlobalAppModel.redeemablePoint || '0'} />
-        {this._renderBody()}
-        <BottomNavigationTab navigation={this.props.navigation} />
-      </View>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.mainContainer}>
+          <ScreenHeader
+            navigation={this.props.navigation}
+            title={'Way to Earn'}
+            userPoint={GlobalAppModel.redeemablePoint || '0'} />
+          {this._renderBody()}
+          <BottomNavigationTab navigation={this.props.navigation} />
+        </View>
+      </SafeAreaView>
     );
   }
 }

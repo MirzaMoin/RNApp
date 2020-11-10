@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUsageDescription</key>
-	<string/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -44,6 +42,8 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>We'll show you things near you in the app. With "always" access, we'll
         also send you notifications when you're near something interesting.</string>
+	<key>NSLocationWhenInUsageDescription</key>
+	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We'll show you things near you in the app.</string>
 	<key>UIAppFonts</key>
@@ -66,6 +66,18 @@
 		<string>Zocial.ttf</string>
 		<string>helvetica.otf</string>
 		<string>game_font.ttf</string>
+		<string>black.ttf</string>
+		<string>blackItalic.ttf</string>
+		<string>bold.ttf</string>
+		<string>boldItalic.ttf</string>
+		<string>heavy.ttf</string>
+		<string>italic.ttf</string>
+		<string>light.ttf</string>
+		<string>lightItalic.ttf</string>
+		<string>medium.ttf</string>
+		<string>regular.ttf</string>
+		<string>thin.ttf</string>
+		<string>thinItalic.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

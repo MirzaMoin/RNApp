@@ -8,6 +8,7 @@ import {
   Alert,
   ScrollView, FlatList,
   Dimensions,
+  SafeAreaView,
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { makeRequest } from './../api/apiCall';
@@ -127,15 +128,16 @@ export default class RPGScreen extends Component {
 
   render() {
     return (
-  
-  <View style={{ flex: 1, flexDirection: 'column' }}>
-        <ScreenHeader
-          navigation={this.props.navigation}
-          title={'Rewards Entry Goal'}
-          userPoint={GlobalAppModel.redeemablePoint} />
-        {this._renderBody()}
-        <BottomNavigationTab navigation={this.props.navigation} />
-      </View>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={{ flex: 1, flexDirection: 'column' }}>
+          <ScreenHeader
+            navigation={this.props.navigation}
+            title={'Rewards Entry Goal'}
+            userPoint={GlobalAppModel.redeemablePoint} />
+          {this._renderBody()}
+          <BottomNavigationTab navigation={this.props.navigation} />
+        </View>
+      </SafeAreaView>
     );
   }
 }

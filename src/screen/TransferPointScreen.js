@@ -7,6 +7,7 @@ import {
   Alert,
   AsyncStorage,
   ActivityIndicator,
+  SafeAreaView,
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { makeRequest } from './../api/apiCall';
@@ -15,6 +16,7 @@ import { ScreenHeader } from '../widget/ScreenHeader';
 import SwipeButton from 'rn-swipe-button';
 import BottomNavigationTab from './../widget/BottomNavigationTab';
 import GlobalAppModel from '../model/GlobalAppModel';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class TransferPointScreen extends Component {
   static navigationOptions = {
@@ -115,135 +117,139 @@ export default class TransferPointScreen extends Component {
 
   render() {
     return (
-      <View style={styles.mainContainer}>
-        
-        <ScreenHeader
-          navigation={this.props.navigation}
-          title={'Transfer Point'}
-          userPoint={GlobalAppModel.setRedeemablePoint} />
-        
-        <View style={{ hegith: 150 }}>
-          <Image
-            style={{ height: 150 }}
-            source={{
-              uri:
-                'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
-            }}
-            resizeMode="cover"
-          />
-        
-          <View style={styles.imageOverlay} />
-        
-        </View>
-        
-        <View style={{ padding: 10, flex: 1, justifyContent: 'center' }}>
-          
-          <Text
-            style={{
-              fontSize: 22,
-              marginBottom: 20,
-              paddingLeft: 10,
-            }}>
-            How many are you transfering?
-          </Text>
-          
-          <Text style={{ padding: 5, paddingLeft: 10, color: this.state.transferAmountError ? 'red' : 'black' }}>Enter Point Amount</Text>
-          
-          <View
-            style={{
-              marginLeft: 10,
-              marginRight: 10,
-              borderColor: this.state.transferAmountError ? 'red' : 'rgba(153,153,153,0.5)',
-              borderWidth: 2,
-              padding: 10,
-              borderRadius: 10,
-            }}>
-            
-            <TextInput
-              style={{ fontSize: 17, fontWeight: 'bold' }}
-              placeholder={`${GlobalAppModel.redeemablePoint || 50} PTS`}
-              keyboardType={'numeric'}
-              onChangeText={(text) => {
-                this.setState({
-                  transferAmount: text
-                })
-              }}
-            />
-          </View>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.mainContainer}>
 
-          <View
-            style={{
-              margin: 30,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <View style={{ flex: 1, flexDirection: 'row', position: 'absolute' }}>
+          <ScreenHeader
+            navigation={this.props.navigation}
+            title={'Transfer Point'}
+            userPoint={GlobalAppModel.setRedeemablePoint} />
+          <ScrollView>
+            <View style={{ hegith: 150 }}>
+              <Image
+                style={{ height: 150 }}
+                source={{
+                  uri:
+                    'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
+                }}
+                resizeMode="cover"
+              />
+
+              <View style={styles.imageOverlay} />
+
+            </View>
+
+            <View style={{ padding: 10, flex: 1, justifyContent: 'center' }}>
+
+              <Text
+                style={{
+                  fontSize: 22,
+                  marginBottom: 20,
+                  paddingLeft: 10,
+                }}>
+                How many are you transfering?
+          </Text>
+
+              <Text style={{ padding: 5, paddingLeft: 10, color: this.state.transferAmountError ? 'red' : 'black' }}>Enter Point Amount</Text>
+
               <View
                 style={{
-                  flex: 1,
-                  backgroundColor: 'rgba(153,153,153,0.5)',
-                  height: 2,
-                }}
-              />
-            </View>
-            <Text
-              style={{
-                fontSize: 18,
-                backgroundColor: '#fff',
-                paddingLeft: 25,
-                paddingRight: 25,
-              }}>
-              Transfering to
+                  marginLeft: 10,
+                  marginRight: 10,
+                  borderColor: this.state.transferAmountError ? 'red' : 'rgba(153,153,153,0.5)',
+                  borderWidth: 2,
+                  padding: 10,
+                  borderRadius: 10,
+                }}>
+
+                <TextInput
+                  style={{ fontSize: 17, fontWeight: 'bold' }}
+                  placeholder={`${GlobalAppModel.redeemablePoint || 50} PTS`}
+                  keyboardType={'numeric'}
+                  onChangeText={(text) => {
+                    this.setState({
+                      transferAmount: text
+                    })
+                  }}
+                />
+              </View>
+
+              <View
+                style={{
+                  margin: 30,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <View style={{ flex: 1, flexDirection: 'row', position: 'absolute' }}>
+                  <View
+                    style={{
+                      flex: 1,
+                      backgroundColor: 'rgba(153,153,153,0.5)',
+                      height: 2,
+                    }}
+                  />
+                </View>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    backgroundColor: '#fff',
+                    paddingLeft: 25,
+                    paddingRight: 25,
+                  }}>
+                  Transfering to
             </Text>
-          </View>
+              </View>
 
-          <Text
-            style={{ padding: 5, paddingLeft: 10, color: this.state.transferToError ? 'red' : 'black' }}>
-            Enter User Details
+              <Text
+                style={{ padding: 5, paddingLeft: 10, color: this.state.transferToError ? 'red' : 'black' }}>
+                Enter User Details
           </Text>
-          <View
-            style={{
-              marginLeft: 10,
-              marginRight: 10,
-              borderColor: this.state.transferToError ? 'red' : 'rgba(153,153,153,0.5)',
-              borderWidth: 2,
-              padding: 10,
-              borderRadius: 10,
-            }}>
-            <TextInput
-              style={{ fontSize: 17, fontWeight: 'bold' }}
-              placeholder="Email, mobile number or Member CardID"
-              onChangeText={(text) => {
-                this.setState({
-                  transferTo: text,
-                })
-              }}
-            />
-          </View>
+              <View
+                style={{
+                  marginLeft: 10,
+                  marginRight: 10,
+                  borderColor: this.state.transferToError ? 'red' : 'rgba(153,153,153,0.5)',
+                  borderWidth: 2,
+                  padding: 10,
+                  borderRadius: 10,
+                }}>
+                <TextInput
+                  style={{ fontSize: 17, fontWeight: 'bold' }}
+                  placeholder="Email, mobile number or Member CardID"
+                  onChangeText={(text) => {
+                    this.setState({
+                      transferTo: text,
+                    })
+                  }}
+                />
+              </View>
 
-          <View style={{
-            marginTop: 30,
-            marginRight: 10,
-          }}>
-            <SwipeButton
-              thumbIconBackgroundColor="#FFFFFF"
-              containerStyle={{ backgroundColor: '#012345' }}
-              swipeSuccessThreshold={90}
-              thumbIconComponent={this._renderIcon}
-              title="Slide to transfer"
-              titleColor={'white'}
-              railBackgroundColor={'#012345'}
-              railFillBackgroundColor={'green'}
-              shouldResetAfterSuccess
-              disabled={this.state.isLoading}
-              onSwipeSuccess={() => {
-                this._prepareForm()
-              }}
-            />
-          </View>
+              <View style={{
+                marginTop: 30,
+                marginRight: 10,
+              }}>
+                <SwipeButton
+                  thumbIconBackgroundColor="#FFFFFF"
+                  containerStyle={{ backgroundColor: '#012345' }}
+                  swipeSuccessThreshold={90}
+                  thumbIconComponent={this._renderIcon}
+                  title="Slide to transfer"
+                  titleColor={'white'}
+                  railBackgroundColor={'#012345'}
+                  railFillBackgroundColor={'green'}
+                  shouldResetAfterSuccess
+                  disabled={this.state.isLoading}
+                  onSwipeSuccess={() => {
+                    this._prepareForm()
+                  }}
+                />
+              </View>
+            </View>
+          </ScrollView>
+          <BottomNavigationTab navigation={this.props.navigation} />
+
         </View>
-        <BottomNavigationTab navigation={this.props.navigation} />
-      </View>
+      </SafeAreaView>
     );
   }
 }

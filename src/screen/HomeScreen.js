@@ -323,7 +323,7 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1, flexDirection: 'row' }}>
-        <StatusBar barStyle={'light-content'} backgroundColor={'#081b2e'} />
+        <StatusBar barStyle={'dark-content'} backgroundColor={'#081b2e'} translucent/>
         <SafeAreaView style={styles.mainContainer}>
           {this._renderToolBar()}
           <View style={{ flex: 1 }}>

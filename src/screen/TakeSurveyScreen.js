@@ -7,7 +7,8 @@ import {
   TouchableHighlight,
   StyleSheet,
   Dimensions,
-  AsyncStorage
+  AsyncStorage,
+  SafeAreaView
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import BottomNavigationTab from './../widget/BottomNavigationTab';
@@ -80,14 +81,16 @@ export default class TakeSurveyScreen extends Component {
   renderUntakenRow = (itemData, index) => {
     return (
       <TouchableHighlight
-        underlayColor="rgba(192,192,192,1,0.6)"
+        underlayColor="rgba(192,192,192,0.6)"
         onPress={() => {
           this.props.navigation.push('webScreen', {
             title: 'Survey',
             webURL: itemData.surveyLink,
           });
+          debugger;
         }}>
         <View style={{ backgroundColor: 'rgba(256,256,256,1)', padding: 5 }}>
+          {/* {console.log(" survey link "+itemData.surveyLink)} */}
           <View style={styles.subContainer}>
             <View style={styles.messageContainer}>
               <View style={{ flexDirection: 'row' }}>
@@ -112,7 +115,7 @@ export default class TakeSurveyScreen extends Component {
                   }}
                 />
                 <Text style={{ fontSize: 12, padding: 1, color: 'gray' }}>
-                {Moment(itemData.surveySendDate).format('DD MMM YYYY')}
+                  {Moment(itemData.surveySendDate).format('DD MMM YYYY')}
                 </Text>
               </View>
             </View>
@@ -168,7 +171,7 @@ export default class TakeSurveyScreen extends Component {
                     }}
                   />
                   <Text style={{ fontSize: 12, padding: 1, color: 'gray' }}>
-                  {Moment(itemData.surveySendDate).format('DD MMM YYYY')}
+                    {Moment(itemData.surveySendDate).format('DD MMM YYYY')}
                   </Text>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -193,8 +196,8 @@ export default class TakeSurveyScreen extends Component {
                 </View>
               </View>
             </View>
-          
-          {/*  <View style={{ flexDirection: 'row' }}>
+
+            {/*  <View style={{ flexDirection: 'row' }}>
               <Text
                 style={{ alignSelf: 'center', fontSize: 16, color: '#13538E' }}>
                 Open
@@ -209,7 +212,7 @@ export default class TakeSurveyScreen extends Component {
                 }}
               />
               </View>*/}
-          
+
           </View>
           <View style={styles.saprator} />
         </View>
@@ -218,12 +221,12 @@ export default class TakeSurveyScreen extends Component {
   };
 
   _renderBody = () => {
-    if(this.state.isLoading) {
+    if (this.state.isLoading) {
       return <LoadingScreen LoadingImage={loadingImage} />
     } else {
       return (
-        <View style={{flex: 1}}>
-        <View style={{ hegith: imageHeight }}>
+        <View style={{ flex: 1 }}>
+          <View style={{ hegith: imageHeight }}>
             <Image
               style={{ height: imageHeight }}
               source={{
@@ -234,63 +237,65 @@ export default class TakeSurveyScreen extends Component {
             />
             <View style={styles.imageOverlay} />
           </View>
-        <ScrollableTabView
-        tabBarInactiveTextColor={'white'}
-        tabBarActiveTextColor={'#13538E'}
-        tabBarUnderlineStyle={{ height: 0 }}
-        tabBarTextStyle={{ fontSize: 18 }}
-        renderTabBar={() => (
-          <CustomTab inactiveTabStyle="rgba(19,83,142,1)" />
-        )}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          scrollEnabled={true}
-          data={this.state.dataSoureUntaken}
-          ListEmptyComponent={() => {
-            return (<View style={{ flex: 1, height: '100%', alignContent: 'center', justifyContent: 'center', }}>
-              <Text style={{ fontSize: 20, alignSelf: 'center', marginTop: 150 }}>No Survey Found</Text>
-            </View>)
-          }}
-          renderItem={({ item, index }) => this.renderUntakenRow(item, index)}
-          keyExtractor={item => item.surveyID}
-          onRefresh={() => this._onRefreshList()}
-          refreshing={this.state.isFetchingUntaken}
-          tabLabel={'Untaken'}
-        />
+          <ScrollableTabView
+            tabBarInactiveTextColor={'white'}
+            tabBarActiveTextColor={'#13538E'}
+            tabBarUnderlineStyle={{ height: 0 }}
+            tabBarTextStyle={{ fontSize: 18 }}
+            renderTabBar={() => (
+              <CustomTab inactiveTabStyle="rgba(19,83,142,1)" />
+            )}>
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              scrollEnabled={true}
+              data={this.state.dataSoureUntaken}
+              ListEmptyComponent={() => {
+                return (<View style={{ flex: 1, height: '100%', alignContent: 'center', justifyContent: 'center', }}>
+                  <Text style={{ fontSize: 20, alignSelf: 'center', marginTop: 150 }}>No Survey Found</Text>
+                </View>)
+              }}
+              renderItem={({ item, index }) => this.renderUntakenRow(item, index)}
+              keyExtractor={item => item.surveyID}
+              onRefresh={() => this._onRefreshList()}
+              refreshing={this.state.isFetchingUntaken}
+              tabLabel={'Untaken'}
+            />
 
-        <FlatList
-          style={{ flex: 1, paddingBottom: 10 }}
-          showsVerticalScrollIndicator={false}
-          scrollEnabled={true}
-          data={this.state.dataSoureTaken}
-          ListEmptyComponent={() => {
-            return (<View style={{ flex: 1, height: '100%', alignContent: 'center', justifyContent: 'center', }}>
-              <Text style={{ fontSize: 20, alignSelf: 'center', marginTop: 150 }}>No Survey Found</Text>
-            </View>)
-          }}
-          renderItem={({ item, index }) => this.renderTakenRow(item, index)}
-          keyExtractor={item => item.surveyID}
-          onRefresh={() => this._onRefreshList()}
-          refreshing={this.state.isFetchingTaken}
-          tabLabel={'Taken'}
-        />
-      </ScrollableTabView>
-          </View>
+            <FlatList
+              style={{ flex: 1, paddingBottom: 10 }}
+              showsVerticalScrollIndicator={false}
+              scrollEnabled={true}
+              data={this.state.dataSoureTaken}
+              ListEmptyComponent={() => {
+                return (<View style={{ flex: 1, height: '100%', alignContent: 'center', justifyContent: 'center', }}>
+                  <Text style={{ fontSize: 20, alignSelf: 'center', marginTop: 150 }}>No Survey Found</Text>
+                </View>)
+              }}
+              renderItem={({ item, index }) => this.renderTakenRow(item, index)}
+              keyExtractor={item => item.surveyID}
+              onRefresh={() => this._onRefreshList()}
+              refreshing={this.state.isFetchingTaken}
+              tabLabel={'Taken'}
+            />
+          </ScrollableTabView>
+        </View>
       )
     }
   }
 
   render() {
     return (
-      <View style={styles.mainContainer}>
-        <ScreenHeader
-          navigation={this.props.navigation}
-          title={'Survey'}
-          userPoint={GlobalAppModel.redeemablePoint || '0'} />
-        {this._renderBody()}
-        <BottomNavigationTab
-          navigation={this.props.navigation} />
-      </View>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.mainContainer}>
+          <ScreenHeader
+            navigation={this.props.navigation}
+            title={'Survey'}
+            userPoint={GlobalAppModel.redeemablePoint || '0'} />
+          {this._renderBody()}
+          <BottomNavigationTab
+            navigation={this.props.navigation} />
+        </View>
+      </SafeAreaView>
     );
   }
 }

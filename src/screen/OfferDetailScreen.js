@@ -8,6 +8,7 @@ import {
   BackHandler,
   Linking,
   Alert,
+  SafeAreaView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ScreenHeader } from '../widget/ScreenHeader';
@@ -420,19 +421,21 @@ export default class OfferDetailScreen extends Component {
 
   render() {
     return (
-      <View style={styles.mainContainer}>
-        <ScreenHeader
-          navigation={this.props.navigation}
-          title={'Offer Detail'}
-          userPoint={this.state.userPoint}
-          isGoBack={true}
-          onGoBack={() => {
-            this.props.navigation.state.params.onGoBack();
-          }} />
-        {this._renderLocation()}
-        {this._renderBody()}
-        {this._renderButtom()}
-      </View>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.mainContainer}>
+          <ScreenHeader
+            navigation={this.props.navigation}
+            title={'Offer Detail'}
+            userPoint={this.state.userPoint}
+            isGoBack={true}
+            onGoBack={() => {
+              this.props.navigation.state.params.onGoBack();
+            }} />
+          {this._renderLocation()}
+          {this._renderBody()}
+          {this._renderButtom()}
+        </View>
+      </SafeAreaView>
     );
   }
 }

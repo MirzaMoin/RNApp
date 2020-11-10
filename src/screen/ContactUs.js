@@ -4,13 +4,14 @@ import {
   Text,
   Image,
   SafeAreaView,
-  TouchableNativeFeedback,
+  // TouchableNativeFeedback,
+  TouchableOpacity,
   Platform,
   KeyboardAvoidingView,
   ScrollView,
   Dimensions,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import TextInput from 'react-native-textinput-with-icons';
 import { isValidEmail, isValidPhoneNo } from './../utils/utility';
@@ -189,11 +190,13 @@ export default class ContactUs extends Component {
     if(this.state.isLoading) {
       return <ActivityIndicator style={{marginTop: 10}} size={30} />
     } else {
-      return <TouchableNativeFeedback
+      return <TouchableOpacity
+      // <TouchableNativeFeedback
       style={styles.buttonContainer}
       onPress={() => this._validateData()}>
       <Text style={styles.button}>Send Message</Text>
-    </TouchableNativeFeedback> 
+    {/* </TouchableNativeFeedback> */}
+    </TouchableOpacity>
     }
 
   }

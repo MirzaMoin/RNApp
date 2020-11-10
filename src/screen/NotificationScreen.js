@@ -7,10 +7,11 @@ import {
   FlatList,
   SafeAreaView,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
-import { TouchableNativeFeedback } from 'react-native-gesture-handler';
+// import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 import { Header } from 'react-navigation-stack';
 import { Avatar } from 'react-native-elements';
 import { Card } from 'react-native-elements';
@@ -266,7 +267,8 @@ export default class NotificationScreen extends Component {
               }
             />
           </TouchableHighlight>
-          <TouchableNativeFeedback
+          {/* <TouchableNativeFeedback */}
+          <TouchableOpacity
             onPress={() => this._deleteMultipleNotification()}
             onLongPress={() =>
               Toast.show('Delete checked notification', Toast.LONG)
@@ -282,7 +284,8 @@ export default class NotificationScreen extends Component {
               }}
               name={'delete'}
             />
-          </TouchableNativeFeedback>
+            {/* </TouchableNativeFeedback> */}
+          </TouchableOpacity>
         </View>
       );
   };
@@ -373,8 +376,9 @@ export default class NotificationScreen extends Component {
               flexDirection: 'row',
               backgroundColor: '#012340',
             }}>
-            <TouchableNativeFeedback
-              style={{ justifyContent: 'center', flex: 1 }}
+            {/* <TouchableNativeFeedback */}
+            <TouchableOpacity
+              style={{ justifyContent: 'center', }}
               onPress={() => {
                 this.props.navigation.toggleDrawer();
               }}>
@@ -387,7 +391,8 @@ export default class NotificationScreen extends Component {
                 }}
                 name={'menu'}
               />
-            </TouchableNativeFeedback>
+              {/* </TouchableNativeFeedback> */}
+            </TouchableOpacity>
             <Text
               style={{
                 fontSize: 20,

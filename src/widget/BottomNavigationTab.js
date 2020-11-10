@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableNativeFeedback, Text } from 'react-native';
+import { View, Image, TouchableNativeFeedback, TouchableOpacity, Text, Platform } from 'react-native';
 import HomeModel from './../model/HomeModel';
 import GlobalAppModel from './../model/GlobalAppModel';
 import FooterMenuModel from './../model/FooterMenuModel';
@@ -24,7 +24,8 @@ export default class BottomNavigationTab extends Component<Props, State> {
   _renderBottomMenuItem = menuItem => {
     const footerMenu = new FooterMenuModel(menuItem)
     return (
-      <TouchableNativeFeedback
+      <TouchableOpacity
+        // <TouchableNativeFeedback
         style={styles.footerMenuItem}
         onPress={() => {
           if (footerMenu.footerLinkType == 'external') {
@@ -35,7 +36,7 @@ export default class BottomNavigationTab extends Component<Props, State> {
               });
             } catch (Exeption) { console.log(`Error : ${Exeption}`) }
           } else {
-            if(footerMenu.footerInternalLinkUrl !== this.props.navigation.state.routeName){
+            if (footerMenu.footerInternalLinkUrl !== this.props.navigation.state.routeName) {
               this.props.navigation.push(footerMenu.footerInternalLinkUrl);
             }
           }
@@ -44,17 +45,18 @@ export default class BottomNavigationTab extends Component<Props, State> {
           <Icon name={footerMenu.footerIcon} style={{ fontSize: 19, color: 'white' }} />
           <Text lineBreakMode={'tail'} numberOfLines={1} style={styles.footerMenuSelectedItemText}>{footerMenu.footerText}</Text>
         </View>
-      </TouchableNativeFeedback>
+        {/* </TouchableNativeFeedback> */}
+      </TouchableOpacity>
     );
   }
 
   render() {
     if (HomeModel.homePageDisplayFooter && HomeModel.footerLinks.length > 0) {
       return (
-        <View style={[styles.footerContainer,{backgroundColor: parseColor(GlobalAppModel.footerColor)}]}>
+        <View style={[styles.footerContainer, { backgroundColor: parseColor(GlobalAppModel.footerColor) }]}>
           {
             HomeModel.footerLinks.map((item) => {
-             return this._renderBottomMenuItem(item)
+              return this._renderBottomMenuItem(item)
             })
           }
         </View>
@@ -78,7 +80,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     color: 'white',
-    paddingVertical: 10,
+    paddingVertical: (Platform.OS == 'ios') ? 0 : 10,
     flexDirection: 'column',
   },
   footerMenuSelectedItemText: {

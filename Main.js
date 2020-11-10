@@ -48,7 +48,7 @@ import ImageLoader from './src/widget/ImageLoader';
 
 import Screen2 from './pages/Screen2';
 
-import { TouchableNativeFeedback } from 'react-native-gesture-handler';
+// import { TouchableOpacity } from 'react-native-gesture-handler';
 import { MenuProvider } from 'react-native-popup-menu';
 import MenuPermissionModel from './src/model/MenuPermissionModel';
 
@@ -95,7 +95,7 @@ class NavigationDrawerStructure extends Component {
 class LogoutItem extends Component {
   render() {
     return (
-      <TouchableNativeFeedback
+      <TouchableOpacity
         activeOpacity={1}
         onPress={async () => {
           //_storeLououtData();
@@ -111,7 +111,7 @@ class LogoutItem extends Component {
           <View style={{ width: '12%' }} />
           <Text style={{ fontWeight: 'bold' }}>Logout</Text>
         </View>
-      </TouchableNativeFeedback>
+      </TouchableOpacity>
     )
   }
 }
@@ -246,7 +246,7 @@ class DrawerHeaderComponent extends Component {
 
 const renderHomeScreen = props => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('homeScreen');
@@ -256,13 +256,13 @@ const renderHomeScreen = props => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Home</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   )
 }
 
 const renderProfileScreenMenu = (props) => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('profileScreen');
@@ -272,13 +272,13 @@ const renderProfileScreenMenu = (props) => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Edit Profile</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   )
 }
 
 const renderWayToEarn = props => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('wayToEarn');
@@ -288,13 +288,13 @@ const renderWayToEarn = props => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Way To Earn</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 }
 
 const renderRewardEntryGoals = props => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('rpg');
@@ -304,13 +304,13 @@ const renderRewardEntryGoals = props => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Reward Entry Goal</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 }
 
 const renderRedeemCashback = props => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('redeemCashback');
@@ -320,13 +320,13 @@ const renderRedeemCashback = props => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Redeem Cashback</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 }
 
 const renderLeaderboard = props => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('leaderboard');
@@ -336,13 +336,13 @@ const renderLeaderboard = props => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Leader Board</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 }
 
 const renderNotification = props => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('notificaiton');
@@ -352,13 +352,13 @@ const renderNotification = props => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Notification</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 }
 
 const renderTransactionHistory = props => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('transactionHistory');
@@ -368,13 +368,13 @@ const renderTransactionHistory = props => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Transaction History</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 }
 
 const renderOffers = props => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('offer');
@@ -384,13 +384,13 @@ const renderOffers = props => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Offers</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 }
 
 const renderTransferPoint = props => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('transferPoint');
@@ -400,13 +400,13 @@ const renderTransferPoint = props => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Transfer Point</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 }
 
 const renderUploadReceipt = props => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('uploadReceipt');
@@ -416,13 +416,13 @@ const renderUploadReceipt = props => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Upload Receipt</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 }
 
 const renderRefereFriend = props => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('refereFriend');
@@ -432,13 +432,13 @@ const renderRefereFriend = props => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Refere Friend</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 }
 
 const renderContactUs = props => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('contactUs');
@@ -448,13 +448,13 @@ const renderContactUs = props => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Contact Us</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 }
 
 const renderLocation = props => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('locations');
@@ -464,13 +464,13 @@ const renderLocation = props => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Locations</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 }
 
 const renderSocailShare = props => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('socialShare');
@@ -480,13 +480,13 @@ const renderSocailShare = props => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Social Share</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 }
 
 const renderTakeSurvey = props => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('takeSurvey');
@@ -496,13 +496,13 @@ const renderTakeSurvey = props => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Take Survey</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 }
 
 const renderChangePassword = props => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
       activeOpacity={0.8}
       onPress={async () => {
         props.navigation.navigate('changePassword');
@@ -512,7 +512,7 @@ const renderChangePassword = props => {
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Change Password</Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 }
 
@@ -571,10 +571,10 @@ const CreateDrawerComponent = props => (
           //MenuPermissionModel.isVisibleMenuLocation && 
           renderLocation(props)
         }
-        {
+        {/* {
           //MenuPermissionModel.isVisibleMenu
           renderSocailShare(props)
-        }
+        } */}
         {
           //MenuPermissionModel.isVisibleMenuTakeSurvey && 
           renderTakeSurvey(props)
@@ -583,7 +583,7 @@ const CreateDrawerComponent = props => (
           //MenuPermissionModel.isVisibleChangePassword &&
           renderChangePassword(props)
         }
-        <TouchableNativeFeedback
+        {/* <TouchableOpacity
           activeOpacity={1}
           onPress={() => {
             props.navigation.navigate('webScreen');
@@ -593,8 +593,8 @@ const CreateDrawerComponent = props => (
             <View style={{ width: '12%' }} />
             <Text style={{ fontWeight: 'bold' }}>WebBrowser</Text>
           </View>
-        </TouchableNativeFeedback>
-        <TouchableNativeFeedback
+        </TouchableOpacity> */}
+        <TouchableOpacity
           activeOpacity={1}
           onPress={async () => {
             //_storeLououtData();
@@ -612,7 +612,7 @@ const CreateDrawerComponent = props => (
             <View style={{ width: '12%' }} />
             <Text style={{ fontWeight: 'bold' }}>Logout</Text>
           </View>
-        </TouchableNativeFeedback>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   </SafeAreaView>

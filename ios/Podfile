@@ -1,8 +1,30 @@
 platform :ios, '10.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
+project 'RRBeacon.xcodeproj'
 target 'RRBeacon' do
+ ## project 'RRBeacon'
   # Pods for RRBeacon
+   permissions_path = '../node_modules/react-native-permissions/ios'
+
+  pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency.podspec"
+  pod 'Permission-BluetoothPeripheral', :path => "#{permissions_path}/BluetoothPeripheral.podspec"
+  pod 'Permission-Calendars', :path => "#{permissions_path}/Calendars.podspec"
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
+  pod 'Permission-Contacts', :path => "#{permissions_path}/Contacts.podspec"
+  pod 'Permission-FaceID', :path => "#{permissions_path}/FaceID.podspec"
+  pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways.podspec"
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
+  pod 'Permission-MediaLibrary', :path => "#{permissions_path}/MediaLibrary.podspec"
+  pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone.podspec"
+  pod 'Permission-Motion', :path => "#{permissions_path}/Motion.podspec"
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications.podspec"
+  pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary.podspec"
+  pod 'Permission-Reminders', :path => "#{permissions_path}/Reminders.podspec"
+  pod 'Permission-Siri', :path => "#{permissions_path}/Siri.podspec"
+  pod 'Permission-SpeechRecognition', :path => "#{permissions_path}/SpeechRecognition.podspec"
+  pod 'Permission-StoreKit', :path => "#{permissions_path}/StoreKit.podspec"
+  
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -35,7 +57,7 @@ target 'RRBeacon' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
 
-pod 'LinkedinSwift', '~> 1.6.6'
+# pod 'LinkedinSwift', '~> 1.6.6'
 
   pod 'RNScreens', :path => '../node_modules/react-native-screens'
 
@@ -49,6 +71,9 @@ pod 'LinkedinSwift', '~> 1.6.6'
   pod 'react-native-maps', :path => '../node_modules/react-native-maps'
 
   pod 'react-native-video', :path => '../node_modules/react-native-video'
+
+  pod 'Firebase/Core'
+  pod 'Firebase/Firestore'
 
   target 'RRBeaconTests' do
     inherit! :search_paths

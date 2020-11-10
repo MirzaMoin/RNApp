@@ -3,6 +3,7 @@ import {
   View,
   Text,
   ScrollView,
+  SafeAreaView,
 } from 'react-native';
 import { Card } from 'react-native-elements';
 import StepIndicator from 'react-native-step-indicator';
@@ -54,124 +55,126 @@ export default class SurveyFormScreen extends Component {
 
   render() {
     return (
-      <View style={styles.mainContainer}>
-        <Text style={{ margin: 10, fontSize: 20 }}>Pages to Completion</Text>
-        <StepIndicator
-          customStyles={this.customStyles}
-          currentPosition={this.state.currentPosition}
-          labels={this.labels}
-        />
-        <View style={{ flex: 1, marginTop: 1, paddingBottom: 5 }}>
-          <ScrollView style={{ flex: 1 }}>
-            <View style={{ flex: 1 }}>
-              <Card containerStyle={{ borderRadius: 10 }} st>
-                <Text style={{ fontSize: 20, color: '#012340' }}>
-                  1. How is our app
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.mainContainer}>
+          <Text style={{ margin: 10, fontSize: 20 }}>Pages to Completion</Text>
+          <StepIndicator
+            customStyles={this.customStyles}
+            currentPosition={this.state.currentPosition}
+            labels={this.labels}
+          />
+          <View style={{ flex: 1, marginTop: 1, paddingBottom: 5 }}>
+            <ScrollView style={{ flex: 1 }}>
+              <View style={{ flex: 1 }}>
+                <Card containerStyle={{ borderRadius: 10 }} st>
+                  <Text style={{ fontSize: 20, color: '#012340' }}>
+                    1. How is our app
                 </Text>
-                <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
-                  Please rate us on 5 star scale, 5=Best 1=Worst
+                  <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
+                    Please rate us on 5 star scale, 5=Best 1=Worst
                 </Text>
-                <StarRating
-                  disabled={false}
-                  maxStars={5}
-                  rating={this.state.starCount}
-                  selectedStar={rating => this.onStarRatingPress(rating)}
-                  style={{ margin: 10 }}
-                  halfStarEnabled={true}
-                  fullStarColor={'#012340'}
-                />
-              </Card>
+                  <StarRating
+                    disabled={false}
+                    maxStars={5}
+                    rating={this.state.starCount}
+                    selectedStar={rating => this.onStarRatingPress(rating)}
+                    style={{ margin: 10 }}
+                    halfStarEnabled={true}
+                    fullStarColor={'#012340'}
+                  />
+                </Card>
 
-              <Card containerStyle={{ borderRadius: 10 }}>
-                <Text style={{ fontSize: 20, color: '#012340' }}>
-                  2. Write something to us.
+                <Card containerStyle={{ borderRadius: 10 }}>
+                  <Text style={{ fontSize: 20, color: '#012340' }}>
+                    2. Write something to us.
                 </Text>
-                <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
-                  Optiona answer, not required
+                  <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
+                    Optiona answer, not required
                 </Text>
-                <TextInput
-                  containerheight={320}
-                  numberOfLines={5}
-                  multiline={true}
-                  height={100}
-                  label="Enter Something"
-                  leftIconSize={20}
-                />
-              </Card>
+                  <TextInput
+                    containerheight={320}
+                    numberOfLines={5}
+                    multiline={true}
+                    height={100}
+                    label="Enter Something"
+                    leftIconSize={20}
+                  />
+                </Card>
 
-              <Card containerStyle={{ borderRadius: 10 }} st>
-                <Text style={{ fontSize: 20, color: '#012340' }}>
-                  1. How is our app
+                <Card containerStyle={{ borderRadius: 10 }} st>
+                  <Text style={{ fontSize: 20, color: '#012340' }}>
+                    1. How is our app
                 </Text>
-                <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
-                  Please rate us on 5 star scale, 5=Best 1=Worst
+                  <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
+                    Please rate us on 5 star scale, 5=Best 1=Worst
                 </Text>
-                <StarRating
-                  disabled={false}
-                  maxStars={5}
-                  rating={this.state.starCount}
-                  selectedStar={rating => this.onStarRatingPress(rating)}
-                  style={{ margin: 10 }}
-                  halfStarEnabled={true}
-                  fullStarColor={'#012340'}
-                />
-              </Card>
+                  <StarRating
+                    disabled={false}
+                    maxStars={5}
+                    rating={this.state.starCount}
+                    selectedStar={rating => this.onStarRatingPress(rating)}
+                    style={{ margin: 10 }}
+                    halfStarEnabled={true}
+                    fullStarColor={'#012340'}
+                  />
+                </Card>
 
-              <Card containerStyle={{ borderRadius: 10 }} st>
-                <Text style={{ fontSize: 20, color: '#012340' }}>
-                  2. Write something to us.
+                <Card containerStyle={{ borderRadius: 10 }} st>
+                  <Text style={{ fontSize: 20, color: '#012340' }}>
+                    2. Write something to us.
                 </Text>
-                <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
-                  Optiona answer, not required
+                  <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
+                    Optiona answer, not required
                 </Text>
-                <TextInput
-                  containerheight={320}
-                  numberOfLines={5}
-                  multiline={true}
-                  height={100}
-                  label="Enter Something"
-                  leftIconSize={20}
-                />
-              </Card>
+                  <TextInput
+                    containerheight={320}
+                    numberOfLines={5}
+                    multiline={true}
+                    height={100}
+                    label="Enter Something"
+                    leftIconSize={20}
+                  />
+                </Card>
 
-              <Card containerStyle={{ borderRadius: 10 }} st>
-                <Text style={{ fontSize: 20, color: '#012340' }}>
-                  1. How is our app
+                <Card containerStyle={{ borderRadius: 10 }} st>
+                  <Text style={{ fontSize: 20, color: '#012340' }}>
+                    1. How is our app
                 </Text>
-                <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
-                  Please rate us on 5 star scale, 5=Best 1=Worst
+                  <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
+                    Please rate us on 5 star scale, 5=Best 1=Worst
                 </Text>
-                <StarRating
-                  disabled={false}
-                  maxStars={5}
-                  rating={this.state.starCount}
-                  selectedStar={rating => this.onStarRatingPress(rating)}
-                  style={{ margin: 10 }}
-                  halfStarEnabled={true}
-                  fullStarColor={'#012340'}
-                />
-              </Card>
+                  <StarRating
+                    disabled={false}
+                    maxStars={5}
+                    rating={this.state.starCount}
+                    selectedStar={rating => this.onStarRatingPress(rating)}
+                    style={{ margin: 10 }}
+                    halfStarEnabled={true}
+                    fullStarColor={'#012340'}
+                  />
+                </Card>
 
-              <Card containerStyle={{ borderRadius: 10 }} st>
-                <Text style={{ fontSize: 20, color: '#012340' }}>
-                  2. Write something to us.
+                <Card containerStyle={{ borderRadius: 10 }} st>
+                  <Text style={{ fontSize: 20, color: '#012340' }}>
+                    2. Write something to us.
                 </Text>
-                <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
-                  Optiona answer, not required
+                  <Text style={{ marginBottom: 10, marginTop: 10, fontSize: 15 }}>
+                    Optiona answer, not required
                 </Text>
-                <TextInput
-                  containerheight={320}
-                  numberOfLines={5}
-                  multiline={true}
-                  height={100}
-                  label="Enter Something"
-                  leftIconSize={20}
-                />
-              </Card>
-            </View>
-          </ScrollView>
+                  <TextInput
+                    containerheight={320}
+                    numberOfLines={5}
+                    multiline={true}
+                    height={100}
+                    label="Enter Something"
+                    leftIconSize={20}
+                  />
+                </Card>
+              </View>
+            </ScrollView>
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }

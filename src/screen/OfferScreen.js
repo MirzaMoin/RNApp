@@ -3,11 +3,13 @@ import {
   View,
   Text,
   Image,
-  TouchableNativeFeedback,
+  // TouchableNativeFeedback,
+  TouchableOpacity,
   FlatList,
   AsyncStorage,
   Dimensions,
   Alert,
+  SafeAreaView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ScreenHeader } from '../widget/ScreenHeader';
@@ -169,7 +171,8 @@ export default class OfferScreen extends Component {
           scrollEnabled={true}
           data={this.state.offerList}
           renderItem={({ item, index }) => (
-            <TouchableNativeFeedback
+            <TouchableOpacity
+              // <TouchableNativeFeedback
               activeOpacity={0.8}
               onPress={() => {
                 this.props.navigation.navigate('offerDetail', {
@@ -219,7 +222,7 @@ export default class OfferScreen extends Component {
                       </Text>
                     </View>
                   </View>
-                  <Text style={[styles.offerDetail, { color: parseColor(item.descColor)}]}>
+                  <Text style={[styles.offerDetail, { color: parseColor(item.descColor) }]}>
                     {item.offerDescription}
                   </Text>
                   <View style={styles.baseOfferType}>
@@ -234,7 +237,8 @@ export default class OfferScreen extends Component {
 
                 </View>
               </View>
-            </TouchableNativeFeedback>
+              {/* </TouchableNativeFeedback> */}
+            </TouchableOpacity>
           )}
         />
       );
@@ -243,14 +247,16 @@ export default class OfferScreen extends Component {
 
   render() {
     return (
-      <View style={styles.mainContainer}>
-        <ScreenHeader
-          navigation={this.props.navigation}
-          title={'Offers'}
-          userPoint={GlobalAppModel.redeemablePoint} />
-        {this._renderBody()}
-        <BottomNavigationTab navigation={this.props.navigation} />
-      </View>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.mainContainer}>
+          <ScreenHeader
+            navigation={this.props.navigation}
+            title={'Offers'}
+            userPoint={GlobalAppModel.redeemablePoint} />
+          {this._renderBody()}
+          <BottomNavigationTab navigation={this.props.navigation} />
+        </View>
+      </SafeAreaView>
     );
   }
 }

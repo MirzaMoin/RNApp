@@ -48,10 +48,8 @@ class HomeModel {
     homePageBottomIconBackgroundColor;
     footerLinks;
     menuLinks;
-
-    constructor() {}
-
-    setHomeScreenData (data) {
+    constructor() { }
+    setHomeScreenData(data) {
         this.homePageDisplayRibbon = data.homePageDisplayRibbon;
         this.homePageRibbonPosition = data.homePageRibbonPosition;
         this.homePageRibbonText = data.homePageRibbonText;
@@ -90,9 +88,8 @@ class HomeModel {
         this.homePageBottomIconShape = data.homePageBottomIconShape;
         this.homePageBottomIconColor = data.homePageBottomIconColor;
         this.homePageBottomIconBackgroundColor = data.homePageBottomIconBackgroundColor;
-        this.footerLinks = data.footerLinks;
-        this.menuLinks = data.menuLinks;
+        this.footerLinks = data.footerLinks || [];
+        this.menuLinks = data.menuLinks || [];
     }
 }
-
 export default new HomeModel();

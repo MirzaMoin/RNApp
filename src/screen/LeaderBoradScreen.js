@@ -3,11 +3,13 @@ import {
   View,
   Text,
   Image,
-  TouchableNativeFeedback,
+  // TouchableNativeFeedback,
+  TouchableOpacity,
   Alert,
   AsyncStorage,
   FlatList,
-  Dimensions
+  Dimensions,
+  SafeAreaView
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { makeRequest } from './../api/apiCall';
@@ -239,7 +241,8 @@ export default class LeaderBoardScreen extends Component {
               padding: 5,
               marginRight: 7,
             }}>
-              <TouchableNativeFeedback
+              {/* <TouchableNativeFeedback */}
+              <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() => {
                   this._showToast(`To qualify ${this.state.qualificationCriteria.referralToQualify} Share requireds`)
@@ -248,7 +251,8 @@ export default class LeaderBoardScreen extends Component {
                   <MDIcon name={'share'} style={{ fontSize: 17 }} />
                   <Text style={{ flex: 1, fontSize: 15, marginHorizontal: 10, textAlign: 'center', }}>Requried {this.state.qualificationCriteria.referralToQualify || 2}</Text>
                 </View>
-              </TouchableNativeFeedback>
+              </TouchableOpacity>
+              {/* </TouchableNativeFeedback> */}
             </Card>
 
             <Card containerStyle={{
@@ -259,7 +263,8 @@ export default class LeaderBoardScreen extends Component {
               padding: 5,
               marginRight: 7,
             }}>
-              <TouchableNativeFeedback
+              {/* <TouchableNativeFeedback */}
+              <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() => {
                   this._showToast(`To qualify refere atlist ${this.state.qualificationCriteria.referralToQualify} Friends `)
@@ -268,7 +273,8 @@ export default class LeaderBoardScreen extends Component {
                   <MDIcon name={'group-add'} style={{ fontSize: 20 }} />
                   <Text style={{ flex: 1, fontSize: 15, marginHorizontal: 10, textAlign: 'center', }}>Requried {this.state.qualificationCriteria.referralToQualify || 2}</Text>
                 </View>
-              </TouchableNativeFeedback>
+              </TouchableOpacity>
+              {/* </TouchableNativeFeedback> */}
             </Card>
           </View>
           <View style={{
@@ -358,16 +364,18 @@ export default class LeaderBoardScreen extends Component {
 
   render() {
     return (
-      <View style={styles.mainContainer}>
-        <ScreenHeader
-          navigation={this.props.navigation}
-          title={'Leaderboard'}
-          hidePoint={true}
-          buildFilter={true}
-          onPress={() => { this.showPicker() }} />
-        {this._renderBody()}
-        <BottomNavigationTab navigation={this.props.navigation} />
-      </View>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.mainContainer}>
+          <ScreenHeader
+            navigation={this.props.navigation}
+            title={'Leaderboard'}
+            hidePoint={true}
+            buildFilter={true}
+            onPress={() => { this.showPicker() }} />
+          {this._renderBody()}
+          <BottomNavigationTab navigation={this.props.navigation} />
+        </View>
+      </SafeAreaView>
     );
   }
 }

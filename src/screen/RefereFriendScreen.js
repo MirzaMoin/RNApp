@@ -3,13 +3,15 @@ import {
   View,
   Text,
   Image,
-  TouchableNativeFeedback,
+  TouchableHighlight,
+  // TouchableOpacity,
   Platform,
   ScrollView,
   Dimensions,
   Share,
   Linking,
   AsyncStorage,
+  SafeAreaView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 import BottomNavigationTab from './../widget/BottomNavigationTab';
@@ -42,6 +44,23 @@ class RefereFriendScreen extends Component {
       this.setState({
         isLoading: true
       });
+      //firebase config
+      const iosConfig = {
+        clientId: '757739001851-1figk5703uqf94agrmldaf3m15t0ci8a.apps.googleusercontent.com',
+        appId: '1:757739001851:ios:1bb002b8361480481d1d5e',
+        apiKey: 'AIzaSyAnMUGeHLKwgmFIRDf7rcl0vEBy4x-qznA',
+        databaseURL: 'https://rnbeacon-55576.firebaseio.com',
+        storageBucket: 'rnbeacon-55576.appspot.com',
+        projectId: 'rnbeacon-55576',
+        persistence: true,
+      };
+      firebase.initializeApp(
+        // use platform specific firebase config
+        Platform.OS === 'ios' ? iosConfig : null,
+        // name of this app
+        'rnbeacon-55576',
+      );
+
     });
   }
 
@@ -75,213 +94,231 @@ class RefereFriendScreen extends Component {
   render() {
     const { width } = Dimensions.get('window');
     return (
-      <View style={styles.container}>
-        <ScreenHeader
-          navigation={this.props.navigation}
-          title={'Refer Friend'}
-          userPoint={GlobalAppModel.redeemablePoint} />
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            bounces={false}
-            contentContainerStyle={styles.baseScrollView}>
-            <View>
-              <View style={{ hegith: imageHeight, width: maxWidth }}>
-                <Image
-                  style={{ height: imageHeight }}
-                  source={{
-                    uri:
-                      apiConstant.HEADER_IMAGE,
-                  }}
-                  resizeMode="cover"
-                />
-                <View style={styles.imageOverlay} />
-              </View>
-              <View style={{ flex: 1, marginVertical: 15, marginHorizontal: '10%' }}>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    fontSize: 24,
-                    fontWeight: 'bold',
-                  }}>
-                  Invite Your Friend
-                </Text>
-                <Text
-                  style={{
-                    marginLeft: 20,
-                    marginRight: 20,
-                    textAlign: 'center',
-                    marginTop: 10,
-                    minHeight: 150,
-                  }}>
-                  For every frind that join, you will recive $20{' '}
-                </Text>
-                <TouchableNativeFeedback
-                  style={{
-                    marginLeft: 10,
-                    marginRight: 10,
-                    width: undefined,
-                    marginTop: 10,
-                    marginBottom: 20,
-                    alignSelf: 'center',
-                    flexDirection: 'row',
-                  }}
-                  onPress={async () => {
-                    const link = await this._buildLink('Self')
-                    this._ShareMessage(link);
-                  }}>
-                  <View style={{justifyContent: 'center'}}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <ScreenHeader
+            navigation={this.props.navigation}
+            title={'Refer Friend'}
+            userPoint={GlobalAppModel.redeemablePoint} />
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              bounces={false}
+              contentContainerStyle={styles.baseScrollView}>
+              <View>
+                <View style={{ hegith: imageHeight, width: maxWidth }}>
+                  <Image
+                    style={{ height: imageHeight }}
+                    source={{
+                      uri:
+                        apiConstant.HEADER_IMAGE,
+                    }}
+                    resizeMode="cover"
+                  />
+                  <View style={styles.imageOverlay} />
+                </View>
+                <View style={{ flex: 1, marginVertical: 15, marginHorizontal: '10%', }}>
                   <Text
                     style={{
-                      flex: 1,
-                      backgroundColor: GlobalAppModel.primaryButtonColor || '#012340',
                       textAlign: 'center',
-                      fontSize: 16,
-                      borderRadius: 10,
-                      color: 'white',
-                      padding: 15,
+                      fontSize: 24,
+                      fontWeight: 'bold',
                     }}>
-                    Share/Copy Invite Link
+                    Invite Your Friend
+                </Text>
+                  <Text
+                    style={{
+                      marginLeft: 20,
+                      marginRight: 20,
+                      textAlign: 'center',
+                      marginTop: 10,
+                      minHeight: 150,
+                    }}>
+                    For every frind that join, you will recive $20{' '}
                   </Text>
-                  <Icon name={'share-alt'} style={{color: 'white', fontSize: .20, position: 'absolute', alignSelf: 'flex-end', margin: 10, paddingRight: 15}} />
-                  </View>
-                </TouchableNativeFeedback>
-                <View
-                  style={{
-                    marginTop: 10,
-                    marginLeft: 10,
-                    marginRight: 10,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
+                  <TouchableHighlight
+                    // <TouchableOpacity
+                    style={{
+                      marginLeft: 10,
+                      marginRight: 10,
+                      width: undefined,
+                      marginTop: 10,
+                      marginBottom: 20,
+                      alignSelf: 'center',
+                      flexDirection: 'row',
+                    }}
+                    onPress={async () => {
+                      console.log("shere button presed")
+                      const link = await this._buildLink('Self')
+                      this._ShareMessage(link);
+                    }}>
+                    <View style={{ justifyContent: 'center' }}>
+                      <Text
+                        style={{
+                          flex: 1,
+                          backgroundColor: GlobalAppModel.primaryButtonColor || '#012340',
+                          textAlign: 'center',
+                          fontSize: 16,
+                          borderRadius: 10,
+                          color: 'white',
+                          padding: 15,
+                        }}>
+                        Share/Copy Invite Link
+                  </Text>
+                      <Icon name={'share-alt'} style={{ color: 'white', fontSize: .20, position: 'absolute', alignSelf: 'flex-end', margin: 10, paddingRight: 15 }} />
+                    </View>
+                  </TouchableHighlight>
+                  {/* </TouchableOpacity> */}
                   <View
                     style={{
-                      flex: 1,
-                      flexDirection: 'row',
-                      position: 'absolute',
+                      marginTop: 10,
+                      marginLeft: 10,
+                      marginRight: 10,
+                      justifyContent: 'center',
+                      alignItems: 'center',
                     }}>
                     <View
                       style={{
                         flex: 1,
-                        backgroundColor: 'rgba(153,153,153,0.5)',
-                        height: 2,
-                      }}
-                    />
-                  </View>
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      backgroundColor: '#fff',
-                      fontWeight: 'bold',
-                      paddingLeft: 25,
-                      paddingRight: 25,
-                      marginVertical: 25
-                    }}>
-                    Share Link with
+                        flexDirection: 'row',
+                        position: 'absolute',
+                      }}>
+                      <View
+                        style={{
+                          flex: 1,
+                          backgroundColor: 'rgba(153,153,153,0.5)',
+                          height: 2,
+                        }}
+                      />
+                    </View>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        backgroundColor: '#fff',
+                        fontWeight: 'bold',
+                        paddingLeft: 25,
+                        paddingRight: 25,
+                        marginVertical: 25
+                      }}>
+                      Share Link with
                   </Text>
-                </View>
-                <View
-                  style={{
+                  </View>
+                  <View style={{
                     flex: 1,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-
                   }}>
-                  <TouchableNativeFeedback
-                    onPress={async () => {
-                      const link = await this._buildLink('Facebook')
-                      const shareLinkContent = {
-                        contentType: 'link',
-                        contentUrl: link,
-                        contentDescription: 'Wow, check out this great site!',
-                      };
-                      ShareDialog.canShow(shareLinkContent)
-                        .then(function (canShow) {
-                          if (canShow) {
-                            return ShareDialog.show(shareLinkContent);
-                          }
-                        })
-                        .then(
-                          function (result) {
-                            if (result.isCancelled) {
-                              console.log('Share cancelled by user');
-                            } else {
-                              console.log('Share success with postId: ' + result.postId);
+                    <TouchableHighlight
+                      // <TouchableOpacity
+                      onPress={async () => {
+                        console.log("facebook button presed")
+                        const link = await this._buildLink('Facebook')
+                        const shareLinkContent = {
+                          contentType: 'link',
+                          contentUrl: link,
+                          contentDescription: 'Wow, check out this great site!',
+                        };
+                        ShareDialog.canShow(shareLinkContent)
+                          .then(function (canShow) {
+                            if (canShow) {
+                              return ShareDialog.show(shareLinkContent);
                             }
-                          },
-                          function (error) {
-                            console.log('Something went wrong while sharing social media: ' + error);
-                          },
-                        );
-                    }}>
-                    <Icon
-                      name={'facebook'}
-                      style={{ fontSize: 35, padding: 10, color: '#3b5998' }}
-                    />
-                  </TouchableNativeFeedback>
+                          })
+                          .then(
+                            function (result) {
+                              if (result.isCancelled) {
+                                console.log('Share cancelled by user');
+                              } else {
+                                console.log('Share success with postId: ' + result.postId);
+                              }
+                            },
+                            function (error) {
+                              console.log('Something went wrong while sharing social media: ' + error);
+                            },
+                          );
+                      }}>
+                      <Icon
+                        name={'facebook'}
+                        style={{ fontSize: 35, padding: 10, color: '#3b5998' }}
+                      />
+                    </TouchableHighlight>
+                    {/* </TouchableOpacity> */}
 
-                  <TouchableNativeFeedback
-                    onPress={async () => {
-                      const link = await this._buildLink('WhatsApp')
-                      const url = `https://wa.me/?text=${link}`;
-                      Linking.openURL(url);
-                    }}>
-                    <Icon
-                      name={'whatsapp'}
-                      style={{ fontSize: 35, padding: 10, color: '#4fce5d' }}
-                    />
-                  </TouchableNativeFeedback>
-
-                  <TouchableNativeFeedback
-                    onPress={async() => {
-                      const link = await this._buildLink('Email')
-                      const url = `mailto:?subject=Imvite and Earn&body=${link}`;
-                      Linking.openURL(url);
-                    }}>
-                    <Icon
-                      name={'envelope'}
-                      style={{ fontSize: 35, padding: 10, color: '#b23121' }}
-                    />
-                  </TouchableNativeFeedback>
-
-                  <TouchableNativeFeedback
-                    onPress={ async () => {
-                      try {
-                        const link = await this._buildLink('Twitter')
-                        const linkOpen = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Welcomer to the app click the link to install app`)}&url=${encodeURIComponent(link)}`
-                        Linking.openURL(linkOpen);
-                      } catch (error) {
-                        console.log('Error opening link', error);
-                      }
-                    }}>
-                    <Icon
-                      name={'twitter'}
-                      style={{ fontSize: 35, padding: 10, color: '#00acee' }}
-                    />
-                  </TouchableNativeFeedback>
-
-                  <TouchableNativeFeedback
-                    onPress={ async () => {
-                      try {
-                        const link = await this._buildLink('SMS')
-                        const url = `sms:${Platform.OS === "ios" ? "&" : "?"}body=${link}`
+                    <TouchableHighlight
+                      // <TouchableOpacity
+                      onPress={async () => {
+                        console.log("wa button presed")
+                        const link = await this._buildLink('WhatsApp')
+                        const url = `https://wa.me/?text=${link}`;
                         Linking.openURL(url);
-                      } catch (error) {
-                        console.log(`èrror while twitting ${error}`)
-                      }
-                    }}>
-                    <Icon
-                      name={'comment-dots'}
-                      style={{ fontSize: 35, padding: 10, color: '#3949ab' }}
-                    />
-                  </TouchableNativeFeedback>
+                      }}>
+                      <Icon
+                        name={'whatsapp'}
+                        style={{ fontSize: 35, padding: 10, color: '#4fce5d' }}
+                      />
+                      {/* </TouchableOpacity> */}
+                    </TouchableHighlight>
+
+                    <TouchableHighlight
+                      // <TouchableOpacity
+                      onPress={async () => {
+                        console.log("email button presed")
+                        const link = await this._buildLink('Email')
+                        const url = `mailto:?subject=Imvite and Earn&body=${link}`;
+                        Linking.openURL(url);
+                      }}>
+                      <Icon
+                        name={'envelope'}
+                        style={{ fontSize: 35, padding: 10, color: '#b23121' }}
+                      />
+                      {/* </TouchableOpacity> */}
+                    </TouchableHighlight>
+
+                    <TouchableHighlight
+                      // <TouchableOpacity
+                      onPress={async () => {
+                        try {
+                          console.log("twitter button presed")
+                          const link = await this._buildLink('Twitter')
+                          const linkOpen = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Welcomer to the app click the link to install app`)}&url=${encodeURIComponent(link)}`
+                          Linking.openURL(linkOpen);
+                        } catch (error) {
+                          console.log('Error opening link', error);
+                        }
+                      }}>
+                      <Icon
+                        name={'twitter'}
+                        style={{ fontSize: 35, padding: 10, color: '#00acee' }}
+                      />
+                      {/* </TouchableOpacity>Î */}
+                    </TouchableHighlight>
+
+                    <TouchableHighlight
+                      // <TouchableOpacity
+                      onPress={async () => {
+                        try {
+                          console.log("sms button presed")
+                          const link = await this._buildLink('SMS')
+                          const url = `sms:${Platform.OS === "ios" ? "&" : "?"}body=${link}`
+                          Linking.openURL(url);
+                        } catch (error) {
+                          console.log(`èrror while twitting ${error}`)
+                        }
+                      }}>
+                      <Icon
+                        name={'comment-dots'}
+                        style={{ fontSize: 35, padding: 10, color: '#3949ab' }}
+                      />
+                      {/* </TouchableOpacity> */}
+                    </TouchableHighlight>
+                  </View>
                 </View>
               </View>
-            </View>
-          </ScrollView>
+            </ScrollView>
+          </View>
+          <BottomNavigationTab />
         </View>
-        <BottomNavigationTab />
-      </View>
+      </SafeAreaView>
     );
   }
 }

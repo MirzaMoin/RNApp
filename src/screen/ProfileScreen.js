@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  TouchableNativeFeedback,
+  // TouchableNativeFeedback,
+  TouchableOpacity,
   Platform,
   KeyboardAvoidingView,
   ScrollView,
   Dimensions,
   AsyncStorage,
   Alert,
-  BackHandler
+  BackHandler,
+  SafeAreaView
 } from 'react-native';
 import TextInput from 'react-native-textinput-with-icons';
 import { makeRequest } from './../api/apiCall';
@@ -35,7 +37,7 @@ import BottomNavigationTab from './../widget/BottomNavigationTab';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import LoadingScreen from '../widget/LoadingScreen';
 import GlobalAppModel from '../model/GlobalAppModel';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+// import { TouchableOpacity } from 'react-native-gesture-handler';
 import { parseColor } from './../utils/utility';
 var loadingImage = '';
 
@@ -46,7 +48,7 @@ export default class ProfileScreen extends Component {
   static navigationOptions = {
     header: null,
   };
-  
+
   constructor() {
     super();
     this.state = {
@@ -85,7 +87,7 @@ export default class ProfileScreen extends Component {
   componentDidMount() {
     console.log(`prof ${GlobalAppModel.primaryButtonColor}`)
     const { navigation } = this.props;
-    BackHandler.addEventListener('hardwareBackPress', ()=>{
+    BackHandler.addEventListener('hardwareBackPress', () => {
       navigation.goBack();
     });
     this.focusListener = navigation.addListener('didFocus', () => {
@@ -437,48 +439,49 @@ export default class ProfileScreen extends Component {
       }
     }
 
-    customData.map(field => {
-      if (this._requireFields.indexOf(field.requiredType) > -1 || this.state.signup.customData[field.customFieldID]) {
-        if (this.state.signup.customData[field.customFieldID]) {
-          // hase value
-          if (field.minLength > 0 && field.maxLength > 0) {
-            if (field.controlTypeID >= 1 && field.controlTypeID <= 3) {
-              var value = this.state.signup.customData[field.customFieldID];
-              if (value.length >= field.minLength && value.length <= field.maxLength) {
-                customError = {
-                  ...customError,
-                  [field.customFieldID]: '',
+    if (customData)
+      customData.map(field => {
+        if (this._requireFields.indexOf(field.requiredType) > -1 || this.state.signup.customData[field.customFieldID]) {
+          if (this.state.signup.customData[field.customFieldID]) {
+            // hase value
+            if (field.minLength > 0 && field.maxLength > 0) {
+              if (field.controlTypeID >= 1 && field.controlTypeID <= 3) {
+                var value = this.state.signup.customData[field.customFieldID];
+                if (value.length >= field.minLength && value.length <= field.maxLength) {
+                  customError = {
+                    ...customError,
+                    [field.customFieldID]: '',
+                  }
+                } else {
+                  customError = {
+                    ...customError,
+                    [field.customFieldID]: `${field.fieldLabel} must contains ${field.minLength} to ${field.maxLength} charecter`,
+                  }
+                  isCall = false;
                 }
-              } else {
-                customError = {
-                  ...customError,
-                  [field.customFieldID]: `${field.fieldLabel} must contains ${field.minLength} to ${field.maxLength} charecter`,
-                }
-                isCall = false;
+              }
+            } else {
+              customError = {
+                ...customError,
+                [field.customFieldID]: '',
               }
             }
           } else {
-            customError = {
-              ...customError,
-              [field.customFieldID]: '',
+            // not value
+            if (field.controlTypeID >= 1 && field.controlTypeID <= 3) {
+              customError = {
+                ...customError,
+                [field.customFieldID]: `Please Enter ${field.fieldLabel}`
+              }
+            } else {
+              this._showToast(`Please select value of ${field.fieldLabel}`);
+              isCall = false;
+              return;
             }
+            //console.log('custom value');
           }
-        } else {
-          // not value
-          if (field.controlTypeID >= 1 && field.controlTypeID <= 3) {
-            customError = {
-              ...customError,
-              [field.customFieldID]: `Please Enter ${field.fieldLabel}`
-            }
-          } else {
-            this._showToast(`Please select value of ${field.fieldLabel}`);
-            isCall = false;
-            return;
-          }
-          //console.log('custom value');
         }
-      }
-    });
+      });
 
     this.setState({
       customerror: customError,
@@ -694,7 +697,7 @@ export default class ProfileScreen extends Component {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         ImageCropPicker.openCropper({
-          path: `file://${response.path}`,
+          path: Platform == 'ios' ? `~/${response.path}`:  `file://${response.path}`,
           width: 500,
           height: 500,
           cropping: true,
@@ -1800,23 +1803,25 @@ export default class ProfileScreen extends Component {
     if (this._visibleFields.indexOf(fieldsData.profilePictureRequired) > -1) {
       //console.log(`Profiel image state: ${this.state.signup.profileImage}`)
       return (
-        <TouchableNativeFeedback
+        <TouchableOpacity
+          // <TouchableNativeFeedback
           activeOpacity={0.7}
           onPress={() => {
             this._handleImageClick();
           }}
           style={styles.profileContainer}>
           <View style={{ marginBottom: 10, flexDirection: 'column-reverse' }}>
-          <ImageLoader
-            title={`${this.state.signup.firstName || ''} ${this.state.signup.lastName || ''}`}
-            src={this.state.profileImagePath || this.state.signup.profileImage}
-            rounded
-            avatarSize={'xlarge'}
-            style={styles.profileContainer}
-            titleStyle={{ fontSize: 30 }} />
-          <MDIcon name={'add'} style={{ fontSize: 20, position: 'absolute', backgroundColor: 'white', borderWidth: 1, borderColor: '#000000', borderRadius: 30, alignSelf: 'flex-end', textAlign: 'center', padding: 5, height: 30, width: 30 }} />
+            <ImageLoader
+              title={`${this.state.signup.firstName || ''} ${this.state.signup.lastName || ''}`}
+              src={this.state.profileImagePath || this.state.signup.profileImage}
+              rounded
+              avatarSize={'xlarge'}
+              style={styles.profileContainer}
+              titleStyle={{ fontSize: 30 }} />
+            <MDIcon name={'add'} style={{ fontSize: 20, position: 'absolute', backgroundColor: 'white', borderWidth: 1, borderColor: '#000000', borderRadius: 30, alignSelf: 'flex-end', textAlign: 'center', padding: 5, height: 30, width: 30 }} />
           </View>
-        </TouchableNativeFeedback>
+          {/* </TouchableNativeFeedback> */}
+        </TouchableOpacity>
       )
     }
   }
@@ -1867,7 +1872,8 @@ export default class ProfileScreen extends Component {
                 />
                 <View style={{ height: 1, width: maxWidth, backgroundColor: 'black' }} />
               </View>
-              <TouchableNativeFeedback
+              {/* <TouchableNativeFeedback */}
+              <TouchableOpacity
                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}
                 onPress={() => {
                   var dates = this.state.signup.additionalBirthDates;
@@ -1880,7 +1886,8 @@ export default class ProfileScreen extends Component {
                   });
                 }}>
                 <MDIcon name={'delete'} style={{ fontSize: 24, margin: 5, color: 'grey' }} />
-              </TouchableNativeFeedback>
+                {/* </TouchableNativeFeedback> */}
+              </TouchableOpacity>
             </View>
           )
         })
@@ -2006,10 +2013,14 @@ export default class ProfileScreen extends Component {
               {this._renderAnniversary(fieldsData)}
             </View>
             {this._renderAdditionalDates(fieldsData)}
-            <Text style={styles.title}>More Information</Text>
-            <View style={styles.subContainer}>
-              {this._renderCustomData(customData)}
-            </View>
+            {(customData) ?
+              <>
+                <Text style={styles.title}>More Information</Text>
+                <View style={styles.subContainer}>
+                  {this._renderCustomData(customData)}
+                </View>
+              </>
+              : null}
             {this._renderContactPermission(fieldsData)}
             {this._renderSaveButton()}
           </View>
@@ -2041,19 +2052,21 @@ export default class ProfileScreen extends Component {
     const _maxWidth = width - (width * 20) / 100;
     //console.log('Width : ' + width + ' : max : ' + _maxWidth);
     return (
-      <MenuProvider>
-        <ScreenHeader
-          navigation={this.props.navigation}
-          title={'Profile'}
-          userPoint={GlobalAppModel.redeemablePoint || '0'} />
-        <KeyboardAvoidingView
-          style={styles.container}
-          behavior="padding"
-          enabled={Platform.OS === 'ios' ? true : false}>
-          {this._showForm()}
-          <BottomNavigationTab navigation={this.props.navigation} />
-        </KeyboardAvoidingView>
-      </MenuProvider>
+      <SafeAreaView style={{flex:1}}>
+        <MenuProvider>
+          <ScreenHeader
+            navigation={this.props.navigation}
+            title={'Profile'}
+            userPoint={GlobalAppModel.redeemablePoint || '0'} />
+          <KeyboardAvoidingView
+            style={styles.container}
+            behavior="padding"
+            enabled={Platform.OS === 'ios' ? true : false}>
+            {this._showForm()}
+            <BottomNavigationTab navigation={this.props.navigation} />
+          </KeyboardAvoidingView>
+        </MenuProvider>
+      </SafeAreaView>
     );
   }
 }

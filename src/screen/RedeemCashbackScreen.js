@@ -3,12 +3,14 @@ import {
   View,
   Text,
   Image,
-  TouchableNativeFeedback,
+  // TouchableNativeFeedback,
+  TouchableOpacity,
   TextInput,
   Alert,
   AsyncStorage,
   ActivityIndicator,
   Dimensions,
+  SafeAreaView,
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { makeRequest } from './../api/apiCall';
@@ -167,7 +169,8 @@ export default class RedeemCashbackScreen extends Component {
         for (var i = amount; i <= this.state.amount; i = i + amount) {
           const tmp = i;
           sugessions.push(
-            <TouchableNativeFeedback
+            <TouchableOpacity
+              // <TouchableNativeFeedback
               style={{ marginHorizontal: 5 }}
               activeOpacity={0.8}
               onPress={() => {
@@ -178,7 +181,8 @@ export default class RedeemCashbackScreen extends Component {
               <View style={{ padding: 10, paddingHorizontal: 15, minHeight: 50, borderRadius: 25, backgroundColor: '#012345', justifyContent: 'center', alignSelf: 'center', alignContent: 'center' }}>
                 <Text style={{ color: 'white', alignSelf: 'center', fontSize: 18 }}>${tmp}</Text>
               </View>
-            </TouchableNativeFeedback>
+              {/* </TouchableNativeFeedback> */}
+            </TouchableOpacity>
           )
         }
         return (
@@ -216,7 +220,8 @@ export default class RedeemCashbackScreen extends Component {
               </View>
               <View style={{ paddingHorizontal: 10, flex: 1, paddingTop: 5 }}>
                 <Text style={{ fontSize: 24, padding: 10, paddingBottom: 0 }}>How much chashback would you like to?</Text>
-                <TouchableNativeFeedback
+                {/* <TouchableNativeFeedback */}
+                <TouchableOpacity
                   activeOpacity={0.8}
                   onPress={() => this.setState({ otherAmount: this.state.amount })}>
                   <View style={{ borderRadius: 15, height: 180, width: '90%', alignItems: 'center', justifyContent: 'center', alignContent: 'center', alignSelf: 'center', marginVertical: 10 }}>
@@ -238,63 +243,64 @@ export default class RedeemCashbackScreen extends Component {
                       <Text style={{ fontSize: 30, color: 'white', alignSelf: 'center', marginTop: 50 }}>${this.state.amount || '0'}</Text>
                     </View>
                   </View>
-                </TouchableNativeFeedback>
+                  {/* </TouchableNativeFeedback> */}
+                </TouchableOpacity>
                 {this._renderSuggession()}
               </View>
             </View>
-          <Card
-            containerStyle={{
-              borderTopLeftRadius: 15,
-              borderTopRightRadius: 15,
-              marginBottom: 0,
-              marginHorizontal: 25,
-            }}>
-            {this.state.isAllowPartialCashbackRedemption && <View>
-              <Text
-                style={{ paddingLeft: 10, color: this.state.otherAmounterror ? 'red' : 'black' }}>
-                Enter other amount
+            <Card
+              containerStyle={{
+                borderTopLeftRadius: 15,
+                borderTopRightRadius: 15,
+                marginBottom: 0,
+                marginHorizontal: 25,
+              }}>
+              {this.state.isAllowPartialCashbackRedemption && <View>
+                <Text
+                  style={{ paddingLeft: 10, color: this.state.otherAmounterror ? 'red' : 'black' }}>
+                  Enter other amount
             </Text>
-              <View
-                style={{
-                  marginTop: 10,
-                  borderColor: this.state.otherAmounterror ? 'red' : 'rgba(153,153,153,0.5)',
-                  borderWidth: 2,
-                  paddingHorizontal: 10,
-                  marginHorizontal: 5,
-                  borderRadius: 10,
-                  flexDirection: 'row',
-                  marginBottom: 0
-                }}>
-                <Text style={{ alignSelf: 'center', fontSize: 16 }}>$</Text>
-                <TextInput
-                  style={{ fontSize: 17, fontWeight: 'bold' }}
-                  keyboardType={'numeric'}
-                  value={`${this.state.otherAmount || ''}`}
-                  placeholder="Enter other amount"
-                  onChangeText={(text) => {
-                    this.setState({
-                      otherAmount: text,
-                    })
-                  }}
-                />
-              </View></View>}
+                <View
+                  style={{
+                    marginTop: 10,
+                    borderColor: this.state.otherAmounterror ? 'red' : 'rgba(153,153,153,0.5)',
+                    borderWidth: 2,
+                    paddingHorizontal: 10,
+                    marginHorizontal: 5,
+                    borderRadius: 10,
+                    flexDirection: 'row',
+                    marginBottom: 0
+                  }}>
+                  <Text style={{ alignSelf: 'center', fontSize: 16 }}>$</Text>
+                  <TextInput
+                    style={{ fontSize: 17, fontWeight: 'bold' }}
+                    keyboardType={'numeric'}
+                    value={`${this.state.otherAmount || ''}`}
+                    placeholder="Enter other amount"
+                    onChangeText={(text) => {
+                      this.setState({
+                        otherAmount: text,
+                      })
+                    }}
+                  />
+                </View></View>}
 
-                <View style={{height: 10}}/>
-            <SwipeButton
-              thumbIconBackgroundColor="#FFFFFF"
-              containerStyle={{ backgroundColor: GlobalAppModel.primaryButtonColor || '#012345' }}
-              swipeSuccessThreshold={90}
-              thumbIconComponent={this._renderIcon}
-              title="Slide to Redeem"
-              titleColor={'white'}
-              railBackgroundColor={GlobalAppModel.primaryButtonColor || '#012345'}
-              railFillBackgroundColor={'green'}
-              shouldResetAfterSuccess
-              disabled={this.state.isLoading}
-              onSwipeSuccess={() => {
-                this._prepareForm()
-              }} />
-          </Card>
+              <View style={{ height: 10 }} />
+              <SwipeButton
+                thumbIconBackgroundColor="#FFFFFF"
+                containerStyle={{ backgroundColor: GlobalAppModel.primaryButtonColor || '#012345' }}
+                swipeSuccessThreshold={90}
+                thumbIconComponent={this._renderIcon}
+                title="Slide to Redeem"
+                titleColor={'white'}
+                railBackgroundColor={GlobalAppModel.primaryButtonColor || '#012345'}
+                railFillBackgroundColor={'green'}
+                shouldResetAfterSuccess
+                disabled={this.state.isLoading}
+                onSwipeSuccess={() => {
+                  this._prepareForm()
+                }} />
+            </Card>
 
           </ScrollView>
         </View>
@@ -304,14 +310,16 @@ export default class RedeemCashbackScreen extends Component {
 
   render() {
     return (
-      <View style={styles.mainContainer}>
-        <ScreenHeader
-          navigation={this.props.navigation}
-          title={'Redeem Cashback'}
-          userPoint={GlobalAppModel.redeemablePoint} />
-        {this._renderBody()}
-        <BottomNavigationTab navigation={this.props.navigation} />
-      </View>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.mainContainer}>
+          <ScreenHeader
+            navigation={this.props.navigation}
+            title={'Redeem Cashback'}
+            userPoint={GlobalAppModel.redeemablePoint} />
+          {this._renderBody()}
+          <BottomNavigationTab navigation={this.props.navigation} />
+        </View>
+      </SafeAreaView>
     );
   }
 }

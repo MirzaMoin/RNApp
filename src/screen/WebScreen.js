@@ -4,7 +4,8 @@ import {
     SafeAreaView,
     AsyncStorage,
     ActivityIndicator,
-    TouchableNativeFeedback,
+    // TouchableNativeFeedback,
+    TouchableOpacity,
     Text
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
@@ -22,16 +23,16 @@ export default class WebScreen extends Component {
     constructor() {
         super();
         this.state = {
-
+            isLoading:true
         };
     }
 
     componentDidMount() {
         const { navigation } = this.props;
         this.focusListener = navigation.addListener('didFocus', () => {
-            this.setState({
-                isLoading: true,
-            });
+            // this.setState({
+            //     isLoading: true,
+            // });
             this._getStoredData();
         });
     }
@@ -50,8 +51,18 @@ export default class WebScreen extends Component {
             )
         }
     }
-
+    customJs = () => `
+    const variable1 = "I am just a test";
+    window.variable1 = variable1;
+    
+    `;
     render() {
+        // const jscode=`console.log("call")`;
+        const myScript = `
+      document.body.style.backgroundColor = 'red';
+      setTimeout(function() { window.alert('hi') }, 2000);
+      true; // note: this is required, or you'll sometimes get silent failures
+    `;
         return (
             <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
                 <ScreenHeader
@@ -80,13 +91,18 @@ export default class WebScreen extends Component {
                                 setCanGoForward: navState.canGoForward,
                                 setCurrentUrl: navState.url,
                             });
-
                         }}
+                        javaScriptEnabled={true}
+                        // injectedJavaScriptBeforeLoad="window.foo = 'bar';"
+                        // injectedJavaScript="alert(window.foo);"
+                        injectedJavaScript={myScript}
+                        // originWhitelist={['*']}
                     />
                     {this._showLoading()}
                 </View>
                 <View style={[styles.tabBarContainer, { backgroundColor: parseColor(GlobalAppModel.footerColor) }]}>
-                    <TouchableNativeFeedback
+                    {/* <TouchableNativeFeedback */}
+                    <TouchableOpacity
                         disabled={!this.state.setCanGoBack}
                         onPress={() => {
                             if (this.state.setCanGoBack) {
@@ -94,14 +110,18 @@ export default class WebScreen extends Component {
                             }
                         }}>
                         <MDIcon name={'arrow-back'} style={{ color: this.state.setCanGoBack ? 'white' : 'rgba(180,180,180,1)', fontSize: 25, padding: 10 }} />
-                    </TouchableNativeFeedback>
-                    <TouchableNativeFeedback
+                        {/* </TouchableNativeFeedback> */}
+                    </TouchableOpacity>
+                    {/* <TouchableNativeFeedback */}
+                    <TouchableOpacity
                         onPress={() => {
                             this.wv.reload();
                         }}>
                         <MDIcon name={'refresh'} style={{ color: 'white', fontSize: 25, padding: 10 }} />
-                    </TouchableNativeFeedback>
-                    <TouchableNativeFeedback
+                        {/* </TouchableNativeFeedback> */}
+                    </TouchableOpacity>
+                    {/* <TouchableNativeFeedback */}
+                    <TouchableOpacity
                         disabled={!this.state.setCanGoForward}
                         onPress={() => {
                             if (this.state.setCanGoForward) {
@@ -109,7 +129,8 @@ export default class WebScreen extends Component {
                             }
                         }}>
                         <MDIcon name={'arrow-forward'} style={{ color: this.state.setCanGoForward ? 'white' : 'rgba(180,180,180,1)', fontSize: 25, padding: 10 }} />
-                    </TouchableNativeFeedback>
+                        {/* </TouchableNativeFeedback> */}
+                    </TouchableOpacity>
                 </View>
             </SafeAreaView>
         );
