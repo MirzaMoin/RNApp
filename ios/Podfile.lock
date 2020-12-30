@@ -224,12 +224,6 @@ PODS:
   - Crashlytics (3.14.0):
     - Fabric (~> 1.10.2)
   - DoubleConversion (1.1.6)
-  - estimote-react-native-proximity (0.6.0):
-    - EstimoteProximitySDK (~> 1.0)
-    - React
-  - EstimoteBluetoothScanning (1.0.7)
-  - EstimoteProximitySDK (1.6.0):
-    - EstimoteBluetoothScanning (~> 1.0.6)
   - Fabric (1.10.2)
   - FBLazyVector (0.61.5)
   - FBReactNativeSpec (0.61.5):
@@ -584,6 +578,8 @@ PODS:
   - React-jsinspector (0.61.5)
   - react-native-background-timer (2.2.0):
     - React
+  - react-native-ble-manager (7.4.1):
+    - React
   - react-native-cameraroll (4.0.0):
     - React
   - react-native-fbsdk (1.1.2):
@@ -607,6 +603,8 @@ PODS:
   - react-native-image-picker (2.3.3):
     - React
   - react-native-maps (0.26.1):
+    - React
+  - react-native-orientation-locker (1.2.0):
     - React
   - react-native-simple-toast (1.0.0):
     - React
@@ -696,7 +694,6 @@ PODS:
 DEPENDENCIES:
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
-  - "estimote-react-native-proximity (from `../node_modules/@estimote/react-native-proximity`)"
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
   - Firebase/Core
@@ -734,11 +731,13 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-background-timer (from `../node_modules/react-native-background-timer`)
+  - react-native-ble-manager (from `../node_modules/react-native-ble-manager`)
   - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-maps (from `../node_modules/react-native-maps`)
+  - react-native-orientation-locker (from `../node_modules/react-native-orientation-locker`)
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - react-native-video (from `../node_modules/react-native-video`)
   - react-native-view-shot (from `../node_modules/react-native-view-shot`)
@@ -772,8 +771,6 @@ SPEC REPOS:
     - boost-for-react-native
     - BoringSSL-GRPC
     - Crashlytics
-    - EstimoteBluetoothScanning
-    - EstimoteProximitySDK
     - Fabric
     - FBSDKCoreKit
     - FBSDKLoginKit
@@ -802,8 +799,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
-  estimote-react-native-proximity:
-    :path: "../node_modules/@estimote/react-native-proximity"
   FBLazyVector:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   FBReactNativeSpec:
@@ -866,6 +861,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-background-timer:
     :path: "../node_modules/react-native-background-timer"
+  react-native-ble-manager:
+    :path: "../node_modules/react-native-ble-manager"
   react-native-cameraroll:
     :path: "../node_modules/@react-native-community/cameraroll"
   react-native-fbsdk:
@@ -876,6 +873,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-picker"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
+  react-native-orientation-locker:
+    :path: "../node_modules/react-native-orientation-locker"
   react-native-simple-toast:
     :path: "../node_modules/react-native-simple-toast"
   react-native-video:
@@ -934,9 +933,6 @@ SPEC CHECKSUMS:
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   Crashlytics: 9220f5bc89e7a618df411b4f639389dbfb0e03d2
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
-  estimote-react-native-proximity: d567ac92120a97afcb09d68a10bfdf438c0456d7
-  EstimoteBluetoothScanning: 02ac879b204a1c7aadf5090cde137cc7e74f86bc
-  EstimoteProximitySDK: 50c648423820b1ad44a69adffec83f60825894fc
   Fabric: ea977e3cd9c20425516d3dafd3bf8c941c51223f
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
@@ -988,11 +984,13 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-background-timer: 53c0e028a95d58b1f4498ef7ce152b6c6b337595
+  react-native-ble-manager: a0d0ee16185d281d55dfeb76dab387541eed201e
   react-native-cameraroll: 7c2e22b5a8e8f30fc6d5566c942b225ca7129752
   react-native-fbsdk: c35d42169e64aaf66f01713c1e18d0674f7f6519
   react-native-google-maps: 2e2e697dab576abd5809d78cd74e775865b62bf7
   react-native-image-picker: a6c3d644751a388b0fc8b56822ff7cbd398a3008
   react-native-maps: 6e499eee4eabf422ba8b6f94e993cc768bf35153
+  react-native-orientation-locker: 47aaa55d59bfc1613804dc22f159e6bb1cca5f30
   react-native-simple-toast: 9c2f5979dfe555d0aa7b084348a06fd6ef7a6f55
   react-native-video: aa527b0acb37f94c4491e70df0274cb26979405d
   react-native-view-shot: 08c46c9e8e92f6681e8f2ffa55ac3d06e7e99070

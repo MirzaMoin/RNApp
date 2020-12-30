@@ -70,7 +70,7 @@ export default class OfferDetailScreen extends Component {
         userPoint: this.props.navigation.state.params.userPoint,
         isLoading: false,
       }, () => {
-        if (!this.state.redeemSetting.askWhereAreYou) {
+        if (this.state.redeemSetting.askWhereAreYou) {
           this._getLocationData();
         }
       });

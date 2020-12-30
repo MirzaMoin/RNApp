@@ -15,3 +15,4 @@ const SwitchNavigator = createSwitchNavigator(
 //const AppContainer = createAppContainer(SwitchNavigator);
 
 export default SwitchNavigator;
+

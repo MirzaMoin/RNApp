@@ -167,7 +167,7 @@ export default class LoginScreen extends Component {
         }
       });
 
-      console.log(`start ${userName} ${password} ${isRemeber}`)
+      // console.log(`start ${userName} ${password} ${isRemeber}`)
 
     } catch (error) {
       // Error saving data
@@ -229,7 +229,7 @@ export default class LoginScreen extends Component {
         if (response.statusCode == 0) {
           Alert.alert('Oppss...', response.statusMessage);
         } else {
-          console.log('fadsfadf');
+          // console.log('fadsfadf');
           this._storeLoginData(response.responsedata);
         }
       })
@@ -264,7 +264,7 @@ export default class LoginScreen extends Component {
 
       if (response.contactData.isRequiredPasswordChanged) {
         // redirect to change password
-        console.log('going chang pass')
+        console.log('going to chang pass if true')
         this.props.navigation.navigate('changePassword', {
           fromLogin: true,
         });

@@ -11,6 +11,10 @@ import {
   StatusBar,
   StyleSheet,
   BackHandler,
+  NativeModules, NativeEventEmitter,
+  Alert,
+  Platform,
+  PermissionsAndroid,
 } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
@@ -26,9 +30,22 @@ import { parseColor } from './../utils/utility';
 import BottomNavigationTab from './../widget/BottomNavigationTab';
 import Toast from 'react-native-root-toast';
 import Marquee from '../widget/Marquee';
+import BleManager from 'react-native-ble-manager';
+import BackgroundTimer from 'react-native-background-timer';
+// import SpinWheelScreen from './SpinWheelScreen';SpinWheelScreen
+//import * as RNEP from '@estimote/react-native-proximity';
+// import  from '../beacons/proximityObserver2'
 
 const maxWidth = Dimensions.get('window').width;
 var extipAppCount = 0;
+
+if (Platform.OS == "android") {
+  var { Beaconconnect } = NativeModules;
+}
+
+if (Platform.OS == "android") {
+  var BeaconEvents = new NativeEventEmitter(Beaconconnect);
+}
 
 export default class HomeScreen extends Component {
   static navigationOptions = {
@@ -40,14 +57,135 @@ export default class HomeScreen extends Component {
     this.state = {
       title: 'HomeScreen',
       tabIndex: 0,
-    };
+      key: '',
+      countTimer: 0,
+      intervalCount: 0,
+      timeoutId:'',
+      intervalId:'',
 
+    };
+    this.beacon = this.beacon.bind(this);
   }
 
+  manageTimer = () => {
+    timeoutId = BackgroundTimer.setTimeout(() => {
+      this.stopTimer();
+      this.setState({
+        countTimer:this.state.countTimer + 1
+      })
+      console.log('tac timer complete ' + this.state.countTimer);
+      this.startTimer(false);
+    }, 10000);
+  
+    intervalId = BackgroundTimer.setInterval(() => {
+      this.setState({
+        intervalCount:this.state.intervalCount + 1
+      })
+      console.log('tic interval ' + this.state.intervalCount);
+    }, 1000);
+  };
+
+  startTimer = () => {
+    this.manageTimer();
+    BackgroundTimer.start();
+  };
+  
+  stopTimer = checkTimeout => {
+    if (intervalId != undefined) {
+      BackgroundTimer.clearInterval(intervalId);
+    } else {
+      console.log('====================================');
+      console.log('Interval ID not defined when stop');
+      console.log('====================================');
+    }
+  
+    if (checkTimeout && timeoutId != undefined) {
+      BackgroundTimer.clearTimeout(timeoutId);
+    } else {
+      console.log('====================================');
+      console.log('Timeout ID not defined when stop');
+      console.log('====================================');
+    }
+    BackgroundTimer.stop();
+  };
+  
   componentWillMount() {
+
     extipAppCount = 0;
     this._getStoredData();
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+
+    if (Platform.OS == "android") {
+      BeaconEvents.addListener('onEnterZone', ({ key1 }) => {
+        if (key1) {
+          debugger
+          // alert("Device connect successfully:"+ key1)
+          console.log("Device connect successfully:" + key1)
+
+          Alert.alert(
+            "Beacon connection",
+            "Device connect successfully",
+            [
+              { text: "OK", onPress: console.log('ok') }
+              //() => this.props.navigation.push('SpinWheel') }
+            ],
+            { cancelable: false }
+          );
+        }
+
+      this.startTimer();
+
+      });
+      BeaconEvents.addListener('onExitZone', ({ key2 }) => {
+        if (key2) {
+          debugger
+          alert("Device Disconnect successfully:" + key2)
+          console.log("Device Disconnect successfully:" + key2)
+        }
+
+       this.stopTimer();
+
+      });
+      BeaconEvents.addListener('onContextChange', ({ key }) => {
+        if (key) {
+          debugger
+          // alert("onContextChange:"+ key)
+          console.log("onContextChange:" + key)
+        }
+      });
+    }
+  }
+
+  beacon = async () => {
+    if (Platform.OS == "android") {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log("You can use the Location ");
+          BleManager.enableBluetooth()
+            .then(() => {
+              // Success code
+              console.log("The bluetooth is already enabled or the user confirm");
+              Beaconconnect.beacon()
+                .then(message => console.log(message))
+                .catch(error => console.error(error));
+            })
+            .catch((error) => {
+              // Failure code
+              alert("The user refuse to enable bluetooth");
+            });
+        } else {
+          console.log("Location permission denied");
+          alert("Location permission denied")
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+
   }
 
   handleBackButtonClick() {
@@ -323,17 +461,21 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1, flexDirection: 'row' }}>
-        <StatusBar barStyle={'dark-content'} backgroundColor={'#081b2e'} translucent/>
+        <StatusBar barStyle={'dark-content'} backgroundColor={'#081b2e'} />
         <SafeAreaView style={styles.mainContainer}>
           {this._renderToolBar()}
           <View style={{ flex: 1 }}>
+            {/* <Text>{this.state.countTimer}</Text> */}
+            <TouchableOpacity onPress={() => { this.beacon() }}>
+              <Text style={{ justifyContent: 'center', alignSelf: 'center', fontSize: 20, backgroundColor: '#678498', borderRadius: 5, color: 'white', margin: 5, padding: 5 }}>Beacon</Text>
+            </TouchableOpacity>
             {this._renderRebbon(HomeModel.homePageRibbonPosition == 'Top')}
             {this._renderTopContainer()}
             {this._renderRebbon(HomeModel.homePageRibbonPosition == 'Middle')}
             {this._renderBottomContainer()}
           </View>
           <BottomNavigationTab
-           navigation={this.props.navigation} />
+            navigation={this.props.navigation} />
         </SafeAreaView>
       </View>
     );

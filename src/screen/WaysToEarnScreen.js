@@ -59,6 +59,7 @@ export default class WayToEarnScreen extends Component {
         if (response.statusCode == 0) {
           Alert.alert('Oppss...', response.statusMessage);
         } else {
+          
           this.setState({
             screenData: response.responsedata,
             isLoading: false,

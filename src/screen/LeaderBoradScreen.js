@@ -72,6 +72,7 @@ export default class LeaderBoardScreen extends Component {
           /*Alert.alert('New Update Profile', 'Please add profile picture and update your profile to participate in Leader board',[
             {text: 'Cancel'},{text: 'Update', onPress: this._processFurther}
           ]);*/
+          this._callGetLeaderBoardScreenData();
         } else {
           Alert.alert('Update Profile', 'Please add profile picture and update your profile to participate in Leader board', [
             { text: 'Cancel', onPress: this._callGetLeaderBoardScreenData }, { text: 'Update', onPress: this._processFurther }

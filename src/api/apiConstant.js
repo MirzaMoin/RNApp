@@ -33,3 +33,4 @@ module.exports = {
   GET_SURVEY_LIST: 'UserAccountProfile/GetSurveyList',
   SENT_REFER_CLICK_DATA: 'UserProfile/ShareLinkVisitDetails',
 };
+  

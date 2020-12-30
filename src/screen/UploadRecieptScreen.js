@@ -8,7 +8,8 @@ import {
   Dimensions,
   ActivityIndicator,
   TouchableOpacity,
-  SafeAreaView
+  SafeAreaView,
+  Platform
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { makeRequest } from './../api/apiCall';
@@ -21,6 +22,7 @@ import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import BottomNavigationTab from './../widget/BottomNavigationTab';
 import DatePicker from 'react-native-datepicker';
 import ImagePicker from 'react-native-image-picker';
+import ImageCropPicker from 'react-native-image-crop-picker';
 import LoadingScreen from '../widget/LoadingScreen';
 import GlobalAppModel from '../model/GlobalAppModel';
 var loadingImage = '';
@@ -171,18 +173,19 @@ export default class UploadReceiptScreen extends Component {
     }
 
     if (isCall) {
-      this.setState({ isProcessing: true })
       this._callUploadReceiptData(true);
+      // this.setState({ isProcessing: true })
     }
   }
 
   _callUploadReceiptData = isCheckStatusCode => {
+    this.setState({ isProcessing: true })
     const request = {
       contactID: GlobalAppModel.userID,
       rewardProgramID: GlobalAppModel.rewardProgramId,
       addressID: this.state.selectedLocation || '',
       receiptCategoryID: this.state.selectedCategory || '',
-      amount: this.state.subTotal || '',
+      amount: this.state.subTotal || 0,
       receiptDate: this.state.receiptDate || '',
       receiptNumber: this.state.receiptNumber || '',
       checkStatusCode5: isCheckStatusCode
@@ -488,30 +491,73 @@ export default class UploadReceiptScreen extends Component {
   }
 
   _handleImageClick = index => {
-
-    const options = {
-      title: 'Select Profile Image',
-      storageOptions: {
-        path: 'images',
-      },
-    };
-
-    ImagePicker.showImagePicker(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        const images = this.state.selectedImages;
-        // images[index] = `file://${response.path}`
-        images[index] = Platform == 'ios' ? `~/${response.path}` : `file://${response.path}`,
-        this.setState({
-          selectedImages: images,
-        })
-      }
-    });
+    if (Platform.OS === 'ios') {
+      Alert.alert(
+        "Image pick",
+        "You can select image from your storage or you can capture image using camera...",
+        [
+          {
+            text: "Open Picker",
+            onPress: () => {
+              ImageCropPicker.openPicker({
+                // width: 300,
+                // height: 400,
+                cropping: true
+              }).then(image => {
+                console.log("imagr picker " + JSON.stringify(image));
+                const images = this.state.selectedImages;
+                // images[index] = `file://${Image.path}`
+                images[index] = Platform == 'ios' ? `~/${Image.path}` : `file://${image.path}`,
+                  this.setState({
+                    selectedImages: images,
+                  })
+              });
+            },
+          },
+          {
+            text: "Open camera", onPress: () => {
+              ImageCropPicker.openCamera({
+                // width: 300,
+                // height: 400,
+                cropping: true,
+              }).then(image => {
+                console.log("from camera " + JSON.stringify(image));
+                const images = this.state.selectedImages;
+                // images[index] = `file://${Image.path}`
+                images[index] = Platform == 'ios' ? `~/${image.path}` : `file://${image.path}`,
+                  this.setState({
+                    selectedImages: images,
+                  })
+              });
+            },
+          }
+        ],
+        { cancelable: false }
+      );
+    } else {
+      const options = {
+        title: 'Select Profile Image',
+        storageOptions: {
+          path: 'images',
+        },
+      };
+      ImagePicker.showImagePicker(options, (response) => {
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        } else {
+          const images = this.state.selectedImages;
+          // images[index] = `file://${response.path}`
+          images[index] = Platform == 'ios' ? `~/${response.path}` : `file://${response.path}`,
+            this.setState({
+              selectedImages: images,
+            })
+        }
+      });
+    }
   }
 
   _renderImage = (index) => {

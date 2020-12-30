@@ -10,7 +10,6 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@estimote/react-native-proximity": "^0.6.0",
     "@mdi/font": "^3.5.95",
     "@react-native-community/cameraroll": "^4.0.0",
     "@react-native-community/viewpager": "^3.3.0",
@@ -19,6 +18,7 @@
     "react-native": "0.61.5",
     "react-native-background-timer": "^2.1.1",
     "react-native-barcode-builder": "^2.0.0",
+    "react-native-ble-manager": "^7.4.1",
     "react-native-datepicker": "^1.7.2",
     "react-native-drawer-layout": "^2.0.0",
     "react-native-elements": "^1.2.7",
@@ -35,6 +35,7 @@
     "react-native-linkedin-sdk": "0.0.9",
     "react-native-maps": "github:react-native-community/react-native-maps#d6f89bd",
     "react-native-modal-dropdown": "^0.7.0",
+    "react-native-orientation-locker": "^1.2.0",
     "react-native-permissions": "^2.2.0",
     "react-native-popup-menu": "^0.15.9",
     "react-native-raw-bottom-sheet": "^2.0.6",
@@ -74,7 +75,7 @@
   },
   "rnpm": {
     "assets": [
-      "./assets/fonts/"
+      "./assets/fonts/lato"
     ]
   }
 }

@@ -8,7 +8,7 @@ import com.reactlibrary.linkedinsdk.RNLinkedInSessionManagerPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import cl.json.RNSharePackage;
 import com.airbnb.android.react.maps.MapsPackage;
-import com.estimote.react.RNEstimoteProximityPackage;
+// import com.estimote.react.RNEstimoteProximityPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;

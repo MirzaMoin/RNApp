@@ -4,7 +4,7 @@ import {
     SafeAreaView,
     AsyncStorage,
     ActivityIndicator,
-    // TouchableNativeFeedback,
+    TouchableNativeFeedback,
     TouchableOpacity,
     Text
 } from 'react-native';
@@ -14,19 +14,16 @@ import { ScreenHeader } from '../widget/ScreenHeader';
 import GlobalAppModel from './../model/GlobalAppModel';
 import { parseColor } from './../utils/utility';
 import LoadingScreen from './../widget/LoadingScreen';
-
 export default class WebScreen extends Component {
     static navigationOptions = {
         header: null,
     };
-
     constructor() {
         super();
         this.state = {
             isLoading:true
         };
     }
-
     componentDidMount() {
         const { navigation } = this.props;
         this.focusListener = navigation.addListener('didFocus', () => {
@@ -36,11 +33,9 @@ export default class WebScreen extends Component {
             this._getStoredData();
         });
     }
-
     componentWillUnmount() {
         this.focusListener.remove();
     }
-
     _showLoading = () => {
         if (this.state.isLoading) {
             //console.log(`RenderRing loading Image ${GlobalAppModel.willShownLoadingImage} : ${GlobalAppModel.getLoadingImage()}`)
@@ -51,18 +46,7 @@ export default class WebScreen extends Component {
             )
         }
     }
-    customJs = () => `
-    const variable1 = "I am just a test";
-    window.variable1 = variable1;
-    
-    `;
     render() {
-        // const jscode=`console.log("call")`;
-        const myScript = `
-      document.body.style.backgroundColor = 'red';
-      setTimeout(function() { window.alert('hi') }, 2000);
-      true; // note: this is required, or you'll sometimes get silent failures
-    `;
         return (
             <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
                 <ScreenHeader
@@ -86,22 +70,20 @@ export default class WebScreen extends Component {
                             // error
                         }}
                         onNavigationStateChange={navState => {
+                            console.log(`Web url : ${navState.url}`)
+                            if (navState.url.indexOf('/Account/Login?ReturnUrl') > -1 && navState.url.indexOf('Home') > -1) {
+                                this.props.navigation.push('profileScreen');
+                            }
                             this.setState({
                                 setCanGoBack: navState.canGoBack,
                                 setCanGoForward: navState.canGoForward,
                                 setCurrentUrl: navState.url,
                             });
                         }}
-                        javaScriptEnabled={true}
-                        // injectedJavaScriptBeforeLoad="window.foo = 'bar';"
-                        // injectedJavaScript="alert(window.foo);"
-                        injectedJavaScript={myScript}
-                        // originWhitelist={['*']}
                     />
                     {this._showLoading()}
                 </View>
                 <View style={[styles.tabBarContainer, { backgroundColor: parseColor(GlobalAppModel.footerColor) }]}>
-                    {/* <TouchableNativeFeedback */}
                     <TouchableOpacity
                         disabled={!this.state.setCanGoBack}
                         onPress={() => {
@@ -110,17 +92,13 @@ export default class WebScreen extends Component {
                             }
                         }}>
                         <MDIcon name={'arrow-back'} style={{ color: this.state.setCanGoBack ? 'white' : 'rgba(180,180,180,1)', fontSize: 25, padding: 10 }} />
-                        {/* </TouchableNativeFeedback> */}
                     </TouchableOpacity>
-                    {/* <TouchableNativeFeedback */}
                     <TouchableOpacity
                         onPress={() => {
                             this.wv.reload();
                         }}>
                         <MDIcon name={'refresh'} style={{ color: 'white', fontSize: 25, padding: 10 }} />
-                        {/* </TouchableNativeFeedback> */}
                     </TouchableOpacity>
-                    {/* <TouchableNativeFeedback */}
                     <TouchableOpacity
                         disabled={!this.state.setCanGoForward}
                         onPress={() => {
@@ -129,14 +107,12 @@ export default class WebScreen extends Component {
                             }
                         }}>
                         <MDIcon name={'arrow-forward'} style={{ color: this.state.setCanGoForward ? 'white' : 'rgba(180,180,180,1)', fontSize: 25, padding: 10 }} />
-                        {/* </TouchableNativeFeedback> */}
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
         );
     }
 }
-
 const styles = {
     tabBarContainer: {
         flexDirection: 'row',

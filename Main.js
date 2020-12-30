@@ -37,31 +37,37 @@ import SurveyFormScreen from './src/screen/SurveyFormScreen';
 import ChangePasswordScreen from './src/screen/ChangePasswordScreen';
 import UploadReceiptScreen from './src/screen/UploadRecieptScreen';
 import RPGScreen from './src/screen/RPGScreen';
-import * as RNEP from '@estimote/react-native-proximity';
+//import * as RNEP from '@estimote/react-native-proximity';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import {
-  startProximityObserver,
-  stopProximityObserver,
-} from './src/beacons/proximityObserver';
+// import {
+//   startProximityObserver,
+//   stopProximityObserver,
+// } from './src/beacons/proximityObserver';
 import ImageLoader from './src/widget/ImageLoader';
 
 import Screen2 from './pages/Screen2';
+
+import SpinWheelScreen from './src/screen/SpinWheelScreen'
 
 // import { TouchableOpacity } from 'react-native-gesture-handler';
 import { MenuProvider } from 'react-native-popup-menu';
 import MenuPermissionModel from './src/model/MenuPermissionModel';
 
-/*RNEP.locationPermission.request().then(permission => {
-  if (permission != RNEP.locationPermission.DENIED) {
-    startProximityObserver();
-  } else {
-    stopProximityObserver();
-    console.log('====================================');
-    console.log('estimote location permission : ' + permission);
-    console.log('====================================');
-  }
-});*/
+// RNEP.locationPermission.request().then(permission => {
+//   if (permission != RNEP.locationPermission.DENIED) {
+//     debugger
+//     startProximityObserver();
+//   } else {
+//     debugger
+//     stopProximityObserver();
+//     console.log('====================================');
+//     console.log('estimote location permission : ' + permission);
+//     console.log('====================================');
+//     debugger
+//   }
+// });
+
 
 const _storeLououtData = async () => {
   try {
@@ -77,6 +83,7 @@ class NavigationDrawerStructure extends Component {
     //Props to open/close the drawer
     this.props.navigationProps.toggleDrawer();
   };
+
   render() {
     return (
       <View style={{ flexDirection: 'row' }}>
@@ -303,6 +310,22 @@ const renderRewardEntryGoals = props => {
         <MDIcon name={'star'} style={{ fontSize: 20, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Reward Entry Goal</Text>
+      </View>
+    </TouchableOpacity>
+  );
+}
+
+const renderSpinWheel = props => {
+  return (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={async () => {
+        props.navigation.navigate('SpinWheel');
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
+        <MDIcon name={'star'} style={{ fontSize: 20, marginLeft: 10 }} />
+        <View style={{ width: '12%' }} />
+        <Text style={{ fontWeight: 'bold' }}>Spin Wheel</Text>
       </View>
     </TouchableOpacity>
   );
@@ -541,8 +564,11 @@ const CreateDrawerComponent = props => (
           renderLeaderboard(props)
         }
         {
-          renderNotification(props)
+          renderSpinWheel(props)
         }
+        {/* {
+          renderNotification(props)
+        } */}
         {
           //MenuPermissionModel.isVisibleMenuTxHistory && 
           renderTransactionHistory(props)
@@ -719,6 +745,25 @@ const RPGScreenStackNavigation = createStackNavigator({
     screen: RPGScreen,
     navigationOptions: ({ navigation }) => ({
       title: 'Rewar Program Goal',
+      headerTitleStyle: {
+        color: 'white',
+        marginLeft: -7,
+      },
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <NavigationComponentRight navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#012340',
+      },
+    }),
+  },
+});
+
+const SpinWheelScreenStackNavigation = createStackNavigator({
+  //All the screen from the Screen3 will be indexed here
+  SpinWheelScreen: {
+    screen: RPGScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Spin wheel',
       headerTitleStyle: {
         color: 'white',
         marginLeft: -7,
@@ -1161,6 +1206,9 @@ const drawerStackNavigation = createStackNavigator({
   },
   rpg: {
     screen: RPGScreen,
+  },
+  SpinWheel:{
+    screen:SpinWheelScreen,
   },
   redeemCashback: {
     screen: RedeemCashbackScreen,

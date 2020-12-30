@@ -679,15 +679,54 @@ export default class ProfileScreen extends Component {
     await AsyncStorage.setItem('profilePitcure', userProfile);
   }
 
-  _handleImageClick = () => {
-
+  
+_handleImageClick = () => {
+  if (Platform.OS == 'ios') {
+    Alert.alert(
+      "Image pick",
+      "You can select image from your storage or you can capture image using camera...",
+      [
+        {
+          text: "Open Picker",
+          onPress: () => {
+            ImageCropPicker.openPicker({
+              // width: 500,
+              // height: 500,
+              cropping: true,
+              cropperCircleOverlay:true
+            }).then(image => {
+              this.setState({
+                profileImagePath: image.path,
+                profileImageFile: image,
+              });
+            });
+          },
+        },
+        {
+          text: "Open Camera", onPress: () => {
+            ImageCropPicker.openCamera({
+              // width: 500,
+              // height: 500,
+              cropping: true,
+              cropperCircleOverlay:true
+            }).then(image => {
+              this.setState({
+                profileImagePath: image.path,
+                profileImageFile: image,
+              });
+            });
+          },
+        }
+      ],
+      { cancelable: true }
+    );
+  } else {
     const options = {
       title: 'Select Profile Image',
       storageOptions: {
         path: 'images',
       },
     };
-
     ImagePicker.showImagePicker(options, (response) => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -697,22 +736,56 @@ export default class ProfileScreen extends Component {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         ImageCropPicker.openCropper({
-          path: Platform == 'ios' ? `~/${response.path}`:  `file://${response.path}`,
+          path: `file://${response.path}`,
           width: 500,
           height: 500,
           cropping: true,
           cropperCircleOverlay: true,
         }).then(image => {
-          console.log(image);
+          // console.log(image);
           this.setState({
             profileImagePath: image.path,
             profileImageFile: image,
           });
         });
-
       }
     });
   }
+}
+  // _handleImageClick = () => {
+
+  //   const options = {
+  //     title: 'Select Profile Image',
+  //     storageOptions: {
+  //       path: 'images',
+  //     },
+  //   };
+
+  //   ImagePicker.showImagePicker(options, (response) => {
+  //     if (response.didCancel) {
+  //       console.log('User cancelled image picker');
+  //     } else if (response.error) {
+  //       console.log('ImagePicker Error: ', response.error);
+  //     } else if (response.customButton) {
+  //       console.log('User tapped custom button: ', response.customButton);
+  //     } else {
+  //       ImageCropPicker.openCropper({
+  //         path: Platform == 'ios' ? `~/${response.path}`:  `file://${response.path}`,
+  //         width: 500,
+  //         height: 500,
+  //         cropping: true,
+  //         cropperCircleOverlay: true,
+  //       }).then(image => {
+  //         console.log(image);
+  //         this.setState({
+  //           profileImagePath: image.path,
+  //           profileImageFile: image,
+  //         });
+  //       });
+
+  //     }
+  //   });
+  // }
 
   _handleContactMenu = (isFromTextInput) => {
     var isAllowEmail = this.state.signup.allowedEmail || false;
