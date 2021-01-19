@@ -30,7 +30,7 @@ export default class WebScreen extends Component {
             // this.setState({
             //     isLoading: true,
             // });
-            this._getStoredData();
+            //this._getStoredData();
         });
     }
     componentWillUnmount() {

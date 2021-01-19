@@ -93,7 +93,9 @@ export default class SocialShareScreen extends Component {
       text,
     )}&url=${encodeURIComponent(url)}&hashtags=${encodeURIComponent(hashtags)}`;
   }
-
+// render(){
+//   return(<View><Text>Hello</Text></View>);
+// }
   render() {
     return (
       <SafeAreaView style={{ flex: 1 }}>
@@ -192,7 +194,7 @@ export default class SocialShareScreen extends Component {
             </Text>
             </View>
           </ScrollView>
-          <BottomNavigationTab />
+          {/* <BottomNavigationTab navigation={this.props.navigation} /> */}
         </View>
       </SafeAreaView>
     );

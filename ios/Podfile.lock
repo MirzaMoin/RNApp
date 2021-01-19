@@ -224,6 +224,12 @@ PODS:
   - Crashlytics (3.14.0):
     - Fabric (~> 1.10.2)
   - DoubleConversion (1.1.6)
+  - estimote-react-native-proximity (0.6.0):
+    - EstimoteProximitySDK (~> 1.0)
+    - React
+  - EstimoteBluetoothScanning (1.0.8)
+  - EstimoteProximitySDK (1.7.0):
+    - EstimoteBluetoothScanning (~> 1.0.8)
   - Fabric (1.10.2)
   - FBLazyVector (0.61.5)
   - FBReactNativeSpec (0.61.5):
@@ -609,6 +615,8 @@ PODS:
   - react-native-simple-toast (1.0.0):
     - React
     - Toast (~> 4.0.0)
+  - react-native-sqlite-storage (5.0.0):
+    - React
   - react-native-video (4.4.5):
     - React
     - react-native-video/Video (= 4.4.5)
@@ -694,6 +702,7 @@ PODS:
 DEPENDENCIES:
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - "estimote-react-native-proximity (from `../node_modules/@estimote/react-native-proximity`)"
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
   - Firebase/Core
@@ -739,6 +748,7 @@ DEPENDENCIES:
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-orientation-locker (from `../node_modules/react-native-orientation-locker`)
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
+  - react-native-sqlite-storage (from `../node_modules/react-native-sqlite-storage`)
   - react-native-video (from `../node_modules/react-native-video`)
   - react-native-view-shot (from `../node_modules/react-native-view-shot`)
   - "react-native-viewpager (from `../node_modules/@react-native-community/viewpager`)"
@@ -771,6 +781,8 @@ SPEC REPOS:
     - boost-for-react-native
     - BoringSSL-GRPC
     - Crashlytics
+    - EstimoteBluetoothScanning
+    - EstimoteProximitySDK
     - Fabric
     - FBSDKCoreKit
     - FBSDKLoginKit
@@ -799,6 +811,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  estimote-react-native-proximity:
+    :path: "../node_modules/@estimote/react-native-proximity"
   FBLazyVector:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   FBReactNativeSpec:
@@ -877,6 +891,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-orientation-locker"
   react-native-simple-toast:
     :path: "../node_modules/react-native-simple-toast"
+  react-native-sqlite-storage:
+    :path: "../node_modules/react-native-sqlite-storage"
   react-native-video:
     :path: "../node_modules/react-native-video"
   react-native-view-shot:
@@ -933,6 +949,9 @@ SPEC CHECKSUMS:
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   Crashlytics: 9220f5bc89e7a618df411b4f639389dbfb0e03d2
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
+  estimote-react-native-proximity: d567ac92120a97afcb09d68a10bfdf438c0456d7
+  EstimoteBluetoothScanning: aef117c8584951609403dc73cb07f6501911a365
+  EstimoteProximitySDK: b0128f51c7487dbd3c073691cec246c8d733808c
   Fabric: ea977e3cd9c20425516d3dafd3bf8c941c51223f
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
@@ -992,6 +1011,7 @@ SPEC CHECKSUMS:
   react-native-maps: 6e499eee4eabf422ba8b6f94e993cc768bf35153
   react-native-orientation-locker: 47aaa55d59bfc1613804dc22f159e6bb1cca5f30
   react-native-simple-toast: 9c2f5979dfe555d0aa7b084348a06fd6ef7a6f55
+  react-native-sqlite-storage: ce71689c5a73b79390a1ab213555ae80979a5dc7
   react-native-video: aa527b0acb37f94c4491e70df0274cb26979405d
   react-native-view-shot: 08c46c9e8e92f6681e8f2ffa55ac3d06e7e99070
   react-native-viewpager: 118e65d8c65c56fe48d12a35cdcf1fe7e027a366

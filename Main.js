@@ -539,6 +539,7 @@ const renderChangePassword = props => {
   );
 }
 
+// Remove all the comments to make menu dynamic
 const CreateDrawerComponent = props => (
   <SafeAreaView style={{ flex: 1 }}>
     <View style={{ flex: 1 }}>
@@ -597,10 +598,10 @@ const CreateDrawerComponent = props => (
           //MenuPermissionModel.isVisibleMenuLocation && 
           renderLocation(props)
         }
-        {/* {
+        {
           //MenuPermissionModel.isVisibleMenu
           renderSocailShare(props)
-        } */}
+        }
         {
           //MenuPermissionModel.isVisibleMenuTakeSurvey && 
           renderTakeSurvey(props)

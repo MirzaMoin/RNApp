@@ -146,7 +146,7 @@ export default class SplashScreen extends Component {
   };
 
   _getInviteData = async rpID => {
-    console.log(`startubg bro now oringfi`)
+    // console.log(`startubg bro now oringfi`)
     let url = await firebase.links().getInitialLink();
     firebase.links().getInit
     console.log(`URL : ${url} :`)

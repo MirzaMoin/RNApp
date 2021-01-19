@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@estimote/react-native-proximity": "^0.6.0",
     "@mdi/font": "^3.5.95",
     "@react-native-community/cameraroll": "^4.0.0",
     "@react-native-community/viewpager": "^3.3.0",
@@ -47,6 +48,7 @@
     "react-native-sectioned-multi-select": "^0.7.7",
     "react-native-share": "^3.0.0",
     "react-native-simple-toast": "^1.0.0",
+    "react-native-sqlite-storage": "^5.0.0",
     "react-native-star-rating": "^1.1.0",
     "react-native-step-indicator": "0.0.11",
     "react-native-swipeout": "^2.3.6",

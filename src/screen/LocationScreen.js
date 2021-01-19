@@ -323,7 +323,7 @@ export default class LocationScreen extends Component {
                     that.locationListSheet.open();
                   }, 100);
                 }}>
-                <View style={styles.button}>
+                <View >
                   <MDIcon style={styles.buttonIcon} name={'menu'} />
                 </View>
                 {/* </TouchableNativeFeedback> */}
@@ -348,7 +348,7 @@ export default class LocationScreen extends Component {
               <Text style={styles.bottomSheetTitle}>Locations</Text>
               <View style={styles.topIconContainer}>
                 {/* <TouchableNativeFeedback  */}
-                <TouchableOpacity onPress={() => this._openSheetFull()}>
+                <TouchableOpacity style={styles.topIconContainer} onPress={() => this._openSheetFull()}>
                   <MDIcon name={this.state.sheetIcon} style={{ fontSize: 30 }} />
                 </TouchableOpacity>
                 {/* </TouchableNativeFeedback> */}
@@ -424,12 +424,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignContent: 'center',
-    margin: 15,
+    margin: 25,
   },
   buttonIcon: {
     fontSize: 26,
     alignSelf: 'center',
     color: '#7a7a7a',
+    // margin:25
   },
   bottomSheetContainer: { flex: 1, paddingLeft: 20, paddingRight: 20 },
   bottomSheetTitle: { fontSize: 24, textAlign: 'center' },

@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -37,15 +37,33 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>We use this for user experience.</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>We use Bluetooth beacons for better location accuracy indoors.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>We use bluetooth for connect with others.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>We use calende for upcoming events.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>We use contacts connect with people.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>We'll show you things near you in the app. With "always" access, we'll
         also send you notifications when you're near something interesting.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We use this for better location service for user.</string>
 	<key>NSLocationWhenInUsageDescription</key>
 	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We'll show you things near you in the app.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>We use this for user connectivity.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>we use photo for upload user data.</string>
+	<key>NSSiriUsageDescription</key>
+	<string>We use this for siri search.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>We use this for speech recognition for search.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
