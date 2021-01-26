@@ -196,6 +196,7 @@ dependencies {
     implementation "com.google.firebase:firebase-dynamic-links:19.0.0" //Add this line
     implementation "com.google.firebase:firebase-invites:17.0.0"
     implementation 'com.estimote:proximity-sdk:1.0.5'
+    // implementation 'androidx.multidex:multidex:2.0.1'
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";

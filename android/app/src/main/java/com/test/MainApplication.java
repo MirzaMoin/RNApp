@@ -16,6 +16,7 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import io.invertase.firebase.links.RNFirebaseLinksPackage;
+// import androidx.multidex.MultiDexApplication;
 
 public class MainApplication extends Application implements ReactApplication {
 

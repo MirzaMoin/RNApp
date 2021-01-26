@@ -33,433 +33,22 @@ import Toast from 'react-native-root-toast';
 import Marquee from '../widget/Marquee';
 import BleManager from 'react-native-ble-manager';
 import BackgroundTimer from 'react-native-background-timer';
+import { makeRequest } from './../api/apiCall';
+import APIConstant from './../api/apiConstant';
 // import SpinWheelScreen from './SpinWheelScreen';SpinWheelScreen
 import * as RNEP from '@estimote/react-native-proximity';
 // import  from '../beacons/proximityObserver2'
-import { openDatabase } from 'react-native-sqlite-storage';
-
-var db = openDatabase({ name: 'RRBeacon.db' });
-
-
+//import { openDatabase } from 'react-native-sqlite-storage';
+// import { insertData } from './Database_rrbeacon';
+//var db = openDatabase({ name: 'RRBeacon.db' });
+import { insertBeaconData, updateMessagePriority, selectBeacon, getBeaconMessagePriority, clearDatabase } from './../database/BeaconDatabase';
 const maxWidth = Dimensions.get('window').width;
 var extipAppCount = 0;
-
 if (Platform.OS == "android") {
   var { Beaconconnect } = NativeModules;
 }
-
 if (Platform.OS == "android") {
   var BeaconEvents = new NativeEventEmitter(Beaconconnect);
-}
-var countTimer
-var apidata =
-{
-  "Response": [
-    {
-      "welcomeList": [
-        {
-          "message": "",
-          "image": "",
-          "OfferID": "",
-          "CreateDate": "2019-08-30T06:20:37.623",
-          "PointsToAdd": "0",
-          "UpdatePointPopUPPush": "SendBoth",
-          "NotificationPreview": "",
-          "MessageTitle": "",
-          "MessagetitleColor": "#000000",
-          "MessageColor": "#000000",
-          "MessageAlign": "AlignLeft",
-          "BackgroundTop": "",
-          "BackgroundBottom": "",
-          "MessageID": "8b644a28-6ac7-485a-ab78-392e9e805adc",
-          "Messagepriority": 1,
-          "IsJackpotOffer": false,
-          "IssueEveryJackpot": "",
-          "JackpotType": "",
-          "GlobalInstantWinId": ""
-        }
-      ],
-      "timedelayList": [
-        {
-          "message": "LUCK SLOT PLAY",
-          "image": "https://alpha.roborewards.net/UserUpload/BeaconMessage/484793b5-4e8d-4878-8f55-3d38a3bb0f08/52b2c32d-aa9c-48d1-91c7-f8dd94e5b364.mp4",
-          "OfferID": "",
-          "CreateDate": "2019-08-30T06:20:37.63",
-          "PointsToAdd": "1",
-          "UpdatePointPopUPPush": "SendBoth",
-          "NotificationPreview": "",
-          "MessageTitle": "TET",
-          "MessagetitleColor": "#ffffff",
-          "MessageColor": "#ffffff",
-          "MessageAlign": "AlignLeft",
-          "BackgroundTop": "#424242",
-          "BackgroundBottom": "#000000",
-          "MessageID": "afe2511e-1e14-499f-9ccf-19b0449094d4",
-          "Messagepriority": 1,
-          "IsJackpotOffer": false,
-          "IssueEveryJackpot": "",
-          "JackpotType": "",
-          "GlobalInstantWinId": ""
-        }
-      ],
-      "OfferJackpotList": [
-        {
-          "message": "",
-          "image": "00ea8f0f-ab25-4a2b-829f-7681f8d600f8.mp4",
-          "OfferID": "5528",
-          "CreateDate": null,
-          "PointsToAdd": "10",
-          "UpdatePointPopUPPush": "SendBoth",
-          "NotificationPreview": "",
-          "MessageTitle": "",
-          "MessagetitleColor": "#000000",
-          "MessageColor": "#000000",
-          "MessageAlign": "AlignLeft",
-          "BackgroundTop": "#fafafa",
-          "BackgroundBottom": "#fafafa",
-          "MessageID": "8e22fec2-a0db-430b-ad36-75dcc627a3d5",
-          "Messagepriority": 0,
-          "IsJackpotOffer": true,
-          "IssueEveryJackpot": "3",
-          "JackpotType": "SendJackpot2",
-          "GlobalInstantWinId": "05bc147f-4d4a-4a21-942e-7d86cb6dce63"
-        },
-        {
-          "message": "You are Winner.",
-          "image": "3324af55-4b89-4cb4-afe3-79fcdac038d9.mp4",
-          "OfferID": "5545,5528",
-          "CreateDate": null,
-          "PointsToAdd": "1",
-          "UpdatePointPopUPPush": "SendBoth",
-          "NotificationPreview": "",
-          "MessageTitle": "Instant Win",
-          "MessagetitleColor": "#000000",
-          "MessageColor": "#000000",
-          "MessageAlign": "AlignLeft",
-          "BackgroundTop": "#fafafa",
-          "BackgroundBottom": "#fafafa",
-          "MessageID": "fb7fa03a-732a-4823-aab2-dec820e8cccd",
-          "Messagepriority": 0,
-          "IsJackpotOffer": true,
-          "IssueEveryJackpot": "2",
-          "JackpotType": "SendJackpot1",
-          "GlobalInstantWinId": "d389d952-98e4-43f7-88be-b178c3625691"
-        }
-      ],
-      "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
-      "Major": "10",
-      "Minor": "3",
-      "StoreID": "cf096663-913c-4e2f-8722-34db41fba6c6",
-      "RewardProgramID": "f158ed4c-ace0-44fd-835f-c82cdda625a2",
-      "BeaconName": "Jonathan Blueberry",
-      "AddressID": "9be47abc-8efa-43f9-a383-cb6ea7ac4132",
-      "DelayTime": "0:1",
-      "CheckInTime": "0:0",
-      "BeaconID": "484793b5-4e8d-4878-8f55-3d38a3bb0f08",
-      "BluetoothMessage": "Turn on your Bluetooth to access all check-in features!",
-      "PrimaryColor": "#012340",
-      "HeaderLogo": "https://alpha.roborewards.net/UserUpload/WebForm/af397e51-e29d-4853-8619-56dd0772ffcc/a5e7e358-5661-4afe-95ea-b9671691b8b0.png",
-      "HeaderText": "",
-      "MessageImageBackgroundColor": "#ffffff",
-      "MessageTextBackgroundColor": "#ffffff",
-      "WelcomeMessageSendOrder": "random",
-      "TimeDelayMessageSendOrder": "random",
-      "CheckInCountType": "UserWise",
-      "IsWelcomeAllow": "false",
-      "IsOkPopup": "true",
-      "IsDisplayConnected": true,
-      "LocationName": "RoboRewards",
-      "IsDisplayLearnMoreLink": false,
-      "LearnMoreLink": "",
-      "IsOptionToClose": true,
-      "IsBeaconandTabletsDependent": false,
-      "IsPUSHAlarm": true
-    },
-    {
-      "welcomeList": [
-        {
-          "message": "",
-          "image": "",
-          "OfferID": "",
-          "CreateDate": "2019-08-28T12:38:43.493",
-          "PointsToAdd": "0",
-          "UpdatePointPopUPPush": "SendBoth",
-          "NotificationPreview": "",
-          "MessageTitle": "",
-          "MessagetitleColor": "#000000",
-          "MessageColor": "#000000",
-          "MessageAlign": "AlignLeft",
-          "BackgroundTop": "",
-          "BackgroundBottom": "",
-          "MessageID": "26968a0d-a80b-424a-b672-9374352acf4b",
-          "Messagepriority": 1,
-          "IsJackpotOffer": false,
-          "IssueEveryJackpot": "",
-          "JackpotType": "",
-          "GlobalInstantWinId": ""
-        }
-      ],
-      "timedelayList": [
-        {
-          "message": "Test1",
-          "image": "https://alpha.roborewards.net/UserUpload/BeaconMessage/247b7c4d-ce04-4f24-af37-56294c950353/b501fc8f-18dc-466e-a473-c0fd765cc8bf.mp4",
-          "OfferID": "",
-          "CreateDate": "2019-08-28T12:38:43.497",
-          "PointsToAdd": "0",
-          "UpdatePointPopUPPush": "SendBoth",
-          "NotificationPreview": "",
-          "MessageTitle": "TEST1",
-          "MessagetitleColor": "#000000",
-          "MessageColor": "#000000",
-          "MessageAlign": "AlignLeft",
-          "BackgroundTop": "",
-          "BackgroundBottom": "",
-          "MessageID": "aa36515e-5097-4d7a-b3b9-05cb8f68e3cd",
-          "Messagepriority": 1,
-          "IsJackpotOffer": false,
-          "IssueEveryJackpot": "",
-          "JackpotType": "",
-          "GlobalInstantWinId": ""
-        },
-        {
-          "message": "Test2",
-          "image": "https://alpha.roborewards.net/UserUpload/BeaconMessage/247b7c4d-ce04-4f24-af37-56294c950353/2a852c5c-83cf-4ab8-ac29-f85238278172.jpg",
-          "OfferID": "",
-          "CreateDate": "2019-08-28T12:38:43.523",
-          "PointsToAdd": "0",
-          "UpdatePointPopUPPush": "SendBoth",
-          "NotificationPreview": "",
-          "MessageTitle": "TEST2",
-          "MessagetitleColor": "#000000",
-          "MessageColor": "#000000",
-          "MessageAlign": "AlignLeft",
-          "BackgroundTop": "",
-          "BackgroundBottom": "",
-          "MessageID": "69f62609-9bf5-4cf9-a4e9-9a0861429dfe",
-          "Messagepriority": 2,
-          "IsJackpotOffer": false,
-          "IssueEveryJackpot": "",
-          "JackpotType": "",
-          "GlobalInstantWinId": ""
-        },
-        {
-          "message": "This is a message that you have earned points",
-          "image": "https://alpha.roborewards.net/UserUpload/BeaconMessage/4e2e5ec2-f792-44e2-9f39-1b433308de82/6a669878-550b-4533-8066-5e0a1fdaf71f.png",
-          "OfferID": "",
-          "CreateDate": "2020-10-07T06:46:57.58",
-          "PointsToAdd": "2",
-          "UpdatePointPopUPPush": "SendBoth",
-          "NotificationPreview": "",
-          "MessageTitle": "TIMEDELAY-1",
-          "MessagetitleColor": "#000000",
-          "MessageColor": "#000000",
-          "MessageAlign": "AlignLeft",
-          "BackgroundTop": "",
-          "BackgroundBottom": "",
-          "MessageID": "04ee04f0-a328-42d6-a18f-06a3b14b0742",
-          "Messagepriority": 1,
-          "IsJackpotOffer": false,
-          "IssueEveryJackpot": "",
-          "JackpotType": "",
-          "GlobalInstantWinId": ""
-        }
-      ],
-      "OfferJackpotList": [
-        {
-          "message": "",
-          "image": "00ea8f0f-ab25-4a2b-829f-7681f8d600f8.mp4",
-          "OfferID": "5528",
-          "CreateDate": null,
-          "PointsToAdd": "10",
-          "UpdatePointPopUPPush": "SendBoth",
-          "NotificationPreview": "",
-          "MessageTitle": "",
-          "MessagetitleColor": "#000000",
-          "MessageColor": "#000000",
-          "MessageAlign": "AlignLeft",
-          "BackgroundTop": "#fafafa",
-          "BackgroundBottom": "#fafafa",
-          "MessageID": "813ca03c-9485-4ac1-ad11-45b0271f9f65",
-          "Messagepriority": 0,
-          "IsJackpotOffer": true,
-          "IssueEveryJackpot": "3",
-          "JackpotType": "SendJackpot2",
-          "GlobalInstantWinId": "05bc147f-4d4a-4a21-942e-7d86cb6dce63"
-        },
-        {
-          "message": "You are Winner.",
-          "image": "3324af55-4b89-4cb4-afe3-79fcdac038d9.mp4",
-          "OfferID": "5545,5528",
-          "CreateDate": null,
-          "PointsToAdd": "1",
-          "UpdatePointPopUPPush": "SendBoth",
-          "NotificationPreview": "",
-          "MessageTitle": "Instant Win",
-          "MessagetitleColor": "#000000",
-          "MessageColor": "#000000",
-          "MessageAlign": "AlignLeft",
-          "BackgroundTop": "#fafafa",
-          "BackgroundBottom": "#fafafa",
-          "MessageID": "cf257409-e85c-4268-98f4-707ac8ddf9f0",
-          "Messagepriority": 0,
-          "IsJackpotOffer": true,
-          "IssueEveryJackpot": "2",
-          "JackpotType": "SendJackpot1",
-          "GlobalInstantWinId": "d389d952-98e4-43f7-88be-b178c3625691"
-        }
-      ],
-      "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
-      "Major": "1234",
-      "Minor": "1234",
-      "StoreID": "cf096663-913c-4e2f-8722-34db41fba6c6",
-      "RewardProgramID": "f158ed4c-ace0-44fd-835f-c82cdda625a2",
-      "BeaconName": "BeaconTestVideo",
-      "AddressID": "e3368787-d8fc-4d78-8e18-73a24c56318a",
-      "DelayTime": "2:13",
-      "CheckInTime": "0:0",
-      "BeaconID": "247b7c4d-ce04-4f24-af37-56294c950353",
-      "BluetoothMessage": "Turn on your Bluetooth to access all check-in features!",
-      "PrimaryColor": "#012340",
-      "HeaderLogo": "https://alpha.roborewards.net/UserUpload/WebForm/af397e51-e29d-4853-8619-56dd0772ffcc/a5e7e358-5661-4afe-95ea-b9671691b8b0.png",
-      "HeaderText": "",
-      "MessageImageBackgroundColor": "#ffffff",
-      "MessageTextBackgroundColor": "#ffffff",
-      "WelcomeMessageSendOrder": "random",
-      "TimeDelayMessageSendOrder": "random",
-      "CheckInCountType": "UserWise",
-      "IsWelcomeAllow": "false",
-      "IsOkPopup": "false",
-      "IsDisplayConnected": true,
-      "LocationName": "AJ Location 4",
-      "IsDisplayLearnMoreLink": false,
-      "LearnMoreLink": "",
-      "IsOptionToClose": true,
-      "IsBeaconandTabletsDependent": false,
-      "IsPUSHAlarm": true
-    },
-    {
-      "welcomeList": [
-        {
-          "message": "aaa",
-          "image": "https://alpha.roborewards.net/UserUpload/BeaconMessage/db696f70-3c85-46d7-9ed4-92797be49020/dc394564-13fb-4040-bd95-1490d8ed7e02.jpg",
-          "OfferID": "",
-          "CreateDate": "2019-07-13T09:26:04.673",
-          "PointsToAdd": "0",
-          "UpdatePointPopUPPush": "SendBoth",
-          "NotificationPreview": "",
-          "MessageTitle": "AA",
-          "MessagetitleColor": "#7d657d",
-          "MessageColor": "#542854",
-          "MessageAlign": "AlignLeft",
-          "BackgroundTop": "#a0b899",
-          "BackgroundBottom": "#19c27e",
-          "MessageID": "b024d868-e4d9-4ed3-936a-097c94c0ce1f",
-          "Messagepriority": 1,
-          "IsJackpotOffer": false,
-          "IssueEveryJackpot": "",
-          "JackpotType": "",
-          "GlobalInstantWinId": ""
-        },
-        {
-          "message": "eww",
-          "image": "https://alpha.roborewards.net/UserUpload/BeaconMessage/db696f70-3c85-46d7-9ed4-92797be49020/8ff5912d-977e-4b5d-9b4e-bcbccfa078ac.jpg",
-          "OfferID": "",
-          "CreateDate": "2019-07-13T09:26:04.68",
-          "PointsToAdd": "12",
-          "UpdatePointPopUPPush": "SendBoth",
-          "NotificationPreview": "",
-          "MessageTitle": "RE",
-          "MessagetitleColor": "#e8cfe8",
-          "MessageColor": "#388bcf",
-          "MessageAlign": "AlignLeft",
-          "BackgroundTop": "#babfd1",
-          "BackgroundBottom": "#4bcfc4",
-          "MessageID": "b22547e0-5726-44cf-9880-e826f09f88ff",
-          "Messagepriority": 2,
-          "IsJackpotOffer": false,
-          "IssueEveryJackpot": "",
-          "JackpotType": "",
-          "GlobalInstantWinId": ""
-        }
-      ],
-      "timedelayList": [
-        {
-          "message": "BB",
-          "image": "https://alpha.roborewards.net/UserUpload/BeaconMessage/db696f70-3c85-46d7-9ed4-92797be49020/6288afd4-68db-4115-b5be-2eb0bbeb8692.jpg",
-          "OfferID": "",
-          "CreateDate": "2019-07-13T09:26:04.733",
-          "PointsToAdd": "0",
-          "UpdatePointPopUPPush": "SendBoth",
-          "NotificationPreview": "",
-          "MessageTitle": null,
-          "MessagetitleColor": "#697eb3",
-          "MessageColor": "#8c1e8c",
-          "MessageAlign": "AlignLeft",
-          "BackgroundTop": "#bdd642",
-          "BackgroundBottom": "#c3e615",
-          "MessageID": "ddccee29-1d48-4ced-9746-016db11ac47a",
-          "Messagepriority": 1,
-          "IsJackpotOffer": false,
-          "IssueEveryJackpot": "",
-          "JackpotType": "",
-          "GlobalInstantWinId": ""
-        },
-        {
-          "message": "scsdcs",
-          "image": "https://alpha.roborewards.net/UserUpload/BeaconMessage/db696f70-3c85-46d7-9ed4-92797be49020/e0014c2a-afba-43a2-b92b-f80aeb34bb00.jpg",
-          "OfferID": "",
-          "CreateDate": "2019-07-13T09:26:04.74",
-          "PointsToAdd": "33",
-          "UpdatePointPopUPPush": "SendBoth",
-          "NotificationPreview": "",
-          "MessageTitle": "SD",
-          "MessagetitleColor": "#5e0f5e",
-          "MessageColor": "#4d7a6a",
-          "MessageAlign": "AlignLeft",
-          "BackgroundTop": "#26ff00",
-          "BackgroundBottom": "#e0cce0",
-          "MessageID": "d81e446a-802c-4686-b228-e738c38e5c15",
-          "Messagepriority": 2,
-          "IsJackpotOffer": false,
-          "IssueEveryJackpot": "",
-          "JackpotType": "",
-          "GlobalInstantWinId": ""
-        }
-      ],
-      "OfferJackpotList": [],
-      "UUID": "2c324e55-ed8d-cc95-5306-f17a08f1f4e9",
-      "Major": "100",
-      "Minor": "23",
-      "StoreID": "cf096663-913c-4e2f-8722-34db41fba6c6",
-      "RewardProgramID": "f158ed4c-ace0-44fd-835f-c82cdda625a2",
-      "BeaconName": "demo..",
-      "AddressID": "9c884c48-0e3c-4112-aff3-e5cdadddbd1c",
-      "DelayTime": "0:1",
-      "CheckInTime": "0:1",
-      "BeaconID": "db696f70-3c85-46d7-9ed4-92797be49020",
-      "BluetoothMessage": "Turn on your Bluetooth to access all check-in features!",
-      "PrimaryColor": "#012340",
-      "HeaderLogo": "https://alpha.roborewards.net/UserUpload/WebForm/af397e51-e29d-4853-8619-56dd0772ffcc/a5e7e358-5661-4afe-95ea-b9671691b8b0.png",
-      "HeaderText": "",
-      "MessageImageBackgroundColor": "#ffffff",
-      "MessageTextBackgroundColor": "#ffffff",
-      "WelcomeMessageSendOrder": "random",
-      "TimeDelayMessageSendOrder": "random",
-      "CheckInCountType": "UserWise",
-      "IsWelcomeAllow": "false",
-      "IsOkPopup": "false",
-      "IsDisplayConnected": true,
-      "LocationName": "New Addition Tst 3",
-      "IsDisplayLearnMoreLink": false,
-      "LearnMoreLink": "",
-      "IsOptionToClose": true,
-      "IsBeaconandTabletsDependent": false,
-      "IsPUSHAlarm": true
-    }
-  ],
-  "StatusCode": 1,
-  "ErrorMessage": "",
-  "SuccessMessage": "Success"
 }
 export default class HomeScreen extends Component {
   static navigationOptions = {
@@ -472,287 +61,83 @@ export default class HomeScreen extends Component {
       title: 'HomeScreen',
       tabIndex: 0,
       key: '',
-      count: 0
+      count: 0,
+      getData:'',
     };
     // this.beacon = this.beacon.bind(this);
   }
-  createTableBeacon() {
-    var that = this;
-    // debugger;
-    db.transaction(function (txn) {
-      txn.executeSql(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name='beacon'",
-        [],
-        function (txn, res) {
-          // console.log('Inside the select statement');
-          if (res.rows.length == 0) {
-            console.log('Inside the select statement row count');
-            // debugger;
-            txn.executeSql('DROP TABLE IF EXISTS beacon', []);
-            txn.executeSql(
-              'CREATE TABLE IF NOT EXISTS beacon(b_id INTEGER PRIMARY KEY AUTOINCREMENT, beacon_id VARCHAR(20), uuid VARCHAR(20), major VARCHAR(20),minor VARCHAR(20),delay_time VARCHAR(20),check_in_time VARCHAR(20),welcome_order VARCHAR(20),delay_order VARCHAR(20),check_in_count_type VARCHAR(20),welcome_jackpot_count INT(20),delay_jackpot_count INT(20),next_welcome INT(20),next_welcome_jackpot INT(20),next_delay VARCHAR(1024),next_delay_jackpot INT(20),is_allow_welcome VARCHAR(20),is_ok_popup VARCHAR(10),location_name VARCHAR(10),TimeDelayMessageSendOrder VARCHAR(20))',
-              [],
-              (success) => {
-                console.log("success in create beacon " + success);
-                that.createTableMsg();
-              },
-              (error) => {
-                console.log("error beacon " + error);
-              }
-            );
-          } else {
-            that.createTableMsg();
-            // console.log('Beacon table is already created');
-          }
-        }
-      );
-      // debugger;
-    });
-  }
-  createTableMsg() {
-    var that = this;
-    db.transaction(function (txn) {
-      // debugger
-      txn.executeSql(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name='message'",
-        [],
-        function (tx, res) {
-          if (res.rows.length == 0) {
-            txn.executeSql('DROP TABLE IF EXISTS message', []);
-            txn.executeSql(
-              'CREATE TABLE IF NOT EXISTS message(m_id INTEGER PRIMARY KEY AUTOINCREMENT, message_id VARCHAR(20), beacon_id VARCHAR(10), offer_id VARCHAR(20),message VARCHAR(20),message_title VARCHAR(10),point_to_add VARCHAR(20),image VARCHAR(50),notification_type VARCHAR(10),is_jackpot_type VARCHAR(20),issue_count VARCHAR(20),is_welcome VARCHAR(10))',
-              [],
-              (success) => {
-                console.log("success in create message " + success);
-                that.insertData();
-              },
-              (error) => {
-                console.log("error message " + error);
-              }
-            );
-          } else {
-            that.insertData();
-            // console.log('Message table is already created');
-          }
-        }
-      );
-      // debugger;
-    });
-  }
-  insertData = async () => {
-    var that = this;
-    for (let index = 0; index < apidata.Response.length; index++) {
-      for (let i = 0; i < apidata['Response'][index]['timedelayList'].length; i++) {
-        db.transaction(function (tx) {
-          // debugger;
-          tx.executeSql(
-            'SELECT * FROM message where message_id = ?',
-            [apidata['Response'][index]['timedelayList'][i]['MessageID']],
-            (txx, results) => {
-              var len = results.rows.length;
-              if (len == 0) {
-                db.transaction((tx) => {
-                  tx.executeSql(
-                    'INSERT INTO message (m_id,message_id,beacon_id,offer_id,message,message_title,point_to_add,image,notification_type,is_jackpot_type,issue_count,is_welcome) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
-                    [null, apidata['Response'][index]['timedelayList'][i]['MessageID'], apidata['Response'][index]['BeaconID'], apidata['Response'][index]['timedelayList'][i]['OfferID'], apidata['Response'][index]['timedelayList'][i]['message'], apidata['Response'][index]['timedelayList'][i]['MessageTitle'], apidata['Response'][index]['timedelayList'][i]['PointsToAdd'], apidata['Response'][index]['timedelayList'][i]['image'], apidata['Response'][index]['timedelayList'][i]['NotificationPreview'], apidata['Response'][index]['timedelayList'][i]['IsJackpotOffer'], apidata['Response'][index]['timedelayList'][i]['IssueEveryJackpot'], false],
-                    (tx, results) => {
-                      // console.log("data inserted in message")
-                    },
-                    (error) => {
-                      console.log("error in insert message " + JSON.stringify(error))
-                    }
-                  );
-                });
-              } else {
-                console.log('data available in message')
-              }
-            }
-          );
-        });
-      }
-      db.transaction(function (tx) {
-        // debugger;
-        tx.executeSql(
-          'SELECT * FROM beacon where beacon_id = ?',
-          [apidata['Response'][index]['BeaconID']],
-          (txx, results) => {
-            var len = results.rows.length;
-            // console.log("len " + len)
-            if (len == 0) {
-              db.transaction((tx) => {
-                tx.executeSql(
-                  'INSERT INTO beacon(beacon_id,uuid,major,minor,delay_time,check_in_time,welcome_order,delay_order,check_in_count_type,welcome_jackpot_count,delay_jackpot_count,next_welcome,next_welcome_jackpot,next_delay,next_delay_jackpot,is_allow_welcome,is_ok_popup,location_name,TimeDelayMessageSendOrder) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-                  [apidata['Response'][index]['BeaconID'], apidata['Response'][index]['UUID'], apidata['Response'][index]['Major'], apidata['Response'][index]['Minor'], apidata['Response'][index]['DelayTime'], apidata['Response'][index]['CheckInTime'], apidata['Response'][index]['WelcomeMessageSendOrder'], apidata['Response'][index]['DelayTime'], apidata['Response'][index]['CheckInCountType'], apidata['Response'][index]['WelcomeMessageSendOrder'], apidata['Response'][index]['DelayTime'], apidata['Response'][index]['BeaconName'], apidata['Response'][index]['WelcomeMessageSendOrder'], "", apidata['Response'][index]['DelayTime'], apidata['Response'][index]['IsWelcomeAllow'], apidata['Response'][index]['IsOkPopup'], apidata['Response'][index]['LocationName'], apidata['Response'][index]['TimeDelayMessageSendOrder']],
-                  (tx, results) => {
-                    // console.log("data inserted in beacon")
-                  },
-                  (error) => {
-                    console.log("error in insert beacon " + JSON.stringify(error));
-                  }
-                );
-              });
-            } else {
-              console.log('data available in beacon')
-            }
-          }
-        );
-      });
-    }
-  }
-  // }
+  
 
-  getMessageIndex(rows, currentID) {
-    for (let i = 0; i < rows.length; i++) {
-      if (rows.item(i)['m_id'] === currentID)
-        return i;
-    }
-    return -1;
-  }
 
-  updateData(id = '247b7c4d-ce04-4f24-af37-56294c950353') {
-    // console.log("update call")
-    db.transaction((tx) => {
-      tx.executeSql(
-        'SELECT m_id FROM message where beacon_id = ?',
-        [id],
-        (tx, results) => {
-          var len = results.rows.length;
-          if (len > 0) {
-            debugger;
-            tx.executeSql('select * from beacon where beacon_id=?', [id], (tx, r) => {
-              // console.log("r.rows.item(0)['next_delay'] " + r.rows.item(0)['next_delay'])
-              if (r.rows.item(0)['next_delay'] === "" || true) {
-                var newVal = 0;
-                if (r.rows.item(0)['TimeDelayMessageSendOrder'] === 'loop') {
-                  var current = parseInt(r.rows.item(0)['next_delay']);
-                  var currentIndex = this.getMessageIndex(results.rows, current);
-                  // var newVal = 0;
-                  if (currentIndex >= len - 1 || currentIndex == -1) {
-                    newVal = results.rows.item(0)['m_id'];
-                  } else {
-                    newVal = results.rows.item(currentIndex + 1)['m_id'];
-                  }
-                } else {
-                  var RandomNumber = Math.floor(Math.random() * results.rows.length);
-                  newVal = results.rows.item(RandomNumber)['m_id'];
-                  console.log("random call " + RandomNumber + " length " + results.rows.length + " newval " + newVal)
-                }
-                db.transaction((txx) => {
-                  txx.executeSql(
-                    'update beacon set next_delay = ? where beacon_id = ?',
-                    [newVal, id],
-                    (tx, res) => {
-                      debugger
-                      console.log('Results', res.rowsAffected);
-                      if (res.rowsAffected > 0) {
-                        debugger
-                        Alert.alert(
-                          'Success',
-                          'User updated successfully',
-                          [
-                            {
-                              text: 'Ok',
-                              onPress: () => console.log("data updated"),
-                            },
-                          ],
-                          { cancelable: false }
-                        );
-                      } else alert('Updation Failed');
-                    },
-                    (error) => {
-                      console.log("error in update " + JSON.stringify(error))
-                    }
-                  );
-                })
-              }
-            })
-          } else {
-            alert('No beacon found...');
-          }
-        }
-      );
-    });
-  }
-
-  selectData() {
-    db.transaction(function (txn) {
-      txn.executeSql(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name='beacon_msg_list'",
-        [],
-        function (txn, res) {
-          // console.log('Inside the select statement');
-          if (res.rows.length == 0) {
-            console.log('Inside the select statement row count');
-            // debugger;
-            txn.executeSql('DROP TABLE IF EXISTS beacon_msg_list', []);
-            txn.executeSql(
-              'CREATE TABLE IF NOT EXISTS beacon_msg_list(bm_id INTEGER PRIMARY KEY AUTOINCREMENT, beacon_id VARCHAR(20),message_id VARCHAR(20))',
-              [],
-              (success) => {
-                console.log("success in create beacon msg list" + success);
-                // that.createTableMsg();
-              },
-              (error) => {
-                console.log("error beacon " + error);
-              }
-            );
-          } else {
-            // that.createTableMsg();
-            // console.log('Beacon table is already created');
-          }
-        }
-      );
-      // debugger;
-    });
-    console.log("select call")
-    db.transaction((tx) => {
-      tx.executeSql('SELECT * FROM beacon', [], (tx, results) => {
-        var temp1 = [];
-        for (let i = 0; i < results.rows.length; i++)
-          temp1.push(results.rows.item(i));
-        console.log("beacon " + temp1.length)
-      }, (error) => {
-        console.log("error in select beacon " + error)
-      });
-    });
-    db.transaction((tx) => {
-      tx.executeSql('SELECT * FROM message', [], (tx, results) => {
-        console.log('Selected data');
-        var temp2 = [];
-        for (let i = 0; i < results.rows.length; i++) {
-          temp2.push(results.rows.item(i));
-        }
-        console.log("message " + temp2.length)
-      }, (error) => {
-        console.log("error in select msg " + JSON.stringify(error))
-      });
-    });
-    db.transaction((tx) => {
-      tx.executeSql('SELECT * FROM beacon_msg_list', [], (tx, results) => {
-        console.log('Selected data');
-        var temp3 = [];
-        for (let i = 0; i < results.rows.length; i++) {
-          temp3.push(results.rows.item(i));
-        }
-        console.log("message list " + temp3.length)
-      }, (error) => {
-        console.log("error in select msg " + JSON.stringify(error))
-      });
-    });
-    db.transaction((tx) => {
-      tx.executeSql('SELECT * FROM beacon_msg_list', [], (tx, results) => {
-
-      }, (error) => {
-        console.log("error in select msg " + JSON.stringify(error))
-      });
-    });
-
-  }
   componentDidMount() {
-    this.createTableBeacon()
+    //this.createTableBeacon()
+    this.getBeaconData()
   }
+  getBeaconData(){
+    makeRequest(
+      `${APIConstant.BASE_URL}${APIConstant.GET_ALL_BEACON}?RewardProgramID=${GlobalAppModel.rewardProgramId}`,
+      'get',
+    )
+      .then(response => {
+        if (response.statusCode == 0) {
+          Alert.alert('Oppss...', response.statusMessage);
+        } else {
+          this.addBeaconData(response.responsedata);
+          // console.log("get beacon "+JSON.stringify(response.responsedata))
+        }
+      })
+      .catch(error => console.log('error : ' + error));
+  }
+  sendBeaconData(deviceID){
+    const request={
+      deviceID:deviceID,
+      RPID:GlobalAppModel.rewardProgramId,
+      user:GlobalAppModel.userID,
+      token:APIConstant.RPTOKEN,
+    }
+    makeRequest(
+      `${APIConstant.BASE_URL}${APIConstant.GET_ALL_BEACON}?RewardProgramID=${GlobalAppModel.rewardProgramId}`,
+      'post',
+      request
+    )
+      .then(response => {
+        console.log(JSON.stringify(response));
+        this.setState({ isLoadingSignupform: false });
+        if (response.statusCode == 0) {
+          Alert.alert('Oppss...', response.statusMessage);
+        } else {
+         alert("responce "+response.responsedata)
+        }
+      })
+      .catch(error => {
+        Alert.alert('Oppss...', 'Something went wrong.');
+        this.setState({ isLoadingSignupform: false });
+      });
+  }
+
+  addBeaconData = async (serverList) => {
+    // console.log('Starting data insert');
+    for (let i = 0; i < serverList.length; i++) {
+      var priority = await getBeaconMessagePriority(serverList[i]['beaconId']);
+      serverList[i]['priority'] = priority;
+    }
+    // Delete all beacons from database
+    await clearDatabase();
+    // insert serverList into database
+    for (let i = 0; i < serverList.length; i++) {
+      await insertBeaconData([serverList[i]['beaconId'], serverList[i]['deviceId'], serverList[i]['deviceTag'], serverList[i]['priority']]);
+    }
+  }
+
+  updateBeaconMessagePriority = async (beaconId, priority) => {
+    console.log('Started beacon priority');
+    await updateMessagePriority('484793b5-4e8d-4878-8f55-3d38a3bb0f08', 3)
+    console.log('Updated beacon priority');
+  }
+
   componentWillMount() {
     // this.selectData()
+    this.addBeaconData()
     extipAppCount = 0;
     this._getStoredData();
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
@@ -762,6 +147,7 @@ export default class HomeScreen extends Component {
           debugger
           // alert("Device connect successfully:"+ key1)
           console.log("Device connect successfully:" + deviceID)
+          // this.sendBeaconData(deviceID)
           Alert.alert(
             "Beacon connection",
             "Device connect successfully",
@@ -776,7 +162,6 @@ export default class HomeScreen extends Component {
       BeaconEvents.addListener('onExitZone', ({ deviceID }) => {
         if (deviceID) {
           debugger
-          BackgroundTimer.stopBackgroundTimer();
           alert("Device Disconnect successfully:" + deviceID)
           console.log("Device Disconnect successfully:" + deviceID)
         }
@@ -793,7 +178,9 @@ export default class HomeScreen extends Component {
   //beacon connect for android
   beacon = async () => {
     // this.selectData()
-    this.updateData();
+    // this.updateData();
+    // this.updateBeaconMessagePriority('', '');
+    // return;
     let listA = [{ 'appid': 'jingram-roborewards-com-s--8ki', 'apptoken': '03cec4f4b6eba05b2c72f09e82cb252e' }]
     if (Platform.OS == "android") {
       try {
@@ -822,7 +209,6 @@ export default class HomeScreen extends Component {
         console.warn(err);
       }
     }
-
   }
 
   //beacon connect for ios
@@ -838,6 +224,7 @@ export default class HomeScreen extends Component {
       debugger
       alert('divce connected successfully')
       console.log('zone1 onEnter', context);
+      this.updateData('c543fdb29b46435f3ae535b1c016b509')
     };
     zone1.onExitAction = context => {
       // stopTimer(true);
@@ -886,9 +273,8 @@ export default class HomeScreen extends Component {
           console.log('Proximity Observer - ', RNEP.proximityObserver.isObserving);
           RNEP.proximityObserver.isObserving == false ? RNEP.proximityObserver.startObservingZones([zone1]) : null
           // RNEP.proximityObserver.startObservingZones([zone1,zone2]
-          console.log('Proximity Observer after - ', RNEP.proximityObserver.isObserving);
+          // console.log('Proximity Observer after - ', RNEP.proximityObserver.isObserving);
           // RNEP.startProximityObserver.startObservingZones([RNEP.proximityObserver(5,'blue')])
-
           console.log('zone1 value:' + JSON.stringify(zone1))
           // console.log('zone2 value:' + JSON.stringify(zone2))
 
@@ -959,7 +345,7 @@ export default class HomeScreen extends Component {
 
   // top container for showing point and image with gradient color
   _renderTopContainer = () => {
-    console.log(`Global App Data: ${GlobalAppModel.rewardProgramId}`);
+    // console.log(`Global App Data: ${GlobalAppModel.rewardProgramId}`);
     return (
       <ImageBackground
         style={{ flexDirection: 'column', height: (maxWidth / 16) * 9, width: maxWidth }}

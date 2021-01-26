@@ -54,6 +54,8 @@
 	<string>We use this for better location service for user.</string>
 	<key>NSLocationWhenInUsageDescription</key>
 	<string></string>
+	<key>NSCameraUsageDescription</key>
+ 	<string>Please allow permission for camera to update your information.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We'll show you things near you in the app.</string>
 	<key>NSMotionUsageDescription</key>

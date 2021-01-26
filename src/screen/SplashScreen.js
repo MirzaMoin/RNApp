@@ -23,6 +23,8 @@ import Toast from 'react-native-root-toast';
 //import MenuLinkModel  from './../model/MenuLinkModel';
 //import MenuPermissionModel  from './../model/MenuPermissionModel';
 
+import { createBeaconTable } from './../database/BeaconDatabase';
+
 export default class SplashScreen extends Component {
   
   static navigationOptions = {
@@ -37,6 +39,11 @@ export default class SplashScreen extends Component {
   componentDidMount() {
     let fontName = 'regular'
     // GlobalFont.applyGlobal(fontName)
+    this.createTBL();
+  }
+  createTBL = async ()  => {
+    await createBeaconTable();
+    // print('Data Created Splash');
   }
 
   _getLoginData = async () => {

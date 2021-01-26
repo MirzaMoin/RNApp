@@ -32,6 +32,7 @@ module.exports = {
   GET_TRANSACTION_HISTORY: 'UserAccountProfile/TransactionHistory',
   GET_SURVEY_LIST: 'UserAccountProfile/GetSurveyList',
   SENT_REFER_CLICK_DATA: 'UserProfile/ShareLinkVisitDetails',
+  GET_ALL_BEACON:'Beacon/GetAllBeacon',
   
 };
   
