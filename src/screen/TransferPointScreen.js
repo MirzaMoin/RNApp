@@ -123,7 +123,7 @@ export default class TransferPointScreen extends Component {
           <ScreenHeader
             navigation={this.props.navigation}
             title={'Transfer Point'}
-            userPoint={GlobalAppModel.setRedeemablePoint} />
+            userPoint={GlobalAppModel.redeemablePoint} />
           <ScrollView>
             <View style={{ hegith: 150 }}>
               <Image

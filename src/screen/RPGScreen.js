@@ -70,19 +70,21 @@ export default class RPGScreen extends Component {
 
   _renderRow = item => {
     return (
-      <View style={{ flexDirection: 'row', minHeight: 70, alignContent: 'center', alignItems: 'center', height: 80 }}>
-        <View style={{ padding: 5, height: '100%', backgroundColor: 'rgba(153,153,153,0.5)', width: '18%', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
-          <Text style={{ fontSize: 18 }}>{item.pointValue}</Text>
-          <Text>Entries</Text>
+      <View style={{ flexDirection: 'row', minHeight: 70, alignContent: 'center', alignItems: 'center', height: 80, }}>
+        <View style={{ padding: 5, height: '100%', backgroundColor: 'rgba(153,153,153,0.5)', width: '15%', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+          <Text style={{ fontSize: 16 }}>{item.pointValue}</Text>
+          <Text>Points</Text>
         </View>
-        <ImageLoader
-          title={item.title}
-          src={item.image}
-          style={styles.offerImage}
-          titleStyle={{ fontSize: 30 }} />
-        <View style={{ flex: 1, height: 70, flexDirection: 'column', paddingLeft: 5 }}>
-          <Text style={{ fontSize: 18, }}>{item.title}</Text>
-          <Text numberOfLines={2} ellipsizeMode='tail' style={{ fontSize: 15, color: 'rgba(153, 153, 153, 1)' }}>{item.details}</Text>
+        <View style={{ flexDirection: 'row', width: '70%', borderBottomColor: 'lightgrey', borderBottomWidth: 0.5,marginLeft:5}}>
+          <ImageLoader
+            title={item.title}
+            src={item.image}
+            style={styles.offerImage}
+            titleStyle={{ fontSize: 30 }} />
+          <View style={{ flex: 1, height: 70, flexDirection: 'column', paddingLeft: 5,  }}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', paddingTop: 2 }}>{item.title}</Text>
+            <Text numberOfLines={2} ellipsizeMode='tail' style={{ fontSize: 14, color: 'rgba(153, 153, 153, 1)' }}>{item.details}</Text>
+          </View>
         </View>
         <View style={{ width: '10%', height: '100%', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
           <View style={{ height: '100%', width: 2, backgroundColor: item.isActive ? 'red' : 'rgba(153,153,153,1)' }} />

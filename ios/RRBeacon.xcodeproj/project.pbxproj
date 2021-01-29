@@ -69,6 +69,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNEstimoteProximity;
 		};
+		18B2E83B25C4168400358CBC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B2E83625C4168300358CBC /* ART.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
+			remoteInfo = ART;
+		};
+		18B2E83D25C4168400358CBC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B2E83625C4168300358CBC /* ART.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 323A12871E5F266B004975B8;
+			remoteInfo = "ART-tvOS";
+		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
@@ -94,6 +108,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RRBeacon/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = RRBeacon/main.m; sourceTree = "<group>"; };
 		18413A6023E808FC0093DCF1 /* RNEstimoteProximity.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNEstimoteProximity.xcodeproj; path = "../node_modules/@estimote/react-native-proximity/ios/RNEstimoteProximity.xcodeproj"; sourceTree = "<group>"; };
+		18B2E83625C4168300358CBC /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 		19F96E30A1BF0B9B0B3540ED /* libPods-RRBeacon-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RRBeacon-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2936CA111CF14216886460AF /* lightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = lightItalic.ttf; path = ../assets/fonts/lato/lightItalic.ttf; sourceTree = "<group>"; };
 		295FF360C851413DBC27F8F4 /* medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = medium.ttf; path = ../assets/fonts/lato/medium.ttf; sourceTree = "<group>"; };
@@ -215,6 +230,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		18B2E83725C4168300358CBC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18B2E83C25C4168400358CBC /* libART.a */,
+				18B2E83E25C4168400358CBC /* libART-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		18CB5B3F23DB00970068B73C /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -238,6 +262,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				18B2E83625C4168300358CBC /* ART.xcodeproj */,
 				18413A6023E808FC0093DCF1 /* RNEstimoteProximity.xcodeproj */,
 			);
 			name = Libraries;
@@ -357,7 +382,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				5CCB7345D06178BE95985552 /* [CP] Copy Pods Resources */,
-				1A38AD503583A87C8C38D7B7 /* [CP] Embed Pods Frameworks */,
+				1119F585F7FD585A2AFD7122 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -451,6 +476,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 18B2E83725C4168300358CBC /* Products */;
+					ProjectRef = 18B2E83625C4168300358CBC /* ART.xcodeproj */;
+				},
+				{
 					ProductGroup = 18413A6123E808FC0093DCF1 /* Products */;
 					ProjectRef = 18413A6023E808FC0093DCF1 /* RNEstimoteProximity.xcodeproj */;
 				},
@@ -471,6 +500,20 @@
 			fileType = archive.ar;
 			path = libRNEstimoteProximity.a;
 			remoteRef = 18413A6423E808FC0093DCF1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		18B2E83C25C4168400358CBC /* libART.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libART.a;
+			remoteRef = 18B2E83B25C4168400358CBC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		18B2E83E25C4168400358CBC /* libART-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libART-tvOS.a";
+			remoteRef = 18B2E83D25C4168400358CBC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -556,7 +599,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		1A38AD503583A87C8C38D7B7 /* [CP] Embed Pods Frameworks */ = {
+		1119F585F7FD585A2AFD7122 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -895,12 +938,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = KC934HG2UW;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = RRBeacon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -918,13 +962,14 @@
 			baseConfigurationReference = E8991F79CE5B41D47C449AB3 /* Pods-RRBeacon.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development: developers roborewards (6YGU8WN5QN)";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KC934HG2UW;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = RRBeacon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1083,8 +1128,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				CODE_SIGN_IDENTITY = "Apple Development: developers roborewards (6YGU8WN5QN)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: RoboRewards, LLC (KC934HG2UW)";
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = KC934HG2UW;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1139,8 +1184,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: RoboRewards, LLC (KC934HG2UW)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: RoboRewards, LLC (KC934HG2UW)";
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = KC934HG2UW;
 				ENABLE_NS_ASSERTIONS = NO;

@@ -331,6 +331,22 @@ const renderSpinWheel = props => {
   );
 }
 
+// const renderSpinWheel = props => {
+//   return (
+//     <TouchableOpacity
+//       activeOpacity={0.8}
+//       onPress={async () => {
+//         props.navigation.navigate('SpinWheel');
+//       }}>
+//       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
+//         <MDIcon name={'star'} style={{ fontSize: 20, marginLeft: 10 }} />
+//         <View style={{ width: '12%' }} />
+//         <Text style={{ fontWeight: 'bold' }}>Spin Wheel</Text>
+//       </View>
+//     </TouchableOpacity>
+//   );
+// }
+
 const renderRedeemCashback = props => {
   return (
     <TouchableOpacity
@@ -777,6 +793,25 @@ const SpinWheelScreenStackNavigation = createStackNavigator({
     }),
   },
 });
+
+// const SpinWheelScreenStackNavigation = createStackNavigator({
+//   //All the screen from the Screen3 will be indexed here
+//   SpinWheelScreen: {
+//     screen: RPGScreen,
+//     navigationOptions: ({ navigation }) => ({
+//       title: 'Spin wheel',
+//       headerTitleStyle: {
+//         color: 'white',
+//         marginLeft: -7,
+//       },
+//       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+//       headerRight: <NavigationComponentRight navigationProps={navigation} />,
+//       headerStyle: {
+//         backgroundColor: '#012340',
+//       },
+//     }),
+//   },
+// });
 
 const Home_StackNavigator = createStackNavigator({
   //All the screen from the Screen3 will be indexed here

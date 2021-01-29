@@ -15,6 +15,7 @@ import {
   Animated,
   StyleSheet,
   SafeAreaView,
+  TouchableOpacity
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -25,10 +26,10 @@ import APIConstant from './../api/apiConstant';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import Moment from 'moment';
 import ImageLoader from './../widget/ImageLoader';
-import {
-  // TouchableNativeFeedback, 
-  TouchableOpacity
-} from 'react-native-gesture-handler';
+// import {
+//   // TouchableNativeFeedback, 
+//   TouchableOpacity
+// } from 'react-native-gesture-handler';
 import GlobalAppModel from '../model/GlobalAppModel';
 import LoadingScreen from '../widget/LoadingScreen';
 var loadingImage = '';
@@ -129,6 +130,7 @@ export default class TransactionHistory extends Component {
                           <TouchableOpacity
                             activeOpacity={0.8}
                             onPress={() => {
+                              console.log('btn 2 call')
                               this.setState({ visibleIamge: true, selectedImage: image })
                             }}>
                             <ImageLoader
@@ -150,16 +152,14 @@ export default class TransactionHistory extends Component {
                                     paddingTop: 30,
                                     paddingRight: 30,
                                   }}>
-                                  {/* <TouchableNativeFeedback */}
                                   <TouchableOpacity
                                     onPress={() => {
-                                      this.setState({ visibleIamge: false, selectedImage: '' });
+                                     this.setState({ visibleIamge: false, selectedImage: '' });
                                     }}>
                                     <MDIcon
                                       style={{ fontSize: 30, color: 'white', marginLeft: 15 }}
                                       name={'close'}
                                     />
-                                    {/* </TouchableNativeFeedback> */}
                                   </TouchableOpacity>
                                 </View>
                               )}
@@ -167,6 +167,7 @@ export default class TransactionHistory extends Component {
                               onSwipeDown={() => {
                                 this.setState({ visibleIamge: false, selectedImage: '' });
                               }}
+
                               imageUrls={[
                                 {
                                   url: image,
@@ -339,7 +340,6 @@ export default class TransactionHistory extends Component {
                 </TouchableOpacity>
                 {/*this.state.selectedIndex == index && this._renderChieldMenus(item)*/}
               </Animated.View>
-
             )}
           />
         </>

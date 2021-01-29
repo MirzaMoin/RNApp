@@ -10,8 +10,10 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@adrianso/react-native-barcode-builder": "^1.0.9",
     "@estimote/react-native-proximity": "^0.6.0",
     "@mdi/font": "^3.5.95",
+    "@react-native-community/art": "^1.2.0",
     "@react-native-community/cameraroll": "^4.0.0",
     "@react-native-community/viewpager": "^3.3.0",
     "axios": "^0.19.2",
@@ -51,6 +53,7 @@
     "react-native-sqlite-storage": "^5.0.0",
     "react-native-star-rating": "^1.1.0",
     "react-native-step-indicator": "0.0.11",
+    "react-native-svg": "^12.1.0",
     "react-native-swipeout": "^2.3.6",
     "react-native-textinput-with-icons": "^1.0.18",
     "react-native-vector-icons": "^6.6.0",

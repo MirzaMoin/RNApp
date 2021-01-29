@@ -679,79 +679,79 @@ export default class ProfileScreen extends Component {
     await AsyncStorage.setItem('profilePitcure', userProfile);
   }
 
-  
-_handleImageClick = () => {
-  if (Platform.OS == 'ios') {
-    Alert.alert(
-      "Image pick",
-      "You can select image from your storage or you can capture image using camera...",
-      [
-        {
-          text: "Open Picker",
-          onPress: () => {
-            ImageCropPicker.openPicker({
-              // width: 500,
-              // height: 500,
-              cropping: true,
-              cropperCircleOverlay:true
-            }).then(image => {
-              this.setState({
-                profileImagePath: image.path,
-                profileImageFile: image,
+
+  _handleImageClick = () => {
+    if (Platform.OS == 'ios') {
+      Alert.alert(
+        "Image pick",
+        "You can select image from your storage or you can capture image using camera...",
+        [
+          {
+            text: "Open Picker",
+            onPress: () => {
+              ImageCropPicker.openPicker({
+                // width: 500,
+                // height: 500,
+                cropping: true,
+                cropperCircleOverlay: true
+              }).then(image => {
+                this.setState({
+                  profileImagePath: image.path,
+                  profileImageFile: image,
+                });
               });
-            });
+            },
           },
+          {
+            text: "Open Camera", onPress: () => {
+              ImageCropPicker.openCamera({
+                // width: 500,
+                // height: 500,
+                cropping: true,
+                cropperCircleOverlay: true
+              }).then(image => {
+                this.setState({
+                  profileImagePath: image.path,
+                  profileImageFile: image,
+                });
+              });
+            },
+          }
+        ],
+        { cancelable: true }
+      );
+    } else {
+      const options = {
+        title: 'Select Profile Image',
+        storageOptions: {
+          path: 'images',
         },
-        {
-          text: "Open Camera", onPress: () => {
-            ImageCropPicker.openCamera({
-              // width: 500,
-              // height: 500,
-              cropping: true,
-              cropperCircleOverlay:true
-            }).then(image => {
-              this.setState({
-                profileImagePath: image.path,
-                profileImageFile: image,
-              });
+      };
+      ImagePicker.showImagePicker(options, (response) => {
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        } else {
+          ImageCropPicker.openCropper({
+            path: `file://${response.path}`,
+            width: 500,
+            height: 500,
+            cropping: true,
+            cropperCircleOverlay: true,
+          }).then(image => {
+            // console.log(image);
+            this.setState({
+              profileImagePath: image.path,
+              profileImageFile: image,
             });
-          },
-        }
-      ],
-      { cancelable: true }
-    );
-  } else {
-    const options = {
-      title: 'Select Profile Image',
-      storageOptions: {
-        path: 'images',
-      },
-    };
-    ImagePicker.showImagePicker(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        ImageCropPicker.openCropper({
-          path: `file://${response.path}`,
-          width: 500,
-          height: 500,
-          cropping: true,
-          cropperCircleOverlay: true,
-        }).then(image => {
-          // console.log(image);
-          this.setState({
-            profileImagePath: image.path,
-            profileImageFile: image,
           });
-        });
-      }
-    });
+        }
+      });
+    }
   }
-}
   // _handleImageClick = () => {
 
   //   const options = {
@@ -1429,11 +1429,12 @@ _handleImageClick = () => {
                     gender: value,
                   }
                 })
-              }}>
-              <MenuTrigger customStyles={{ triggerText: { fontSize: 16, color: 'black' } }} text={this.state.signup.gender || fieldsData.genderLabel || 'Gender'} />
-              <MenuOptions>
-                <MenuOption value='Male' text='Male' />
-                <MenuOption value='Female' text='Female' />
+              }}
+              style={{ flex: 1 }}>
+              <MenuTrigger customStyles={{ triggerText: { fontSize: 16, color: 'black', } }} text={this.state.signup.gender || fieldsData.genderLabel || 'Gender'} />
+              <MenuOptions optionsContainerStyle={{ margin: 0, padding: 10, borderRadius: 10 }}>
+                <MenuOption value='Male' text={('\u2642') + 'Male'} style={{ backgroundColor: 'white', borderRadius: 10, margin: 1, padding: 1, paddingHorizontal: 10, borderColor: 'lightgrey', borderWidth: 1 }} />
+                <MenuOption value='Female' text={('\u2640') + 'Female'} style={{ backgroundColor: 'white', borderRadius: 10, margin: 1, padding: 1, paddingHorizontal: 10, borderColor: 'lightgrey', borderWidth: 1 }} />
               </MenuOptions>
             </Menu>
           </View>
@@ -1465,10 +1466,11 @@ _handleImageClick = () => {
         item.push(it);
       });
       return (
-        <View style={{ width: maxWidth }}>
+        <View style={{ width: maxWidth, }}>
           <SectionedMultiSelect
             items={item}
             uniqueKey="id"
+            modalWithSafeAreaView={true}
             //selectText="Choose some things..."
             renderSelectText={() => {
               var title = fieldsData.myLocationLabel || 'My Location';
@@ -1500,7 +1502,7 @@ _handleImageClick = () => {
             onSelectedItemsChange={this.onSelectedItemsChange}
             selectedItems={[this.state.signup.location]}
           />
-          <View style={{ height: 1, backgroundColor: 'black', marginTop: -25, marginBottom: 10 }} />
+          <View style={{ height: 1, backgroundColor: 'black', marginTop: -25, marginBottom: 10, }} />
         </View>
       )
     }
@@ -2125,7 +2127,7 @@ _handleImageClick = () => {
     const _maxWidth = width - (width * 20) / 100;
     //console.log('Width : ' + width + ' : max : ' + _maxWidth);
     return (
-      <SafeAreaView style={{flex:1}}>
+      <SafeAreaView style={{ flex: 1 }}>
         <MenuProvider>
           <ScreenHeader
             navigation={this.props.navigation}

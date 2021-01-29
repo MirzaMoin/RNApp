@@ -9,12 +9,14 @@ import {
   Linking,
   Alert,
   SafeAreaView,
+  Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImageLoader from './../widget/ImageLoader';
-import Barcode from "react-native-barcode-builder";
+import * as BARC from "react-native-barcode-builder";
+import Barcode from "@adrianso/react-native-barcode-builder";
 import ViewShot from "react-native-view-shot";
 import CameraRoll from '@react-native-community/cameraroll';
 import { requestMultiple, PERMISSIONS, openSettings } from 'react-native-permissions';
@@ -393,7 +395,7 @@ export default class OfferDetailScreen extends Component {
                 <Text style={styles.offerType}>{this.state.offer.offerType}</Text>
                 <Text style={styles.offerExpiry}>{this.state.offer.offerExpire}</Text>
               </View>
-              {this.state.offer.displayBarcode && <Barcode value={this.state.offer.offerBarcode} text={this.state.offer.offerBarcode} format="CODE128" height={70} />}
+              {this.state.offer.displayBarcode && (Platform.OS == 'ios') ? <Barcode value={this.state.offer.offerBarcode} text={this.state.offer.offerBarcode} format="CODE128" style={{ height: 70, width: '60%', alignSelf: 'center' }} /> : <BARC value={this.state.offer.offerBarcode} text={this.state.offer.offerBarcode} format="CODE128" height={70} />}
               <View style={{ paddingHorizontal: 15, marginBottom: 15 }}>
                 <Text style={{ fontSizeL: 16 }}>{this.state.addressDetails.name || ''}</Text>
                 <Text style={{ fontSizeL: 14, color: 'grey' }}>{this.state.addressDetails.address || ''}</Text>

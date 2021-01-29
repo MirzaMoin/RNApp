@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
@@ -20,39 +20,40 @@ import {
   AsyncStorage,
   Alert,
   Dimensions,
-} from 'react-native';
-import { CheckBox } from 'react-native-elements';
-import TextInput from 'react-native-textinput-with-icons';
-import { makeRequest } from './../api/apiCall';
-import APIConstant from './../api/apiConstant';
-import { ActivityIndicator } from 'react-native';
-import { isValidEmail, isValidPhoneNo, parseColor } from './../utils/utility';
-import DatePicker from 'react-native-datepicker'
-import MDIcon from 'react-native-vector-icons/MaterialIcons';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import { MenuProvider } from 'react-native-popup-menu';
-import LinearGradient from 'react-native-linear-gradient';
+} from "react-native";
+import { CheckBox } from "react-native-elements";
+import TextInput from "react-native-textinput-with-icons";
+import { makeRequest } from "./../api/apiCall";
+import APIConstant from "./../api/apiConstant";
+import { ActivityIndicator } from "react-native";
+import { isValidEmail, isValidPhoneNo, parseColor } from "./../utils/utility";
+import DatePicker from "react-native-datepicker";
+import MDIcon from "react-native-vector-icons/MaterialIcons";
+import Icon from "react-native-vector-icons/dist/FontAwesome";
+import { MenuProvider } from "react-native-popup-menu";
+import LinearGradient from "react-native-linear-gradient";
 import {
   Menu,
   MenuOptions,
   MenuOption,
   MenuTrigger,
-} from 'react-native-popup-menu';
-import SectionedMultiSelect from 'react-native-sectioned-multi-select';
-import Toast from 'react-native-root-toast';
-import { max } from 'react-native-reanimated';
-import LoginScreenModel from './../model/LoginScreenModel';
-import GlobalAppModel from './../model/GlobalAppModel';
+} from "react-native-popup-menu";
+import SectionedMultiSelect from "react-native-sectioned-multi-select";
+import Toast from "react-native-root-toast";
+import { max } from "react-native-reanimated";
+import LoginScreenModel from "./../model/LoginScreenModel";
+import GlobalAppModel from "./../model/GlobalAppModel";
+import firebase from "react-native-firebase";
 
-const { width } = Dimensions.get('window')
-const maxWidth = width - (width * 20 / 100)
+const { width } = Dimensions.get("window");
+const maxWidth = width - (width * 20) / 100;
 
 export default class LoginScreen extends Component {
   static navigationOptions = {
     header: null,
   };
   constructor() {
-    console.log('Constructor called');
+    console.log("Constructor called");
     super();
     this.state = {
       isShowLogin: false,
@@ -61,10 +62,10 @@ export default class LoginScreen extends Component {
       isShowSignUp: false,
       isRememberPassword: false,
       isShowForgotPassword: false,
-      userName: '',
-      password: '',
-      forgotPassword: '',
-      webformID: '',
+      userName: "",
+      password: "",
+      forgotPassword: "",
+      webformID: "",
       minutes: 1,
       seconds: 0,
       isTimer: false,
@@ -77,15 +78,22 @@ export default class LoginScreen extends Component {
       isDisableEmailMenu: true,
       isDisableSMSMenu: true,
       isDisablePreferedMenu: true,
-      invitedBy: '',
+      invitedBy: "",
       signupType: 2,
+      data: null,
     };
     this._getStoredData();
     var today = new Date();
-    this._maxDate = (today.getFullYear() - 12) + "-" + parseInt(today.getMonth() + 1) + "-" + today.getDate();
+    this._maxDate =
+      today.getFullYear() -
+      12 +
+      "-" +
+      parseInt(today.getMonth() + 1) +
+      "-" +
+      today.getDate();
   }
 
-  _showToast = message => {
+  _showToast = (message) => {
     Toast.show(message, {
       duration: Toast.durations.LONG,
       position: Toast.positions.CENTER,
@@ -94,9 +102,9 @@ export default class LoginScreen extends Component {
       hideOnPress: true,
       delay: 0,
     });
-  }
+  };
 
-  _maxDate = '';
+  _maxDate = "";
 
   // get stored user name and password
   _getStoredData = async () => {
@@ -115,7 +123,7 @@ export default class LoginScreen extends Component {
         }
       });*/
 
-      await AsyncStorage.getItem('isRemember', (err, value) => {
+      await AsyncStorage.getItem("isRemember", (err, value) => {
         if (err) {
           //this.props.navigation.navigate('Auth');
         } else {
@@ -126,7 +134,7 @@ export default class LoginScreen extends Component {
         }
       });
 
-      await AsyncStorage.getItem('password', (err, value) => {
+      await AsyncStorage.getItem("password", (err, value) => {
         if (err) {
           //this.props.navigation.navigate('Auth');
         } else {
@@ -136,7 +144,7 @@ export default class LoginScreen extends Component {
         }
       });
 
-      await AsyncStorage.getItem('userName', (err, value) => {
+      await AsyncStorage.getItem("userName", (err, value) => {
         if (err) {
           //this.props.navigation.navigate('Auth');
         } else {
@@ -151,10 +159,10 @@ export default class LoginScreen extends Component {
           userName: userName,
           password: password,
           isRememberPassword: isRemeber,
-        })
+        });
       }
 
-      await AsyncStorage.getItem('inviteBy', (err, value) => {
+      await AsyncStorage.getItem("inviteBy", (err, value) => {
         if (err) {
           //this.props.navigation.navigate('Auth');
         } else {
@@ -177,38 +185,64 @@ export default class LoginScreen extends Component {
   // start forgot password timer
   _startTimer = () => {
     this.myInterval = setInterval(() => {
-      const { seconds, minutes } = this.state
+      const { seconds, minutes } = this.state;
 
       if (seconds > 0) {
         this.setState(({ seconds }) => ({
-          seconds: seconds - 1
-        }))
+          seconds: seconds - 1,
+        }));
       }
       if (seconds === 0) {
         if (minutes === 0) {
-          clearInterval(this.myInterval)
-          this.setState({ isTimer: false })
+          clearInterval(this.myInterval);
+          this.setState({ isTimer: false });
         } else {
           this.setState(({ minutes }) => ({
             minutes: minutes - 1,
-            seconds: 59
-          }))
+            seconds: 59,
+          }));
         }
       }
-    }, 1000)
-  }
+    }, 1000);
+  };
 
   // stop timer
   _stopTimer = () => {
-    clearInterval(this.myInterval)
-  }
+    clearInterval(this.myInterval);
+  };
 
   //stop timer on unmount
   componentWillUnmount() {
-    clearInterval(this.myInterval)
+    clearInterval(this.myInterval);
   }
 
+  componentDidMount() {
+    this.checkPermission();
 
+  }
+  //FCM token
+  async checkPermission() {
+    const enabled = await firebase.messaging().hasPermission();
+    console.log("checkPermission=" + enabled);
+    if (enabled) {
+      // this.getFCMToken();
+      // testTocken();
+      let fcmToken = await AsyncStorage.getItem("fcmToken", "");
+      console.log("getToken=" + enabled);
+
+      if (!fcmToken) {
+        fcmToken = await firebase.messaging().getToken();
+        alert(fcmToken);
+        if (fcmToken) {
+          // user has a device token
+          await AsyncStorage.setItem("fcmToken", fcmToken);
+        }
+      }
+    } else {
+      console.log("permission rejected");
+    }
+  }
+  
   // calling login API
   _callLogin = () => {
     let req = {
@@ -283,49 +317,47 @@ export default class LoginScreen extends Component {
     this._startTimer();
     makeRequest(
       `${APIConstant.BASE_URL}${APIConstant.FORGET_PASSWORD}?RPToken=${APIConstant.RPTOKEN}&WebFormID=${GlobalAppModel.webFormID}&EmailAddressOrMobileNo=${this.state.forgotPassword}`,
-      'get',
+      "get"
     )
-      .then(response => {
+      .then((response) => {
         console.log(JSON.stringify(response));
         this.setState({ isLoadingForgot: false, isTimer: true });
         if (response.statusCode == 0) {
-          Alert.alert('Oppss...', response.statusMessage);
+          Alert.alert("Oppss...", response.statusMessage);
         } else {
-          Alert.alert('Success', response.statusMessage);
+          Alert.alert("Success", response.statusMessage);
         }
 
         /*this._storeData();
         this.props.navigation.navigate('Main');*/
-
       })
-      .catch(error => console.log('error : ' + error));
+      .catch((error) => console.log("error : " + error));
   };
 
   // webform data to show signup form
   _callWebFormData = () => {
     makeRequest(
       `${APIConstant.BASE_URL}${APIConstant.GET_WEBFORMFIELD_DATA}?RewardProgramID=78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20&WebFormId=${GlobalAppModel.webFormID}`,
-      'get',
+      "get"
     )
-      .then(response => {
-        console.log(" webform data "+JSON.stringify(response));
+      .then((response) => {
+        console.log(" webform data " + JSON.stringify(response));
         //this.setState({isLoadingForgot: false, isTimer: true});
         if (response.statusCode == 0) {
-          Alert.alert('Oppss...', response.statusMessage);
+          Alert.alert("Oppss...", response.statusMessage);
         } else {
           this.setState({
             isLoadingSignupform: false,
             webFromResponse: response.responsedata,
             isShowSignUp: !this.state.isShowSignUp,
-          })
+          });
           this._handleContactMenu();
         }
       })
-      .catch(error => console.log('error : ' + error));
+      .catch((error) => console.log("error : " + error));
   };
 
   _callSignup = () => {
-
     this.setState({ isLoadingSignupform: true });
 
     const request = {
@@ -357,58 +389,60 @@ export default class LoginScreen extends Component {
       memberCardID: this.state.signup.memberCardID || null,
       driverLicense: this.state.signup.driverLicense || null,
       addressID: this.state.signup.location || null,
-      rewardProgramIDNew: '78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20',
+      rewardProgramIDNew: "78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20",
       address2: this.state.signup.address2 || null,
       address3: this.state.signup.address3 || null,
       isAllowPush: true,
       webFormID: GlobalAppModel.webFormID,
       customFiledsValue: JSON.stringify(this.state.signup.customData),
-      contactListID: '78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20',
+      contactListID: "78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20",
       referelContactID: this.state.invitedBy || null,
-    }
+    };
 
     console.log(`Request: ${JSON.stringify(request)}`);
-    makeRequest(
-      APIConstant.BASE_URL + APIConstant.SIGNUP,
-      'post',
-      request
-    )
-      .then(response => {
+    makeRequest(APIConstant.BASE_URL + APIConstant.SIGNUP, "post", request)
+      .then((response) => {
         console.log(JSON.stringify(response));
         this.setState({ isLoadingSignupform: false });
         if (response.statusCode == 0) {
-          Alert.alert('Oppss...', response.statusMessage);
+          Alert.alert("Oppss...", response.statusMessage);
         } else {
           this._storeSignupData(response.responsedata);
         }
       })
-      .catch(error => {
-        Alert.alert('Oppss...', 'Something went wrong.');
+      .catch((error) => {
+        Alert.alert("Oppss...", "Something went wrong.");
         this.setState({ isLoadingSignupform: false });
       });
-  }
+  };
 
   // Store Login data
-  _storeSignupData = async response => {
+  _storeSignupData = async (response) => {
     try {
       GlobalAppModel.setUserID(response.contactData.contactID);
-      GlobalAppModel.setRedeemablePoint('');
-      await AsyncStorage.setItem('isLogin', JSON.stringify(true));
-      await AsyncStorage.setItem('userID', response.contactData.contactID);
-      await AsyncStorage.setItem('firstName', this.state.signup.firstName || '');
-      await AsyncStorage.setItem('lastName', this.state.signup.lastName || '');
-      await AsyncStorage.setItem('emailAddress', response.contactData.emailAddress);
+      GlobalAppModel.setRedeemablePoint("");
+      await AsyncStorage.setItem("isLogin", JSON.stringify(true));
+      await AsyncStorage.setItem("userID", response.contactData.contactID);
+      await AsyncStorage.setItem(
+        "firstName",
+        this.state.signup.firstName || ""
+      );
+      await AsyncStorage.setItem("lastName", this.state.signup.lastName || "");
+      await AsyncStorage.setItem(
+        "emailAddress",
+        response.contactData.emailAddress
+      );
 
-      await AsyncStorage.setItem('pointBalance', '0');
-      await AsyncStorage.setItem('reedemablePoints', '0');
-      await AsyncStorage.setItem('profilePitcure', '');
+      await AsyncStorage.setItem("pointBalance", "0");
+      await AsyncStorage.setItem("reedemablePoints", "0");
+      await AsyncStorage.setItem("profilePitcure", "");
 
-      this.props.navigation.navigate('Main', {
+      this.props.navigation.navigate("Main", {
         loginData: response,
       });
-      await AsyncStorage.removeItem('inviteBy');
+      await AsyncStorage.removeItem("inviteBy");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -416,7 +450,7 @@ export default class LoginScreen extends Component {
   _handleContactMenu = (isFromTextInput) => {
     var isAllowEmail = this.state.signup.allowedEmail || false;
     var isAllowSMS = this.state.signup.allowedSMS || false;
-    var preferedMedia = this.state.signup.preferedMedia || 'SMS';
+    var preferedMedia = this.state.signup.preferedMedia || "SMS";
     var isDisableEmailMenu = true;
     var isDisableSMSMenu = true;
     var isDisablePreferedMenu = true;
@@ -445,13 +479,13 @@ export default class LoginScreen extends Component {
       isDisablePreferedMenu = false;
     } else if (isAllowEmail) {
       isDisablePreferedMenu = true;
-      preferedMedia = 'Email';
+      preferedMedia = "Email";
     } else if (isAllowSMS) {
       isDisablePreferedMenu = true;
-      preferedMedia = 'SMS';
+      preferedMedia = "SMS";
     } else {
       isDisablePreferedMenu = true;
-      preferedMedia = 'SMS';
+      preferedMedia = "SMS";
     }
 
     // setting value
@@ -464,9 +498,9 @@ export default class LoginScreen extends Component {
         allowedEmail: isAllowEmail,
         allowedSMS: isAllowSMS,
         preferedMedia: preferedMedia,
-      }
-    })
-  }
+      },
+    });
+  };
 
   // validating form
   _prepareSignup = () => {
@@ -479,36 +513,49 @@ export default class LoginScreen extends Component {
       if (this.state.signup.memberCardID) {
         signupError = {
           ...signupError,
-          memberCardID: '',
-        }
+          memberCardID: "",
+        };
       } else {
         signupError = {
           ...signupError,
-          memberCardID: `Please enter ${fieldsData.memberCardIDLabel || 'Member Card ID'}`
-        }
+          memberCardID: `Please enter ${
+            fieldsData.memberCardIDLabel || "Member Card ID"
+          }`,
+        };
         isCall = false;
       }
     }
 
     if (this._requireFields.indexOf(fieldsData.driverLicenseRequired) > -1) {
       if (this.state.signup.driverLicense) {
-        if ((fieldsData.maxRange == null || fieldsData.minRange == null) || (this.state.signup.driverLicense.length >= fieldsData.minRange && this.state.signup.driverLicense.length <= fieldsData.maxRange)) {
+        if (
+          fieldsData.maxRange == null ||
+          fieldsData.minRange == null ||
+          (this.state.signup.driverLicense.length >= fieldsData.minRange &&
+            this.state.signup.driverLicense.length <= fieldsData.maxRange)
+        ) {
           signupError = {
             ...signupError,
-            driverLicense: '',
+            driverLicense: "",
           };
         } else {
           signupError = {
             ...signupError,
-            driverLicense: `${fieldsData.driverLicense || 'Driver License'} value must contain ${fieldsData.minRange} to ${fieldsData.maxRange} character`
-          }
+            driverLicense: `${
+              fieldsData.driverLicense || "Driver License"
+            } value must contain ${fieldsData.minRange} to ${
+              fieldsData.maxRange
+            } character`,
+          };
           isCall = false;
         }
       } else {
         signupError = {
           ...signupError,
-          driverLicense: `Please enter ${fieldsData.driverLicense || 'Driver License'}`
-        }
+          driverLicense: `Please enter ${
+            fieldsData.driverLicense || "Driver License"
+          }`,
+        };
         isCall = false;
       }
     }
@@ -517,13 +564,15 @@ export default class LoginScreen extends Component {
       if (this.state.signup.firstName) {
         signupError = {
           ...signupError,
-          firstName: '',
-        }
+          firstName: "",
+        };
       } else {
         signupError = {
           ...signupError,
-          firstName: `Please enter ${fieldsData.firstNameLabel || 'First Name'}`
-        }
+          firstName: `Please enter ${
+            fieldsData.firstNameLabel || "First Name"
+          }`,
+        };
         isCall = false;
       }
     }
@@ -532,97 +581,108 @@ export default class LoginScreen extends Component {
       if (this.state.signup.lastName) {
         signupError = {
           ...signupError,
-          lastName: '',
-        }
+          lastName: "",
+        };
       } else {
         signupError = {
           ...signupError,
-          lastName: `Please enter ${fieldsData.lastNameLabel || 'Last Name'}`
-        }
+          lastName: `Please enter ${fieldsData.lastNameLabel || "Last Name"}`,
+        };
         isCall = false;
       }
     }
 
-    if (this._requireFields.indexOf(fieldsData.emailRequired) > -1 || this.state.signup.email.length > 0) {
+    if (
+      this._requireFields.indexOf(fieldsData.emailRequired) > -1 ||
+      this.state.signup.email.length > 0
+    ) {
       if (this.state.signup.email && isValidEmail(this.state.signup.email)) {
         signupError = {
           ...signupError,
-          email: '',
-        }
+          email: "",
+        };
       } else {
         signupError = {
           ...signupError,
-          email: `Please enter ${fieldsData.emailLabel || 'Email'}`
-        }
+          email: `Please enter ${fieldsData.emailLabel || "Email"}`,
+        };
         isCall = false;
       }
     }
 
-    if (this._requireFields.indexOf(fieldsData.mobileRequired) > -1 || this.state.signup.mobile) {
-      if (this.state.signup.mobile && isValidPhoneNo(this.state.signup.mobile)) {
+    if (
+      this._requireFields.indexOf(fieldsData.mobileRequired) > -1 ||
+      this.state.signup.mobile
+    ) {
+      if (
+        this.state.signup.mobile &&
+        isValidPhoneNo(this.state.signup.mobile)
+      ) {
         signupError = {
           ...signupError,
-          mobile: '',
-        }
+          mobile: "",
+        };
       } else {
         signupError = {
           ...signupError,
-          mobile: `Please enter ${fieldsData.mobileLabel || 'Mobile'}`
-        }
+          mobile: `Please enter ${fieldsData.mobileLabel || "Mobile"}`,
+        };
         isCall = false;
       }
     }
 
-    if (this._requireFields.indexOf(fieldsData.collectEndUserAddressRequired) > -1) {
+    if (
+      this._requireFields.indexOf(fieldsData.collectEndUserAddressRequired) > -1
+    ) {
       if (this.state.signup.address) {
         signupError = {
           ...signupError,
-          address: '',
-        }
+          address: "",
+        };
       } else {
         signupError = {
           ...signupError,
-          address: `Please enter Address`
-        }
+          address: `Please enter Address`,
+        };
         isCall = false;
       }
 
       if (this.state.signup.city) {
         signupError = {
           ...signupError,
-          city: '',
-        }
+          city: "",
+        };
       } else {
         signupError = {
           ...signupError,
-          city: `Please enter City`
-        }
+          city: `Please enter City`,
+        };
         isCall = false;
       }
 
       if (this.state.signup.state) {
         signupError = {
           ...signupError,
-          state: '',
-        }
+          state: "",
+        };
       } else {
         signupError = {
           ...signupError,
-          state: `Please enter State`
-        }
+          state: `Please enter State`,
+        };
         isCall = false;
       }
 
       if (this.state.signup.postalcode) {
         signupError = {
           ...signupError,
-          postalcode: '',
-        }
+          postalcode: "",
+        };
       } else {
         signupError = {
           ...signupError,
-          postalcode: `Please enter Postal Code`
-        }
+          postalcode: `Please enter Postal Code`,
+        };
         isCall = false;
       }
     }
@@ -631,13 +691,13 @@ export default class LoginScreen extends Component {
       if (this.state.signup.address2) {
         signupError = {
           ...signupError,
-          address2: '',
-        }
+          address2: "",
+        };
       } else {
         signupError = {
           ...signupError,
-          address2: `Please enter ${fieldsData.address2 || 'Address2'}`
-        }
+          address2: `Please enter ${fieldsData.address2 || "Address2"}`,
+        };
         isCall = false;
       }
     }
@@ -646,13 +706,13 @@ export default class LoginScreen extends Component {
       if (this.state.signup.address3) {
         signupError = {
           ...signupError,
-          address3: '',
-        }
+          address3: "",
+        };
       } else {
         signupError = {
           ...signupError,
-          address3: `Please enter ${fieldsData.address3 || 'Address3'}`
-        }
+          address3: `Please enter ${fieldsData.address3 || "Address3"}`,
+        };
         isCall = false;
       }
     }
@@ -662,87 +722,117 @@ export default class LoginScreen extends Component {
     });
 
     if (this._requireFields.indexOf(fieldsData.myLocationRequired) > -1) {
-      if (!this.state.signup.location || this.state.signup.location === '' || this.state.signup.location === undefined) {
-        this._showToast(`Please select ${fieldsData.myLocationLabel || 'Location'}`);
+      if (
+        !this.state.signup.location ||
+        this.state.signup.location === "" ||
+        this.state.signup.location === undefined
+      ) {
+        this._showToast(
+          `Please select ${fieldsData.myLocationLabel || "Location"}`
+        );
         return;
       }
     }
 
     if (this._requireFields.indexOf(fieldsData.birthdateRequired) > -1) {
-      if (!this.state.signup.birthdate || this.state.signup.birthdate === '' || this.state.signup.birthdate === undefined) {
-        this._showToast(`Please select ${fieldsData.birthdateLabel || 'Birth Date'}`);
+      if (
+        !this.state.signup.birthdate ||
+        this.state.signup.birthdate === "" ||
+        this.state.signup.birthdate === undefined
+      ) {
+        this._showToast(
+          `Please select ${fieldsData.birthdateLabel || "Birth Date"}`
+        );
         return;
       }
     }
 
     if (this._requireFields.indexOf(fieldsData.anniversaryRequired) > -1) {
-      if (!this.state.signup.anniversary || this.state.signup.anniversary === '' || this.state.signup.anniversary === undefined) {
-        this._showToast(`Please select ${fieldsData.anniversaryLabel || 'Anniversary'}`);
+      if (
+        !this.state.signup.anniversary ||
+        this.state.signup.anniversary === "" ||
+        this.state.signup.anniversary === undefined
+      ) {
+        this._showToast(
+          `Please select ${fieldsData.anniversaryLabel || "Anniversary"}`
+        );
         return;
       }
     }
 
     if (this._requireFields.indexOf(fieldsData.genderRequired) > -1) {
-      if (!this.state.signup.gender || this.state.signup.gender === '' || this.state.signup.gender === undefined) {
-        this._showToast(`Please select ${fieldsData.genderLabel || 'Gender'}`);
+      if (
+        !this.state.signup.gender ||
+        this.state.signup.gender === "" ||
+        this.state.signup.gender === undefined
+      ) {
+        this._showToast(`Please select ${fieldsData.genderLabel || "Gender"}`);
         return;
       }
     }
 
     if (this._requireFields.indexOf(fieldsData.tosAgreementRequired) > -1) {
       if (!this.state.signup.isTOS) {
-        this._showToast(`Please check ${fieldsData.tosAgreement || 'Terms of Service'}`);
+        this._showToast(
+          `Please check ${fieldsData.tosAgreement || "Terms of Service"}`
+        );
         return;
       }
     }
 
-    if(customData)
-    customData.map(field => {
-      if (this._requireFields.indexOf(field.requiredType) > -1 || this.state.signup.customData[field.customFieldID]) {
-        if (this.state.signup.customData[field.customFieldID]) {
-          // hase value
-          if (field.minLength > 0 && field.maxLength > 0) {
-            if (field.controlTypeID >= 1 && field.controlTypeID <= 3) {
-              var value = this.state.signup.customData[field.customFieldID];
-              if (value.length >= field.minLength && value.length <= field.maxLength) {
-                customError = {
-                  ...customError,
-                  [field.customFieldID]: '',
+    if (customData)
+      customData.map((field) => {
+        if (
+          this._requireFields.indexOf(field.requiredType) > -1 ||
+          this.state.signup.customData[field.customFieldID]
+        ) {
+          if (this.state.signup.customData[field.customFieldID]) {
+            // hase value
+            if (field.minLength > 0 && field.maxLength > 0) {
+              if (field.controlTypeID >= 1 && field.controlTypeID <= 3) {
+                var value = this.state.signup.customData[field.customFieldID];
+                if (
+                  value.length >= field.minLength &&
+                  value.length <= field.maxLength
+                ) {
+                  customError = {
+                    ...customError,
+                    [field.customFieldID]: "",
+                  };
+                } else {
+                  customError = {
+                    ...customError,
+                    [field.customFieldID]: `${field.fieldLabel} must contains ${field.minLength} to ${field.maxLength} charecter`,
+                  };
+                  isCall = false;
                 }
-              } else {
-                customError = {
-                  ...customError,
-                  [field.customFieldID]: `${field.fieldLabel} must contains ${field.minLength} to ${field.maxLength} charecter`,
-                }
-                isCall = false;
               }
+            } else {
+              customError = {
+                ...customError,
+                [field.customFieldID]: "",
+              };
             }
           } else {
-            customError = {
-              ...customError,
-              [field.customFieldID]: '',
+            // not value
+            if (field.controlTypeID >= 1 && field.controlTypeID <= 3) {
+              customError = {
+                ...customError,
+                [field.customFieldID]: `Please Enter ${field.fieldLabel}`,
+              };
+            } else {
+              this._showToast(`Please select value of ${field.fieldLabel}`);
+              return;
             }
+            isCall = false;
+            console.log("custom value");
           }
-        } else {
-          // not value
-          if (field.controlTypeID >= 1 && field.controlTypeID <= 3) {
-            customError = {
-              ...customError,
-              [field.customFieldID]: `Please Enter ${field.fieldLabel}`
-            }
-          } else {
-            this._showToast(`Please select value of ${field.fieldLabel}`);
-            return;
-          }
-          isCall = false;
-          console.log('custom value');
         }
-      }
-    });
+      });
 
     this.setState({
       customerror: customError,
-    })
+    });
 
     if (isCall) {
       // call signup API
@@ -752,18 +842,13 @@ export default class LoginScreen extends Component {
     }
   };
 
-  _requireFields = [
-    'requiredonsignup',
-  ];
-  _visibleFields = [
-    ...this._requireFields,
-    'notrequiredonsignup'
-  ];
+  _requireFields = ["requiredonsignup"];
+  _visibleFields = [...this._requireFields, "notrequiredonsignup"];
 
   _showLogin = () => {
     if (this.state.isShowLogin) {
       return (
-        <View style={{ flex: 1, flexDirection: 'column' }}>
+        <View style={{ flex: 1, flexDirection: "column" }}>
           <TextInput
             label="Email, Mobile Member ID"
             labelColor="#ffffff"
@@ -775,14 +860,14 @@ export default class LoginScreen extends Component {
             containerWidth={maxWidth}
             labelActiveColor="#ffffff"
             leftIconColor="#ffffff"
-            selectionColor={'#ffffff'}
+            selectionColor={"#ffffff"}
             activeColor="#ffffff"
             rippleColor="rgba(255,255,255,2)"
             value={this.state.userName}
             error={this.state.userNameError}
-            onChangeText={text => {
+            onChangeText={(text) => {
               this.setState({
-                userName: text
+                userName: text,
               });
             }}
           />
@@ -794,12 +879,12 @@ export default class LoginScreen extends Component {
             containerWidth={maxWidth}
             leftIconType="material"
             rightIcon={
-              !this.state.isShowPassword ? 'eye-off-outline' : 'eye-outline'
+              !this.state.isShowPassword ? "eye-off-outline" : "eye-outline"
             }
             rightIconSize={20}
             paddingRight={30}
             rightIconType="material"
-            selectionColor={'#ffffff'}
+            selectionColor={"#ffffff"}
             labelActiveColor="#ffffff"
             labelColor="#ffffff"
             underlineColor="#ffffff"
@@ -812,19 +897,23 @@ export default class LoginScreen extends Component {
             onPressRightIcon={this._onShowPasswordClick}
             value={this.state.password}
             error={this.state.passwordError}
-            onChangeText={text => {
+            onChangeText={(text) => {
               this.setState({
-                password: text
+                password: text,
               });
             }}
           />
 
           <CheckBox
             title="Remember Password"
-            containerStyle={{ backgroundColor: 'transparent', borderWidth: 0, justifyContent: 'flex-start' }}
-            textStyle={{ color: 'white' }}
-            checkedColor={'white'}
-            uncheckedColor={'white'}
+            containerStyle={{
+              backgroundColor: "transparent",
+              borderWidth: 0,
+              justifyContent: "flex-start",
+            }}
+            textStyle={{ color: "white" }}
+            checkedColor={"white"}
+            uncheckedColor={"white"}
             checked={this.state.isRememberPassword}
             onPress={() =>
               this.setState({
@@ -833,7 +922,6 @@ export default class LoginScreen extends Component {
             }
           />
           {this._renderLoginButton()}
-
         </View>
       );
     }
@@ -842,13 +930,22 @@ export default class LoginScreen extends Component {
   _renderLoginButton = () => {
     if (this.state.isLoadingLogin) {
       return (
-        <ActivityIndicator style={{ margin: 10 }} color={'white'} size={36} />
+        <ActivityIndicator style={{ margin: 10 }} color={"white"} size={36} />
       );
     } else {
       return (
         <LinearGradient
-          style={{ borderRadius: 10, margin: 5, width: 120, alignSelf: 'center' }}
-          colors={[parseColor(LoginScreenModel.signInBtnGradientstartColor), parseColor(LoginScreenModel.signInBtnGradientStopColor)]}>
+          style={{
+            borderRadius: 10,
+            margin: 5,
+            width: 120,
+            alignSelf: "center",
+          }}
+          colors={[
+            parseColor(LoginScreenModel.signInBtnGradientstartColor),
+            parseColor(LoginScreenModel.signInBtnGradientStopColor),
+          ]}
+        >
           {/* <TouchableNativeFeedback */}
           <TouchableOpacity
             style={styles.button}
@@ -856,31 +953,38 @@ export default class LoginScreen extends Component {
               // this.props.navigation.navigate('App')
               if (this.state.userName) {
                 if (this.state.password) {
-                  this.setState({ passwordError: '', isLoadingLogin: true });
-                  this._callLogin()
+                  this.setState({ passwordError: "", isLoadingLogin: true });
+                  this._callLogin();
                 } else {
                   this.setState({
-                    passwordError: 'Enter Passsword',
-                    userNameError: '',
-                  })
+                    passwordError: "Enter Passsword",
+                    userNameError: "",
+                  });
                 }
               } else {
-                this.setState({ userNameError: 'Please Enter Valid email' });
+                this.setState({ userNameError: "Please Enter Valid email" });
               }
-
-            }}>
-            <Text style={[styles.buttonText, { color: parseColor(LoginScreenModel.signInBtnTextColor) }]}>Login</Text>
+            }}
+          >
+            <Text
+              style={[
+                styles.buttonText,
+                { color: parseColor(LoginScreenModel.signInBtnTextColor) },
+              ]}
+            >
+              Login
+            </Text>
             {/* </TouchableNativeFeedback> */}
           </TouchableOpacity>
         </LinearGradient>
       );
     }
-  }
+  };
 
   _renderSignupButton = () => {
     if (this.state.isLoadingSignupform) {
       return (
-        <ActivityIndicator style={{ margin: 10 }} color={'white'} size={36} />
+        <ActivityIndicator style={{ margin: 10 }} color={"white"} size={36} />
       );
     } else {
       return (
@@ -888,24 +992,33 @@ export default class LoginScreen extends Component {
           style={{ borderRadius: 10, margin: 5 }}
           colors={[
             parseColor(LoginScreenModel.joinNowBtnGradientstartColor),
-            parseColor(LoginScreenModel.joinNowBtnGradientStopColor)]}>
+            parseColor(LoginScreenModel.joinNowBtnGradientStopColor),
+          ]}
+        >
           {/* <TouchableNativeFeedback */}
-          <TouchableOpacity
-            style={styles.button}
-            onPress={this._onSignUpClick}>
-            <Text style={[styles.buttonText, { color: LoginScreenModel.joinNowBtnTextColor }]}>{this.state.isShowSignUp ? 'Register' : `${LoginScreenModel.joinNowBtnText}`}</Text>
+          <TouchableOpacity style={styles.button} onPress={this._onSignUpClick}>
+            <Text
+              style={[
+                styles.buttonText,
+                { color: LoginScreenModel.joinNowBtnTextColor },
+              ]}
+            >
+              {this.state.isShowSignUp
+                ? "Register"
+                : `${LoginScreenModel.joinNowBtnText}`}
+            </Text>
             {/* </TouchableNativeFeedback> */}
           </TouchableOpacity>
         </LinearGradient>
       );
     }
-  }
+  };
 
-  _renderMemberCardID = fieldsData => {
+  _renderMemberCardID = (fieldsData) => {
     if (this._visibleFields.indexOf(fieldsData.memberCardIDRequired) > -1) {
       return (
         <TextInput
-          label={fieldsData.memberCardIDLabel || 'Member Card ID'}
+          label={fieldsData.memberCardIDLabel || "Member Card ID"}
           labelColor="#ffffff"
           leftIcon="credit-card"
           leftIconSize={20}
@@ -915,11 +1028,11 @@ export default class LoginScreen extends Component {
           color="#ffffff"
           labelActiveColor="#ffffff"
           leftIconColor="#ffffff"
-          selectionColor={'#ffffff'}
+          selectionColor={"#ffffff"}
           activeColor="#ffffff"
           rippleColor="rgba(255,255,255,2)"
           error={this.state.signupError.memberCardID}
-          onChangeText={text => {
+          onChangeText={(text) => {
             if (text) {
               const st = this.state.signup;
               this.setState({
@@ -932,31 +1045,36 @@ export default class LoginScreen extends Component {
               this.setState({
                 signupError: {
                   ...stER,
-                  memberCardID: '',
+                  memberCardID: "",
                 },
               });
             } else {
-              if (this._requireFields.indexOf(fieldsData.memberCardIDRequired) > -1) {
+              if (
+                this._requireFields.indexOf(fieldsData.memberCardIDRequired) >
+                -1
+              ) {
                 const st = this.state.signupError;
                 this.setState({
                   signupError: {
                     ...st,
-                    memberCardID: `Enter Valid ${fieldsData.memberCardIDLabel || 'Memeber Card ID'}`
+                    memberCardID: `Enter Valid ${
+                      fieldsData.memberCardIDLabel || "Memeber Card ID"
+                    }`,
                   },
                 });
               }
             }
           }}
         />
-      )
+      );
     }
-  }
+  };
 
-  _renderDrivingLinces = fieldsData => {
+  _renderDrivingLinces = (fieldsData) => {
     if (this._visibleFields.indexOf(fieldsData.driverLicenseRequired) > -1) {
       return (
         <TextInput
-          label={fieldsData.driverLicense || 'Driving License'}
+          label={fieldsData.driverLicense || "Driving License"}
           labelColor="#ffffff"
           leftIcon="car"
           leftIconSize={20}
@@ -966,11 +1084,11 @@ export default class LoginScreen extends Component {
           color="#ffffff"
           labelActiveColor="#ffffff"
           leftIconColor="#ffffff"
-          selectionColor={'#ffffff'}
+          selectionColor={"#ffffff"}
           activeColor="#ffffff"
           rippleColor="rgba(255,255,255,2)"
           error={this.state.signupError.driverLicense}
-          onChangeText={text => {
+          onChangeText={(text) => {
             if (text) {
               const st = this.state.signup;
               this.setState({
@@ -983,31 +1101,38 @@ export default class LoginScreen extends Component {
               this.setState({
                 signupError: {
                   ...stER,
-                  driverLicense: '',
+                  driverLicense: "",
                 },
               });
             } else {
-              if (this._requireFields.indexOf(fieldsData.memberCardIDRequired) > -1 && text.length() >= fieldsData.minRange && text.length() <= fieldsData.maxRange) {
+              if (
+                this._requireFields.indexOf(fieldsData.memberCardIDRequired) >
+                  -1 &&
+                text.length() >= fieldsData.minRange &&
+                text.length() <= fieldsData.maxRange
+              ) {
                 const st = this.state.signupError;
                 this.setState({
                   signupError: {
                     ...st,
-                    driverLicense: `Enter Valid ${fieldsData.driverLicense || 'Driving License'}`
+                    driverLicense: `Enter Valid ${
+                      fieldsData.driverLicense || "Driving License"
+                    }`,
                   },
                 });
               }
             }
           }}
         />
-      )
+      );
     }
-  }
+  };
 
-  _renderFirstName = fieldsData => {
+  _renderFirstName = (fieldsData) => {
     if (this._visibleFields.indexOf(fieldsData.firstNameRequired) > -1) {
       return (
         <TextInput
-          label={fieldsData.firstNameLabel || 'First Name'}
+          label={fieldsData.firstNameLabel || "First Name"}
           labelColor="#ffffff"
           leftIcon="account"
           leftIconSize={20}
@@ -1017,11 +1142,11 @@ export default class LoginScreen extends Component {
           color="#ffffff"
           labelActiveColor="#ffffff"
           leftIconColor="#ffffff"
-          selectionColor={'#ffffff'}
+          selectionColor={"#ffffff"}
           activeColor="#ffffff"
           rippleColor="rgba(255,255,255,2)"
           error={this.state.signupError.firstName}
-          onChangeText={text => {
+          onChangeText={(text) => {
             if (text) {
               const st = this.state.signup;
               this.setState({
@@ -1034,31 +1159,35 @@ export default class LoginScreen extends Component {
               this.setState({
                 signupError: {
                   ...stER,
-                  firstName: '',
+                  firstName: "",
                 },
               });
             } else {
-              if (this._requireFields.indexOf(fieldsData.firstNameRequired) > -1) {
+              if (
+                this._requireFields.indexOf(fieldsData.firstNameRequired) > -1
+              ) {
                 const st = this.state.signupError;
                 this.setState({
                   signupError: {
                     ...st,
-                    firstName: `Enter Valid ${fieldsData.firstNameLabel || 'First Name'}`
+                    firstName: `Enter Valid ${
+                      fieldsData.firstNameLabel || "First Name"
+                    }`,
                   },
                 });
               }
             }
           }}
         />
-      )
+      );
     }
-  }
+  };
 
-  _renderLastName = fieldsData => {
+  _renderLastName = (fieldsData) => {
     if (this._visibleFields.indexOf(fieldsData.lastNameRequired) > -1) {
       return (
         <TextInput
-          label={fieldsData.lastNameLabel || 'Last Name'}
+          label={fieldsData.lastNameLabel || "Last Name"}
           labelColor="#ffffff"
           leftIcon="account"
           leftIconSize={20}
@@ -1068,11 +1197,11 @@ export default class LoginScreen extends Component {
           color="#ffffff"
           labelActiveColor="#ffffff"
           leftIconColor="#ffffff"
-          selectionColor={'#ffffff'}
+          selectionColor={"#ffffff"}
           activeColor="#ffffff"
           rippleColor="rgba(255,255,255,2)"
           error={this.state.signupError.lastName}
-          onChangeText={text => {
+          onChangeText={(text) => {
             if (text) {
               const st = this.state.signup;
               this.setState({
@@ -1085,31 +1214,35 @@ export default class LoginScreen extends Component {
               this.setState({
                 signupError: {
                   ...stER,
-                  lastName: '',
+                  lastName: "",
                 },
               });
             } else {
-              if (this._requireFields.indexOf(fieldsData.lastNameRequired) > -1) {
+              if (
+                this._requireFields.indexOf(fieldsData.lastNameRequired) > -1
+              ) {
                 const st = this.state.signupError;
                 this.setState({
                   signupError: {
                     ...st,
-                    lastName: `Enter Valid ${fieldsData.lastNameLabel || 'First Name'}`
+                    lastName: `Enter Valid ${
+                      fieldsData.lastNameLabel || "First Name"
+                    }`,
                   },
                 });
               }
             }
           }}
         />
-      )
+      );
     }
-  }
+  };
 
-  _renderEmail = fieldsData => {
+  _renderEmail = (fieldsData) => {
     if (this._visibleFields.indexOf(fieldsData.emailRequired) > -1) {
       return (
         <TextInput
-          label={fieldsData.emailLabel || 'Email'}
+          label={fieldsData.emailLabel || "Email"}
           labelColor="#ffffff"
           leftIcon="email"
           leftIconSize={20}
@@ -1119,17 +1252,20 @@ export default class LoginScreen extends Component {
           color="#ffffff"
           labelActiveColor="#ffffff"
           leftIconColor="#ffffff"
-          selectionColor={'#ffffff'}
+          selectionColor={"#ffffff"}
           activeColor="#ffffff"
           rippleColor="rgba(255,255,255,2)"
           error={this.state.signupError.email}
-          onChangeText={text => {
-            this.setState({
-              signup: {
-                ...this.state.signup,
-                email: text,
-              }
-            }, () => this._handleContactMenu(true))
+          onChangeText={(text) => {
+            this.setState(
+              {
+                signup: {
+                  ...this.state.signup,
+                  email: text,
+                },
+              },
+              () => this._handleContactMenu(true)
+            );
             /*var isAllowEmail = false;
             var isDisableEmailMenu = true;
             var error = '';
@@ -1162,18 +1298,18 @@ export default class LoginScreen extends Component {
             });*/
           }}
         />
-      )
+      );
     }
-  }
+  };
 
-  _renderPhone = fieldsData => {
+  _renderPhone = (fieldsData) => {
     if (this._visibleFields.indexOf(fieldsData.mobileRequired) > -1) {
       return (
         <TextInput
-          label={fieldsData.mobileLabel || 'Mobile'}
+          label={fieldsData.mobileLabel || "Mobile"}
           labelColor="#ffffff"
           leftIcon="phone"
-          keyboardType={'phone-pad'}
+          keyboardType={"phone-pad"}
           leftIconSize={20}
           containerWidth={maxWidth}
           leftIconType="material"
@@ -1181,43 +1317,46 @@ export default class LoginScreen extends Component {
           color="#ffffff"
           labelActiveColor="#ffffff"
           leftIconColor="#ffffff"
-          selectionColor={'#ffffff'}
+          selectionColor={"#ffffff"}
           activeColor="#ffffff"
           rippleColor="rgba(255,255,255,2)"
           error={this.state.signupError.mobile}
-          onChangeText={text => {
+          onChangeText={(text) => {
             if (text) {
               const st = this.state.signup;
-              this.setState({
-                signup: {
-                  ...st,
-                  mobile: text,
+              this.setState(
+                {
+                  signup: {
+                    ...st,
+                    mobile: text,
+                  },
                 },
-              }, () => this._handleContactMenu(true));
+                () => this._handleContactMenu(true)
+              );
             }
           }}
         />
-      )
+      );
     }
-  }
+  };
 
-  _renderPassword = fieldsData => {
+  _renderPassword = (fieldsData) => {
     if (this._visibleFields.indexOf(fieldsData.passwordRequired) > -1) {
       return (
         <View>
           <TextInput
-            label={fieldsData.passwordLabel || 'Password'}
+            label={fieldsData.passwordLabel || "Password"}
             leftIcon="key"
             leftIconSize={20}
             containerWidth={maxWidth}
             leftIconType="material"
             rightIcon={
-              !this.state.isShowPassword ? 'eye-off-outline' : 'eye-outline'
+              !this.state.isShowPassword ? "eye-off-outline" : "eye-outline"
             }
             rightIconSize={20}
             paddingRight={30}
             rightIconType="material"
-            selectionColor={'#ffffff'}
+            selectionColor={"#ffffff"}
             labelActiveColor="#ffffff"
             labelColor="#ffffff"
             underlineColor="#ffffff"
@@ -1229,7 +1368,7 @@ export default class LoginScreen extends Component {
             activeColor="#ffffff"
             onPressRightIcon={this._onShowPasswordClick}
             error={this.state.signupError.password}
-            onChangeText={text => {
+            onChangeText={(text) => {
               if (text) {
                 const st = this.state.signup;
                 this.setState({
@@ -1243,20 +1382,20 @@ export default class LoginScreen extends Component {
           />
 
           <TextInput
-            label={`Confirm ${fieldsData.passwordLabel || 'Password'}`}
+            label={`Confirm ${fieldsData.passwordLabel || "Password"}`}
             leftIcon="key"
             leftIconSize={20}
             containerWidth={maxWidth}
             leftIconType="material"
             rightIcon={
               !this.state.isShowConfirmPassword
-                ? 'eye-off-outline'
-                : 'eye-outline'
+                ? "eye-off-outline"
+                : "eye-outline"
             }
             rightIconSize={20}
             paddingRight={30}
             rightIconType="material"
-            selectionColor={'#ffffff'}
+            selectionColor={"#ffffff"}
             labelActiveColor="#ffffff"
             labelColor="#ffffff"
             underlineColor="#ffffff"
@@ -1268,7 +1407,7 @@ export default class LoginScreen extends Component {
             activeColor="#ffffff"
             onPressRightIcon={this._onShowConfirmPasswordClick}
             error={this.state.signupError.confirmPassword}
-            onChangeText={text => {
+            onChangeText={(text) => {
               if (text) {
                 const st = this.state.signup;
                 this.setState({
@@ -1281,15 +1420,15 @@ export default class LoginScreen extends Component {
             }}
           />
         </View>
-      )
+      );
     }
-  }
+  };
 
-  _renderAddress2 = fieldsData => {
+  _renderAddress2 = (fieldsData) => {
     if (this._visibleFields.indexOf(fieldsData.address2required) > -1) {
       return (
         <TextInput
-          label={fieldsData.address2 || 'Address line 2'}
+          label={fieldsData.address2 || "Address line 2"}
           labelColor="#ffffff"
           leftIcon="home"
           leftIconSize={20}
@@ -1302,11 +1441,11 @@ export default class LoginScreen extends Component {
           color="#ffffff"
           labelActiveColor="#ffffff"
           leftIconColor="#ffffff"
-          selectionColor={'#ffffff'}
+          selectionColor={"#ffffff"}
           activeColor="#ffffff"
           rippleColor="rgba(255,255,255,2)"
           error={this.state.signupError.address2}
-          onChangeText={text => {
+          onChangeText={(text) => {
             if (text) {
               const st = this.state.signup;
               this.setState({
@@ -1318,15 +1457,15 @@ export default class LoginScreen extends Component {
             }
           }}
         />
-      )
+      );
     }
-  }
+  };
 
-  _renderAddress3 = fieldsData => {
+  _renderAddress3 = (fieldsData) => {
     if (this._visibleFields.indexOf(fieldsData.address3required) > -1) {
       return (
         <TextInput
-          label={fieldsData.address3 || 'Address line 3'}
+          label={fieldsData.address3 || "Address line 3"}
           labelColor="#ffffff"
           leftIcon="home"
           leftIconSize={20}
@@ -1339,11 +1478,11 @@ export default class LoginScreen extends Component {
           color="#ffffff"
           labelActiveColor="#ffffff"
           leftIconColor="#ffffff"
-          selectionColor={'#ffffff'}
+          selectionColor={"#ffffff"}
           activeColor="#ffffff"
           rippleColor="rgba(255,255,255,2)"
           error={this.state.signupError.address3}
-          onChangeText={text => {
+          onChangeText={(text) => {
             if (text) {
               const st = this.state.signup;
               this.setState({
@@ -1355,16 +1494,18 @@ export default class LoginScreen extends Component {
             }
           }}
         />
-      )
+      );
     }
-  }
+  };
 
-  _renderAddress = fieldsData => {
-    if (this._visibleFields.indexOf(fieldsData.collectEndUserAddressRequired) > -1) {
+  _renderAddress = (fieldsData) => {
+    if (
+      this._visibleFields.indexOf(fieldsData.collectEndUserAddressRequired) > -1
+    ) {
       return (
         <View>
           <TextInput
-            label={'Address'}
+            label={"Address"}
             labelColor="#ffffff"
             leftIcon="home"
             leftIconSize={20}
@@ -1377,11 +1518,11 @@ export default class LoginScreen extends Component {
             color="#ffffff"
             labelActiveColor="#ffffff"
             leftIconColor="#ffffff"
-            selectionColor={'#ffffff'}
+            selectionColor={"#ffffff"}
             activeColor="#ffffff"
             rippleColor="rgba(255,255,255,2)"
             error={this.state.signupError.address}
-            onChangeText={text => {
+            onChangeText={(text) => {
               if (text) {
                 const st = this.state.signup;
                 this.setState({
@@ -1398,7 +1539,7 @@ export default class LoginScreen extends Component {
           {this._renderAddress3(fieldsData)}
 
           <TextInput
-            label={'City'}
+            label={"City"}
             labelColor="#ffffff"
             leftIcon="city"
             leftIconSize={20}
@@ -1408,11 +1549,11 @@ export default class LoginScreen extends Component {
             color="#ffffff"
             labelActiveColor="#ffffff"
             leftIconColor="#ffffff"
-            selectionColor={'#ffffff'}
+            selectionColor={"#ffffff"}
             activeColor="#ffffff"
             rippleColor="rgba(255,255,255,2)"
             error={this.state.signupError.city}
-            onChangeText={text => {
+            onChangeText={(text) => {
               if (text) {
                 const st = this.state.signup;
                 this.setState({
@@ -1426,7 +1567,7 @@ export default class LoginScreen extends Component {
           />
 
           <TextInput
-            label={'State'}
+            label={"State"}
             labelColor="#ffffff"
             leftIcon="domain"
             leftIconSize={20}
@@ -1436,11 +1577,11 @@ export default class LoginScreen extends Component {
             color="#ffffff"
             labelActiveColor="#ffffff"
             leftIconColor="#ffffff"
-            selectionColor={'#ffffff'}
+            selectionColor={"#ffffff"}
             activeColor="#ffffff"
             rippleColor="rgba(255,255,255,2)"
             error={this.state.signupError.state}
-            onChangeText={text => {
+            onChangeText={(text) => {
               if (text) {
                 const st = this.state.signup;
                 this.setState({
@@ -1454,10 +1595,10 @@ export default class LoginScreen extends Component {
           />
 
           <TextInput
-            label={'Postal Code'}
+            label={"Postal Code"}
             labelColor="#ffffff"
             leftIcon="mailbox"
-            keyboardType={'numeric'}
+            keyboardType={"numeric"}
             leftIconSize={20}
             containerWidth={maxWidth}
             leftIconType="material"
@@ -1465,11 +1606,11 @@ export default class LoginScreen extends Component {
             color="#ffffff"
             labelActiveColor="#ffffff"
             leftIconColor="#ffffff"
-            selectionColor={'#ffffff'}
+            selectionColor={"#ffffff"}
             activeColor="#ffffff"
             rippleColor="rgba(255,255,255,2)"
             error={this.state.signupError.postalcode}
-            onChangeText={text => {
+            onChangeText={(text) => {
               if (text) {
                 const st = this.state.signup;
                 this.setState({
@@ -1482,23 +1623,42 @@ export default class LoginScreen extends Component {
             }}
           />
         </View>
-      )
+      );
     }
-  }
+  };
 
   _renderLabel = (value, label) => {
     if (value) {
       return (
-        <Text style={{ marginLeft: 26, color: 'white', fontSize: 14, marginBottom: -8 }}>{label}</Text>
-      )
+        <Text
+          style={{
+            marginLeft: 26,
+            color: "white",
+            fontSize: 14,
+            marginBottom: -8,
+          }}
+        >
+          {label}
+        </Text>
+      );
     }
-  }
+  };
 
-  _renderBirthDate = fieldsData => {
+  _renderBirthDate = (fieldsData) => {
     if (this._visibleFields.indexOf(fieldsData.birthdateRequired) > -1) {
       return (
-        <View style={{ flexDirection: 'column', marginTop: 5, marginBottom: 5, width: maxWidth }}>
-          {this._renderLabel(this.state.signup.birthdate, fieldsData.birthdateLabel || 'Birth Date')}
+        <View
+          style={{
+            flexDirection: "column",
+            marginTop: 5,
+            marginBottom: 5,
+            width: maxWidth,
+          }}
+        >
+          {this._renderLabel(
+            this.state.signup.birthdate,
+            fieldsData.birthdateLabel || "Birth Date"
+          )}
           <DatePicker
             date={this.state.signup.birthdate}
             mode="date"
@@ -1507,16 +1667,21 @@ export default class LoginScreen extends Component {
             maxDate={this._maxDate}
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
-            iconComponent={<MDIcon name={'cake'} style={{ fontSize: 22, color: 'white', marginRight: 10 }} />}
+            iconComponent={
+              <MDIcon
+                name={"cake"}
+                style={{ fontSize: 22, color: "white", marginRight: 10 }}
+              />
+            }
             customStyles={{
               placeholderText: {
                 fontSize: 15,
-                color: 'white'
+                color: "white",
               },
               dateText: {
                 fontSize: 17,
-                color: 'white'
-              }
+                color: "white",
+              },
             }}
             onDateChange={(date) => {
               const st = this.state.signup;
@@ -1524,21 +1689,31 @@ export default class LoginScreen extends Component {
                 signup: {
                   ...st,
                   birthdate: date,
-                }
-              })
+                },
+              });
             }}
           />
-          <View style={{ height: 1, backgroundColor: 'white' }} />
+          <View style={{ height: 1, backgroundColor: "white" }} />
         </View>
       );
     }
-  }
+  };
 
-  _renderAnniversary = fieldsData => {
+  _renderAnniversary = (fieldsData) => {
     if (this._visibleFields.indexOf(fieldsData.anniversaryRequired) > -1) {
       return (
-        <View style={{ flexDirection: 'column', marginTop: 5, marginBottom: 5, width: maxWidth }}>
-          {this._renderLabel(this.state.signup.anniversary, fieldsData.anniversaryLabel || 'Anniversary Date')}
+        <View
+          style={{
+            flexDirection: "column",
+            marginTop: 5,
+            marginBottom: 5,
+            width: maxWidth,
+          }}
+        >
+          {this._renderLabel(
+            this.state.signup.anniversary,
+            fieldsData.anniversaryLabel || "Anniversary Date"
+          )}
           <DatePicker
             date={this.state.signup.anniversary}
             mode="date"
@@ -1547,16 +1722,21 @@ export default class LoginScreen extends Component {
             maxDate={new Date()}
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
-            iconComponent={<MDIcon name={'group'} style={{ fontSize: 22, color: 'white', marginRight: 10 }} />}
+            iconComponent={
+              <MDIcon
+                name={"group"}
+                style={{ fontSize: 22, color: "white", marginRight: 10 }}
+              />
+            }
             customStyles={{
               placeholderText: {
                 fontSize: 15,
-                color: 'white'
+                color: "white",
               },
               dateText: {
                 fontSize: 17,
-                color: 'white'
-              }
+                color: "white",
+              },
             }}
             onDateChange={(date) => {
               const st = this.state.signup;
@@ -1564,47 +1744,65 @@ export default class LoginScreen extends Component {
                 signup: {
                   ...st,
                   anniversary: date,
-                }
-              })
+                },
+              });
             }}
           />
-          <View style={{ height: 1, backgroundColor: 'white' }} />
+          <View style={{ height: 1, backgroundColor: "white" }} />
         </View>
       );
     }
-  }
+  };
 
-  _renderGender = fieldsData => {
+  _renderGender = (fieldsData) => {
     if (this._visibleFields.indexOf(fieldsData.genderRequired) > -1) {
       return (
         <View style={{ marginVertical: 10, width: maxWidth }}>
-          {this._renderLabel(this.state.signup.gender, fieldsData.genderLabel || 'Gender')}
-          <View style={{ flexDirection: 'row', alignContent: 'center', marginVertical: 5 }}>
-            <MDIcon name={'group'} style={{ fontSize: 22, color: 'white', marginRight: 10 }} />
+          {this._renderLabel(
+            this.state.signup.gender,
+            fieldsData.genderLabel || "Gender"
+          )}
+          <View
+            style={{
+              flexDirection: "row",
+              alignContent: "center",
+              marginVertical: 5,
+            }}
+          >
+            <MDIcon
+              name={"group"}
+              style={{ fontSize: 22, color: "white", marginRight: 10 }}
+            />
             <Menu
-              onSelect={value => {
+              onSelect={(value) => {
                 const st = this.state.signup;
                 this.setState({
                   signup: {
                     ...st,
                     gender: value,
-                  }
-                })
-              }}>
-              <MenuTrigger customStyles={{ triggerText: { fontSize: 16, color: 'white' } }} text={this.state.signup.gender || fieldsData.genderLabel || 'Gender'} />
+                  },
+                });
+              }}
+            >
+              <MenuTrigger
+                customStyles={{ triggerText: { fontSize: 16, color: "white" } }}
+                text={
+                  this.state.signup.gender || fieldsData.genderLabel || "Gender"
+                }
+              />
               <MenuOptions>
-                <MenuOption value='Male' text='Male' />
-                <MenuOption value='Female' text='Female' />
+                <MenuOption value="Male" text="Male" />
+                <MenuOption value="Female" text="Female" />
               </MenuOptions>
             </Menu>
           </View>
-          <View style={{ height: 1, backgroundColor: 'white' }} />
+          <View style={{ height: 1, backgroundColor: "white" }} />
         </View>
       );
     }
-  }
+  };
 
-  onSelectedItemsChange = selectedItems => {
+  onSelectedItemsChange = (selectedItems) => {
     const st = this.state.signup;
     this.setState({
       signup: {
@@ -1612,17 +1810,17 @@ export default class LoginScreen extends Component {
         location: selectedItems[0],
       },
     });
-    console.log('selected : ' + JSON.stringify(selectedItems))
+    console.log("selected : " + JSON.stringify(selectedItems));
   };
 
   _renderLocation = (fieldsData, locationData) => {
     if (this._visibleFields.indexOf(fieldsData.myLocationRequired) > -1) {
       var item = [];
-      locationData.map(location => {
+      locationData.map((location) => {
         var it = {
           id: location.addressID,
-          name: location.locationName
-        }
+          name: location.locationName,
+        };
         item.push(it);
       });
       return (
@@ -1632,138 +1830,253 @@ export default class LoginScreen extends Component {
             uniqueKey="id"
             //selectText="Choose some things..."
             renderSelectText={() => {
-              var title = fieldsData.myLocationLabel || 'My Location';
+              var title = fieldsData.myLocationLabel || "My Location";
               if (this.state.signup.location) {
-                item.map(i => {
+                item.map((i) => {
                   if (i.id === this.state.signup.location) {
                     title = i.name;
                   }
-                })
+                });
               }
               return (
                 <View style={{ marginLeft: -10, marginTop: -10, flex: 1 }}>
-                  {this._renderLabel(this.state.signup.location, 'Location')}
-                  <View style={{ flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10 }}>
-                    <MDIcon name={'place'} style={{ fontSize: 24, color: 'white', marginRight: 10, }} />
-                    <Text style={{ color: 'white', flex: 1, fontSize: 16 }}>{title}</Text>
+                  {this._renderLabel(this.state.signup.location, "Location")}
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      flex: 1,
+                      marginVertical: 5,
+                      marginTop: 10,
+                    }}
+                  >
+                    <MDIcon
+                      name={"place"}
+                      style={{ fontSize: 24, color: "white", marginRight: 10 }}
+                    />
+                    <Text style={{ color: "white", flex: 1, fontSize: 16 }}>
+                      {title}
+                    </Text>
                   </View>
                 </View>
-              )
+              );
             }}
             showChips={true}
             single={true}
             selectToggleIconComponent={() => {
-              return <MDIcon name={'keyboard-arrow-down'} style={{ fontSize: 24, color: 'white' }} />
+              return (
+                <MDIcon
+                  name={"keyboard-arrow-down"}
+                  style={{ fontSize: 24, color: "white" }}
+                />
+              );
             }}
             selectedIconComponent={() => {
-              return (<MDIcon name={'check'} style={{ fontSize: 20, color: 'black', marginRight: 10, }} />);
+              return (
+                <MDIcon
+                  name={"check"}
+                  style={{ fontSize: 20, color: "black", marginRight: 10 }}
+                />
+              );
             }}
             onSelectedItemsChange={this.onSelectedItemsChange}
             selectedItems={[this.state.signup.location]}
           />
-          <View style={{ height: 1, backgroundColor: 'white', marginTop: -25, marginBottom: 10 }} />
+          <View
+            style={{
+              height: 1,
+              backgroundColor: "white",
+              marginTop: -25,
+              marginBottom: 10,
+            }}
+          />
         </View>
-      )
+      );
     }
-  }
+  };
 
-  _renderContactPermission = fieldsData => {
-    if (this._visibleFields.indexOf(fieldsData.contactPermissionRequired) > -1) {
+  _renderContactPermission = (fieldsData) => {
+    if (
+      this._visibleFields.indexOf(fieldsData.contactPermissionRequired) > -1
+    ) {
       return (
         <View>
-          <View style={{ backgroundColor: '#6b9fdb', padding: 10, justifyContent: 'center', alignContent: 'center', alignItems: 'center', marginVertical: 5 }}>
-            <Text style={{ fontSize: 16, color: 'white', alignItems: 'center' }}>{fieldsData.contactPermissionLabel || 'Contact Permission'}</Text>
+          <View
+            style={{
+              backgroundColor: "#6b9fdb",
+              padding: 10,
+              justifyContent: "center",
+              alignContent: "center",
+              alignItems: "center",
+              marginVertical: 5,
+            }}
+          >
+            <Text
+              style={{ fontSize: 16, color: "white", alignItems: "center" }}
+            >
+              {fieldsData.contactPermissionLabel || "Contact Permission"}
+            </Text>
           </View>
-          <View style={{ flexDirection: 'row', marginVertical: 5, marginTop: 10 }}>
-            <Text style={{ fontSize: 16, color: 'white', flex: 3 }}>Allow Email</Text>
-            <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
+          <View
+            style={{ flexDirection: "row", marginVertical: 5, marginTop: 10 }}
+          >
+            <Text style={{ fontSize: 16, color: "white", flex: 3 }}>
+              Allow Email
+            </Text>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignContent: "center",
+              }}
+            >
               <Menu
-                onSelect={value => {
+                onSelect={(value) => {
                   const st = this.state.signup;
-                  this.setState({
-                    signup: {
-                      ...st,
-                      allowedEmail: value,
-                    }
-                  }, () => this._handleContactMenu())
-                }}>
+                  this.setState(
+                    {
+                      signup: {
+                        ...st,
+                        allowedEmail: value,
+                      },
+                    },
+                    () => this._handleContactMenu()
+                  );
+                }}
+              >
                 <MenuTrigger
                   disabled={this.state.isDisableEmailMenu}
-                  customStyles={{ triggerText: { fontSize: 16, color: 'white', alignSelf: 'center' } }} text={this.state.signup.allowedEmail ? 'Yes' : 'No'}
+                  customStyles={{
+                    triggerText: {
+                      fontSize: 16,
+                      color: "white",
+                      alignSelf: "center",
+                    },
+                  }}
+                  text={this.state.signup.allowedEmail ? "Yes" : "No"}
                 />
                 <MenuOptions>
-                  <MenuOption value={true} text='Yes' />
-                  <MenuOption value={false} text='No' />
+                  <MenuOption value={true} text="Yes" />
+                  <MenuOption value={false} text="No" />
                 </MenuOptions>
               </Menu>
-              <View style={{ height: 1, width: '100%', backgroundColor: 'white' }} />
+              <View
+                style={{ height: 1, width: "100%", backgroundColor: "white" }}
+              />
             </View>
           </View>
 
-          <View style={{ flexDirection: 'row', marginVertical: 5, marginTop: 10 }}>
-            <Text style={{ fontSize: 16, color: 'white', flex: 3 }}>Allow SMS</Text>
-            <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
+          <View
+            style={{ flexDirection: "row", marginVertical: 5, marginTop: 10 }}
+          >
+            <Text style={{ fontSize: 16, color: "white", flex: 3 }}>
+              Allow SMS
+            </Text>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignContent: "center",
+              }}
+            >
               <Menu
-                onSelect={value => {
+                onSelect={(value) => {
                   const st = this.state.signup;
-                  this.setState({
-                    signup: {
-                      ...st,
-                      allowedSMS: value,
-                    }
-                  }, () => this._handleContactMenu())
-                }}>
+                  this.setState(
+                    {
+                      signup: {
+                        ...st,
+                        allowedSMS: value,
+                      },
+                    },
+                    () => this._handleContactMenu()
+                  );
+                }}
+              >
                 <MenuTrigger
                   disabled={this.state.isDisableSMSMenu}
-                  customStyles={{ triggerText: { fontSize: 16, color: 'white', alignSelf: 'center' } }} text={this.state.signup.allowedSMS ? 'Yes' : 'No'}
+                  customStyles={{
+                    triggerText: {
+                      fontSize: 16,
+                      color: "white",
+                      alignSelf: "center",
+                    },
+                  }}
+                  text={this.state.signup.allowedSMS ? "Yes" : "No"}
                 />
                 <MenuOptions>
-                  <MenuOption value={true} text='Yes' />
-                  <MenuOption value={false} text='No' />
+                  <MenuOption value={true} text="Yes" />
+                  <MenuOption value={false} text="No" />
                 </MenuOptions>
               </Menu>
-              <View style={{ height: 1, width: '100%', backgroundColor: 'white' }} />
+              <View
+                style={{ height: 1, width: "100%", backgroundColor: "white" }}
+              />
             </View>
           </View>
-          <View style={{ flexDirection: 'row', marginVertical: 5, marginTop: 10 }}>
-            <Text style={{ fontSize: 16, color: 'white', flex: 3 }}>Allow Prefered Media</Text>
-            <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
+          <View
+            style={{ flexDirection: "row", marginVertical: 5, marginTop: 10 }}
+          >
+            <Text style={{ fontSize: 16, color: "white", flex: 3 }}>
+              Allow Prefered Media
+            </Text>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignContent: "center",
+              }}
+            >
               <Menu
-                onSelect={value => {
+                onSelect={(value) => {
                   const st = this.state.signup;
                   this.setState({
                     signup: {
                       ...st,
                       preferedMedia: value,
-                    }
-                  })
-                }}>
+                    },
+                  });
+                }}
+              >
                 <MenuTrigger
                   disabled={this.state.isDisablePreferedMenu}
-                  customStyles={{ triggerText: { fontSize: 16, color: 'white', alignSelf: 'center' } }} text={this.state.signup.preferedMedia}
+                  customStyles={{
+                    triggerText: {
+                      fontSize: 16,
+                      color: "white",
+                      alignSelf: "center",
+                    },
+                  }}
+                  text={this.state.signup.preferedMedia}
                 />
                 <MenuOptions>
-                  <MenuOption value='Email' text='Email' />
-                  <MenuOption value='SMS' text='SMS' />
+                  <MenuOption value="Email" text="Email" />
+                  <MenuOption value="SMS" text="SMS" />
                 </MenuOptions>
               </Menu>
-              <View style={{ height: 1, width: '100%', backgroundColor: 'white' }} />
+              <View
+                style={{ height: 1, width: "100%", backgroundColor: "white" }}
+              />
             </View>
           </View>
         </View>
       );
     }
-  }
+  };
 
-  _renderTOS = fieldsData => {
+  _renderTOS = (fieldsData) => {
     if (this._visibleFields.indexOf(fieldsData.tosAgreementRequired) > -1) {
       return (
         <CheckBox
           title={fieldsData.tosAgreement}
-          containerStyle={{ backgroundColor: 'transparent', borderWidth: 0, justifyContent: 'flex-start', fontSize: 20 }}
-          textStyle={{ color: 'white' }}
-          checkedColor={'white'}
-          uncheckedColor={'white'}
+          containerStyle={{
+            backgroundColor: "transparent",
+            borderWidth: 0,
+            justifyContent: "flex-start",
+            fontSize: 20,
+          }}
+          textStyle={{ color: "white" }}
+          checkedColor={"white"}
+          uncheckedColor={"white"}
           size={24}
           checked={this.state.signup.isTOS}
           onPress={() => {
@@ -1772,20 +2085,19 @@ export default class LoginScreen extends Component {
               signup: {
                 ...st,
                 isTOS: !this.state.signup.isTOS,
-              }
-            })
-          }
-          }
+              },
+            });
+          }}
         />
-      )
+      );
     }
-  }
+  };
 
-  _renderCustomData = customData => {
+  _renderCustomData = (customData) => {
     if (customData) {
       return (
         <View style={{ width: maxWidth }}>
-          {customData.map(field => {
+          {customData.map((field) => {
             if (this._visibleFields.indexOf(field.requiredType) > -1) {
               if (field.controlTypeID >= 1 && field.controlTypeID <= 3) {
                 // text field
@@ -1795,7 +2107,7 @@ export default class LoginScreen extends Component {
                     label={field.fieldLabel}
                     labelColor="#ffffff"
                     leftIcon="receipt"
-                    keyboardType={field.controlTypeID == 3 ? 'numeric' : ''}
+                    keyboardType={field.controlTypeID == 3 ? "numeric" : ""}
                     multiline={field.controlTypeID == 2}
                     leftIconSize={20}
                     containerWidth={maxWidth}
@@ -1806,11 +2118,11 @@ export default class LoginScreen extends Component {
                     color="#ffffff"
                     labelActiveColor="#ffffff"
                     leftIconColor="#ffffff"
-                    selectionColor={'#ffffff'}
+                    selectionColor={"#ffffff"}
                     activeColor="#ffffff"
                     rippleColor="rgba(255,255,255,2)"
                     error={this.state.customerror[field.customFieldID]}
-                    onChangeText={text => {
+                    onChangeText={(text) => {
                       if (text) {
                         const st = this.state.signup.customData;
                         this.setState({
@@ -1819,7 +2131,7 @@ export default class LoginScreen extends Component {
                             customData: {
                               ...this.state.signup.customData,
                               [field.customFieldID]: text,
-                            }
+                            },
                           },
                         });
                       }
@@ -1830,11 +2142,11 @@ export default class LoginScreen extends Component {
                 // picklist
                 var item = [];
                 var possibleValue = JSON.parse(field.possibleValue);
-                possibleValue.map(value => {
+                possibleValue.map((value) => {
                   var it = {
                     id: value,
-                    name: value
-                  }
+                    name: value,
+                  };
                   item.push(it);
                 });
                 return (
@@ -1843,31 +2155,75 @@ export default class LoginScreen extends Component {
                       items={item}
                       uniqueKey="id"
                       renderSelectText={() => {
-                        var title = field.fieldLabel || 'Pick';
+                        var title = field.fieldLabel || "Pick";
                         if (this.state.signup.customData[field.customFieldID]) {
-                          item.map(i => {
-                            if (i.id === this.state.signup.customData[field.customFieldID]) {
+                          item.map((i) => {
+                            if (
+                              i.id ===
+                              this.state.signup.customData[field.customFieldID]
+                            ) {
                               title = i.name;
                             }
-                          })
+                          });
                         }
                         return (
-                          <View style={{ flex: 1, marginLeft: -10, marginTop: -10 }}>
-                            {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
-                            <View style={{ flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10 }}>
-                              <MDIcon name={'list'} style={{ fontSize: 24, color: 'white', marginRight: 10, }} />
-                              <Text style={{ color: 'white', flex: 1, fontSize: 16 }}>{title}</Text>
+                          <View
+                            style={{ flex: 1, marginLeft: -10, marginTop: -10 }}
+                          >
+                            {this._renderLabel(
+                              this.state.signup.customData[field.customFieldID],
+                              field.fieldLabel
+                            )}
+                            <View
+                              style={{
+                                flexDirection: "row",
+                                flex: 1,
+                                marginVertical: 5,
+                                marginTop: 10,
+                              }}
+                            >
+                              <MDIcon
+                                name={"list"}
+                                style={{
+                                  fontSize: 24,
+                                  color: "white",
+                                  marginRight: 10,
+                                }}
+                              />
+                              <Text
+                                style={{
+                                  color: "white",
+                                  flex: 1,
+                                  fontSize: 16,
+                                }}
+                              >
+                                {title}
+                              </Text>
                             </View>
                           </View>
-                        )
+                        );
                       }}
                       showChips={true}
                       single={true}
                       selectToggleIconComponent={() => {
-                        return <MDIcon name={'keyboard-arrow-down'} style={{ fontSize: 24, color: 'white' }} />
+                        return (
+                          <MDIcon
+                            name={"keyboard-arrow-down"}
+                            style={{ fontSize: 24, color: "white" }}
+                          />
+                        );
                       }}
                       selectedIconComponent={() => {
-                        return (<MDIcon name={'check'} style={{ fontSize: 20, color: 'black', marginRight: 10, }} />);
+                        return (
+                          <MDIcon
+                            name={"check"}
+                            style={{
+                              fontSize: 20,
+                              color: "black",
+                              marginRight: 10,
+                            }}
+                          />
+                        );
                       }}
                       onSelectedItemsChange={(selectedItems) => {
                         this.setState({
@@ -1876,24 +2232,33 @@ export default class LoginScreen extends Component {
                             customData: {
                               ...this.state.signup.customData,
                               [field.customFieldID]: selectedItems[0],
-                            }
-                          }
-                        })
+                            },
+                          },
+                        });
                       }}
-                      selectedItems={[this.state.signup.customData[field.customFieldID]]}
+                      selectedItems={[
+                        this.state.signup.customData[field.customFieldID],
+                      ]}
                     />
-                    <View style={{ height: 1, backgroundColor: 'white', marginTop: -25, marginBottom: 10 }} />
+                    <View
+                      style={{
+                        height: 1,
+                        backgroundColor: "white",
+                        marginTop: -25,
+                        marginBottom: 10,
+                      }}
+                    />
                   </View>
-                )
+                );
               } else if (field.controlTypeID == 5) {
                 // check box list
                 var item = [];
                 var possibleValue = JSON.parse(field.possibleValue);
-                possibleValue.map(value => {
+                possibleValue.map((value) => {
                   var it = {
                     id: value,
-                    name: value
-                  }
+                    name: value,
+                  };
                   item.push(it);
                 });
                 return (
@@ -1902,33 +2267,92 @@ export default class LoginScreen extends Component {
                       items={item}
                       uniqueKey="id"
                       renderSelectText={() => {
-                        var title = field.fieldLabel || 'Pick';
+                        var title = field.fieldLabel || "Pick";
                         if (this.state.signup.customData[field.customFieldID]) {
-                          item.map(i => {
-                            if (i.id === this.state.signup.customData[field.customFieldID][0]) {
-                              var items = this.state.signup.customData[field.customFieldID].length;
-                              title = `${i.name} ${items > 1 ? `and ${items - 1} more ` : ''}`;
+                          item.map((i) => {
+                            if (
+                              i.id ===
+                              this.state.signup.customData[
+                                field.customFieldID
+                              ][0]
+                            ) {
+                              var items = this.state.signup.customData[
+                                field.customFieldID
+                              ].length;
+                              title = `${i.name} ${
+                                items > 1 ? `and ${items - 1} more ` : ""
+                              }`;
                             }
-                          })
+                          });
                         }
                         return (
-                          <View style={{ flex: 1, marginLeft: -10, marginTop: -10 }}>
-                            {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
-                            <View style={{ flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10 }}>
-                              <Icon name={'check-square-o'} style={{ fontSize: 20, color: 'white', marginRight: 10, }} />
-                              <Text style={{ color: 'white', flex: 1, fontSize: 16 }}>{title}</Text>
+                          <View
+                            style={{ flex: 1, marginLeft: -10, marginTop: -10 }}
+                          >
+                            {this._renderLabel(
+                              this.state.signup.customData[field.customFieldID],
+                              field.fieldLabel
+                            )}
+                            <View
+                              style={{
+                                flexDirection: "row",
+                                flex: 1,
+                                marginVertical: 5,
+                                marginTop: 10,
+                              }}
+                            >
+                              <Icon
+                                name={"check-square-o"}
+                                style={{
+                                  fontSize: 20,
+                                  color: "white",
+                                  marginRight: 10,
+                                }}
+                              />
+                              <Text
+                                style={{
+                                  color: "white",
+                                  flex: 1,
+                                  fontSize: 16,
+                                }}
+                              >
+                                {title}
+                              </Text>
                             </View>
                           </View>
-                        )
+                        );
                       }}
                       selectToggleIconComponent={() => {
-                        return <MDIcon name={'keyboard-arrow-down'} style={{ fontSize: 24, color: 'white' }} />
+                        return (
+                          <MDIcon
+                            name={"keyboard-arrow-down"}
+                            style={{ fontSize: 24, color: "white" }}
+                          />
+                        );
                       }}
                       selectedIconComponent={() => {
-                        return (<Icon name={'check-square-o'} style={{ fontSize: 20, color: 'black', marginRight: 10, }} />);
+                        return (
+                          <Icon
+                            name={"check-square-o"}
+                            style={{
+                              fontSize: 20,
+                              color: "black",
+                              marginRight: 10,
+                            }}
+                          />
+                        );
                       }}
                       unselectedIconComponent={() => {
-                        return (<Icon name={'square-o'} style={{ fontSize: 20, color: 'black', marginRight: 10, }} />)
+                        return (
+                          <Icon
+                            name={"square-o"}
+                            style={{
+                              fontSize: 20,
+                              color: "black",
+                              marginRight: 10,
+                            }}
+                          />
+                        );
                       }}
                       showChips={false}
                       onSelectedItemsChange={(selectedItems) => {
@@ -1938,24 +2362,33 @@ export default class LoginScreen extends Component {
                             customData: {
                               ...this.state.signup.customData,
                               [field.customFieldID]: selectedItems,
-                            }
-                          }
-                        })
+                            },
+                          },
+                        });
                       }}
-                      selectedItems={this.state.signup.customData[field.customFieldID]}
+                      selectedItems={
+                        this.state.signup.customData[field.customFieldID]
+                      }
                     />
-                    <View style={{ height: 1, backgroundColor: 'white', marginTop: -25, marginBottom: 10 }} />
+                    <View
+                      style={{
+                        height: 1,
+                        backgroundColor: "white",
+                        marginTop: -25,
+                        marginBottom: 10,
+                      }}
+                    />
                   </View>
-                )
+                );
               } else if (field.controlTypeID == 6) {
                 // radio list
                 var item = [];
                 var possibleValue = JSON.parse(field.possibleValue);
-                possibleValue.map(value => {
+                possibleValue.map((value) => {
                   var it = {
                     id: value,
-                    name: value
-                  }
+                    name: value,
+                  };
                   item.push(it);
                 });
                 return (
@@ -1964,34 +2397,87 @@ export default class LoginScreen extends Component {
                       items={item}
                       uniqueKey="id"
                       renderSelectText={() => {
-                        var title = field.fieldLabel || 'Pick';
+                        var title = field.fieldLabel || "Pick";
                         if (this.state.signup.customData[field.customFieldID]) {
-                          item.map(i => {
-                            if (i.id === this.state.signup.customData[field.customFieldID]) {
+                          item.map((i) => {
+                            if (
+                              i.id ===
+                              this.state.signup.customData[field.customFieldID]
+                            ) {
                               title = i.name;
                             }
-                          })
+                          });
                         }
                         return (
-                          <View style={{ flex: 1, marginLeft: -10, marginTop: -10 }}>
-                            {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
-                            <View style={{ flexDirection: 'row', flex: 1, marginVertical: 5, marginTop: 10 }}>
-                              <MDIcon name={'radio-button-checked'} style={{ fontSize: 24, color: 'white', marginRight: 10, }} />
-                              <Text style={{ color: 'white', flex: 1, fontSize: 16 }}>{title}</Text>
+                          <View
+                            style={{ flex: 1, marginLeft: -10, marginTop: -10 }}
+                          >
+                            {this._renderLabel(
+                              this.state.signup.customData[field.customFieldID],
+                              field.fieldLabel
+                            )}
+                            <View
+                              style={{
+                                flexDirection: "row",
+                                flex: 1,
+                                marginVertical: 5,
+                                marginTop: 10,
+                              }}
+                            >
+                              <MDIcon
+                                name={"radio-button-checked"}
+                                style={{
+                                  fontSize: 24,
+                                  color: "white",
+                                  marginRight: 10,
+                                }}
+                              />
+                              <Text
+                                style={{
+                                  color: "white",
+                                  flex: 1,
+                                  fontSize: 16,
+                                }}
+                              >
+                                {title}
+                              </Text>
                             </View>
                           </View>
-                        )
+                        );
                       }}
                       showChips={false}
                       single={true}
                       selectToggleIconComponent={() => {
-                        return <MDIcon name={'keyboard-arrow-down'} style={{ fontSize: 24, color: 'white' }} />
+                        return (
+                          <MDIcon
+                            name={"keyboard-arrow-down"}
+                            style={{ fontSize: 24, color: "white" }}
+                          />
+                        );
                       }}
                       selectedIconComponent={() => {
-                        return (<MDIcon name={'radio-button-checked'} style={{ fontSize: 20, color: 'black', marginRight: 10, }} />);
+                        return (
+                          <MDIcon
+                            name={"radio-button-checked"}
+                            style={{
+                              fontSize: 20,
+                              color: "black",
+                              marginRight: 10,
+                            }}
+                          />
+                        );
                       }}
                       unselectedIconComponent={() => {
-                        return (<MDIcon name={'radio-button-unchecked'} style={{ fontSize: 20, color: 'black', marginRight: 10, }} />);
+                        return (
+                          <MDIcon
+                            name={"radio-button-unchecked"}
+                            style={{
+                              fontSize: 20,
+                              color: "black",
+                              marginRight: 10,
+                            }}
+                          />
+                        );
                       }}
                       onSelectedItemsChange={(selectedItems) => {
                         this.setState({
@@ -2000,20 +2486,39 @@ export default class LoginScreen extends Component {
                             customData: {
                               ...this.state.signup.customData,
                               [field.customFieldID]: selectedItems[0],
-                            }
-                          }
-                        })
+                            },
+                          },
+                        });
                       }}
-                      selectedItems={[this.state.signup.customData[field.customFieldID]]}
+                      selectedItems={[
+                        this.state.signup.customData[field.customFieldID],
+                      ]}
                     />
-                    <View style={{ height: 1, backgroundColor: 'white', marginTop: -25, marginBottom: 10 }} />
+                    <View
+                      style={{
+                        height: 1,
+                        backgroundColor: "white",
+                        marginTop: -25,
+                        marginBottom: 10,
+                      }}
+                    />
                   </View>
-                )
+                );
               } else if (field.controlTypeID == 7) {
                 // date picker
                 return (
-                  <View style={{ flexDirection: 'column', marginTop: 5, marginBottom: 5, width: maxWidth }}>
-                    {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
+                  <View
+                    style={{
+                      flexDirection: "column",
+                      marginTop: 5,
+                      marginBottom: 5,
+                      width: maxWidth,
+                    }}
+                  >
+                    {this._renderLabel(
+                      this.state.signup.customData[field.customFieldID],
+                      field.fieldLabel
+                    )}
                     <DatePicker
                       date={this.state.signup.customData[field.customFieldID]}
                       mode="date"
@@ -2022,16 +2527,25 @@ export default class LoginScreen extends Component {
                       //maxDate={this._maxDate}
                       confirmBtnText="Confirm"
                       cancelBtnText="Cancel"
-                      iconComponent={<MDIcon name={'date-range'} style={{ fontSize: 22, color: 'white', marginRight: 10 }} />}
+                      iconComponent={
+                        <MDIcon
+                          name={"date-range"}
+                          style={{
+                            fontSize: 22,
+                            color: "white",
+                            marginRight: 10,
+                          }}
+                        />
+                      }
                       customStyles={{
                         placeholderText: {
                           fontSize: 15,
-                          color: 'white'
+                          color: "white",
                         },
                         dateText: {
                           fontSize: 17,
-                          color: 'white'
-                        }
+                          color: "white",
+                        },
                       }}
                       onDateChange={(date) => {
                         this.setState({
@@ -2040,27 +2554,33 @@ export default class LoginScreen extends Component {
                             customData: {
                               ...this.state.signup.customData,
                               [field.customFieldID]: date,
-                            }
-                          }
-                        })
+                            },
+                          },
+                        });
                       }}
                     />
-                    <View style={{ height: 1, width: maxWidth, backgroundColor: 'white' }} />
+                    <View
+                      style={{
+                        height: 1,
+                        width: maxWidth,
+                        backgroundColor: "white",
+                      }}
+                    />
                   </View>
                 );
               }
             }
           })}
         </View>
-      )
+      );
     }
-  }
+  };
 
   _showSignUp = () => {
     const { fieldsData, customData, locationData } = this.state.webFromResponse;
     if (this.state.isShowSignUp) {
       return (
-        <View style={{ flexDirection: 'column', width: maxWidth }}>
+        <View style={{ flexDirection: "column", width: maxWidth }}>
           {this._renderMemberCardID(fieldsData)}
           {this._renderDrivingLinces(fieldsData)}
           {this._renderFirstName(fieldsData)}
@@ -2084,7 +2604,7 @@ export default class LoginScreen extends Component {
   _showForgotPassword = () => {
     if (this.state.isShowForgotPassword) {
       return (
-        <View style={{ flex: 1, flexDirection: 'column' }}>
+        <View style={{ flex: 1, flexDirection: "column" }}>
           <TextInput
             label="Enter your registered Email"
             labelColor="#ffffff"
@@ -2096,18 +2616,27 @@ export default class LoginScreen extends Component {
             color="#ffffff"
             labelActiveColor="#ffffff"
             leftIconColor="#ffffff"
-            selectionColor={'#ffffff'}
+            selectionColor={"#ffffff"}
             activeColor="#ffffff"
             rippleColor="rgba(255,255,255,2)"
             error={this.state.forgotPasswordError}
-            onChangeText={text => {
+            onChangeText={(text) => {
               this.setState({
-                forgotPassword: text
+                forgotPassword: text,
               });
             }}
           />
 
-          <Text style={{ fontSize: 16, color: 'white', padding: 5, alignSelf: 'center' }}>Please wait {this.state.minutes} : {this.state.seconds}</Text>
+          <Text
+            style={{
+              fontSize: 16,
+              color: "white",
+              padding: 5,
+              alignSelf: "center",
+            }}
+          >
+            Please wait {this.state.minutes} : {this.state.seconds}
+          </Text>
 
           {this._renderForgotButton()}
         </View>
@@ -2118,35 +2647,42 @@ export default class LoginScreen extends Component {
   _renderForgotButton = () => {
     if (this.state.isLoadingForgot) {
       return (
-        <ActivityIndicator style={{ margin: 10 }} color={'white'} size={36} />
+        <ActivityIndicator style={{ margin: 10 }} color={"white"} size={36} />
       );
     } else {
       return (
         <TouchableOpacity
           // <TouchableNativeFeedback
-          style={[styles.button, { backgroundColor: this.state.isTimer ? '#1d5799' : '#6b9fdb' }]}
+          style={[
+            styles.button,
+            { backgroundColor: this.state.isTimer ? "#1d5799" : "#6b9fdb" },
+          ]}
           disabled={this.state.isTimer}
           onPress={() => {
-            if (isValidEmail(this.state.forgotPassword) || isValidPhoneNo(this.state.forgotPassword)) {
+            if (
+              isValidEmail(this.state.forgotPassword) ||
+              isValidPhoneNo(this.state.forgotPassword)
+            ) {
               this._callForgotPassword();
               this.setState({
-                forgotPasswordError: '',
+                forgotPasswordError: "",
                 isLoadingForgot: true,
                 minutes: 1,
                 seconds: 0,
-              })
+              });
             } else {
               this.setState({
-                forgotPasswordError: 'Please valida user email or mobile'
-              })
+                forgotPasswordError: "Please valida user email or mobile",
+              });
             }
-          }}>
+          }}
+        >
           <Text style={styles.buttonText}>Send Password</Text>
           {/* </TouchableNativeFeedback> */}
         </TouchableOpacity>
       );
     }
-  }
+  };
 
   _onShowPasswordClick = () => {
     this.setState({ isShowPassword: !this.state.isShowPassword });
@@ -2195,9 +2731,20 @@ export default class LoginScreen extends Component {
         <KeyboardAvoidingView
           style={styles.baseContainer}
           behavior="padding"
-          enabled={Platform.OS === 'ios' ? true : false}>
-          <View style={[styles.baseContainer, { backgroundColor: LoginScreenModel.bgColor }]}>
-            <View style={[styles.backgroundImageBase, { backgroundColor: parseColor(LoginScreenModel.bgColor) }]}>
+          enabled={Platform.OS === "ios" ? true : false}
+        >
+          <View
+            style={[
+              styles.baseContainer,
+              { backgroundColor: LoginScreenModel.bgColor },
+            ]}
+          >
+            <View
+              style={[
+                styles.backgroundImageBase,
+                { backgroundColor: parseColor(LoginScreenModel.bgColor) },
+              ]}
+            >
               <Image
                 style={styles.backgroundImage}
                 // source={require('./Image/background.png')}
@@ -2213,35 +2760,70 @@ export default class LoginScreen extends Component {
                 showsVerticalScrollIndicator={false}
                 bounces={false}
                 contentContainerStyle={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 <View style={styles.mainContainer}>
-                  <Text style={[styles.textStyle, { color: parseColor(LoginScreenModel.bannerDescColor) }]}>
+                  <Text
+                    style={[
+                      styles.textStyle,
+                      { color: parseColor(LoginScreenModel.bannerDescColor) },
+                    ]}
+                  >
                     {LoginScreenModel.bannerDescText}
                   </Text>
                   <View style={styles.seprator} />
-                  <Text style={[styles.textStyle2, { color: parseColor(LoginScreenModel.subDescColor) }]}>
+                  <Text
+                    style={[
+                      styles.textStyle2,
+                      { color: parseColor(LoginScreenModel.subDescColor) },
+                    ]}
+                  >
                     {LoginScreenModel.subDescText}
                   </Text>
                   {this._showSignUp()}
                   {this._renderSignupButton()}
                   <LinearGradient
                     style={{ borderRadius: 10, margin: 5 }}
-                    colors={[parseColor(LoginScreenModel.signInBtnGradientstartColor), parseColor(LoginScreenModel.signInBtnGradientStopColor)]}>
+                    colors={[
+                      parseColor(LoginScreenModel.signInBtnGradientstartColor),
+                      parseColor(LoginScreenModel.signInBtnGradientStopColor),
+                    ]}
+                  >
                     {/* <TouchableNativeFeedback */}
                     <TouchableOpacity
                       style={styles.button}
-                      onPress={this._onLoginClick}>
-                      <Text style={[styles.buttonText, { color: parseColor(LoginScreenModel.signInBtnTextColor) }]}>{LoginScreenModel.signInBtnText}</Text>
+                      onPress={this._onLoginClick}
+                    >
+                      <Text
+                        style={[
+                          styles.buttonText,
+                          {
+                            color: parseColor(
+                              LoginScreenModel.signInBtnTextColor
+                            ),
+                          },
+                        ]}
+                      >
+                        {LoginScreenModel.signInBtnText}
+                      </Text>
                       {/* </TouchableNativeFeedback> */}
                     </TouchableOpacity>
                   </LinearGradient>
                   {this._showLogin()}
                   <Text
-                    style={[styles.forgotPassword, { color: parseColor(LoginScreenModel.forgotPwdBtnTextColor) }]}
-                    onPress={this._onForgotPasswordClick}>
+                    style={[
+                      styles.forgotPassword,
+                      {
+                        color: parseColor(
+                          LoginScreenModel.forgotPwdBtnTextColor
+                        ),
+                      },
+                    ]}
+                    onPress={this._onForgotPasswordClick}
+                  >
                     {LoginScreenModel.forgotPwdBtnText}
                   </Text>
                   <View
@@ -2249,7 +2831,7 @@ export default class LoginScreen extends Component {
                       width: 170,
                       margine: -10,
                       height: 1,
-                      backgroundColor: '#ffffff',
+                      backgroundColor: "#ffffff",
                     }}
                   />
                   {this._showForgotPassword()}
@@ -2266,16 +2848,16 @@ export default class LoginScreen extends Component {
 const styles = StyleSheet.create({
   baseContainer: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   backgroundImageBase: {
-    position: 'absolute',
+    position: "absolute",
     opacity: 0.9,
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   backgroundImage: {
     height: null,
@@ -2283,41 +2865,41 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    alignSelf: 'stretch',
-    backgroundColor: '#000000',
+    alignSelf: "stretch",
+    backgroundColor: "#000000",
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
   },
   forgotPassword: {
-    color: '#ffffff',
+    color: "#ffffff",
     flex: 1,
     marginTop: 10,
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 17,
   },
   welcome: {
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: "center",
     margin: 10,
   },
   instructions: {
-    textAlign: 'center',
-    color: '#333333',
+    textAlign: "center",
+    color: "#333333",
     marginBottom: 5,
   },
   baseScrollView: {
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    flexDirection: 'row',
+    alignItems: "center",
+    justifyContent: "space-around",
+    flexDirection: "row",
     flex: 1,
   },
   mainContainer: {
     borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignContent: 'stretch',
-    alignSelf: 'center',
-    backgroundColor: 'rgba(0, 0, 0,0.30)',
+    alignItems: "center",
+    justifyContent: "center",
+    alignContent: "stretch",
+    alignSelf: "center",
+    backgroundColor: "rgba(0, 0, 0,0.30)",
     margin: 20,
     top: 0,
     bottom: 0,
@@ -2326,37 +2908,37 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   textStyle: {
-    color: '#ffffff',
+    color: "#ffffff",
     marginBottom: 10,
     flex: 1,
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 17,
   },
   textStyle2: {
-    color: '#ffffff',
+    color: "#ffffff",
     marginBottom: 10,
     marginTop: 10,
     flex: 1,
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 14,
   },
   seprator: {
     width: 200,
     height: 2,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
   },
   button: {
     //margin: 5,
     minWidth: 120,
     borderRadius: 10,
-    alignSelf: 'center',
+    alignSelf: "center",
     maxWidth: 500,
     //backgroundColor: '#6b9fdb',
   },
   buttonText: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 17,
-    textAlign: 'center',
+    textAlign: "center",
     margin: 10,
   },
 });

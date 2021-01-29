@@ -116,10 +116,13 @@ public class BeaconModule extends ReactContextBaseJavaModule {
                     })
                     .build();
             proximityObserverHandler = proximityObserver.startObserving(zone);
+//            Log.d("observing", String.format(" beacon scan call 1 "));
 
         } catch (Exception e){
             promise.reject("VIEW_ERROR", e.getMessage());
         }
+//        Log.d("observing", String.format(" beacon scan call 1 "));
+
     }
     private void sendEvent(
             ReactContext reactContext,

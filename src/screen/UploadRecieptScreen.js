@@ -285,6 +285,7 @@ export default class UploadReceiptScreen extends Component {
           keyboardType={'numeric'}
           value={this.state.subTotal}
           error={this.state.subTotalError}
+          returnKeyType='done'
           onChangeText={text => {
             this.setState({
               subTotal: text

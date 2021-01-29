@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   View,
   Text,
@@ -38,9 +38,9 @@ import APIConstant from './../api/apiConstant';
 // import SpinWheelScreen from './SpinWheelScreen';SpinWheelScreen
 import * as RNEP from '@estimote/react-native-proximity';
 // import  from '../beacons/proximityObserver2'
-//import { openDatabase } from 'react-native-sqlite-storage';
+// import { openDatabase } from 'react-native-sqlite-storage';
 // import { insertData } from './Database_rrbeacon';
-//var db = openDatabase({ name: 'RRBeacon.db' });
+// var db = openDatabase({ name: 'RRBeacon.db' });
 import { insertBeaconData, updateMessagePriority, selectBeacon, getBeaconMessagePriority, clearDatabase } from './../database/BeaconDatabase';
 const maxWidth = Dimensions.get('window').width;
 var extipAppCount = 0;
@@ -66,13 +66,12 @@ export default class HomeScreen extends Component {
     };
     // this.beacon = this.beacon.bind(this);
   }
-  
-
 
   componentDidMount() {
     //this.createTableBeacon()
     this.getBeaconData()
   }
+
   getBeaconData(){
     makeRequest(
       `${APIConstant.BASE_URL}${APIConstant.GET_ALL_BEACON}?RewardProgramID=${GlobalAppModel.rewardProgramId}`,
@@ -88,6 +87,7 @@ export default class HomeScreen extends Component {
       })
       .catch(error => console.log('error : ' + error));
   }
+
   sendBeaconData(deviceID){
     const request={
       deviceID:deviceID,
@@ -175,6 +175,7 @@ export default class HomeScreen extends Component {
       });
     }
   }
+  
   //beacon connect for android
   beacon = async () => {
     // this.selectData()
@@ -220,29 +221,15 @@ export default class HomeScreen extends Component {
     console.log('Starting observers');
     const zone1 = new RNEP.ProximityZone(5, 'White');
     zone1.onEnterAction = context => {
-      // startTimer();
-      debugger
       alert('divce connected successfully')
       console.log('zone1 onEnter', context);
-      this.updateData('c543fdb29b46435f3ae535b1c016b509')
+      // this.updateData('c543fdb29b46435f3ae535b1c016b509')
     };
     zone1.onExitAction = context => {
-      // stopTimer(true);
-      debugger
       alert('Divce disconnected successfully')
       console.log('zone1 onExit', context);
     };
     zone1.onChangeAction = contexts => {
-      debugger
-      //console.log('zone1 onChange', contexts);
-      var data = contexts.map(function (item) {
-        return {
-          key: item.deviceIdentifier,
-          value: item.tag
-        };
-      })
-
-      // console.log('value :' + JSON.stringify(data));
       console.log('zone1 onChange', contexts);
     };
 
@@ -299,11 +286,10 @@ export default class HomeScreen extends Component {
         hideOnPress: true,
         delay: 0,
       });
-      extipAppCount = extipAppCount + 1
-      setTimeout(
-        () => { extipAppCount = 0 },
-        Toast.durations.LONG
-      )
+      extipAppCount = extipAppCount + 1;
+      setTimeout(() => {
+        extipAppCount = 0;
+      }, Toast.durations.LONG);
     } else {
       BackHandler.exitApp();
     }
@@ -312,25 +298,27 @@ export default class HomeScreen extends Component {
 
   _getStoredData = async () => {
     try {
-      var firstName = '', lastName = '', profile = '';
+      var firstName = "",
+        lastName = "",
+        profile = "";
 
-      await AsyncStorage.getItem('firstName', (err, value) => {
+      await AsyncStorage.getItem("firstName", (err, value) => {
         if (value) {
           firstName = value;
         }
       });
 
-      await AsyncStorage.getItem('lastName', (err, value) => {
+      await AsyncStorage.getItem("lastName", (err, value) => {
         if (value) {
-          lastName = value
+          lastName = value;
         }
       });
 
-      await AsyncStorage.getItem('profilePitcure', (err, value) => {
+      await AsyncStorage.getItem("profilePitcure", (err, value) => {
         if (value) {
-          profile = value
+          profile = value;
         } else {
-          profile = ''
+          profile = "";
         }
       });
 
@@ -339,7 +327,7 @@ export default class HomeScreen extends Component {
         userProfileImage: profile,
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -418,17 +406,27 @@ export default class HomeScreen extends Component {
       <ImageBackground
         ref={(ref) => (this.viewParent = ref)}
         onLayout={this.onPageLayout}
-        style={{ flexDirection: 'column', flex: 1, width: maxWidth }}
+        style={{ flexDirection: "column", flex: 1, width: maxWidth }}
         opacity={1}
         source={{
           uri: HomeModel.homePageBottomBackgroundImage,
         }}
-        resizeMode="cover">
+        resizeMode="cover"
+      >
         <View>
           <LinearGradient
             opacity={HomeModel.homePageBottomBackgroundOpacity}
-            colors={[parseColor(HomeModel.homePageBottomBackgroundGradientStartColor), parseColor(HomeModel.homePageBottomBackgroundGradientStopColor)]}
-            style={{ flexDirection: 'column', height: '100%', width: '100%', position: 'absolute' }} />
+            colors={[
+              parseColor(HomeModel.homePageBottomBackgroundGradientStartColor),
+              parseColor(HomeModel.homePageBottomBackgroundGradientStopColor),
+            ]}
+            style={{
+              flexDirection: "column",
+              height: "100%",
+              width: "100%",
+              position: "absolute",
+            }}
+          />
           <FlatList
             showsVerticalScrollIndicator={false}
             scrollEnabled={true}
@@ -439,37 +437,113 @@ export default class HomeScreen extends Component {
                 //console.log(`Text Align : ${index} : ${JSON.stringify(menuLink)}`);
                 return (
                   <ImageBackground
-                    style={{ flexDirection: 'column', flex: 1, width: maxWidth }}
+                    style={{
+                      flexDirection: "column",
+                      flex: 1,
+                      width: maxWidth,
+                    }}
                     opacity={1}
                     source={{
                       uri: menuLink.menuBackgroudImage,
                     }}
-                    resizeMode="cover">
+                    resizeMode="cover"
+                  >
                     <View>
                       <LinearGradient
-                        colors={[parseColor(menuLink.menuTopColor), parseColor(menuLink.menuBottomColor)]}
+                        colors={[
+                          parseColor(menuLink.menuTopColor),
+                          parseColor(menuLink.menuBottomColor),
+                        ]}
                         opacity={menuLink.menuOpacity}
-                        style={{ height: this.state.bottomContainerMenuItemHeight, width: '100%', position: 'absolute' }} />
+                        style={{
+                          height: this.state.bottomContainerMenuItemHeight,
+                          width: "100%",
+                          position: "absolute",
+                        }}
+                      />
                       <View>
-                        <View style={{ height: 1, backgroundColor: 'rgba(153,153,153,1)' }} />
+                        <View
+                          style={{
+                            height: 1,
+                            backgroundColor: "rgba(153,153,153,1)",
+                          }}
+                        />
                         <TouchableOpacity
                           activeOpacity={0.8}
                           onPress={() => {
-                            if (menuLink.menuLinkType == 'external') {
+                            if (menuLink.menuLinkType == "external") {
                               try {
-                                this.props.navigation.navigate('webScreen', {
+                                this.props.navigation.navigate("webScreen", {
                                   title: menuLink.menuText,
                                   webURL: menuLink.menuExternalLinkUrl,
                                 });
-                              } catch (Exeption) { console.log(`Èrror : ${Exeption}`) }
+                              } catch (Exeption) {
+                                console.log(`Èrror : ${Exeption}`);
+                              }
                             } else {
-                              this.props.navigation.push(menuLink.menuInternalLinkUrl);
+                              this.props.navigation.push(
+                                menuLink.menuInternalLinkUrl
+                              );
                             }
                           }}
-                          style={{ padding: 10, flexDirection: 'row', height: this.state.bottomContainerMenuItemHeight || 75 }}>
-                          {HomeModel.homePageBottomDisplayIcon && <Icon name={menuLink.icon} style={{ fontSize: 30, color: parseColor(HomeModel.homePageBottomIconColor), backgroundColor: HomeModel.homePageBottomIconShape == 'none' ? '' : parseColor(HomeModel.homePageBottomIconBackgroundColor), padding: 10, borderRadius: HomeModel.homePageBottomIconShape == 'round' ? 50 : 5, marginHorizontal: 10, width: 55, height: 55, textAlign: 'center', alignSelf: 'center' }} />}
-                          <Text style={{ flex: 1, paddingHorizontal: 10, fontSize: 18, alignSelf: 'center', color: parseColor(MenuLinkModel.menuTextColor), textAlign: HomeModel.homePageBottomTextAlign.toLowerCase() }}>{menuLink.menuText || ''}</Text>
-                          {HomeModel.homePageBottomDisplayArrowIcon && <MDIcon name={'keyboard-arrow-right'} style={{ alignSelf: 'center', fontSize: 30, color: parseColor(HomeModel.homePageBottomArrowColor) }} />}
+                          style={{
+                            padding: 10,
+                            flexDirection: "row",
+                            height:
+                              this.state.bottomContainerMenuItemHeight || 75,
+                          }}
+                        >
+                          {HomeModel.homePageBottomDisplayIcon && (
+                            <Icon
+                              name={menuLink.icon}
+                              style={{
+                                fontSize: 30,
+                                color: parseColor(
+                                  HomeModel.homePageBottomIconColor
+                                ),
+                                backgroundColor:
+                                  HomeModel.homePageBottomIconShape == "none"
+                                    ? ""
+                                    : parseColor(
+                                        HomeModel.homePageBottomIconBackgroundColor
+                                      ),
+                                padding: 10,
+                                borderRadius:
+                                  HomeModel.homePageBottomIconShape == "round"
+                                    ? 50
+                                    : 5,
+                                marginHorizontal: 10,
+                                width: 55,
+                                height: 55,
+                                textAlign: "center",
+                                alignSelf: "center",
+                              }}
+                            />
+                          )}
+                          <Text
+                            style={{
+                              flex: 1,
+                              paddingHorizontal: 10,
+                              fontSize: 18,
+                              alignSelf: "center",
+                              color: parseColor(MenuLinkModel.menuTextColor),
+                              textAlign: HomeModel.homePageBottomTextAlign.toLowerCase(),
+                            }}
+                          >
+                            {menuLink.menuText || ""}
+                          </Text>
+                          {HomeModel.homePageBottomDisplayArrowIcon && (
+                            <MDIcon
+                              name={"keyboard-arrow-right"}
+                              style={{
+                                alignSelf: "center",
+                                fontSize: 30,
+                                color: parseColor(
+                                  HomeModel.homePageBottomArrowColor
+                                ),
+                              }}
+                            />
+                          )}
                         </TouchableOpacity>
                       </View>
                     </View>
@@ -481,7 +555,7 @@ export default class HomeScreen extends Component {
         </View>
       </ImageBackground>
     );
-  }
+  };
 
   // rendering hribbon text as simple text or marquee
   _renderHomePageRibbonText = () => {
@@ -595,51 +669,51 @@ const styles = StyleSheet.create({
   },
   headerUserImage: { height: 35, width: 35 },
   headerText: {
-    textAlign: 'center',
+    textAlign: "center",
     flex: 1,
     marginBottom: 12,
-    alignSelf: 'center',
+    alignSelf: "center",
     fontSize: 25,
   },
   footerContainer: {
     //height: 50,
-    backgroundColor: '#012345',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    flexDirection: 'row',
+    backgroundColor: "#012345",
+    alignItems: "center",
+    justifyContent: "space-around",
+    flexDirection: "row",
   },
   footerMenuItem: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'white',
+    alignItems: "center",
+    justifyContent: "center",
+    color: "white",
     paddingVertical: 15,
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   footerMenuItemImage: {
     height: 20,
     width: 20,
-    tintColor: 'white',
+    tintColor: "white",
   },
   footerMenuSelectedItem: {
     height: 24,
     //width: 24,
-    tintColor: 'white',
+    tintColor: "white",
   },
   footerMenuIdelItem: {
     height: 18,
     //width: 18,
-    tintColor: '#fff',
+    tintColor: "#fff",
   },
   footerMenuSelectedItemText: {
-    color: 'white',
+    color: "white",
     fontSize: 15,
     paddingTop: 5,
     paddingHorizontal: 5,
     marginLeft: 5,
   },
   footerMenuIdelItemText: {
-    color: '#000',
+    color: "#000",
     fontSize: 10,
   },
   backgroundImage: {
@@ -654,16 +728,16 @@ const styles = StyleSheet.create({
   listTitle: {
     fontSize: 16,
     marginBottom: 20,
-    color: '#666',
+    color: "#666",
   },
   listButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 10,
   },
   listIcon: {
     fontSize: 26,
-    color: '#666',
+    color: "#666",
     width: 60,
   },
   listLabel: {
@@ -672,29 +746,29 @@ const styles = StyleSheet.create({
   headerContainer: {
     height: Header.HEIGHT,
     paddingHorizontal: 15,
-    alignContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: '#012345',
+    alignContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    backgroundColor: "#012345",
   },
   leftIcon: {
-    color: 'white',
+    color: "white",
     fontSize: 24,
-    alignItems: 'center',
+    alignItems: "center",
     padding: 15,
-    paddingLeft: 0
+    paddingLeft: 0,
   },
   title: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
     flex: 1,
   },
   point: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
   },
   pointTerm: {
-    color: 'white',
+    color: "white",
     fontSize: 13,
-  }
+  },
 });
