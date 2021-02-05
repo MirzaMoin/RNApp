@@ -74,6 +74,7 @@ target 'RRBeacon' do
 
   pod 'Firebase/Core'
   pod 'Firebase/Firestore'
+  pod 'Firebase/DynamicLinks'
 
   target 'RRBeaconTests' do
     inherit! :search_paths

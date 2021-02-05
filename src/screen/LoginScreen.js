@@ -242,7 +242,7 @@ export default class LoginScreen extends Component {
       console.log("permission rejected");
     }
   }
-  
+
   // calling login API
   _callLogin = () => {
     let req = {
@@ -520,7 +520,7 @@ export default class LoginScreen extends Component {
           ...signupError,
           memberCardID: `Please enter ${
             fieldsData.memberCardIDLabel || "Member Card ID"
-          }`,
+            }`,
         };
         isCall = false;
       }
@@ -543,9 +543,9 @@ export default class LoginScreen extends Component {
             ...signupError,
             driverLicense: `${
               fieldsData.driverLicense || "Driver License"
-            } value must contain ${fieldsData.minRange} to ${
+              } value must contain ${fieldsData.minRange} to ${
               fieldsData.maxRange
-            } character`,
+              } character`,
           };
           isCall = false;
         }
@@ -554,7 +554,7 @@ export default class LoginScreen extends Component {
           ...signupError,
           driverLicense: `Please enter ${
             fieldsData.driverLicense || "Driver License"
-          }`,
+            }`,
         };
         isCall = false;
       }
@@ -571,7 +571,7 @@ export default class LoginScreen extends Component {
           ...signupError,
           firstName: `Please enter ${
             fieldsData.firstNameLabel || "First Name"
-          }`,
+            }`,
         };
         isCall = false;
       }
@@ -1059,7 +1059,7 @@ export default class LoginScreen extends Component {
                     ...st,
                     memberCardID: `Enter Valid ${
                       fieldsData.memberCardIDLabel || "Memeber Card ID"
-                    }`,
+                      }`,
                   },
                 });
               }
@@ -1107,7 +1107,7 @@ export default class LoginScreen extends Component {
             } else {
               if (
                 this._requireFields.indexOf(fieldsData.memberCardIDRequired) >
-                  -1 &&
+                -1 &&
                 text.length() >= fieldsData.minRange &&
                 text.length() <= fieldsData.maxRange
               ) {
@@ -1117,7 +1117,7 @@ export default class LoginScreen extends Component {
                     ...st,
                     driverLicense: `Enter Valid ${
                       fieldsData.driverLicense || "Driving License"
-                    }`,
+                      }`,
                   },
                 });
               }
@@ -1172,7 +1172,7 @@ export default class LoginScreen extends Component {
                     ...st,
                     firstName: `Enter Valid ${
                       fieldsData.firstNameLabel || "First Name"
-                    }`,
+                      }`,
                   },
                 });
               }
@@ -1227,7 +1227,7 @@ export default class LoginScreen extends Component {
                     ...st,
                     lastName: `Enter Valid ${
                       fieldsData.lastNameLabel || "First Name"
-                    }`,
+                      }`,
                   },
                 });
               }
@@ -1599,6 +1599,7 @@ export default class LoginScreen extends Component {
             labelColor="#ffffff"
             leftIcon="mailbox"
             keyboardType={"numeric"}
+            returnKeyType='done'
             leftIconSize={20}
             containerWidth={maxWidth}
             leftIconType="material"
@@ -1828,6 +1829,7 @@ export default class LoginScreen extends Component {
           <SectionedMultiSelect
             items={item}
             uniqueKey="id"
+            modalWithSafeAreaView={true}
             //selectText="Choose some things..."
             renderSelectText={() => {
               var title = fieldsData.myLocationLabel || "My Location";
@@ -2108,6 +2110,7 @@ export default class LoginScreen extends Component {
                     labelColor="#ffffff"
                     leftIcon="receipt"
                     keyboardType={field.controlTypeID == 3 ? "numeric" : ""}
+                    returnKeyType={field.controlTypeID == 3 ? "done" : ''}
                     multiline={field.controlTypeID == 2}
                     leftIconSize={20}
                     containerWidth={maxWidth}
@@ -2153,6 +2156,7 @@ export default class LoginScreen extends Component {
                   <View style={{ width: maxWidth }}>
                     <SectionedMultiSelect
                       items={item}
+                      modalWithSafeAreaView={true}
                       uniqueKey="id"
                       renderSelectText={() => {
                         var title = field.fieldLabel || "Pick";
@@ -2265,6 +2269,7 @@ export default class LoginScreen extends Component {
                   <View style={{ width: maxWidth }}>
                     <SectionedMultiSelect
                       items={item}
+                      modalWithSafeAreaView={true}
                       uniqueKey="id"
                       renderSelectText={() => {
                         var title = field.fieldLabel || "Pick";
@@ -2273,7 +2278,7 @@ export default class LoginScreen extends Component {
                             if (
                               i.id ===
                               this.state.signup.customData[
-                                field.customFieldID
+                              field.customFieldID
                               ][0]
                             ) {
                               var items = this.state.signup.customData[
@@ -2281,7 +2286,7 @@ export default class LoginScreen extends Component {
                               ].length;
                               title = `${i.name} ${
                                 items > 1 ? `and ${items - 1} more ` : ""
-                              }`;
+                                }`;
                             }
                           });
                         }
@@ -2395,6 +2400,7 @@ export default class LoginScreen extends Component {
                   <View style={{ width: maxWidth }}>
                     <SectionedMultiSelect
                       items={item}
+                      modalWithSafeAreaView={true}
                       uniqueKey="id"
                       renderSelectText={() => {
                         var title = field.fieldLabel || "Pick";

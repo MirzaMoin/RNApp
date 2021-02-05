@@ -1090,6 +1090,7 @@ export default class ProfileScreen extends Component {
           labelColor="grey"
           leftIcon="phone"
           keyboardType={'phone-pad'}
+          returnKeyType='done'
           leftIconSize={20}
           containerWidth={maxWidth}
           leftIconType="material"
@@ -1296,6 +1297,7 @@ export default class ProfileScreen extends Component {
             labelColor="grey"
             leftIcon="mailbox"
             keyboardType={'numeric'}
+            returnKeyType='done'
             leftIconSize={20}
             containerWidth={maxWidth}
             leftIconType="material"
@@ -1432,9 +1434,9 @@ export default class ProfileScreen extends Component {
               }}
               style={{ flex: 1 }}>
               <MenuTrigger customStyles={{ triggerText: { fontSize: 16, color: 'black', } }} text={this.state.signup.gender || fieldsData.genderLabel || 'Gender'} />
-              <MenuOptions optionsContainerStyle={{ margin: 0, padding: 10, borderRadius: 10 }}>
-                <MenuOption value='Male' text={('\u2642') + 'Male'} style={{ backgroundColor: 'white', borderRadius: 10, margin: 1, padding: 1, paddingHorizontal: 10, borderColor: 'lightgrey', borderWidth: 1 }} />
-                <MenuOption value='Female' text={('\u2640') + 'Female'} style={{ backgroundColor: 'white', borderRadius: 10, margin: 1, padding: 1, paddingHorizontal: 10, borderColor: 'lightgrey', borderWidth: 1 }} />
+              <MenuOptions optionsContainerStyle={{ margin: 10, padding: 10, borderRadius: 10,alignSelf:'center',alignItems:'center',alignContent:'center',justifyContent:'center', }}>
+                <MenuOption value='Male' text={('\u2642') + 'Male'} style={{ backgroundColor: 'white', borderRadius: 10, margin: 10, padding: 10, paddingHorizontal: '25%', borderColor: 'lightgrey', borderWidth: 1 }} />
+                <MenuOption value='Female' text={('\u2640') + 'Female'} style={{ backgroundColor: 'white', borderRadius: 10, margin: 10, padding: 10, paddingHorizontal: '25%', borderColor: 'lightgrey', borderWidth: 1 }} />
               </MenuOptions>
             </Menu>
           </View>
@@ -1658,6 +1660,7 @@ export default class ProfileScreen extends Component {
                 return (
                   <View style={{ width: maxWidth }}>
                     <SectionedMultiSelect
+                      modalWithSafeAreaView={true}
                       items={item}
                       uniqueKey="id"
                       renderSelectText={() => {
@@ -1718,6 +1721,7 @@ export default class ProfileScreen extends Component {
                   <View style={{ width: maxWidth }}>
                     <SectionedMultiSelect
                       items={item}
+                      modalWithSafeAreaView={true}
                       uniqueKey="id"
                       renderSelectText={() => {
                         var title = field.fieldLabel || 'Pick';
@@ -1780,6 +1784,7 @@ export default class ProfileScreen extends Component {
                   <View style={{ width: maxWidth }}>
                     <SectionedMultiSelect
                       items={item}
+                      modalWithSafeAreaView={true}
                       uniqueKey="id"
                       renderSelectText={() => {
                         var title = field.fieldLabel || 'Pick';

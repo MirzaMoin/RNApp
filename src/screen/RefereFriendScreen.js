@@ -85,7 +85,7 @@ class RefereFriendScreen extends Component {
     DynamicLink.ios.setBundleId('com.rrbeacon')
     DynamicLink.ios.setFallbackUrl('https://www.facebook.com')
     // Add ios app details.
-    const generatedLink = await firebase.links().createShortDynamicLink(DynamicLink);
+    const generatedLink = await firebase.links().createDynamicLink(DynamicLink);
     //this.setState({ inviteLink: generatedLink });
     console.log(`Ìntite from : ${invitedFrom} : ${generatedLink}`)
     return generatedLink;

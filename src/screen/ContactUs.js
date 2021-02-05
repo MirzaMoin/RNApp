@@ -305,6 +305,7 @@ export default class ContactUs extends Component {
                     leftIconSize={20}
                     leftIconType="material"
                     keyboardType="phone-pad"
+                    returnKeyType='done'
                     value={this.state.mobile}
                     error={this.state.errorMobile}
                     onChangeText={mobile => {

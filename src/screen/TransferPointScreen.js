@@ -139,7 +139,7 @@ export default class TransferPointScreen extends Component {
 
             </View>
 
-            <View style={{ padding: 10, flex: 1, justifyContent: 'center' }}>
+            <View style={{ padding: 10, paddingHorizontal: '8%', flex: 1, justifyContent: 'center' }}>
 
               <Text
                 style={{
@@ -166,6 +166,7 @@ export default class TransferPointScreen extends Component {
                   style={{ fontSize: 17, fontWeight: 'bold' }}
                   placeholder={`${GlobalAppModel.redeemablePoint || 50} PTS`}
                   keyboardType={'numeric'}
+                  returnKeyType='done'
                   onChangeText={(text) => {
                     this.setState({
                       transferAmount: text

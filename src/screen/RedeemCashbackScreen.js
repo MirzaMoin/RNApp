@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   Dimensions,
   SafeAreaView,
+  KeyboardAvoidingView
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { makeRequest } from './../api/apiCall';
@@ -269,12 +270,15 @@ export default class RedeemCashbackScreen extends Component {
                     marginHorizontal: 5,
                     borderRadius: 10,
                     flexDirection: 'row',
-                    marginBottom: 0
+                    marginBottom: 0,
+                    width: '88%',
+                    alignSelf: 'center',
                   }}>
                   <Text style={{ alignSelf: 'center', fontSize: 16 }}>$</Text>
                   <TextInput
-                    style={{ fontSize: 17, fontWeight: 'bold' }}
+                    style={{ fontSize: 17, fontWeight: 'bold', margin: 5, padding: 5 }}
                     keyboardType={'numeric'}
+                    returnKeyType='done'
                     value={`${this.state.otherAmount || ''}`}
                     placeholder="Enter other amount"
                     onChangeText={(text) => {
@@ -283,23 +287,26 @@ export default class RedeemCashbackScreen extends Component {
                       })
                     }}
                   />
-                </View></View>}
+                </View>
+              </View>}
 
-              <View style={{ height: 10 }} />
-              <SwipeButton
-                thumbIconBackgroundColor="#FFFFFF"
-                containerStyle={{ backgroundColor: GlobalAppModel.primaryButtonColor || '#012345' }}
-                swipeSuccessThreshold={90}
-                thumbIconComponent={this._renderIcon}
-                title="Slide to Redeem"
-                titleColor={'white'}
-                railBackgroundColor={GlobalAppModel.primaryButtonColor || '#012345'}
-                railFillBackgroundColor={'green'}
-                shouldResetAfterSuccess
-                disabled={this.state.isLoading}
-                onSwipeSuccess={() => {
-                  this._prepareForm()
-                }} />
+              <View style={{ alignSelf: 'center', width: '100%', justifyContent: 'center', alignContent: 'center', alignItems: 'center' }} >
+                <SwipeButton
+                  thumbIconBackgroundColor="#FFFFFF"
+                  containerStyle={{ backgroundColor: GlobalAppModel.primaryButtonColor || '#012345', }}
+                  swipeSuccessThreshold={80}
+                  thumbIconComponent={this._renderIcon}
+                  width={'88%'}
+                  title="Slide to Redeem"
+                  titleColor={'white'}
+                  railBackgroundColor={GlobalAppModel.primaryButtonColor || '#012345'}
+                  railFillBackgroundColor={'green'}
+                  shouldResetAfterSuccess
+                  disabled={this.state.isLoading}
+                  onSwipeSuccess={() => {
+                    this._prepareForm()
+                  }} />
+              </View>
             </Card>
 
           </ScrollView>
@@ -316,7 +323,12 @@ export default class RedeemCashbackScreen extends Component {
             navigation={this.props.navigation}
             title={'Redeem Cashback'}
             userPoint={GlobalAppModel.redeemablePoint} />
-          {this._renderBody()}
+          <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior="padding"
+            enabled={Platform.OS === 'ios' ? true : false}>
+            {this._renderBody()}
+          </KeyboardAvoidingView>
           <BottomNavigationTab navigation={this.props.navigation} />
         </View>
       </SafeAreaView>

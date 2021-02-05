@@ -11,7 +11,8 @@ import {
   Linking,
   AsyncStorage,
   StyleSheet,
-  TextInput
+  TextInput,
+  StatusBar
 } from 'react-native';
 import MapView, { AnimatedRegion, Marker } from 'react-native-maps';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
@@ -116,7 +117,7 @@ export default class LocationScreen extends Component {
     } else {
       this.setState({
         sheetIcon: 'keyboard-arrow-down',
-        sheetHeight: height,
+        sheetHeight: (Platform.OS == 'ios') ? height - 44 : height,
         isFullScreen: true,
       });
     }

@@ -338,6 +338,7 @@ export default class UploadReceiptScreen extends Component {
           <SectionedMultiSelect
             items={this.state.categories}
             uniqueKey="id"
+            modalWithSafeAreaView={true}
             //selectText="Choose some things..."
             renderSelectText={() => {
               var title = this.state.settingsDetails.urReceiptType || 'Receipt Category';
@@ -398,6 +399,7 @@ export default class UploadReceiptScreen extends Component {
         <View style={{ width: 300 }}>
           <SectionedMultiSelect
             items={item}
+            modalWithSafeAreaView={true}
             uniqueKey="id"
             renderSelectText={() => {
               var title = this.state.settingsDetails.urPrimaryLocation || 'Primary Location';

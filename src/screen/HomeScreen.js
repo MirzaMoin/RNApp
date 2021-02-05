@@ -526,7 +526,7 @@ export default class HomeScreen extends Component {
                               paddingHorizontal: 10,
                               fontSize: 18,
                               alignSelf: "center",
-                              color: parseColor(MenuLinkModel.menuTextColor),
+                              color: parseColor(menuLink.menuTextColor),
                               textAlign: HomeModel.homePageBottomTextAlign.toLowerCase(),
                             }}
                           >

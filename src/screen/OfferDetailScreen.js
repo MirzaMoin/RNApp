@@ -17,7 +17,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import ImageLoader from './../widget/ImageLoader';
 import * as BARC from "react-native-barcode-builder";
 import Barcode from "@adrianso/react-native-barcode-builder";
-import ViewShot from "react-native-view-shot";
+import ViewShot, { captureScreen } from "react-native-view-shot";
 import CameraRoll from '@react-native-community/cameraroll';
 import { requestMultiple, PERMISSIONS, openSettings } from 'react-native-permissions';
 import Toast from 'react-native-root-toast';
@@ -161,23 +161,43 @@ export default class OfferDetailScreen extends Component {
   }
 
   _checkPermission = () => {
-    requestMultiple([PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE, PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE]).then(
-      (statuses) => {
-        if ('granted' == statuses[PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE, PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE]) {
-          this.refs.viewShot.capture().then(uri => {
-            console.log("do something with ", uri);
-            CameraRoll.save(uri, 'photo')
-              .then(res => {
-                this._showToast('Offer save to Gallery')
-              })
-              .catch(err => console.log(err))
-          });
-        } else if ('blocked' == statuses[PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE, PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE]) {
-          this._showToast('Grant Storage permission to save offer');
-          openSettings().catch(() => console.warn('cannot open settings'));
-        }
-      },
-    );
+    if (Platform.OS == 'android') {
+      requestMultiple([PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE, PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE]).then(
+        (statuses) => {
+          if ('granted' == statuses[PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE, PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE]) {
+            this.refs.viewShot.capture().then(uri => {
+              console.log("do something with ", uri);
+              CameraRoll.save(uri, 'photo')
+                .then(res => {
+                  this._showToast('Offer save to Gallery')
+                })
+                .catch(err => console.log(err))
+            });
+          } else if ('blocked' == statuses[PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE, PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE]) {
+            this._showToast('Grant Storage permission to save offer');
+            openSettings().catch(() => console.warn('cannot open settings'));
+          }
+        },
+      );
+    }
+    else {
+      this.refs.viewShot.capture().then(uri => {
+        console.log("do something with ", uri);
+        CameraRoll.save(uri, 'photo')
+          .then(res => {
+            this._showToast('Offer save to Gallery')
+          })
+          .catch(err => console.log(err))
+      });
+      // captureScreen({
+      //   format: "jpg",
+      //   quality: 0.8
+      // }).then(
+      //   uri => this._showToast('Offer save to device' + uri),
+      //   // uri => this.setState({ imageURI: uri }),
+      //   error => console.error("Oops, Something Went Wrong", error)
+      // );
+    }
   }
 
   _renderButtom = () => {
@@ -290,6 +310,7 @@ export default class OfferDetailScreen extends Component {
             uniqueKey="id"
             ref={(locationPopup) => this.locationPopup = locationPopup}
             alwaysShowSelectText={false}
+            modalWithSafeAreaView={true}
             showChips={true}
             hideSelect={true}
             single={true}
@@ -395,7 +416,7 @@ export default class OfferDetailScreen extends Component {
                 <Text style={styles.offerType}>{this.state.offer.offerType}</Text>
                 <Text style={styles.offerExpiry}>{this.state.offer.offerExpire}</Text>
               </View>
-              {this.state.offer.displayBarcode && (Platform.OS == 'ios') ? <Barcode value={this.state.offer.offerBarcode} text={this.state.offer.offerBarcode} format="CODE128" style={{ height: 70, width: '60%', alignSelf: 'center' }} /> : <BARC value={this.state.offer.offerBarcode} text={this.state.offer.offerBarcode} format="CODE128" height={70} />}
+              {this.state.offer.displayBarcode && <Barcode value={this.state.offer.offerBarcode} text={this.state.offer.offerBarcode} format="CODE128" style={{ height: 80, width: '70%', alignSelf: 'center' }} />}
               <View style={{ paddingHorizontal: 15, marginBottom: 15 }}>
                 <Text style={{ fontSizeL: 16 }}>{this.state.addressDetails.name || ''}</Text>
                 <Text style={{ fontSizeL: 14, color: 'grey' }}>{this.state.addressDetails.address || ''}</Text>
