@@ -231,7 +231,8 @@ class DrawerHeaderComponent extends Component {
             paddingRight: 15,
             paddingTop: 5,
             fontSize: 16,
-            fontFamily: 'bold'
+            fontWeight:"bold"
+            // fontFamily: 'bold'
           }}>
           {this.state.name}
         </Text>
@@ -580,9 +581,9 @@ const CreateDrawerComponent = props => (
           //MenuPermissionModel.isLead
           renderLeaderboard(props)
         }
-        {
+        {/* {
           renderSpinWheel(props)
-        }
+        } */}
         {/* {
           renderNotification(props)
         } */}
@@ -614,10 +615,10 @@ const CreateDrawerComponent = props => (
           //MenuPermissionModel.isVisibleMenuLocation && 
           renderLocation(props)
         }
-        {
+        {/* {
           //MenuPermissionModel.isVisibleMenu
           renderSocailShare(props)
-        }
+        } */}
         {
           //MenuPermissionModel.isVisibleMenuTakeSurvey && 
           renderTakeSurvey(props)

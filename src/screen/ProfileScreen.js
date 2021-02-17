@@ -11,7 +11,7 @@ import {
   AsyncStorage,
   Alert,
   BackHandler,
-  SafeAreaView
+  SafeAreaView, Image
 } from 'react-native';
 import TextInput from 'react-native-textinput-with-icons';
 import { makeRequest } from './../api/apiCall';
@@ -43,6 +43,8 @@ var loadingImage = '';
 
 const { width } = Dimensions.get('window')
 const maxWidth = width - (width * 20 / 100)
+const maxWidth2 = Dimensions.get('window').width;
+const imageHeight = (maxWidth2 / 16) * 9;
 
 export default class ProfileScreen extends Component {
   static navigationOptions = {
@@ -1434,9 +1436,9 @@ export default class ProfileScreen extends Component {
               }}
               style={{ flex: 1 }}>
               <MenuTrigger customStyles={{ triggerText: { fontSize: 16, color: 'black', } }} text={this.state.signup.gender || fieldsData.genderLabel || 'Gender'} />
-              <MenuOptions optionsContainerStyle={{ margin: 10, padding: 10, borderRadius: 10,alignSelf:'center',alignItems:'center',alignContent:'center',justifyContent:'center', }}>
-                <MenuOption value='Male' text={('\u2642') + 'Male'} style={{ backgroundColor: 'white', borderRadius: 10, margin: 10, padding: 10, paddingHorizontal: '25%', borderColor: 'lightgrey', borderWidth: 1 }} />
-                <MenuOption value='Female' text={('\u2640') + 'Female'} style={{ backgroundColor: 'white', borderRadius: 10, margin: 10, padding: 10, paddingHorizontal: '25%', borderColor: 'lightgrey', borderWidth: 1 }} />
+              <MenuOptions optionsContainerStyle={{ margin: 10, padding: 10, borderRadius: 10, alignSelf: 'center', alignItems: 'center', alignContent: 'center', justifyContent: 'center', }}>
+                <MenuOption value='Male' text={('\u2642') + ' Male'} style={{ backgroundColor: 'white', borderRadius: 10, margin: 10, padding: 10, paddingHorizontal: '20%', borderColor: 'lightgrey', borderWidth: 1 }} />
+                <MenuOption value='Female' text={('\u2640') + ' Female'} style={{ backgroundColor: 'white', borderRadius: 10, margin: 10, padding: 10, paddingHorizontal: '20%', borderColor: 'lightgrey', borderWidth: 1 }} />
               </MenuOptions>
             </Menu>
           </View>
@@ -2071,6 +2073,17 @@ export default class ProfileScreen extends Component {
           bounces={false}
           contentContainerStyle={styles.baseScrollView}>
           <View style={styles.mainContainer}>
+          <View style={{ hegith: imageHeight }}>
+            <Image
+              style={{ height: imageHeight }}
+              source={{
+                uri:
+                  APIConstant.HEADER_IMAGE,
+              }}
+              resizeMode="cover"
+            />
+            {/* <View style={styles.imageOverlay} /> */}
+          </View>
             <Text style={[styles.title]}>Member Detail</Text>
             <View style={styles.subContainer}>
               {this._renderProfile(fieldsData)}
@@ -2133,6 +2146,7 @@ export default class ProfileScreen extends Component {
     //console.log('Width : ' + width + ' : max : ' + _maxWidth);
     return (
       <SafeAreaView style={{ flex: 1 }}>
+
         <MenuProvider>
           <ScreenHeader
             navigation={this.props.navigation}
@@ -2142,6 +2156,17 @@ export default class ProfileScreen extends Component {
             style={styles.container}
             behavior="padding"
             enabled={Platform.OS === 'ios' ? true : false}>
+            {/* <View style={{ hegith: imageHeight }}>
+              <Image
+                style={{ height: imageHeight }}
+                source={{
+                  uri:
+                    APIConstant.HEADER_IMAGE,
+                }}
+                resizeMode="cover"
+              />
+              <View style={styles.imageOverlay} />
+            </View> */}
             {this._showForm()}
             <BottomNavigationTab navigation={this.props.navigation} />
           </KeyboardAvoidingView>

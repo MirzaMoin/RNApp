@@ -8,6 +8,7 @@ import {
   AsyncStorage,
   ActivityIndicator,
   SafeAreaView,
+  Platform,
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { makeRequest } from './../api/apiCall';
@@ -158,7 +159,7 @@ export default class TransferPointScreen extends Component {
                   marginRight: 10,
                   borderColor: this.state.transferAmountError ? 'red' : 'rgba(153,153,153,0.5)',
                   borderWidth: 2,
-                  padding: 10,
+                  padding: Platform.OS=='android' ? 5:10,
                   borderRadius: 10,
                 }}>
 
@@ -211,7 +212,7 @@ export default class TransferPointScreen extends Component {
                   marginRight: 10,
                   borderColor: this.state.transferToError ? 'red' : 'rgba(153,153,153,0.5)',
                   borderWidth: 2,
-                  padding: 10,
+                  padding: Platform.OS == 'android' ? 5 : 10,
                   borderRadius: 10,
                 }}>
                 <TextInput

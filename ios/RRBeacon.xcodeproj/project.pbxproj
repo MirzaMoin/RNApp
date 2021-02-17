@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		00431DCAC9214886B7E87C57 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF6A7244FDEB453C88DD2A61 /* Octicons.ttf */; };
 		00E356F31AD99517003FC87E /* RRBeaconTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* RRBeaconTests.m */; };
+		0656EFE1FCF8CC413117C438 /* libPods-RRBeacon-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91CE2658207DD29609B69D9F /* libPods-RRBeacon-tvOS.a */; };
 		0659206E9A2C4C1880DEFE42 /* medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 295FF360C851413DBC27F8F4 /* medium.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
@@ -21,6 +22,8 @@
 		1886D9D725C54C6100B58800 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1886D9D325C54C6100B58800 /* GoogleService-Info.plist */; };
 		18A62C34254C05790051C1B1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB61A68108700A75B9A /* Info.plist */; };
 		18E7E5FA25CBF06B00626A73 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E7E5F925CBF06B00626A73 /* Social.framework */; };
+		1E3EA72A20B4AC55E0B22E05 /* libPods-RRBeacon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F88C013D441F965994D02CD5 /* libPods-RRBeacon.a */; };
+		2385CE8EBFE8332FA3CA7EBF /* libPods-RRBeacon-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B753639F866C2299B0F347A7 /* libPods-RRBeacon-tvOSTests.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -34,11 +37,9 @@
 		3C07EBBBA6904335B5203792 /* light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 508CF3FAAC384E5C8FBDDF6F /* light.ttf */; };
 		4E3D03F1434044419027FCA3 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A7C280057ADC45BA9FA16CE1 /* AntDesign.ttf */; };
 		728E0258B8CF4437A96DE217 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 973FB7F7DFEA4A5880E1E7C1 /* SimpleLineIcons.ttf */; };
-		763C0969D753B39F8C332054 /* libPods-RRBeacon-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F96E30A1BF0B9B0B3540ED /* libPods-RRBeacon-tvOS.a */; };
 		7CF5FFA43EB84014917D2D9A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F7481B594DD492894E7350C /* FontAwesome.ttf */; };
 		8A354C537415474C82BF152A /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A73AD8FA2EF34AC9AB5AA5CE /* Zocial.ttf */; };
 		91E5B3B106534F20B9053321 /* thinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EF77363AABBE48EE81A9C3D2 /* thinItalic.ttf */; };
-		9277FC80EC72DCD788D103C4 /* libPods-RRBeaconTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95BE4D7009E4DD48B19F7AF2 /* libPods-RRBeaconTests.a */; };
 		96DE4B1F18B74952851E8723 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B648297EC4B64D318D123F59 /* FontAwesome5_Brands.ttf */; };
 		A2311B3798424B7DAC42F3A4 /* boldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C4AAFB89903C4063BA368724 /* boldItalic.ttf */; };
 		A38DF4E3126341F0AB658D27 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 00A6F2D9BED44BE9822F9854 /* Entypo.ttf */; };
@@ -47,9 +48,8 @@
 		BBAA4782A56A4F1F945E9246 /* game_font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DD9DD106520C4FE2BF65F2F8 /* game_font.ttf */; };
 		C004DA1814554510BEC5E315 /* italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7B9556E0343643D8A17CAF15 /* italic.ttf */; };
 		CD0A95CE5BE540959857F467 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B66F730A61754150B42527FE /* Feather.ttf */; };
-		CEE22732B0FAF728301A747D /* libPods-RRBeacon-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E219C8CBFB694525E6D0A3 /* libPods-RRBeacon-tvOSTests.a */; };
 		DCCE04BB229847988065D0AA /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 68A9CE7655AA452A94CE438F /* EvilIcons.ttf */; };
-		E092044ACC50FD0C60706E63 /* libPods-RRBeacon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB1D76BA57CFD21F2212383D /* libPods-RRBeacon.a */; };
+		EE7A05B0E75FB4BCEDEBC59A /* libPods-RRBeaconTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0E6B812442E58E58929EBCE /* libPods-RRBeaconTests.a */; };
 		EF37E8166CF5443FA56875DC /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F42A5565BE5749EFB9DCBED9 /* Fontisto.ttf */; };
 		F0E7A5FF696F46E1A9834665 /* thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2A7BFC0D58B4106B40BFE29 /* thin.ttf */; };
 		F80E5FCE81554742B9902BE2 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04093FA81B3B499C8A990A68 /* MaterialCommunityIcons.ttf */; };
@@ -102,6 +102,7 @@
 		00E356F21AD99517003FC87E /* RRBeaconTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RRBeaconTests.m; sourceTree = "<group>"; };
 		04093FA81B3B499C8A990A68 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		0F7481B594DD492894E7350C /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		11F8870586F51B5214465838 /* Pods-RRBeacon-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRBeacon-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-RRBeacon-tvOSTests/Pods-RRBeacon-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* RRBeacon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RRBeacon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = RRBeacon/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = RRBeacon/AppDelegate.m; sourceTree = "<group>"; };
@@ -114,50 +115,49 @@
 		1897B28D25C8128A00C4BB3D /* RRBeacon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = RRBeacon.entitlements; path = RRBeacon/RRBeacon.entitlements; sourceTree = "<group>"; };
 		18B2E83625C4168300358CBC /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 		18E7E5F925CBF06B00626A73 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		19F96E30A1BF0B9B0B3540ED /* libPods-RRBeacon-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RRBeacon-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		19A2E3772610FDE827D75941 /* Pods-RRBeaconTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRBeaconTests.release.xcconfig"; path = "Target Support Files/Pods-RRBeaconTests/Pods-RRBeaconTests.release.xcconfig"; sourceTree = "<group>"; };
+		1FAF9C2096067D9A783C7091 /* Pods-RRBeacon-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRBeacon-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-RRBeacon-tvOS/Pods-RRBeacon-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		2936CA111CF14216886460AF /* lightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = lightItalic.ttf; path = ../assets/fonts/lato/lightItalic.ttf; sourceTree = "<group>"; };
 		295FF360C851413DBC27F8F4 /* medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = medium.ttf; path = ../assets/fonts/lato/medium.ttf; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* RRBeacon-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RRBeacon-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* RRBeacon-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RRBeacon-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D834E3923A6F739A1FA6BCF /* Pods-RRBeacon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRBeacon.debug.xcconfig"; path = "Target Support Files/Pods-RRBeacon/Pods-RRBeacon.debug.xcconfig"; sourceTree = "<group>"; };
 		2EA419F02CA445B18FDA85DF /* bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = bold.ttf; path = ../assets/fonts/lato/bold.ttf; sourceTree = "<group>"; };
-		31E219C8CBFB694525E6D0A3 /* libPods-RRBeacon-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RRBeacon-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		508CF3FAAC384E5C8FBDDF6F /* light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = light.ttf; path = ../assets/fonts/lato/light.ttf; sourceTree = "<group>"; };
-		550D5B8D5C8FEFA95B3A7D1B /* Pods-RRBeaconTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRBeaconTests.release.xcconfig"; path = "Target Support Files/Pods-RRBeaconTests/Pods-RRBeaconTests.release.xcconfig"; sourceTree = "<group>"; };
-		5D4945E16284E7BFF5954817 /* Pods-RRBeacon-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRBeacon-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-RRBeacon-tvOS/Pods-RRBeacon-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		621CBDB1A1F2458DB92CE40F /* black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = black.ttf; path = ../assets/fonts/lato/black.ttf; sourceTree = "<group>"; };
 		68A9CE7655AA452A94CE438F /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		7460E176254C403EA9C0D309 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		7634C6203D1D40B6B9500BAC /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		7B9556E0343643D8A17CAF15 /* italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = italic.ttf; path = ../assets/fonts/lato/italic.ttf; sourceTree = "<group>"; };
 		8054F641AE534DB89A97714B /* regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = regular.ttf; path = ../assets/fonts/lato/regular.ttf; sourceTree = "<group>"; };
-		94092DA01E75A439AD901EF4 /* Pods-RRBeacon-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRBeacon-tvOS.release.xcconfig"; path = "Target Support Files/Pods-RRBeacon-tvOS/Pods-RRBeacon-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		91CE2658207DD29609B69D9F /* libPods-RRBeacon-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RRBeacon-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		95502DD2E65043CFA800271E /* game_font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = game_font.ttf; path = ../assets/fonts/game_font.ttf; sourceTree = "<group>"; };
-		95BE4D7009E4DD48B19F7AF2 /* libPods-RRBeaconTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RRBeaconTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		973FB7F7DFEA4A5880E1E7C1 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		9D0CB3F5C1924F0D9B85B700 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		A1DE12BF01A39E79165B0992 /* Pods-RRBeacon-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRBeacon-tvOS.release.xcconfig"; path = "Target Support Files/Pods-RRBeacon-tvOS/Pods-RRBeacon-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		A2A7BFC0D58B4106B40BFE29 /* thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = thin.ttf; path = ../assets/fonts/lato/thin.ttf; sourceTree = "<group>"; };
 		A73AD8FA2EF34AC9AB5AA5CE /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		A7C280057ADC45BA9FA16CE1 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
-		B29056C802CE12CF3DE56BFF /* Pods-RRBeacon-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRBeacon-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-RRBeacon-tvOSTests/Pods-RRBeacon-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		AC582704E8919CEBD52DB35F /* Pods-RRBeacon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRBeacon.debug.xcconfig"; path = "Target Support Files/Pods-RRBeacon/Pods-RRBeacon.debug.xcconfig"; sourceTree = "<group>"; };
 		B648297EC4B64D318D123F59 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		B66F730A61754150B42527FE /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
-		B89019FE456051FE2D7E3A2C /* Pods-RRBeacon-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRBeacon-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-RRBeacon-tvOSTests/Pods-RRBeacon-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B753639F866C2299B0F347A7 /* libPods-RRBeacon-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RRBeacon-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC33DF9899ED4787B09F9D23 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		BF6A7244FDEB453C88DD2A61 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		C18AB3920F7E8740942E66CB /* Pods-RRBeacon-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRBeacon-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-RRBeacon-tvOSTests/Pods-RRBeacon-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C1B35787AD9E4F80A6D8FB65 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		C3AC6FA7AE153B7A5C513C25 /* Pods-RRBeaconTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRBeaconTests.debug.xcconfig"; path = "Target Support Files/Pods-RRBeaconTests/Pods-RRBeaconTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C4AAFB89903C4063BA368724 /* boldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = boldItalic.ttf; path = ../assets/fonts/lato/boldItalic.ttf; sourceTree = "<group>"; };
-		CB1D76BA57CFD21F2212383D /* libPods-RRBeacon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RRBeacon.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CF88F3C46FCE34C436B8967A /* Pods-RRBeaconTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRBeaconTests.debug.xcconfig"; path = "Target Support Files/Pods-RRBeaconTests/Pods-RRBeaconTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CFC2C5FFF8D74171AF23DBD6 /* blackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = blackItalic.ttf; path = ../assets/fonts/lato/blackItalic.ttf; sourceTree = "<group>"; };
 		DD9DD106520C4FE2BF65F2F8 /* game_font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = game_font.ttf; path = ../assets/fonts/lato/game_font.ttf; sourceTree = "<group>"; };
-		E8991F79CE5B41D47C449AB3 /* Pods-RRBeacon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRBeacon.release.xcconfig"; path = "Target Support Files/Pods-RRBeacon/Pods-RRBeacon.release.xcconfig"; sourceTree = "<group>"; };
+		E0E6B812442E58E58929EBCE /* libPods-RRBeaconTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RRBeaconTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC42786B76654795AD20A998 /* heavy.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = heavy.ttf; path = ../assets/fonts/lato/heavy.ttf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		EF77363AABBE48EE81A9C3D2 /* thinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = thinItalic.ttf; path = ../assets/fonts/lato/thinItalic.ttf; sourceTree = "<group>"; };
 		F42A5565BE5749EFB9DCBED9 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		F64CCF656F0B4006A412042C /* helvetica.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = helvetica.otf; path = ../assets/fonts/helvetica.otf; sourceTree = "<group>"; };
+		F72E10979E8B101DCEFD02F0 /* Pods-RRBeacon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RRBeacon.release.xcconfig"; path = "Target Support Files/Pods-RRBeacon/Pods-RRBeacon.release.xcconfig"; sourceTree = "<group>"; };
+		F88C013D441F965994D02CD5 /* libPods-RRBeacon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RRBeacon.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,7 +165,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9277FC80EC72DCD788D103C4 /* libPods-RRBeaconTests.a in Frameworks */,
+				EE7A05B0E75FB4BCEDEBC59A /* libPods-RRBeaconTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,7 +174,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18E7E5FA25CBF06B00626A73 /* Social.framework in Frameworks */,
-				E092044ACC50FD0C60706E63 /* libPods-RRBeacon.a in Frameworks */,
+				1E3EA72A20B4AC55E0B22E05 /* libPods-RRBeacon.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,7 +182,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				763C0969D753B39F8C332054 /* libPods-RRBeacon-tvOS.a in Frameworks */,
+				0656EFE1FCF8CC413117C438 /* libPods-RRBeacon-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,7 +190,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEE22732B0FAF728301A747D /* libPods-RRBeacon-tvOSTests.a in Frameworks */,
+				2385CE8EBFE8332FA3CA7EBF /* libPods-RRBeacon-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,10 +259,10 @@
 				18E7E5F925CBF06B00626A73 /* Social.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				CB1D76BA57CFD21F2212383D /* libPods-RRBeacon.a */,
-				19F96E30A1BF0B9B0B3540ED /* libPods-RRBeacon-tvOS.a */,
-				31E219C8CBFB694525E6D0A3 /* libPods-RRBeacon-tvOSTests.a */,
-				95BE4D7009E4DD48B19F7AF2 /* libPods-RRBeaconTests.a */,
+				F88C013D441F965994D02CD5 /* libPods-RRBeacon.a */,
+				91CE2658207DD29609B69D9F /* libPods-RRBeacon-tvOS.a */,
+				B753639F866C2299B0F347A7 /* libPods-RRBeacon-tvOSTests.a */,
+				E0E6B812442E58E58929EBCE /* libPods-RRBeaconTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -346,14 +346,14 @@
 		B81AC073A137BCE347DBFB9A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2D834E3923A6F739A1FA6BCF /* Pods-RRBeacon.debug.xcconfig */,
-				E8991F79CE5B41D47C449AB3 /* Pods-RRBeacon.release.xcconfig */,
-				5D4945E16284E7BFF5954817 /* Pods-RRBeacon-tvOS.debug.xcconfig */,
-				94092DA01E75A439AD901EF4 /* Pods-RRBeacon-tvOS.release.xcconfig */,
-				B89019FE456051FE2D7E3A2C /* Pods-RRBeacon-tvOSTests.debug.xcconfig */,
-				B29056C802CE12CF3DE56BFF /* Pods-RRBeacon-tvOSTests.release.xcconfig */,
-				CF88F3C46FCE34C436B8967A /* Pods-RRBeaconTests.debug.xcconfig */,
-				550D5B8D5C8FEFA95B3A7D1B /* Pods-RRBeaconTests.release.xcconfig */,
+				AC582704E8919CEBD52DB35F /* Pods-RRBeacon.debug.xcconfig */,
+				F72E10979E8B101DCEFD02F0 /* Pods-RRBeacon.release.xcconfig */,
+				1FAF9C2096067D9A783C7091 /* Pods-RRBeacon-tvOS.debug.xcconfig */,
+				A1DE12BF01A39E79165B0992 /* Pods-RRBeacon-tvOS.release.xcconfig */,
+				C18AB3920F7E8740942E66CB /* Pods-RRBeacon-tvOSTests.debug.xcconfig */,
+				11F8870586F51B5214465838 /* Pods-RRBeacon-tvOSTests.release.xcconfig */,
+				C3AC6FA7AE153B7A5C513C25 /* Pods-RRBeaconTests.debug.xcconfig */,
+				19A2E3772610FDE827D75941 /* Pods-RRBeaconTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -365,7 +365,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "RRBeaconTests" */;
 			buildPhases = (
-				52515C5C55A7F74F3EFD3523 /* [CP] Check Pods Manifest.lock */,
+				8BA50C8AD6DC61ABC55A134A /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
@@ -384,14 +384,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "RRBeacon" */;
 			buildPhases = (
-				FE15A16497296D0364CF15E4 /* [CP] Check Pods Manifest.lock */,
+				4A7CC7586C6779EBD68A785E /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				5CCB7345D06178BE95985552 /* [CP] Copy Pods Resources */,
-				1119F585F7FD585A2AFD7122 /* [CP] Embed Pods Frameworks */,
+				DBAB02313CBB5BD13CB1CA54 /* [CP] Embed Pods Frameworks */,
+				36DFA848CAC0C30CCD81A095 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -406,7 +406,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "RRBeacon-tvOS" */;
 			buildPhases = (
-				612BE6CE6ECF953DB90C192B /* [CP] Check Pods Manifest.lock */,
+				8257412AB08216F230EEE6E1 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -426,7 +426,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "RRBeacon-tvOSTests" */;
 			buildPhases = (
-				5BF4D511F729832FCABB08BD /* [CP] Check Pods Manifest.lock */,
+				1F18B3D879A28ECB58B7B2B7 /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -609,63 +609,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		1119F585F7FD585A2AFD7122 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RRBeacon/Pods-RRBeacon-frameworks.sh",
-				"${PODS_ROOT}/EstimoteBluetoothScanning/EstimoteBluetoothScanning/EstimoteBluetoothScanning.framework",
-				"${PODS_ROOT}/EstimoteProximitySDK/EstimoteProximitySDK/EstimoteProximitySDK.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EstimoteBluetoothScanning.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EstimoteProximitySDK.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RRBeacon/Pods-RRBeacon-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native Code And Images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		52515C5C55A7F74F3EFD3523 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RRBeaconTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5BF4D511F729832FCABB08BD /* [CP] Check Pods Manifest.lock */ = {
+		1F18B3D879A28ECB58B7B2B7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -687,7 +631,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5CCB7345D06178BE95985552 /* [CP] Copy Pods Resources */ = {
+		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native Code And Images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		36DFA848CAC0C30CCD81A095 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -745,7 +703,29 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RRBeacon/Pods-RRBeacon-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		612BE6CE6ECF953DB90C192B /* [CP] Check Pods Manifest.lock */ = {
+		4A7CC7586C6779EBD68A785E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RRBeacon-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8257412AB08216F230EEE6E1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -765,6 +745,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8BA50C8AD6DC61ABC55A134A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RRBeaconTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DBAB02313CBB5BD13CB1CA54 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RRBeacon/Pods-RRBeacon-frameworks.sh",
+				"${PODS_ROOT}/EstimoteBluetoothScanning/EstimoteBluetoothScanning/EstimoteBluetoothScanning.framework",
+				"${PODS_ROOT}/EstimoteProximitySDK/EstimoteProximitySDK/EstimoteProximitySDK.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EstimoteBluetoothScanning.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EstimoteProximitySDK.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RRBeacon/Pods-RRBeacon-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -803,28 +825,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		FE15A16497296D0364CF15E4 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RRBeacon-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -894,7 +894,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CF88F3C46FCE34C436B8967A /* Pods-RRBeaconTests.debug.xcconfig */;
+			baseConfigurationReference = C3AC6FA7AE153B7A5C513C25 /* Pods-RRBeaconTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 5SJK25Q298;
@@ -920,7 +920,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 550D5B8D5C8FEFA95B3A7D1B /* Pods-RRBeaconTests.release.xcconfig */;
+			baseConfigurationReference = 19A2E3772610FDE827D75941 /* Pods-RRBeaconTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -943,7 +943,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2D834E3923A6F739A1FA6BCF /* Pods-RRBeacon.debug.xcconfig */;
+			baseConfigurationReference = AC582704E8919CEBD52DB35F /* Pods-RRBeacon.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RRBeacon/RRBeacon.entitlements;
@@ -970,7 +970,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8991F79CE5B41D47C449AB3 /* Pods-RRBeacon.release.xcconfig */;
+			baseConfigurationReference = F72E10979E8B101DCEFD02F0 /* Pods-RRBeacon.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = RRBeacon/RRBeacon.entitlements;
@@ -996,7 +996,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D4945E16284E7BFF5954817 /* Pods-RRBeacon-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 1FAF9C2096067D9A783C7091 /* Pods-RRBeacon-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1026,7 +1026,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 94092DA01E75A439AD901EF4 /* Pods-RRBeacon-tvOS.release.xcconfig */;
+			baseConfigurationReference = A1DE12BF01A39E79165B0992 /* Pods-RRBeacon-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1056,7 +1056,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B89019FE456051FE2D7E3A2C /* Pods-RRBeacon-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = C18AB3920F7E8740942E66CB /* Pods-RRBeacon-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1085,7 +1085,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B29056C802CE12CF3DE56BFF /* Pods-RRBeacon-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = 11F8870586F51B5214465838 /* Pods-RRBeacon-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;

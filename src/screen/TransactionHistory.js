@@ -236,11 +236,11 @@ export default class TransactionHistory extends Component {
             />
             <View style={styles.imageOverlay} />
           </View>
-          <View style={{ flexDirection: 'row', paddingHorizontal: 10, marginTop: 10, marginHorizontal: 15, borderWidth: 2, borderRadius: 5, borderColor: 'rgba(153,153,153,1)', alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', paddingHorizontal: 10,marginBottom:10, marginTop: 10, marginHorizontal: 15, borderWidth: 2, borderRadius: 5, borderColor: 'rgba(153,153,153,1)', alignItems: 'center' }}>
             <MDIcon name={'search'} style={{ fontSize: 24 }} />
             <TextInput
               placeholder="Location Name"
-              style={{ flex: 1 }}
+              style={{ flex: 1, }}
               value={this.state.search}
               onChangeText={(text) => {
                 this.setState({

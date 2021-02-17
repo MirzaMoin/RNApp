@@ -15,6 +15,8 @@ class HomeModel {
     homePageRibbonBackgroundColor;
     homePageRibbonLinkType;
     homePageRibbonLink;
+    homePageRibbonLinkInternal;
+    homePageRibbonLinkExternal
     homePageRibbonDisplayIcon;
     homePageRibbonIcon;
     homePageRibbonIconPosition;
@@ -34,6 +36,8 @@ class HomeModel {
     homePageTopButtonGradientStopColor;
     homePageTopButtonLinkType;
     homePageTopButtonLink;
+    homePageTopButtonLinkInternal;
+    homePageTopButtonLinkExternal;
     homePageBottomBackgroundImage;
     homePageBottomBackgroundGradientStartColor;
     homePageBottomBackgroundGradientStopColor;
@@ -57,6 +61,8 @@ class HomeModel {
         this.homePageRibbonBackgroundColor = data.homePageRibbonBackgroundColor;
         this.homePageRibbonLinkType = data.homePageRibbonLinkType;
         this.homePageRibbonLink = data.homePageRibbonLink;
+        this.homePageRibbonLinkInternal = data.homePageRibbonLinkInternal;
+        this.homePageRibbonLinkExternal = data.homePageRibbonLinkExternal;
         this.homePageRibbonDisplayIcon = data.homePageRibbonDisplayIcon;
         this.homePageRibbonIcon = data.homePageRibbonIcon;
         this.homePageRibbonIconPosition = data.homePageRibbonIconPosition;
@@ -76,6 +82,8 @@ class HomeModel {
         this.homePageTopButtonGradientStopColor = data.homePageTopButtonGradientStopColor;
         this.homePageTopButtonLinkType = data.homePageTopButtonLinkType;
         this.homePageTopButtonLink = data.homePageTopButtonLink;
+        this.homePageTopButtonLinkInternal = data.homePageTopButtonLinkInternal;
+        this.homePageTopButtonLinkExternal = data.homePageTopButtonLinkExternal;
         this.homePageBottomBackgroundImage = data.homePageBottomBackgroundImage;
         this.homePageBottomBackgroundGradientStartColor = data.homePageBottomBackgroundGradientStartColor;
         this.homePageBottomBackgroundGradientStopColor = data.homePageBottomBackgroundGradientStopColor;

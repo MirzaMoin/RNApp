@@ -1257,11 +1257,12 @@ export default class LoginScreen extends Component {
           rippleColor="rgba(255,255,255,2)"
           error={this.state.signupError.email}
           onChangeText={(text) => {
+            let emailTrim=text.trim();
             this.setState(
               {
                 signup: {
                   ...this.state.signup,
-                  email: text,
+                  email: emailTrim,
                 },
               },
               () => this._handleContactMenu(true)
