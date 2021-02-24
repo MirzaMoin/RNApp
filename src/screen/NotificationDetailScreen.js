@@ -122,7 +122,7 @@ export default class NotificationDetailScreen extends Component {
             }}>
             <Text
               style={{
-                fontSize: 25,
+                fontSize: 24,
                 textAlign: 'center',
               }}>
               {this.props.navigation.state.params.notification.email}
@@ -130,7 +130,7 @@ export default class NotificationDetailScreen extends Component {
             <Text
               style={{
                 marginTop: 15,
-                fontSize: 15,
+                fontSize: 16,
                 textAlign: 'justify',
               }}>
               {this.props.navigation.state.params.notification.first_name}

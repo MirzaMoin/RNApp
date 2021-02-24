@@ -33,6 +33,8 @@ module.exports = {
   GET_SURVEY_LIST: 'UserAccountProfile/GetSurveyList',
   SENT_REFER_CLICK_DATA: 'UserProfile/ShareLinkVisitDetails',
   GET_ALL_BEACON:'Beacon/GetAllBeacon',
+  MENU_ICON_SIZE:20,
+  MAIN_TITLE:24,
   
 };
   

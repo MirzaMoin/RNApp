@@ -342,7 +342,7 @@ export default class LoginScreen extends Component {
       "get"
     )
       .then((response) => {
-        console.log(" webform data " + JSON.stringify(response));
+        // console.log(" webform data " + JSON.stringify(response));
         //this.setState({isLoadingForgot: false, isTimer: true});
         if (response.statusCode == 0) {
           Alert.alert("Oppss...", response.statusMessage);
@@ -929,7 +929,7 @@ export default class LoginScreen extends Component {
   };
 
   _showLoginCleanlogin = () => {
-    if (LoginScreenModel.themeType='cleanlogin' ) {
+    if (!this.state.isShowForgotPassword && !this.state.isShowSignUp && LoginScreenModel.themeType=='cleanlogin') {
       return (
         <View style={{ flex: 1, flexDirection: "column" }}>
           <TextInput
@@ -1052,9 +1052,10 @@ export default class LoginScreen extends Component {
         return (
           <LinearGradient
             style={{
-              borderRadius: 10,
+              borderRadius: 5,
               margin: 5,
-              width: 120,
+              // width:"100%"
+              width: LoginScreenModel.themeType == 'cleanlogin' ? maxWidth : 120,
               alignSelf: "center",
             }}
             colors={[
@@ -1089,7 +1090,7 @@ export default class LoginScreen extends Component {
                 ]}
               >
                 {LoginScreenModel.signInBtnText}
-            </Text>
+              </Text>
               {/* </TouchableNativeFeedback> */}
             </TouchableOpacity>
           </LinearGradient>
@@ -1097,7 +1098,7 @@ export default class LoginScreen extends Component {
       }
     }
   };
-  
+
 
   _renderSignupButton = () => {
     if (this.state.isLoadingSignupform) {
@@ -1108,18 +1109,18 @@ export default class LoginScreen extends Component {
       if (LoginScreenModel.themeType == 'videomotion') {
         return (
           <LinearGradient
-            style={{ borderRadius: 5, margin: 5 }}
+            style={{ borderRadius: 5, margin: 5, }}
             colors={[
               parseColor(LoginScreenModel.joinNowBtnGradientstartColor),
               parseColor(LoginScreenModel.joinNowBtnGradientStopColor),
             ]}
           >
-            {/* <TouchableNativeFeedback */}
             <TouchableOpacity style={{
               minWidth: 120,
               borderRadius: 5,
               alignSelf: "center",
-              maxWidth: 500,}} onPress={this._onSignUpClick}>
+              maxWidth: 500,
+            }} onPress={this._onSignUpClick}>
               <Text
                 style={[
                   styles.buttonText,
@@ -1130,7 +1131,6 @@ export default class LoginScreen extends Component {
                   ? "Register"
                   : `${LoginScreenModel.joinNowBtnText}`}
               </Text>
-              {/* </TouchableNativeFeedback> */}
             </TouchableOpacity>
           </LinearGradient>
         );
@@ -1138,7 +1138,7 @@ export default class LoginScreen extends Component {
       else {
         return (
           <LinearGradient
-            style={{ borderRadius: 10, margin: 5 }}
+            style={{ borderRadius: 5, margin: 5 ,width:LoginScreenModel.themeType=='cleanlogin' ? '80%':null }}
             colors={[
               parseColor(LoginScreenModel.joinNowBtnGradientstartColor),
               parseColor(LoginScreenModel.joinNowBtnGradientStopColor),
@@ -2852,7 +2852,7 @@ export default class LoginScreen extends Component {
 
   _onLoginClick = () => {
     this.setState({
-      isShowLogin: !this.state.isShowLogin,
+      isShowLogin: (LoginScreenModel.themeType == "cleanlogin") ? false : !this.state.isShowLogin,
       isShowSignUp: false,
       isShowPassword: true,
       isShowForgotPassword: false,
@@ -2886,6 +2886,7 @@ export default class LoginScreen extends Component {
   render() {
     return (
       <>
+      {console.log("type "+LoginScreenModel.themeType)}
         {/* this is for video motion */}
         {LoginScreenModel.themeType == 'videomotion' &&
           <MenuProvider>
@@ -3074,7 +3075,7 @@ export default class LoginScreen extends Component {
                       {this._showSignUp()}
                       {this._renderSignupButton()}
                       <LinearGradient
-                        style={{ borderRadius: 10, margin: 5 }}
+                        style={{ borderRadius: 5, margin: 5 }}
                         colors={[
                           parseColor(LoginScreenModel.signInBtnGradientstartColor),
                           parseColor(LoginScreenModel.signInBtnGradientStopColor),
@@ -3131,75 +3132,76 @@ export default class LoginScreen extends Component {
           </MenuProvider>
         }
         {/* this is for cleanbuttons */}
-        {LoginScreenModel.themeType == 'cleanlogin' && 
-        <MenuProvider>
-          <KeyboardAvoidingView
-            style={styles.baseContainer}
-            behavior="padding"
-            enabled={true}
-            // enabled={Platform.OS === "ios" ? true : false}
-          >
-            <View
-              style={[
-                styles.baseContainer,
-                { backgroundColor: LoginScreenModel.bgColor },
-              ]}
+        {LoginScreenModel.themeType == 'cleanlogin' &&
+          <MenuProvider>
+            <KeyboardAvoidingView
+              style={styles.baseContainer}
+              behavior="padding"
+              // enabled={true}
+              enabled={Platform.OS === "ios" ? true : false}
             >
               <View
                 style={[
-                  styles.backgroundImageBase,
-                  { backgroundColor: parseColor(LoginScreenModel.bgColor) },
+                  styles.baseContainer,
+                  { backgroundColor: LoginScreenModel.bgColor },
                 ]}
               >
-                <Image
-                  style={styles.backgroundImage}
-                  // source={require('./Image/background.png')}
-                  source={{
-                    uri: LoginScreenModel.logInBackgroundImage,
-                  }}
-                  resizeMode="cover"
-                />
-              </View>
-              <View style={{
-                // alignItems: "center",
-                justifyContent: "space-around",
-                flexDirection: 'column',
-                flex: 1,
-              }}>
-                {/* <Image source={{ uri: LoginScreenModel.logInLogoImage }} style={{ height: "30%", width: "50%",alignSelf:'center' }} resizeMode="contain" /> */}
-                <ScrollView
-                  keyboardShouldPersistTaps={true}
-                  showsVerticalScrollIndicator={false}
-                  bounces={false}
-                  contentContainerStyle={{
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",    
-                  }}
+                <View
+                  style={[
+                    styles.backgroundImageBase,
+                    { backgroundColor: parseColor(LoginScreenModel.bgColor) },
+                  ]}
                 >
-                  <View style={{
-                    borderRadius: 10,
-                    // alignItems: "center",
-                    // justifyContent: "center",
-                    // alignContent: "stretch",
-                    // alignSelf: "center",
-                    // backgroundColor: "rgba(0, 0, 0,0.30)",
-                    margin: 20,
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    padding: 20,
-                    alignSelf:'center',
-                    alignItems:'center'
-                  }}>
-                    <Image source={{ uri: LoginScreenModel.logInLogoImage }} style={{ height: width/2, width: width, alignSelf: 'center' }} resizeMode="contain" />
-                    {/* {this._showLogin()} */}
-                    {this._showLoginCleanlogin()}
-                    {this._showForgotPassword()}
-                    {this._showSignUp()}
-                    {/* {this._renderSignupButton()} */}
-                    {/* <Text
+                  <Image
+                    style={styles.backgroundImage}
+                    // source={require('./Image/background.png')}
+                    source={{
+                      uri: LoginScreenModel.logInBackgroundImage,
+                    }}
+                    resizeMode="cover"
+                  />
+                </View>
+                <View style={{
+                  // alignItems: "center",
+                  justifyContent: "space-around",
+                  flexDirection: 'column',
+                  flex: 1,
+                }}>
+                  {/* <Image source={{ uri: LoginScreenModel.logInLogoImage }} style={{ height: "30%", width: "50%",alignSelf:'center' }} resizeMode="contain" /> */}
+                  <ScrollView
+                    keyboardShouldPersistTaps={true}
+                    showsVerticalScrollIndicator={false}
+                    bounces={false}
+                    contentContainerStyle={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View style={{
+                      borderRadius: 10,
+                      // alignItems: "center",
+                      // justifyContent: "center",
+                      // alignContent: "stretch",
+                      // alignSelf: "center",
+                      // backgroundColor: "rgba(0, 0, 0,0.30)",
+                      margin: 20,
+                      top: 0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      padding: 20,
+                      alignSelf: 'center',
+                      alignItems: 'center'
+                    }}>
+                      <Image source={{ uri: LoginScreenModel.logInLogoImage }} style={{ height: width / 2, width: width, alignSelf: 'center' }} resizeMode="contain" />
+                      {/* {console.log("state "+ JSON.stringify(this.state))} */}
+                      {/* {this._showLogin()} */}
+                      {this._showLoginCleanlogin()}
+                      {this._showForgotPassword()}
+                      {/* {this._showSignUp()} */}
+                      {/* {this._renderSignupButton()} */}
+                      {/* <Text
                       style={[
                         styles.textStyle,
                         { color: parseColor(LoginScreenModel.bannerDescColor) },
@@ -3207,8 +3209,8 @@ export default class LoginScreen extends Component {
                     >
                       {LoginScreenModel.bannerDescText}
                     </Text> */}
-                    {/* <View style={styles.seprator} /> */}
-                    {/* <Text
+                      {/* <View style={styles.seprator} /> */}
+                      {/* <Text
                       style={[
                         styles.textStyle2,
                         { color: parseColor(LoginScreenModel.subDescColor) },
@@ -3216,37 +3218,38 @@ export default class LoginScreen extends Component {
                     >
                       {LoginScreenModel.subDescText}
                     </Text> */}
-                    {/* {this._showSignUp()}
+                      {/* {this._showSignUp()}
                     {this._renderSignupButton()} */}
-                    <LinearGradient
-                      style={{ borderRadius: 10, margin: 5 }}
-                      colors={[
-                        parseColor(LoginScreenModel.signInBtnGradientstartColor),
-                        parseColor(LoginScreenModel.signInBtnGradientStopColor),
-                      ]}
-                    >
-                      {/* <TouchableNativeFeedback */}
-                      <TouchableOpacity
-                        style={styles.button}
-                        onPress={this._onLoginClick}
+                      {this.state.isShowSignUp ? 
+                      <LinearGradient
+                        style={{ borderRadius: 5, margin: 5,width:'80%' }}
+                        colors={[
+                          parseColor(LoginScreenModel.signInBtnGradientstartColor),
+                          parseColor(LoginScreenModel.signInBtnGradientStopColor),
+                        ]}
                       >
-                        <Text
-                          style={[
-                            styles.buttonText,
-                            {
-                              color: parseColor(
-                                LoginScreenModel.signInBtnTextColor
-                              ),
-                            },
-                          ]}
+
+                        <TouchableOpacity
+                          style={styles.button}
+                          onPress={this._onLoginClick}
                         >
-                          {LoginScreenModel.signInBtnText}
-                        </Text>
-                        {/* </TouchableNativeFeedback> */}
-                      </TouchableOpacity>
-                    </LinearGradient>
-                    {/* {this._showLogin()} */}
-                    {/* <Text
+                          <Text
+                            style={[
+                              styles.buttonText,
+                              {
+                                color: parseColor(
+                                  LoginScreenModel.signInBtnTextColor
+                                ),
+                              },
+                            ]}
+                          >
+                            {LoginScreenModel.signInBtnText}
+                          </Text>
+
+                        </TouchableOpacity>
+                      </LinearGradient> : null}
+                      {/* {this._showLogin()} */}
+                      {/* <Text
                       style={[
                         styles.forgotPassword,
                         {
@@ -3259,50 +3262,53 @@ export default class LoginScreen extends Component {
                     >
                       {LoginScreenModel.forgotPwdBtnText}
                     </Text> */}
-                    <LinearGradient
-                      style={{ borderRadius: 10, margin: 5 }}
-                      colors={[
-                        parseColor(LoginScreenModel.forgotPwdBtnGradientstartColor),
-                        parseColor(LoginScreenModel.forgotPwdBtnGradientStopColor),
-                      ]}
-                    >
-                      {/* <TouchableNativeFeedback */}
-                      <TouchableOpacity
-                        style={styles.button}
-                        onPress={this._onForgotPasswordClick}
+                      <LinearGradient
+                        style={{ borderRadius: 5, margin: 5,width:'80%' }}
+                        colors={[
+                          parseColor(LoginScreenModel.forgotPwdBtnGradientstartColor),
+                          parseColor(LoginScreenModel.forgotPwdBtnGradientStopColor),
+                        ]}
                       >
-                        <Text
-                          style={[
-                            styles.buttonText,
-                            {
-                              color: parseColor(
-                                LoginScreenModel.forgotPwdBtnTextColor
-                              ),
-                            },
-                          ]}
+                        {/* <TouchableNativeFeedback */}
+                        <TouchableOpacity
+                          style={styles.button}
+                          onPress={this._onForgotPasswordClick}
                         >
-                          {LoginScreenModel.forgotPwdBtnText}
-                        </Text>
-                        {/* </TouchableNativeFeedback> */}
-                      </TouchableOpacity>
-                    </LinearGradient>
-                    {/* <View
+                          <Text
+                            style={[
+                              styles.buttonText,
+                              {
+                                color: parseColor(
+                                  LoginScreenModel.forgotPwdBtnTextColor
+                                ),
+                              },
+                            ]}
+                          >
+                            {LoginScreenModel.forgotPwdBtnText}
+                          </Text>
+                          {/* </TouchableNativeFeedback> */}
+                        </TouchableOpacity>
+                      </LinearGradient>
+                      <View
                       style={{
-                        width: 170,
-                        margine: -10,
-                        height: 1,
+                        width: '80%',
+                        padding:0,
+                        margin:2,
+                        // margine: -10,
+                        height: 2,
                         backgroundColor: "#ffffff",
                       }}
-                    /> */}
-                    {this._renderSignupButton()}
-                    {/* {this._showForgotPassword()} */}
-                  </View>
-                </ScrollView>
+                    />
+                      {this._showSignUp()}
+                      {this._renderSignupButton()}
+                      {/* {this._showForgotPassword()} */}
+                    </View>
+                  </ScrollView>
+                </View>
               </View>
-            </View>
-          </KeyboardAvoidingView>
-        </MenuProvider>
-   }
+            </KeyboardAvoidingView>
+          </MenuProvider>
+        }
       </>
     );
   }

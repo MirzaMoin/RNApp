@@ -42,7 +42,7 @@ export default class BottomNavigationTab extends Component<Props, State> {
           }
         }}>
         <View style={styles.footerMenuItem}>
-          <Icon name={footerMenu.footerIcon} style={{ fontSize: 19, color: 'white' }} />
+          <Icon name={footerMenu.footerIcon} style={{ fontSize: 18, color: 'white' }} />
           <Text lineBreakMode={'tail'} numberOfLines={1} style={styles.footerMenuSelectedItemText}>{footerMenu.footerText}</Text>
         </View>
         {/* </TouchableNativeFeedback> */}

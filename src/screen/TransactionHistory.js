@@ -258,7 +258,7 @@ export default class TransactionHistory extends Component {
             scrollEnabled={true}
             ListEmptyComponent={() => {
               return (<View style={{ flex: 1, height: '100%', alignContent: 'center', justifyContent: 'center', }}>
-                <Text style={{ fontSize: 20, alignSelf: 'center', marginTop:'20%' }}>No Transaction Found</Text>
+                <Text style={{ fontSize: 24, alignSelf: 'center', marginTop:'20%' }}>No Transaction Found</Text>
               </View>)
             }}
             data={this.state.search ? this.state.filteredData : this.state.data}
@@ -336,7 +336,7 @@ export default class TransactionHistory extends Component {
                   }}>
                   <View style={{ flexDirection: 'row', justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
                     <View style={{ flex: 1, height: 1, backgroundColor: 'black', marginRight: 15 }} />
-                    <MDIcon style={{ fontSize: 25, alignSelf: 'center' }} name={this.state.selectedIndex == index ? 'keyboard-arrow-up' : 'keyboard-arrow-down'} />
+                    <MDIcon style={{ fontSize: 26, alignSelf: 'center' }} name={this.state.selectedIndex == index ? 'keyboard-arrow-up' : 'keyboard-arrow-down'} />
                     <View style={{ flex: 1, height: 1, backgroundColor: 'black', marginLeft: 15 }} />
                   </View>
                 </TouchableOpacity>

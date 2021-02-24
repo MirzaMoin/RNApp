@@ -205,7 +205,7 @@ export default class NotificationScreen extends Component {
                 </Text>
                 <Text
                   style={[
-                    { fontSize: 15, padding: 1 },
+                    { fontSize: 16, padding: 1 },
                     { color: rowData.isSelected ? 'black' : 'gray' },
                   ]}>
                   {/*rowData.message*/ rowData.first_name}
@@ -350,7 +350,7 @@ export default class NotificationScreen extends Component {
           <Text
             style={{
               marginTop: 30,
-              fontSize: 26,
+              fontSize: 30,
               textAlign: 'center',
             }}>
             No Notification Found

@@ -349,7 +349,7 @@ const styles = {
   },
   footerMenuSelectedItemText: {
     color: 'white',
-    fontSize: 11,
+    fontSize: 12,
   },
   footerMenuIdelItemText: {
     color: 'white',

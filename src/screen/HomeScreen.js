@@ -390,13 +390,13 @@ export default class HomeScreen extends Component {
           colors={['rgba(' + this.hex2rgba_convert(parseColor(HomeModel.homePageTopBackgroundGradientStartColor)) + ',' + HomeModel.homePageTopBackgroundOpacity + ')', 'rgba(' + this.hex2rgba_convert(parseColor(HomeModel.homePageTopBackgroundGradientStopColor)) + ',' + HomeModel.homePageTopBackgroundOpacity + ')']}
           style={{ flexDirection: 'column', padding: 10, height: maxWidth / 20 * 15, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
           <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} style={{ height: '100%', width: '80%', }}>
-            <View style={{ flexDirection: 'row', width: '70%', padding: 10, justifyContent: 'center', opacity: 1,alignSelf:'center' }}>
+            <View style={{ flexDirection: 'row', width: '100%', padding: 10, justifyContent: 'center', opacity: 1,alignSelf:'center', }}>
               {/* <View style={{ height: 6, width: 6, borderRadius: 5, backgroundColor: '#FE9D3F', alignSelf: 'center', marginHorizontal: 5 }} /> */}
-              <Text style={{ fontSize: parseFloat(maxWidth / 16) + 5, color: parseColor(HomeModel.homePageTopTextLine1Color), fontWeight: 'bold',alignSelf:'center' }}>
+              <Text style={{ fontSize: parseFloat(maxWidth / 16) + 5, color: parseColor(HomeModel.homePageTopTextLine1Color), fontWeight: 'bold',alignSelf:'center',alignItems:'center',alignContent:'center',justifyContent:'center' }}>
                 {this.topText1.join(" ").toString()}
               </Text>
             </View>
-            {HomeModel.homePageTopTextUnderLine1 && <View style={{ height: 2, backgroundColor: parseColor(HomeModel.homePageTopTextUnderLine1Color) || 'white', width: '60%', margin: 5,alignSelf:'center' }} />}
+            {HomeModel.homePageTopTextUnderLine1 && <View style={{ height: 2, backgroundColor: parseColor(HomeModel.homePageTopTextUnderLine1Color) || 'white', width: '100%', margin: 5,alignSelf:'center' }} />}
             {/* <AnimateNumber
               value={GlobalAppModel.redeemablePoint || 0}
               formatter={(val) => {
@@ -410,7 +410,7 @@ export default class HomeScreen extends Component {
             <Text style={{ fontSize: parseFloat(maxWidth / 12) + 5, color: parseColor(HomeModel.homePageTopTextLine2Color), fontWeight: 'bold', padding: 5, textAlign: 'center', width: '100%' }}>
               {this.topText2.join(" ").toString()}
             </Text>
-            {(HomeModel.homePageTopTextUnderLine2) && <View style={{ height: 2, backgroundColor: parseColor(HomeModel.homePageTopTextUnderLine2Color) || 'white', width: '60%', margin: 5,alignSelf:'center' }} />}
+            {(HomeModel.homePageTopTextUnderLine2) && <View style={{ height: 2, backgroundColor: parseColor(HomeModel.homePageTopTextUnderLine2Color) || 'white', width: '100%', margin: 5,alignSelf:'center' }} />}
             <TouchableOpacity
               activeOpacity={0.8}
               style={{ marginTop: '5%', }}
@@ -506,19 +506,19 @@ export default class HomeScreen extends Component {
                   >
                     <View>
                       {/* uncomment this if api changes */}
-                      {/* <LinearGradient
+                      <LinearGradient
                         // colors={[
                         //   parseColor(menuLink.menuTopColor),
                         //   parseColor(menuLink.menuBottomColor),
                         // ]}
                         // opacity={menuLink.menuOpacity}
-                        colors={['rgba(' + this.hex2rgba_convert(parseColor(menuLink.menuTopColor)) + ',' + menuLink.menuOpacity==null ? menuLink.menuOpacity : 0 + ')', 'rgba(' + this.hex2rgba_convert(parseColor(menuLink.menuBottomColor)) + ',' + menuLink.menuOpacity==null ? menuLink.menuOpacity : 0 + ')']}
+                        colors={['rgba(' + this.hex2rgba_convert(parseColor(menuLink.menuTopColor)) + ',' + menuLink.menuOpacity + ')', 'rgba(' + this.hex2rgba_convert(parseColor(menuLink.menuBottomColor)) + ',' + menuLink.menuOpacity + ')']}
                         style={{
                           height: this.state.bottomContainerMenuItemHeight,
                           width: "100%",
                           position: "absolute",
                         }}
-                      /> */}
+                      />
                       <View>
                         <View
                           style={{
@@ -634,18 +634,18 @@ export default class HomeScreen extends Component {
         <Marquee
           loop={-1}
           style={{ flex: 1, flexDirection: 'row', marginHorizontal: 10, alignItems: 'center' }}>
-          <Text style={{ fontSize: 15, color: parseColor(HomeModel.homePageRibbonTextColor), flex: 1, alignSelf: 'center' }}>{HomeModel.homePageRibbonText}</Text>
+          <Text style={{ fontSize: 16, color: parseColor(HomeModel.homePageRibbonTextColor), flex: 1, alignSelf: 'center' }}>{HomeModel.homePageRibbonText}</Text>
         </Marquee>
       )
     } else {
-      return (<Text numberOfLines={1} ellipsizeMode={'clip'} style={{ fontSize: 15, color: parseColor(HomeModel.homePageRibbonTextColor), paddingHorizontal: 10, flex: 1, alignSelf: 'center' }}>{HomeModel.homePageRibbonText}</Text>);
+      return (<Text numberOfLines={1} ellipsizeMode={'clip'} style={{ fontSize: 16, color: parseColor(HomeModel.homePageRibbonTextColor), paddingHorizontal: 10, flex: 1, alignSelf: 'center' }}>{HomeModel.homePageRibbonText}</Text>);
     }
   }
 
   // rendering ribbon icon based on possition and visibility
   _renderRibbonIcon = position => {
     if (HomeModel.homePageRibbonDisplayIcon && HomeModel.homePageRibbonIconPosition == position) {
-      return <Icon name={HomeModel.homePageRibbonIcon} style={{ color: '#0282C6', fontSize: 20, marginLeft: 5 }} />
+      return <Icon name={HomeModel.homePageRibbonIcon} style={{ color: '#0282C6', fontSize: 16, marginLeft: 5 }} />
     }
   }
 
@@ -788,7 +788,7 @@ const styles = StyleSheet.create({
   },
   footerMenuSelectedItemText: {
     color: "white",
-    fontSize: 15,
+    fontSize: 16,
     paddingTop: 5,
     paddingHorizontal: 5,
     marginLeft: 5,
@@ -847,9 +847,5 @@ const styles = StyleSheet.create({
   point: {
     color: "white",
     fontSize: 18,
-  },
-  pointTerm: {
-    color: "white",
-    fontSize: 13,
   },
 });

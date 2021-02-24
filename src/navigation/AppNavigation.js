@@ -73,7 +73,7 @@ const CreateDrawerComponent = props => (
           textAlign: 'center',
           paddingRight: 15,
           paddingTop: 5,
-          fontSize: 10,
+          fontSize: 12,
         }}>
         Hi Hardik! scoll arround your reward profile & look for near ways to
         earn and redeem rewards. More custom text, more custom ...

@@ -4,7 +4,7 @@ import {
   Text,
   Image,
   TouchableHighlight,
-  // TouchableOpacity,
+  TouchableOpacity,
   Platform,
   ScrollView,
   Dimensions,
@@ -117,43 +117,52 @@ class RefereFriendScreen extends Component {
                   />
                   <View style={styles.imageOverlay} />
                 </View>
-                <View style={{ flex: 1, marginVertical: 15, marginHorizontal: 15, }}>
+                <View style={{ flex: 1, marginVertical: 20, marginHorizontal: 20, }}>
                   <Text
                     style={{
-                      textAlign: 'left',
+                      marginHorizontal: 0,
+                      textAlign: 'justify',
                       fontSize: 24,
                       fontWeight: 'normal',
+                      color: '#848482',
+
                     }}>
                     Refer Friends & Get Rewards
                 </Text>
                   <Text
                     style={{
-                      marginHorizontal:0,
-                      textAlign: 'left',
-                      marginTop: 10,
-                      minHeight: 150,
+                      marginHorizontal: 0,
+                      textAlign: 'justify',
+                      marginTop: 20,
+                      minHeight: 80,
+                      fontSize: 16,
+                      color: '#848482',
+                      lineHeight: 16 * 1.5,
+
                     }}>
-                    Receive $10 for each friend who join & make a purchase. Get the invite link & share in your place.
+                    Receive $10 for each friend who joins & make a purchase. Get the invite link & share in your favorite places.
                   </Text>
                   <View
                     style={{
-                      marginTop: 10,
-                      marginLeft: 10,
-                      marginRight: 10,
+                      marginTop: 15,
+                      marginLeft: 1,
+                      marginRight: 1,
                       justifyContent: 'center',
                       alignItems: 'center',
+
                     }}>
                     <View
                       style={{
                         flex: 1,
                         flexDirection: 'row',
                         position: 'absolute',
+
                       }}>
                       <View
                         style={{
                           flex: 1,
                           backgroundColor: 'rgba(153,153,153,0.5)',
-                          height: 2,
+                          height: 3,
                         }}
                       />
                     </View>
@@ -164,16 +173,18 @@ class RefereFriendScreen extends Component {
                         fontWeight: 'bold',
                         paddingLeft: 25,
                         paddingRight: 25,
-                        marginVertical: 25
+                        marginVertical: 25,
+                        color: '#848482',
                       }}>
-                      Share Link with
+                      Share with Link
                   </Text>
                   </View>
-                  <TouchableHighlight
-                    // <TouchableOpacity
+                  {/* <TouchableHighlight */}
+                  {/* please check touchable TouchableOpacity  in ios */}
+                  <TouchableOpacity
                     style={{
-                      marginLeft: 10,
-                      marginRight: 10,
+                      marginLeft: 20,
+                      marginRight: 20,
                       width: undefined,
                       marginTop: 10,
                       marginBottom: 20,
@@ -185,7 +196,7 @@ class RefereFriendScreen extends Component {
                       const link = await this._buildLink('Self')
                       this._ShareMessage(link);
                     }}>
-                    <View style={{ justifyContent: 'center' }}>
+                    <View style={{ justifyContent: 'center', width: '70%' }}>
                       <Text
                         style={{
                           flex: 1,
@@ -194,14 +205,15 @@ class RefereFriendScreen extends Component {
                           fontSize: 16,
                           borderRadius: 10,
                           color: 'white',
-                          padding: 15,
+                          padding: 10,
+
                         }}>
                         Get Invite Link
                   </Text>
                       <Icon name={'share-alt'} style={{ color: 'white', fontSize: .20, position: 'absolute', alignSelf: 'flex-end', margin: 10, paddingRight: 15 }} />
                     </View>
-                  </TouchableHighlight>
-                  {/* </TouchableOpacity> */}
+                    {/* </TouchableHighlight> */}
+                  </TouchableOpacity>
                   {/* <View
                     style={{
                       marginTop: 10,

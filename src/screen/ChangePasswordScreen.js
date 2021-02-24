@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontSize: 15,
+    fontSize: 16,
     textAlign: 'center',
     margin: 8,
     marginHorizontal: 15

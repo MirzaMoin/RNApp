@@ -261,7 +261,7 @@ export default class OfferDetailScreen extends Component {
             backgroundColor: '#012345',
             textAlign: 'center',
             color: 'white',
-            fontSize: 17,
+            fontSize: 16,
             padding: 10
           }}>
           Redeem Offer
@@ -284,7 +284,7 @@ export default class OfferDetailScreen extends Component {
             backgroundColor: '#012345',
             textAlign: 'center',
             color: 'white',
-            fontSize: 17,
+            fontSize: 16,
             padding: 10
           }}>
           Print Offer
@@ -332,7 +332,7 @@ export default class OfferDetailScreen extends Component {
       const url1 = url.replace('https://', '');
       const urlNew = url1.replace('http://', '');
       return (
-        <Text onPress={() => this.openLink(url)} style={{ fontSizeL: 14, color: 'blue' }}>{urlNew}</Text>
+        <Text onPress={() => this.openLink(url)} style={{ fontSize: 16, color: 'blue' }}>{urlNew}</Text>
       )
     }
   }
@@ -340,7 +340,7 @@ export default class OfferDetailScreen extends Component {
   _parsePhoneNum = mobile => {
     if (mobile) {
       return (
-        <Text onPress={() => this.openPhone(mobile)} style={{ fontSizeL: 14, color: 'blue' }}>{mobile}</Text>
+        <Text onPress={() => this.openPhone(mobile)} style={{ fontSize: 16, color: 'blue' }}>{mobile}</Text>
       )
     }
   }
@@ -382,7 +382,7 @@ export default class OfferDetailScreen extends Component {
                   style={{ height: Width, width: Width }}
                   titleStyle={{ fontSize: 20 }} />
                 <Text style={{
-                  fontSize: 13,
+                  fontSize: 12,
                   backgroundColor: '#4b92d2',
                   borderRadius: 5,
                   color: 'white',
@@ -483,7 +483,7 @@ const styles = {
   },
   titleRow: { flexDirection: 'row', padding: 15 },
   pointItem: {
-    fontSize: 13,
+    fontSize: 12,
     backgroundColor: '#4b92d2',
     borderRadius: 5,
     color: 'white',
@@ -551,7 +551,7 @@ const styles = {
   },
   footerMenuSelectedItemText: {
     color: 'white',
-    fontSize: 11,
+    fontSize: 12,
   },
   footerMenuIdelItemText: {
     color: 'white',
