@@ -211,11 +211,11 @@ export default class OfferScreen extends Component {
                         ellipsizeMode='tail'
                         style={{
                           fontSize: 18,
-                          fontWeight: '600',
+                          // fontWeight: '600',
                           color: parseColor(item.titleColor, 'white'),
-                          backgroundColor: 'rgba(256, 20, 0, 0.5)',
-                          width: Width,
-                          alignSelf: 'flex-end',
+                          backgroundColor: 'rgba(256, 20, 0, 1)',
+                          // width: Width,
+                          alignSelf: 'flex-start',
                           padding: 5,
                         }}>
                         {item.offerTitle}

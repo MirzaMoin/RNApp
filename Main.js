@@ -221,8 +221,8 @@ class DrawerHeaderComponent extends Component {
         <ImageLoader
           title={this.state.name}
           src={this.state.userImage}
-          style={{ width: this.state.width || '100%', height: this.state.width || 200 }}
-          titleStyle={{ fontSize: 40 }}
+          style={{ width: this.state.width || '100%', height: this.state.width || 200, backgroundColor:'#f0f0f0',}}
+          titleStyle={{ fontSize: 50 }}
         />
         <Text
           style={{
@@ -231,7 +231,7 @@ class DrawerHeaderComponent extends Component {
             paddingRight: 15,
             paddingTop: 5,
             fontSize: 16,
-            fontWeight:"bold"
+            fontWeight:'bold'
             // fontFamily: 'bold'
           }}>
           {this.state.name}
@@ -588,6 +588,7 @@ const CreateDrawerComponent = props => (
           renderNotification(props)
         } */}
         {
+          console.log('MenuPermissionModel.isVisibleMenuTxHistory ' + MenuPermissionModel.isVisibleMenuTxHistory),
           //MenuPermissionModel.isVisibleMenuTxHistory && 
           renderTransactionHistory(props)
         }
@@ -1244,8 +1245,8 @@ const drawerStackNavigation = createStackNavigator({
   rpg: {
     screen: RPGScreen,
   },
-  SpinWheel:{
-    screen:SpinWheelScreen,
+  SpinWheel: {
+    screen: SpinWheelScreen,
   },
   redeemCashback: {
     screen: RedeemCashbackScreen,

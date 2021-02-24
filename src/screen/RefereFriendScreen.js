@@ -117,58 +117,24 @@ class RefereFriendScreen extends Component {
                   />
                   <View style={styles.imageOverlay} />
                 </View>
-                <View style={{ flex: 1, marginVertical: 15, marginHorizontal: '10%', }}>
+                <View style={{ flex: 1, marginVertical: 15, marginHorizontal: 15, }}>
                   <Text
                     style={{
-                      textAlign: 'center',
+                      textAlign: 'left',
                       fontSize: 24,
-                      fontWeight: 'bold',
+                      fontWeight: 'normal',
                     }}>
-                    Invite Your Friend
+                    Refer Friends & Get Rewards
                 </Text>
                   <Text
                     style={{
-                      marginLeft: 20,
-                      marginRight: 20,
-                      textAlign: 'center',
+                      marginHorizontal:0,
+                      textAlign: 'left',
                       marginTop: 10,
                       minHeight: 150,
                     }}>
-                    For every frind that join, you will recive $20{' '}
+                    Receive $10 for each friend who join & make a purchase. Get the invite link & share in your place.
                   </Text>
-                  <TouchableHighlight
-                    // <TouchableOpacity
-                    style={{
-                      marginLeft: 10,
-                      marginRight: 10,
-                      width: undefined,
-                      marginTop: 10,
-                      marginBottom: 20,
-                      alignSelf: 'center',
-                      flexDirection: 'row',
-                    }}
-                    onPress={async () => {
-                      console.log("shere button presed")
-                      const link = await this._buildLink('Self')
-                      this._ShareMessage(link);
-                    }}>
-                    <View style={{ justifyContent: 'center' }}>
-                      <Text
-                        style={{
-                          flex: 1,
-                          backgroundColor: GlobalAppModel.primaryButtonColor || '#012340',
-                          textAlign: 'center',
-                          fontSize: 16,
-                          borderRadius: 10,
-                          color: 'white',
-                          padding: 15,
-                        }}>
-                        Share/Copy Invite Link
-                  </Text>
-                      <Icon name={'share-alt'} style={{ color: 'white', fontSize: .20, position: 'absolute', alignSelf: 'flex-end', margin: 10, paddingRight: 15 }} />
-                    </View>
-                  </TouchableHighlight>
-                  {/* </TouchableOpacity> */}
                   <View
                     style={{
                       marginTop: 10,
@@ -203,6 +169,73 @@ class RefereFriendScreen extends Component {
                       Share Link with
                   </Text>
                   </View>
+                  <TouchableHighlight
+                    // <TouchableOpacity
+                    style={{
+                      marginLeft: 10,
+                      marginRight: 10,
+                      width: undefined,
+                      marginTop: 10,
+                      marginBottom: 20,
+                      alignSelf: 'center',
+                      flexDirection: 'row',
+                    }}
+                    onPress={async () => {
+                      console.log("shere button presed")
+                      const link = await this._buildLink('Self')
+                      this._ShareMessage(link);
+                    }}>
+                    <View style={{ justifyContent: 'center' }}>
+                      <Text
+                        style={{
+                          flex: 1,
+                          backgroundColor: GlobalAppModel.secondaryButtonColor || '#012340',
+                          textAlign: 'center',
+                          fontSize: 16,
+                          borderRadius: 10,
+                          color: 'white',
+                          padding: 15,
+                        }}>
+                        Get Invite Link
+                  </Text>
+                      <Icon name={'share-alt'} style={{ color: 'white', fontSize: .20, position: 'absolute', alignSelf: 'flex-end', margin: 10, paddingRight: 15 }} />
+                    </View>
+                  </TouchableHighlight>
+                  {/* </TouchableOpacity> */}
+                  {/* <View
+                    style={{
+                      marginTop: 10,
+                      marginLeft: 10,
+                      marginRight: 10,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        position: 'absolute',
+                      }}>
+                      <View
+                        style={{
+                          flex: 1,
+                          backgroundColor: 'rgba(153,153,153,0.5)',
+                          height: 2,
+                        }}
+                      />
+                    </View>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        backgroundColor: '#fff',
+                        fontWeight: 'bold',
+                        paddingLeft: 25,
+                        paddingRight: 25,
+                        marginVertical: 25
+                      }}>
+                      Share Link with
+                  </Text>
+                  </View> */}
                   <View style={{
                     flex: 1,
                     flexDirection: 'row',

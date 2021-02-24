@@ -49,8 +49,8 @@ class GlobalAppModel {
         this.userID = userID;
     }
 
-    setRedeemablePoint(point) {
-        this.redeemablePoint = point;
+    setRedeemablePoint(TotalPoints) {
+        this.redeemablePoint = TotalPoints;
     }
 
     setLoadingImages(images) {

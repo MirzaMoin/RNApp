@@ -16,6 +16,7 @@ import {
   Alert,
   Platform,
   PermissionsAndroid,
+  ScrollView,
 } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
@@ -35,6 +36,7 @@ import BleManager from 'react-native-ble-manager';
 import BackgroundTimer from 'react-native-background-timer';
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
+import Refer from './RefereFriendScreen';
 // import SpinWheelScreen from './SpinWheelScreen';SpinWheelScreen
 import * as RNEP from '@estimote/react-native-proximity';
 // import  from '../beacons/proximityObserver2'
@@ -50,6 +52,12 @@ if (Platform.OS == "android") {
 if (Platform.OS == "android") {
   var BeaconEvents = new NativeEventEmitter(Beaconconnect);
 }
+var F_N
+var L_N
+var T_P
+AsyncStorage.getItem('firstName').then((e) => { F_N = e })
+AsyncStorage.getItem('lastName').then((e) => { L_N = e })
+AsyncStorage.getItem('reedemablePoints').then((e) => { T_P = e })
 export default class HomeScreen extends Component {
   static navigationOptions = {
     header: null,
@@ -70,6 +78,12 @@ export default class HomeScreen extends Component {
   componentDidMount() {
     //this.createTableBeacon()
     //this.getBeaconData()
+    this._getTokenCheckLine1(HomeModel.homePageTopTextLine1)
+    this._getTokenCheckLine2(HomeModel.homePageTopTextLine2)
+    // AsyncStorage.getItem('firstName').then((e) => { F_N=e })
+    // AsyncStorage.getItem('lastName').then((e) => { L_N=e })
+    // AsyncStorage.getItem('reedemablePoints').then((e) => { T_P=e })
+    // this._getTokenCheckLine1(" hi %%FirstName%% %%LastName%% %%TotalPoints%% . ")
   }
 
   getBeaconData() {
@@ -340,9 +354,30 @@ export default class HomeScreen extends Component {
     }
   };
 
+  //get token value firstname lastname totalpoints
+  topText1 = [];
+  _getTokenCheckLine1 = async (val) => {
+    var Token_value = val.split(" ")
+    for (let index = 0; index <= Token_value.length; index++) {
+      if (Token_value[index] == "%%FirstName%%") { await AsyncStorage.getItem("firstName").then((e) => { this.topText1.push(e) }) }
+      else if (Token_value[index] == "%%LastName%%") { await AsyncStorage.getItem("lastName").then((e) => { this.topText1.push(e) }) }
+      else if (Token_value[index] == "%%TotalPoints%%") { await AsyncStorage.getItem("reedemablePoints").then((e) => { this.topText1.push(e) }) }
+      else { this.topText1.push(Token_value[index]) }
+    }
+  }
+  topText2 = [];
+  _getTokenCheckLine2 = async (val) => {
+    var Token_value = val.split(" ")
+    for (let index = 0; index <= Token_value.length; index++) {
+      if (Token_value[index] == "%%FirstName%%") { await AsyncStorage.getItem("firstName").then((e) => { this.topText2.push(e) }) }
+      else if (Token_value[index] == "%%LastName%%") { await AsyncStorage.getItem("lastName").then((e) => { this.topText2.push(e) }) }
+      else if (Token_value[index] == "%%TotalPoints%%") { await AsyncStorage.getItem("reedemablePoints").then((e) => { this.topText2.push(e) }) }
+      else { this.topText2.push(Token_value[index]) }
+    }
+  }
+
   // top container for showing point and image with gradient color
   _renderTopContainer = () => {
-    // console.log(`Global App Data: ${GlobalAppModel.rewardProgramId}`);
     return (
       <ImageBackground
         style={{ flexDirection: 'column', height: maxWidth / 20 * 15, width: maxWidth, }}
@@ -352,42 +387,52 @@ export default class HomeScreen extends Component {
         // imageStyle={{ opacity: 1 }}
         resizeMode="cover">
         <LinearGradient
-          colors={['rgba(' + this.hex2rgba_convert(parseColor(HomeModel.homePageTopBackgroundGradientStartColor)) + ',' + HomeModel.homePageTopBackgroundOpacity + ')' , 'rgba(' + this.hex2rgba_convert(parseColor(HomeModel.homePageTopBackgroundGradientStopColor)) + ',' + HomeModel.homePageTopBackgroundOpacity + ')']}
+          colors={['rgba(' + this.hex2rgba_convert(parseColor(HomeModel.homePageTopBackgroundGradientStartColor)) + ',' + HomeModel.homePageTopBackgroundOpacity + ')', 'rgba(' + this.hex2rgba_convert(parseColor(HomeModel.homePageTopBackgroundGradientStopColor)) + ',' + HomeModel.homePageTopBackgroundOpacity + ')']}
           style={{ flexDirection: 'column', padding: 10, height: maxWidth / 20 * 15, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
-          <View style={{ flexDirection: 'row', width: '50%', padding: 10, justifyContent: 'center', opacity: 1, }}>
-            {/* <View style={{ height: 6, width: 6, borderRadius: 5, backgroundColor: '#FE9D3F', alignSelf: 'center', marginHorizontal: 5 }} /> */}
-            <Text style={{ fontSize: parseFloat(maxWidth / 16) + 5, color: parseColor(HomeModel.homePageTopTextLine1Color), fontWeight: 'bold', }}>{HomeModel.homePageTopTextLine1}</Text>
-          </View>
-          <View style={{ height: 2, backgroundColor: 'white', width: '60%', margin: 10 }} />
-          <AnimateNumber
-            value={GlobalAppModel.redeemablePoint || 0}
-            formatter={(val) => {
-              return <Text
-                style={{ fontSize: parseFloat(maxWidth / 12) + 5, color: parseColor(HomeModel.homePageTopTextLine2Color), fontWeight: 'bold', padding: 5 }}
-              >{parseFloat(val).toFixed(2)}</Text>
-            }} />
-          <View style={{ height: 2, backgroundColor: 'white', width: '60%', margin: 10 }} />
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={{ marginTop: '2.5%', }}
-            onPress={() => {
-              if (HomeModel.homePageTopButtonLinkType == 'external') {
-                try {
-                  this.props.navigation.push('webScreen', {
-                    title: HomeModel.homePageTopButtonText,
-                    webURL: HomeModel.homePageTopButtonLinkExternal,
-                  });
-                } catch (Exeption) { console.log(`Èrror : ${Exeption}`) }
-              } else {
-                this.props.navigation.push(HomeModel.homePageTopButtonLinkInternal);
-              }
-            }}>
-            <LinearGradient
-              colors={[parseColor(HomeModel.homePageTopButtonGradientStartColor), parseColor(HomeModel.homePageTopButtonGradientStopColor)]}
-              style={{ padding: 10, paddingHorizontal: 25, borderRadius: 5, alignContent: 'center' }}>
-              <Text style={{ color: parseColor(HomeModel.homePageTopButtonTextColor), fontSize: 24 }}>{HomeModel.homePageTopButtonText}</Text>
-            </LinearGradient>
-          </TouchableOpacity>
+          <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} style={{ height: '100%', width: '80%', }}>
+            <View style={{ flexDirection: 'row', width: '70%', padding: 10, justifyContent: 'center', opacity: 1,alignSelf:'center' }}>
+              {/* <View style={{ height: 6, width: 6, borderRadius: 5, backgroundColor: '#FE9D3F', alignSelf: 'center', marginHorizontal: 5 }} /> */}
+              <Text style={{ fontSize: parseFloat(maxWidth / 16) + 5, color: parseColor(HomeModel.homePageTopTextLine1Color), fontWeight: 'bold',alignSelf:'center' }}>
+                {this.topText1.join(" ").toString()}
+              </Text>
+            </View>
+            {HomeModel.homePageTopTextUnderLine1 && <View style={{ height: 2, backgroundColor: parseColor(HomeModel.homePageTopTextUnderLine1Color) || 'white', width: '60%', margin: 5,alignSelf:'center' }} />}
+            {/* <AnimateNumber
+              value={GlobalAppModel.redeemablePoint || 0}
+              formatter={(val) => {
+                return <Text
+                  style={{ fontSize: parseFloat(maxWidth / 12) + 5, color: parseColor(HomeModel.homePageTopTextLine2Color), fontWeight: 'bold', padding: 5,textAlign:'center',backgroundColor:'red', width:'100%'}}>
+                  {this.topText2.join(" ").toString()}
+                  {this.topText2.join(" ").toString()}
+                  {parseFloat(val).toFixed(2)}
+                </Text>
+              }} /> */}
+            <Text style={{ fontSize: parseFloat(maxWidth / 12) + 5, color: parseColor(HomeModel.homePageTopTextLine2Color), fontWeight: 'bold', padding: 5, textAlign: 'center', width: '100%' }}>
+              {this.topText2.join(" ").toString()}
+            </Text>
+            {(HomeModel.homePageTopTextUnderLine2) && <View style={{ height: 2, backgroundColor: parseColor(HomeModel.homePageTopTextUnderLine2Color) || 'white', width: '60%', margin: 5,alignSelf:'center' }} />}
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={{ marginTop: '5%', }}
+              onPress={() => {
+                if (HomeModel.homePageTopButtonLinkType == 'external') {
+                  try {
+                    this.props.navigation.push('webScreen', {
+                      title: HomeModel.homePageTopButtonText,
+                      webURL: HomeModel.homePageTopButtonLinkExternal,
+                    });
+                  } catch (Exeption) { console.log(`Èrror : ${Exeption}`) }
+                } else {
+                  this.props.navigation.push(HomeModel.homePageTopButtonLinkInternal);
+                }
+              }}>
+              <LinearGradient
+                colors={[parseColor(HomeModel.homePageTopButtonGradientStartColor), parseColor(HomeModel.homePageTopButtonGradientStopColor)]}
+                style={{ padding: 10, paddingHorizontal: 25, borderRadius: 5, alignContent: 'center' }}>
+                <Text style={{ color: parseColor(HomeModel.homePageTopButtonTextColor), fontSize: 24,textAlign:'center' }}>{HomeModel.homePageTopButtonText}</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </ScrollView>
         </LinearGradient>
       </ImageBackground>
     );
@@ -411,7 +456,8 @@ export default class HomeScreen extends Component {
 
   // bottom container for showing dynamic internal and external links
   _renderBottomContainer = () => {
-    return (
+    if(HomeModel.footerLinks==null){ return null }
+    else  return (
       <ImageBackground
         ref={(ref) => (this.viewParent = ref)}
         onLayout={this.onPageLayout}
@@ -459,19 +505,20 @@ export default class HomeScreen extends Component {
                     resizeMode="cover"
                   >
                     <View>
-                      <LinearGradient
+                      {/* uncomment this if api changes */}
+                      {/* <LinearGradient
                         // colors={[
                         //   parseColor(menuLink.menuTopColor),
                         //   parseColor(menuLink.menuBottomColor),
                         // ]}
                         // opacity={menuLink.menuOpacity}
-                        colors={['rgba(' + this.hex2rgba_convert(parseColor(menuLink.menuTopColor)) + ',' + menuLink.menuOpacity + ')', 'rgba(' + this.hex2rgba_convert(parseColor(menuLink.menuBottomColor)) + ',' + menuLink.menuOpacity + ')']}
+                        colors={['rgba(' + this.hex2rgba_convert(parseColor(menuLink.menuTopColor)) + ',' + menuLink.menuOpacity==null ? menuLink.menuOpacity : 0 + ')', 'rgba(' + this.hex2rgba_convert(parseColor(menuLink.menuBottomColor)) + ',' + menuLink.menuOpacity==null ? menuLink.menuOpacity : 0 + ')']}
                         style={{
                           height: this.state.bottomContainerMenuItemHeight,
                           width: "100%",
                           position: "absolute",
                         }}
-                      />
+                      /> */}
                       <View>
                         <View
                           style={{
@@ -507,40 +554,41 @@ export default class HomeScreen extends Component {
                           {HomeModel.homePageBottomDisplayIcon && (
                             <View style={{
                               borderRadius: HomeModel.homePageBottomIconShape == "round"
-                                    ? 50
-                                    : 5,
-                                     backgroundColor:
+                                ? 50
+                                : 5,
+                              backgroundColor:
                                 HomeModel.homePageBottomIconShape == "none"
                                   ? ""
                                   : parseColor(
                                     HomeModel.homePageBottomIconBackgroundColor
                                   ),
-                                  justifyContent:'center',alignSelf:'center',alignContent:'center',alignItems:'center'}}>
-                            <Icon
-                              name={menuLink.icon}
-                              style={{
-                                fontSize: 30,
-                                color: parseColor(
-                                  HomeModel.homePageBottomIconColor
-                                ),
-                                // backgroundColor:
-                                //   HomeModel.homePageBottomIconShape == "none"
-                                //     ? ""
-                                //     : parseColor(
-                                //       HomeModel.homePageBottomIconBackgroundColor
-                                //     ),
-                                padding: 12,
-                                // borderRadius:100,
+                              justifyContent: 'center', alignSelf: 'center', alignContent: 'center', alignItems: 'center'
+                            }}>
+                              <Icon
+                                name={menuLink.icon}
+                                style={{
+                                  fontSize: 30,
+                                  color: parseColor(
+                                    HomeModel.homePageBottomIconColor
+                                  ),
+                                  // backgroundColor:
+                                  //   HomeModel.homePageBottomIconShape == "none"
+                                  //     ? ""
+                                  //     : parseColor(
+                                  //       HomeModel.homePageBottomIconBackgroundColor
+                                  //     ),
+                                  padding: 12,
+                                  // borderRadius:100,
                                   // HomeModel.homePageBottomIconShape == "round"
                                   //   ? 50
                                   //   : 5,
-                                // marginHorizontal: 10,
-                                width: 55,
-                                height: 55,
-                                textAlign: "center",
-                                alignSelf: "center",
-                              }}
-                            /></View>
+                                  // marginHorizontal: 10,
+                                  width: 55,
+                                  height: 55,
+                                  textAlign: "center",
+                                  alignSelf: "center",
+                                }}
+                              /></View>
                           )}
                           <Text
                             style={{
@@ -609,17 +657,18 @@ export default class HomeScreen extends Component {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            if (HomeModel.homePageRibbonLinkType == 'external') {
-              try {
-                this.props.navigation.push('webScreen', {
-                  title: HomeModel.homePageRibbonText,
-                  webURL: HomeModel.homePageRibbonLinkExternal,
-                });
-              } catch (Exeption) { console.log(`Èrror : ${Exeption}`) }
-            } else {
-              this.props.navigation.push(HomeModel.homePageRibbonLinkInternal);
-              // console.log("home page ribbon link " + JSON.stringify(HomeModel.homePageRibbonLinkInternal))
-            }
+            this._shareWithOthers()
+            // if (HomeModel.homePageRibbonLinkType == 'external') {
+            //   try {
+            //     this.props.navigation.push('webScreen', {
+            //       title: HomeModel.homePageRibbonText,
+            //       webURL: HomeModel.homePageRibbonLinkExternal,
+            //     });
+            //   } catch (Exeption) { console.log(`Èrror : ${Exeption}`) }
+            // } else {
+            //   this.props.navigation.push(HomeModel.homePageRibbonLinkInternal);
+            //   // console.log("home page ribbon link " + JSON.stringify(HomeModel.homePageRibbonLinkInternal))
+            // }
           }}>
           <View style={{ width: '100%', padding: 5, backgroundColor: parseColor(HomeModel.homePageRibbonBackgroundColor), flexDirection: 'row', minHeight: 28 }}>
             {this._renderRibbonIcon('Left')}
@@ -655,6 +704,14 @@ export default class HomeScreen extends Component {
       </View>
     );
   }
+  _shareWithOthers = async () => {
+    const page_call = new Refer
+    const link = await page_call._buildLink('self')
+    // const link = await this._buildLink('Self')
+    page_call._ShareMessage(link);
+    // this._ShareMessage(link);
+    // console.log("shere call...")
+  }
 
   render() {
     return (
@@ -673,6 +730,7 @@ export default class HomeScreen extends Component {
                 <Text style={{ justifyContent: 'center', alignSelf: 'center', fontSize: 20, backgroundColor: '#678498', borderRadius: 5, color: 'white', margin: 5, padding: 5 }}>Beacon</Text>
               </TouchableOpacity>
             } */}
+            {/* <TouchableOpacity onPress={()=>this._shareWithOthers()}><Text>check</Text></TouchableOpacity> */}
             {this._renderRebbon(HomeModel.homePageRibbonPosition == 'Top')}
             {this._renderTopContainer()}
             {this._renderRebbon(HomeModel.homePageRibbonPosition == 'Middle')}

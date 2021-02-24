@@ -9,6 +9,8 @@ import {
   ActivityIndicator,
   SafeAreaView,
   Platform,
+  TouchableOpacity,
+  Dimensions
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import { makeRequest } from './../api/apiCall';
@@ -19,6 +21,8 @@ import BottomNavigationTab from './../widget/BottomNavigationTab';
 import GlobalAppModel from '../model/GlobalAppModel';
 import { ScrollView } from 'react-native-gesture-handler';
 
+const maxWidth = Dimensions.get('window').width;
+const imageHeight = (maxWidth / 16) * 9;
 export default class TransferPointScreen extends Component {
   static navigationOptions = {
     header: null,
@@ -126,45 +130,40 @@ export default class TransferPointScreen extends Component {
             title={'Transfer Point'}
             userPoint={GlobalAppModel.redeemablePoint} />
           <ScrollView>
-            <View style={{ hegith: 150 }}>
+            <View style={{ hegith: imageHeight }}>
               <Image
-                style={{ height: 150 }}
+                style={{ height: imageHeight }}
                 source={{
                   uri:
-                    'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
+                    APIConstant.HEADER_IMAGE,
                 }}
                 resizeMode="cover"
               />
-
-              <View style={styles.imageOverlay} />
-
+              {/* <View style={styles.imageOverlay} /> */}
             </View>
 
-            <View style={{ padding: 10, paddingHorizontal: '8%', flex: 1, justifyContent: 'center' }}>
+            <View style={{ padding: 10, paddingHorizontal: '5%', flex: 1, justifyContent: 'center' }}>
 
               <Text
                 style={{
                   fontSize: 22,
-                  marginBottom: 20,
+                  marginBottom: 10,
                   paddingLeft: 10,
                 }}>
                 How many are you transfering?
           </Text>
-
               <Text style={{ padding: 5, paddingLeft: 10, color: this.state.transferAmountError ? 'red' : 'black' }}>Enter Point Amount</Text>
-
               <View
                 style={{
                   marginLeft: 10,
                   marginRight: 10,
                   borderColor: this.state.transferAmountError ? 'red' : 'rgba(153,153,153,0.5)',
                   borderWidth: 2,
-                  padding: Platform.OS=='android' ? 5:10,
+                  padding: Platform.OS == 'android' ? 2 : 10,
                   borderRadius: 10,
                 }}>
-
                 <TextInput
-                  style={{ fontSize: 17, fontWeight: 'bold' }}
+                  style={{ fontSize: 16, fontWeight: 'bold' }}
                   placeholder={`${GlobalAppModel.redeemablePoint || 50} PTS`}
                   keyboardType={'numeric'}
                   returnKeyType='done'
@@ -212,11 +211,11 @@ export default class TransferPointScreen extends Component {
                   marginRight: 10,
                   borderColor: this.state.transferToError ? 'red' : 'rgba(153,153,153,0.5)',
                   borderWidth: 2,
-                  padding: Platform.OS == 'android' ? 5 : 10,
+                  padding: Platform.OS == 'android' ? 2 : 10,
                   borderRadius: 10,
                 }}>
                 <TextInput
-                  style={{ fontSize: 17, fontWeight: 'bold' }}
+                  style={{ fontSize: 16, fontWeight: 'bold' }}
                   placeholder="Email, mobile number or Member CardID"
                   onChangeText={(text) => {
                     this.setState({
@@ -227,10 +226,10 @@ export default class TransferPointScreen extends Component {
               </View>
 
               <View style={{
-                marginTop: 30,
+                marginTop: 20,
                 marginRight: 10,
               }}>
-                <SwipeButton
+                {/* <SwipeButton
                   thumbIconBackgroundColor="#FFFFFF"
                   containerStyle={{ backgroundColor: '#012345' }}
                   swipeSuccessThreshold={90}
@@ -244,7 +243,12 @@ export default class TransferPointScreen extends Component {
                   onSwipeSuccess={() => {
                     this._prepareForm()
                   }}
-                />
+                /> */}
+                <View style={{backgroundColor:null}}>
+                  <TouchableOpacity style={{ backgroundColor: GlobalAppModel.primaryColor, alignSelf: 'flex-end', padding: 15, borderRadius: 10,width:150 }} onPress={()=>this._prepareForm()}>
+                    {this.state.isLoading ? <ActivityIndicator color={'white'} /> : <Text style={{ color: 'white',alignSelf:'center', }}>Transfer Points</Text>}
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </ScrollView>

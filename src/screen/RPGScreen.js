@@ -71,8 +71,8 @@ export default class RPGScreen extends Component {
   _renderRow = item => {
     return (
       <View style={{ flexDirection: 'row', minHeight: 70, alignContent: 'center', alignItems: 'center', height: 80, borderBottomColor: 'lightgrey', borderBottomWidth: 0.5 }}>
-        <View style={{ padding: 5, height: '100%', backgroundColor: item.isActive ? 'rgba(0,255,0,.2)' : 'rgba(153,153,153,1)', width: '15%', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
-          <Text style={{ fontSize: 16 }}>{item.pointValue}</Text>
+        <View style={{ padding: 5, height: '100%', backgroundColor: item.isActive ? 'rgba(29,201,22, 1)' : 'rgba(153,153,153,1)', width: '15%', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+          <Text style={{ fontSize: 16,fontWeight:"bold" }}>{item.pointValue}</Text>
           <Text>Points</Text>
         </View>
         {/* <View style={{ flexDirection: 'row', width: '70%', borderBottomColor: 'lightgrey', borderBottomWidth: 0.5,marginLeft:5}}> */}
@@ -80,18 +80,18 @@ export default class RPGScreen extends Component {
             title={item.title}
             src={item.image}
             style={styles.offerImage}
-            titleStyle={{ fontSize: 30 }} />
-          <View style={{ flex: 1, height: 70, flexDirection: 'column', paddingLeft: 5,  }}>
+            titleStyle={{ fontSize: 24 }} />
+          <View style={{ flex: 1, height: 70, flexDirection: 'column', }}>
             <Text style={{ fontSize: 18, fontWeight: 'bold', paddingTop: 2 }}>{item.title}</Text>
-            <Text numberOfLines={2} ellipsizeMode='tail' style={{ fontSize: 14, color: 'rgba(153, 153, 153, 1)' }}>{item.details}</Text>
+            <Text numberOfLines={2} ellipsizeMode='tail' style={{ fontSize: 14, color: 'rgba(153, 153, 153, 1)', }}>{item.details}</Text>
           </View>
         {/* </View> */}
-        <View style={{ width: '10%', height: '100%', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+        {/* <View style={{ width: '10%', height: '100%', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}> */}
           {/* <View style={{ height: '100%', width: 2, backgroundColor: item.isActive ? 'red' : 'rgba(153,153,153,1)' }} />
           <View style={{ backgroundColor: item.isActive ? 'red' : 'rgba(153,153,153,1)', position: 'absolute', padding: 5, borderRadius: 50 }}>
             <MDIcon name={'check'} style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }} />
           </View> */}
-        </View>
+        {/* </View> */}
       </View>
     )
   }
@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
     height: 60,
     width: 60,
     borderRadius: 10,
-    marginHorizontal: 5
+    marginHorizontal: 5,
+    marginLeft:10,
   }
 });

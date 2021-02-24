@@ -15,7 +15,8 @@ import {
   Animated,
   StyleSheet,
   SafeAreaView,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -33,7 +34,8 @@ import ImageLoader from './../widget/ImageLoader';
 import GlobalAppModel from '../model/GlobalAppModel';
 import LoadingScreen from '../widget/LoadingScreen';
 var loadingImage = '';
-
+const maxWidth = Dimensions.get('window').width;
+const imageHeight = (maxWidth / 16) * 9;
 export default class TransactionHistory extends Component {
   static navigationOptions = {
     header: null,
@@ -154,7 +156,7 @@ export default class TransactionHistory extends Component {
                                   }}>
                                   <TouchableOpacity
                                     onPress={() => {
-                                     this.setState({ visibleIamge: false, selectedImage: '' });
+                                      this.setState({ visibleIamge: false, selectedImage: '' });
                                     }}>
                                     <MDIcon
                                       style={{ fontSize: 30, color: 'white', marginLeft: 15 }}
@@ -225,18 +227,18 @@ export default class TransactionHistory extends Component {
     } else {
       return (
         <>
-          <View style={{ hegith: 150 }}>
+          <View style={{ hegith: imageHeight }}>
             <Image
-              style={{ height: 150 }}
+              style={{ height: imageHeight }}
               source={{
                 uri:
-                  'http://preview.byaviators.com/template/superlist/assets/img/tmp/agent-2.jpg',
+                  APIConstant.HEADER_IMAGE,
               }}
               resizeMode="cover"
             />
-            <View style={styles.imageOverlay} />
+            {/* <View style={styles.imageOverlay} /> */}
           </View>
-          <View style={{ flexDirection: 'row', paddingHorizontal: 10,marginBottom:10, marginTop: 10, marginHorizontal: 15, borderWidth: 2, borderRadius: 5, borderColor: 'rgba(153,153,153,1)', alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', paddingHorizontal: 10, marginBottom: 10, marginTop: 10, marginHorizontal: 15, borderWidth: 2, borderRadius: 5, borderColor: 'rgba(153,153,153,1)', alignItems: 'center' }}>
             <MDIcon name={'search'} style={{ fontSize: 24 }} />
             <TextInput
               placeholder="Location Name"
@@ -256,7 +258,7 @@ export default class TransactionHistory extends Component {
             scrollEnabled={true}
             ListEmptyComponent={() => {
               return (<View style={{ flex: 1, height: '100%', alignContent: 'center', justifyContent: 'center', }}>
-                <Text style={{ fontSize: 20, alignSelf: 'center', marginTop: 150 }}>No Transaction Found</Text>
+                <Text style={{ fontSize: 20, alignSelf: 'center', marginTop:'20%' }}>No Transaction Found</Text>
               </View>)
             }}
             data={this.state.search ? this.state.filteredData : this.state.data}
@@ -279,13 +281,13 @@ export default class TransactionHistory extends Component {
                   </Text>
                 </View>
 
-                <View style={{ flex: 1, flexDirection: 'row' }}>
+                {this.state.selectedIndex == index && <View style={{ flex: 1, flexDirection: 'row' }}>
                   <MDIcon style={styles.rowItemIcon} name={'location-on'} />
                   <Text style={styles.rowTitle}>Location: </Text>
                   <Text style={[styles.rowItemtext, { color: 'grey' }]}>
-                    {item.locaitonName}
+                    {item.locationName}
                   </Text>
-                </View>
+                </View>}
 
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                   <Icon name="gift" style={[styles.rowItemIcon, { marginLeft: 1 }]} size={20} />
@@ -309,22 +311,22 @@ export default class TransactionHistory extends Component {
                   </Text>
                 </View>
 
-                <View style={{ flex: 1, flexDirection: 'row' }}>
+                {this.state.selectedIndex == index && <View style={{ flex: 1, flexDirection: 'row' }}>
                   <MDIcon style={styles.rowItemIcon} name={'style'} />
                   <Text style={styles.rowTitle}>Type: </Text>
                   <Text style={[styles.rowItemtext]}>
                     {item.type}
                   </Text>
-                </View>
+                </View>}
 
-                <View style={{ flex: 1, flexDirection: 'row' }}>
+                {this.state.selectedIndex == index && <View style={{ flex: 1, flexDirection: 'row' }}>
                   <MDIcon style={styles.rowItemIcon} name={'loop'} />
                   <Text style={styles.rowTitle}>Status: </Text>
                   <Text style={[styles.rowItemtext]}>
                     {item.transactionStatus}
                   </Text>
-                </View>
-                {this.state.selectedIndex == index && this._renderChieldMenus(item)}
+                </View>}
+                {this.state.selectedIndex == index && (this._renderChieldMenus(item))}
                 <TouchableOpacity
                   activeOpacity={0.8}
                   onPress={() => {
@@ -349,7 +351,7 @@ export default class TransactionHistory extends Component {
 
   render() {
     return (
-      <SafeAreaView style={{flex:1}}>
+      <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.mainContainer}>
           <ScreenHeader
             title={'Transaction History'}
@@ -385,6 +387,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 20,
     minWidth: 20,
+    color:'grey'
   },
   rowTitle: {
     paddingLeft: 7,

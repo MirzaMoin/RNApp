@@ -4,29 +4,32 @@
  */
 
 import React, { Component } from 'react';
-import { 
+import {
   StyleSheet,
   View,
   Image,
   AsyncStorage,
-  Alert
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import apiConstant from '../api/apiConstant';
 import GlobalFont from 'react-native-global-font'
 import { makeRequest } from './../api/apiCall';
 import APIConstant from './../api/apiConstant';
-import HomeModel  from './../model/HomeModel';
-import LoginScreenModel  from './../model/LoginScreenModel';
-import GlobalAppModel  from './../model/GlobalAppModel';
+import HomeModel from './../model/HomeModel';
+import LoginScreenModel from './../model/LoginScreenModel';
+import GlobalAppModel from './../model/GlobalAppModel';
 import firebase from 'react-native-firebase';
 import Toast from 'react-native-root-toast';
+import LoadingScreen from '../widget/LoadingScreen';
+
 //import MenuLinkModel  from './../model/MenuLinkModel';
 //import MenuPermissionModel  from './../model/MenuPermissionModel';
 
 import { createBeaconTable } from './../database/BeaconDatabase';
-
+// var img='';
 export default class SplashScreen extends Component {
-  
+
   static navigationOptions = {
     header: null,
   };
@@ -34,15 +37,18 @@ export default class SplashScreen extends Component {
   constructor() {
     console.log('Constructor called');
     super();
+    this.state={
+      img:'',
+    }
   }
-
   componentDidMount() {
     let fontName = 'regular'
     // GlobalFont.applyGlobal(fontName)
     this.createTBL();
+    this._getLoadingImage();
   }
-  createTBL = async ()  => {
-    await createBeaconTable();
+  createTBL = async () => {
+    // await createBeaconTable();
     // print('Data Created Splash');
   }
 
@@ -122,7 +128,7 @@ export default class SplashScreen extends Component {
 
   async componentWillMount() {
     this._storeBOData();
-    this._callGetAppIntakeData()
+    // this._callGetAppIntakeData()
     //this._getLoginData();
   }
 
@@ -157,8 +163,8 @@ export default class SplashScreen extends Component {
     let url = await firebase.links().getInitialLink();
     firebase.links().getInit
     console.log(`URL : ${url} :`)
-    if(url === 'some_condition_here'){
-    //code to execute
+    if (url === 'some_condition_here') {
+      //code to execute
     }
     const ID = this.getParameterFromUrl(url, 'invitedBy');
     const invitedBy = this.getParameterFromUrl(url, 'invitedFrom')
@@ -170,7 +176,7 @@ export default class SplashScreen extends Component {
       hideOnPress: true,
       delay: 0,
     });*/
-    
+
     await AsyncStorage.setItem(
       'inviteFrom',
       invitedBy
@@ -184,7 +190,6 @@ export default class SplashScreen extends Component {
   }
 
   _callSentLinkClickData = (invitedBy, link, rpID) => {
-    
     const request = {
       rewardProgramId: rpID,
       referContactId: invitedBy,
@@ -225,32 +230,36 @@ export default class SplashScreen extends Component {
         'GlobalAppModel',
         JSON.stringify(GlobalAppModel)
       );
+      await AsyncStorage.setItem(
+        'Loading_image',
+        GlobalAppModel.loadingImages[0]['imageUrl']
+        // JSON.stringify(GlobalAppModel.loadingImages[0]['imageUrl'])
+      );
+      console.log("GlobalAppModel.loadingImages " + GlobalAppModel.loadingImages[0]['imageUrl'])
     } catch (error) {
       console.log('error while store data : ' + error)
     }
+  }
+  _getLoadingImage = async () => {
+    that=this
+    AsyncStorage.getItem('Loading_image').then((image) => {
+      this.setState({
+        img:image
+      })
+      setTimeout(function () {
+        that._callGetAppIntakeData();
+      }, 100);
+
+    })
   }
 
   render() {
     return (
       <View style={styles.baseContainer}>
-        <View style={styles.backgroundImageBase}>
-          <Image
-            style={styles.backgroundImage}
-            source={require('./../../Image/splash_screen_image.png')}
-            resizeMode="cover"
-          />
-        </View>
-        <View style={styles.baseScrollView}>
-          <Image
-            style={styles.profileContainer}
-            source={{
-              uri: apiConstant.USER_IMAGE,
-            }}
-            resizeMode="cover"
-          />
-        </View>
+        <LoadingScreen LoadingImage={this.state.img} />
       </View>
     );
+    return null;
   }
 }
 
@@ -266,7 +275,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.8)',
+    backgroundColor: 'rgba(0,0,0,0.2)',
   },
   backgroundImage: {
     height: null,

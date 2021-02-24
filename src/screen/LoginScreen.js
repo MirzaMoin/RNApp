@@ -32,6 +32,7 @@ import MDIcon from "react-native-vector-icons/MaterialIcons";
 import Icon from "react-native-vector-icons/dist/FontAwesome";
 import { MenuProvider } from "react-native-popup-menu";
 import LinearGradient from "react-native-linear-gradient";
+import Video from 'react-native-video';
 import {
   Menu,
   MenuOptions,
@@ -927,26 +928,96 @@ export default class LoginScreen extends Component {
     }
   };
 
+  _showLoginCleanlogin = () => {
+    if (LoginScreenModel.themeType='cleanlogin' ) {
+      return (
+        <View style={{ flex: 1, flexDirection: "column" }}>
+          <TextInput
+            label="Email, Mobile Member ID"
+            labelColor="#ffffff"
+            leftIcon="email"
+            leftIconSize={20}
+            leftIconType="material"
+            underlineColor="#ffffff"
+            color="#ffffff"
+            containerWidth={maxWidth}
+            labelActiveColor="#ffffff"
+            leftIconColor="#ffffff"
+            selectionColor={"#ffffff"}
+            activeColor="#ffffff"
+            rippleColor="rgba(255,255,255,2)"
+            value={this.state.userName}
+            error={this.state.userNameError}
+            onChangeText={(text) => {
+              this.setState({
+                userName: text,
+              });
+            }}
+          />
+
+          <TextInput
+            label="Password"
+            leftIcon="key"
+            leftIconSize={20}
+            containerWidth={maxWidth}
+            leftIconType="material"
+            rightIcon={
+              !this.state.isShowPassword ? "eye-off-outline" : "eye-outline"
+            }
+            rightIconSize={20}
+            paddingRight={30}
+            rightIconType="material"
+            selectionColor={"#ffffff"}
+            labelActiveColor="#ffffff"
+            labelColor="#ffffff"
+            underlineColor="#ffffff"
+            rightIconColor="#ffffff"
+            color="#ffffff"
+            secureTextEntry={this.state.isShowPassword}
+            leftIconColor="#ffffff"
+            rippleColor="rgba(255,255,255,70)"
+            activeColor="#ffffff"
+            onPressRightIcon={this._onShowPasswordClick}
+            value={this.state.password}
+            error={this.state.passwordError}
+            onChangeText={(text) => {
+              this.setState({
+                password: text,
+              });
+            }}
+          />
+
+          <CheckBox
+            title="Remember Password"
+            containerStyle={{
+              backgroundColor: "transparent",
+              borderWidth: 0,
+              justifyContent: "flex-start",
+            }}
+            textStyle={{ color: "white" }}
+            checkedColor={"white"}
+            uncheckedColor={"white"}
+            checked={this.state.isRememberPassword}
+            onPress={() =>
+              this.setState({
+                isRememberPassword: !this.state.isRememberPassword,
+              })
+            }
+          />
+          {this._renderLoginButton()}
+        </View>
+      );
+    }
+  };
+
   _renderLoginButton = () => {
     if (this.state.isLoadingLogin) {
       return (
         <ActivityIndicator style={{ margin: 10 }} color={"white"} size={36} />
       );
     } else {
-      return (
-        <LinearGradient
-          style={{
-            borderRadius: 10,
-            margin: 5,
-            width: 120,
-            alignSelf: "center",
-          }}
-          colors={[
-            parseColor(LoginScreenModel.signInBtnGradientstartColor),
-            parseColor(LoginScreenModel.signInBtnGradientStopColor),
-          ]}
-        >
-          {/* <TouchableNativeFeedback */}
+      if (LoginScreenModel.themeType == 'videomotion') {
+        return (
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -972,14 +1043,61 @@ export default class LoginScreen extends Component {
                 { color: parseColor(LoginScreenModel.signInBtnTextColor) },
               ]}
             >
-              Login
+              {LoginScreenModel.signInBtnText}
             </Text>
             {/* </TouchableNativeFeedback> */}
           </TouchableOpacity>
-        </LinearGradient>
-      );
+        );
+      } else {
+        return (
+          <LinearGradient
+            style={{
+              borderRadius: 10,
+              margin: 5,
+              width: 120,
+              alignSelf: "center",
+            }}
+            colors={[
+              parseColor(LoginScreenModel.signInBtnGradientstartColor),
+              parseColor(LoginScreenModel.signInBtnGradientStopColor),
+            ]}
+          >
+            {/* <TouchableNativeFeedback */}
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                // this.props.navigation.navigate('App')
+                if (this.state.userName) {
+                  if (this.state.password) {
+                    this.setState({ passwordError: "", isLoadingLogin: true });
+                    this._callLogin();
+                  } else {
+                    this.setState({
+                      passwordError: "Enter Passsword",
+                      userNameError: "",
+                    });
+                  }
+                } else {
+                  this.setState({ userNameError: "Please Enter Valid email" });
+                }
+              }}
+            >
+              <Text
+                style={[
+                  styles.buttonText,
+                  { color: parseColor(LoginScreenModel.signInBtnTextColor) },
+                ]}
+              >
+                {LoginScreenModel.signInBtnText}
+            </Text>
+              {/* </TouchableNativeFeedback> */}
+            </TouchableOpacity>
+          </LinearGradient>
+        );
+      }
     }
   };
+  
 
   _renderSignupButton = () => {
     if (this.state.isLoadingSignupform) {
@@ -987,30 +1105,62 @@ export default class LoginScreen extends Component {
         <ActivityIndicator style={{ margin: 10 }} color={"white"} size={36} />
       );
     } else {
-      return (
-        <LinearGradient
-          style={{ borderRadius: 10, margin: 5 }}
-          colors={[
-            parseColor(LoginScreenModel.joinNowBtnGradientstartColor),
-            parseColor(LoginScreenModel.joinNowBtnGradientStopColor),
-          ]}
-        >
-          {/* <TouchableNativeFeedback */}
-          <TouchableOpacity style={styles.button} onPress={this._onSignUpClick}>
-            <Text
-              style={[
-                styles.buttonText,
-                { color: LoginScreenModel.joinNowBtnTextColor },
-              ]}
-            >
-              {this.state.isShowSignUp
-                ? "Register"
-                : `${LoginScreenModel.joinNowBtnText}`}
-            </Text>
-            {/* </TouchableNativeFeedback> */}
-          </TouchableOpacity>
-        </LinearGradient>
-      );
+      if (LoginScreenModel.themeType == 'videomotion') {
+        return (
+          <LinearGradient
+            style={{ borderRadius: 5, margin: 5 }}
+            colors={[
+              parseColor(LoginScreenModel.joinNowBtnGradientstartColor),
+              parseColor(LoginScreenModel.joinNowBtnGradientStopColor),
+            ]}
+          >
+            {/* <TouchableNativeFeedback */}
+            <TouchableOpacity style={{
+              minWidth: 120,
+              borderRadius: 5,
+              alignSelf: "center",
+              maxWidth: 500,}} onPress={this._onSignUpClick}>
+              <Text
+                style={[
+                  styles.buttonText,
+                  { color: parseColor(LoginScreenModel.joinNowBtnTextColor) },
+                ]}
+              >
+                {this.state.isShowSignUp
+                  ? "Register"
+                  : `${LoginScreenModel.joinNowBtnText}`}
+              </Text>
+              {/* </TouchableNativeFeedback> */}
+            </TouchableOpacity>
+          </LinearGradient>
+        );
+      }
+      else {
+        return (
+          <LinearGradient
+            style={{ borderRadius: 10, margin: 5 }}
+            colors={[
+              parseColor(LoginScreenModel.joinNowBtnGradientstartColor),
+              parseColor(LoginScreenModel.joinNowBtnGradientStopColor),
+            ]}
+          >
+            {/* <TouchableNativeFeedback */}
+            <TouchableOpacity style={styles.button} onPress={this._onSignUpClick}>
+              <Text
+                style={[
+                  styles.buttonText,
+                  { color: LoginScreenModel.joinNowBtnTextColor },
+                ]}
+              >
+                {this.state.isShowSignUp
+                  ? "Register"
+                  : `${LoginScreenModel.joinNowBtnText}`}
+              </Text>
+              {/* </TouchableNativeFeedback> */}
+            </TouchableOpacity>
+          </LinearGradient>
+        );
+      }
     }
   };
 
@@ -1257,7 +1407,7 @@ export default class LoginScreen extends Component {
           rippleColor="rgba(255,255,255,2)"
           error={this.state.signupError.email}
           onChangeText={(text) => {
-            let emailTrim=text.trim();
+            let emailTrim = text.trim();
             this.setState(
               {
                 signup: {
@@ -2646,6 +2796,7 @@ export default class LoginScreen extends Component {
           </Text>
 
           {this._renderForgotButton()}
+          <View style={{ margin: 5, padding: 5 }} />
         </View>
       );
     }
@@ -2679,7 +2830,7 @@ export default class LoginScreen extends Component {
               });
             } else {
               this.setState({
-                forgotPasswordError: "Please valida user email or mobile",
+                forgotPasswordError: "Please validate user email or mobile",
               });
             }
           }}
@@ -2734,120 +2885,425 @@ export default class LoginScreen extends Component {
 
   render() {
     return (
-      <MenuProvider>
-        <KeyboardAvoidingView
-          style={styles.baseContainer}
-          behavior="padding"
-          enabled={Platform.OS === "ios" ? true : false}
-        >
-          <View
-            style={[
-              styles.baseContainer,
-              { backgroundColor: LoginScreenModel.bgColor },
-            ]}
-          >
-            <View
-              style={[
-                styles.backgroundImageBase,
-                { backgroundColor: parseColor(LoginScreenModel.bgColor) },
-              ]}
+      <>
+        {/* this is for video motion */}
+        {LoginScreenModel.themeType == 'videomotion' &&
+          <MenuProvider>
+            <KeyboardAvoidingView
+              style={styles.baseContainer}
+              behavior="padding"
+              enabled={Platform.OS === "ios" ? true : false}
             >
-              <Image
-                style={styles.backgroundImage}
-                // source={require('./Image/background.png')}
-                source={{
-                  uri: LoginScreenModel.logInBackgroundImage,
-                }}
-                resizeMode="cover"
-              />
-            </View>
-            <View style={styles.baseScrollView}>
-              <ScrollView
-                keyboardShouldPersistTaps={true}
-                showsVerticalScrollIndicator={false}
-                bounces={false}
-                contentContainerStyle={{
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <View style={styles.mainContainer}>
-                  <Text
-                    style={[
-                      styles.textStyle,
-                      { color: parseColor(LoginScreenModel.bannerDescColor) },
-                    ]}
+              <View style={[styles.baseContainer, { backgroundColor: parseColor(LoginScreenModel.bgColor) },]}>
+                <Video
+                  source={{
+                    uri: LoginScreenModel.logInBackgroundVideo
+                    // 'https://rawgit.com/mediaelement/mediaelement-files/master/big_buck_bunny.mp4',
+                  }}
+                  ref={ref => {
+                    this.player = ref;
+                  }}
+                  onBuffer={this.onBuffer}
+                  onError={this.videoError}
+                  // controls={true}
+                  repeat={true}
+                  resizeMode={'cover'}
+                  style={styles.backgroundVideo}
+                />
+                <View style={styles.baseScrollView}>
+                  <ScrollView
+                    keyboardShouldPersistTaps={true}
+                    showsVerticalScrollIndicator={false}
+                    bounces={false}
+                    contentContainerStyle={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
                   >
-                    {LoginScreenModel.bannerDescText}
-                  </Text>
-                  <View style={styles.seprator} />
-                  <Text
-                    style={[
-                      styles.textStyle2,
-                      { color: parseColor(LoginScreenModel.subDescColor) },
-                    ]}
-                  >
-                    {LoginScreenModel.subDescText}
-                  </Text>
-                  {this._showSignUp()}
-                  {this._renderSignupButton()}
-                  <LinearGradient
-                    style={{ borderRadius: 10, margin: 5 }}
-                    colors={[
-                      parseColor(LoginScreenModel.signInBtnGradientstartColor),
-                      parseColor(LoginScreenModel.signInBtnGradientStopColor),
-                    ]}
-                  >
-                    {/* <TouchableNativeFeedback */}
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={this._onLoginClick}
-                    >
+                    <View style={{
+                      borderRadius: 5,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      alignContent: "stretch",
+                      alignSelf: "center",
+                      // backgroundColor: "rgba(0, 0, 0,0.30)",
+                      margin: 20,
+                      top: 0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      padding: 20,
+                    }}>
                       <Text
                         style={[
-                          styles.buttonText,
+                          styles.textStyle,
+                          { color: parseColor(LoginScreenModel.bannerDescColor) },
+                        ]}
+                      >
+                        {LoginScreenModel.bannerDescText}
+                      </Text>
+                      {/* <View style={styles.seprator} /> */}
+                      {/* <Text
+                        style={[
+                          styles.textStyle2,
+                          { color: parseColor(LoginScreenModel.subDescColor) },
+                        ]}
+                      >
+                        {LoginScreenModel.subDescText}
+                      </Text> */}
+                      {this._showSignUp()}
+                      {this._renderSignupButton()}
+                      {/* <LinearGradient
+                        style={{ borderRadius: 10, margin: 5 }}
+                        colors={[
+                          parseColor(LoginScreenModel.signInBtnGradientstartColor),
+                          parseColor(LoginScreenModel.signInBtnGradientStopColor),
+                        ]}
+                      > */}
+                      {/* <TouchableNativeFeedback */}
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={this._onLoginClick}
+                      >
+                        <Text
+                          style={[
+                            styles.buttonText,
+                            {
+                              color: parseColor(
+                                LoginScreenModel.signInBtnTextColor
+                              ),
+                            },
+                          ]}
+                        >
+                          {LoginScreenModel.signInBtnText}
+                        </Text>
+                        {/* </TouchableNativeFeedback> */}
+                      </TouchableOpacity>
+                      {/* </LinearGradient> */}
+                      {this._showLogin()}
+                      {/* <Text
+                        style={[
+                          styles.forgotPassword,
                           {
                             color: parseColor(
-                              LoginScreenModel.signInBtnTextColor
+                              LoginScreenModel.forgotPwdBtnTextColor
                             ),
                           },
                         ]}
+                        onPress={this._onForgotPasswordClick}
                       >
-                        {LoginScreenModel.signInBtnText}
+                        {LoginScreenModel.forgotPwdBtnText}
                       </Text>
-                      {/* </TouchableNativeFeedback> */}
-                    </TouchableOpacity>
-                  </LinearGradient>
-                  {this._showLogin()}
-                  <Text
-                    style={[
-                      styles.forgotPassword,
-                      {
-                        color: parseColor(
-                          LoginScreenModel.forgotPwdBtnTextColor
-                        ),
-                      },
-                    ]}
-                    onPress={this._onForgotPasswordClick}
-                  >
-                    {LoginScreenModel.forgotPwdBtnText}
-                  </Text>
-                  <View
-                    style={{
-                      width: 170,
-                      margine: -10,
-                      height: 1,
-                      backgroundColor: "#ffffff",
-                    }}
-                  />
-                  {this._showForgotPassword()}
+                      <View
+                        style={{
+                          width: 170,
+                          margine: -10,
+                          height: 1,
+                          backgroundColor: "#ffffff",
+                        }}
+                      /> */}
+                      {/* {this._showForgotPassword()} */}
+                    </View>
+                  </ScrollView>
                 </View>
-              </ScrollView>
+
+
+              </View>
+            </KeyboardAvoidingView>
+          </MenuProvider>
+        }
+        {/* this is for cleanlogin */}
+        {LoginScreenModel.themeType == 'cleanbuttons' &&
+          <MenuProvider>
+            <KeyboardAvoidingView
+              style={styles.baseContainer}
+              behavior="padding"
+              enabled={Platform.OS === "ios" ? true : false}
+            >
+              <View
+                style={[
+                  styles.baseContainer,
+                  { backgroundColor: LoginScreenModel.bgColor },
+                ]}
+              >
+                <View
+                  style={[
+                    styles.backgroundImageBase,
+                    { backgroundColor: parseColor(LoginScreenModel.bgColor) },
+                  ]}
+                >
+                  <Image
+                    style={styles.backgroundImage}
+                    // source={require('./Image/background.png')}
+                    source={{
+                      uri: LoginScreenModel.logInBackgroundImage,
+                    }}
+                    resizeMode="cover"
+                  />
+                </View>
+                <View style={styles.baseScrollView}>
+                  <ScrollView
+                    keyboardShouldPersistTaps={true}
+                    showsVerticalScrollIndicator={false}
+                    bounces={false}
+                    contentContainerStyle={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View style={styles.mainContainer}>
+                      <Text
+                        style={[
+                          styles.textStyle,
+                          { color: parseColor(LoginScreenModel.bannerDescColor) },
+                        ]}
+                      >
+                        {LoginScreenModel.bannerDescText}
+                      </Text>
+                      <View style={styles.seprator} />
+                      <Text
+                        style={[
+                          styles.textStyle2,
+                          { color: parseColor(LoginScreenModel.subDescColor) },
+                        ]}
+                      >
+                        {LoginScreenModel.subDescText}
+                      </Text>
+                      {this._showSignUp()}
+                      {this._renderSignupButton()}
+                      <LinearGradient
+                        style={{ borderRadius: 10, margin: 5 }}
+                        colors={[
+                          parseColor(LoginScreenModel.signInBtnGradientstartColor),
+                          parseColor(LoginScreenModel.signInBtnGradientStopColor),
+                        ]}
+                      >
+                        {/* <TouchableNativeFeedback */}
+                        <TouchableOpacity
+                          style={styles.button}
+                          onPress={this._onLoginClick}
+                        >
+                          <Text
+                            style={[
+                              styles.buttonText,
+                              {
+                                color: parseColor(
+                                  LoginScreenModel.signInBtnTextColor
+                                ),
+                              },
+                            ]}
+                          >
+                            {LoginScreenModel.signInBtnText}
+                          </Text>
+                          {/* </TouchableNativeFeedback> */}
+                        </TouchableOpacity>
+                      </LinearGradient>
+                      {this._showLogin()}
+                      <Text
+                        style={[
+                          styles.forgotPassword,
+                          {
+                            color: parseColor(
+                              LoginScreenModel.forgotPwdBtnTextColor
+                            ),
+                          },
+                        ]}
+                        onPress={this._onForgotPasswordClick}
+                      >
+                        {LoginScreenModel.forgotPwdBtnText}
+                      </Text>
+                      <View
+                        style={{
+                          width: 170,
+                          margine: -10,
+                          height: 1,
+                          backgroundColor: "#ffffff",
+                        }}
+                      />
+                      {this._showForgotPassword()}
+                    </View>
+                  </ScrollView>
+                </View>
+              </View>
+            </KeyboardAvoidingView>
+          </MenuProvider>
+        }
+        {/* this is for cleanbuttons */}
+        {LoginScreenModel.themeType == 'cleanlogin' && 
+        <MenuProvider>
+          <KeyboardAvoidingView
+            style={styles.baseContainer}
+            behavior="padding"
+            enabled={true}
+            // enabled={Platform.OS === "ios" ? true : false}
+          >
+            <View
+              style={[
+                styles.baseContainer,
+                { backgroundColor: LoginScreenModel.bgColor },
+              ]}
+            >
+              <View
+                style={[
+                  styles.backgroundImageBase,
+                  { backgroundColor: parseColor(LoginScreenModel.bgColor) },
+                ]}
+              >
+                <Image
+                  style={styles.backgroundImage}
+                  // source={require('./Image/background.png')}
+                  source={{
+                    uri: LoginScreenModel.logInBackgroundImage,
+                  }}
+                  resizeMode="cover"
+                />
+              </View>
+              <View style={{
+                // alignItems: "center",
+                justifyContent: "space-around",
+                flexDirection: 'column',
+                flex: 1,
+              }}>
+                {/* <Image source={{ uri: LoginScreenModel.logInLogoImage }} style={{ height: "30%", width: "50%",alignSelf:'center' }} resizeMode="contain" /> */}
+                <ScrollView
+                  keyboardShouldPersistTaps={true}
+                  showsVerticalScrollIndicator={false}
+                  bounces={false}
+                  contentContainerStyle={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",    
+                  }}
+                >
+                  <View style={{
+                    borderRadius: 10,
+                    // alignItems: "center",
+                    // justifyContent: "center",
+                    // alignContent: "stretch",
+                    // alignSelf: "center",
+                    // backgroundColor: "rgba(0, 0, 0,0.30)",
+                    margin: 20,
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    padding: 20,
+                    alignSelf:'center',
+                    alignItems:'center'
+                  }}>
+                    <Image source={{ uri: LoginScreenModel.logInLogoImage }} style={{ height: width/2, width: width, alignSelf: 'center' }} resizeMode="contain" />
+                    {/* {this._showLogin()} */}
+                    {this._showLoginCleanlogin()}
+                    {this._showForgotPassword()}
+                    {this._showSignUp()}
+                    {/* {this._renderSignupButton()} */}
+                    {/* <Text
+                      style={[
+                        styles.textStyle,
+                        { color: parseColor(LoginScreenModel.bannerDescColor) },
+                      ]}
+                    >
+                      {LoginScreenModel.bannerDescText}
+                    </Text> */}
+                    {/* <View style={styles.seprator} /> */}
+                    {/* <Text
+                      style={[
+                        styles.textStyle2,
+                        { color: parseColor(LoginScreenModel.subDescColor) },
+                      ]}
+                    >
+                      {LoginScreenModel.subDescText}
+                    </Text> */}
+                    {/* {this._showSignUp()}
+                    {this._renderSignupButton()} */}
+                    <LinearGradient
+                      style={{ borderRadius: 10, margin: 5 }}
+                      colors={[
+                        parseColor(LoginScreenModel.signInBtnGradientstartColor),
+                        parseColor(LoginScreenModel.signInBtnGradientStopColor),
+                      ]}
+                    >
+                      {/* <TouchableNativeFeedback */}
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={this._onLoginClick}
+                      >
+                        <Text
+                          style={[
+                            styles.buttonText,
+                            {
+                              color: parseColor(
+                                LoginScreenModel.signInBtnTextColor
+                              ),
+                            },
+                          ]}
+                        >
+                          {LoginScreenModel.signInBtnText}
+                        </Text>
+                        {/* </TouchableNativeFeedback> */}
+                      </TouchableOpacity>
+                    </LinearGradient>
+                    {/* {this._showLogin()} */}
+                    {/* <Text
+                      style={[
+                        styles.forgotPassword,
+                        {
+                          color: parseColor(
+                            LoginScreenModel.forgotPwdBtnTextColor
+                          ),
+                        },
+                      ]}
+                      onPress={this._onForgotPasswordClick}
+                    >
+                      {LoginScreenModel.forgotPwdBtnText}
+                    </Text> */}
+                    <LinearGradient
+                      style={{ borderRadius: 10, margin: 5 }}
+                      colors={[
+                        parseColor(LoginScreenModel.forgotPwdBtnGradientstartColor),
+                        parseColor(LoginScreenModel.forgotPwdBtnGradientStopColor),
+                      ]}
+                    >
+                      {/* <TouchableNativeFeedback */}
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={this._onForgotPasswordClick}
+                      >
+                        <Text
+                          style={[
+                            styles.buttonText,
+                            {
+                              color: parseColor(
+                                LoginScreenModel.forgotPwdBtnTextColor
+                              ),
+                            },
+                          ]}
+                        >
+                          {LoginScreenModel.forgotPwdBtnText}
+                        </Text>
+                        {/* </TouchableNativeFeedback> */}
+                      </TouchableOpacity>
+                    </LinearGradient>
+                    {/* <View
+                      style={{
+                        width: 170,
+                        margine: -10,
+                        height: 1,
+                        backgroundColor: "#ffffff",
+                      }}
+                    /> */}
+                    {this._renderSignupButton()}
+                    {/* {this._showForgotPassword()} */}
+                  </View>
+                </ScrollView>
+              </View>
             </View>
-          </View>
-        </KeyboardAvoidingView>
-      </MenuProvider>
+          </KeyboardAvoidingView>
+        </MenuProvider>
+   }
+      </>
     );
   }
 }
@@ -2947,5 +3403,12 @@ const styles = StyleSheet.create({
     fontSize: 17,
     textAlign: "center",
     margin: 10,
+  },
+  backgroundVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
 });

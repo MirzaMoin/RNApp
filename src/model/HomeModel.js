@@ -27,8 +27,12 @@ class HomeModel {
     homePageTopBackgroundOpacity;
     homePageTopTextLine1;
     homePageTopTextLine1Color;
+    homePageTopTextUnderLine1;
+    homePageTopTextUnderLine1Color;
     homePageTopTextLine2;
     homePageTopTextLine2Color;
+    homePageTopTextUnderLine2;
+    homePageTopTextUnderLine2Color;
     homePageDisplayTopButton;
     homePageTopButtonText;
     homePageTopButtonTextColor;
@@ -73,8 +77,12 @@ class HomeModel {
         this.homePageTopBackgroundOpacity = data.homePageTopBackgroundOpacity;
         this.homePageTopTextLine1 = data.homePageTopTextLine1;
         this.homePageTopTextLine1Color = data.homePageTopTextLine1Color;
+        this.homePageTopTextUnderLine1 = data.homePageTopTextUnderLine1;
+        this.homePageTopTextUnderLine1Color = data.homePageTopTextUnderLine1Color;
         this.homePageTopTextLine2 = data.homePageTopTextLine2;
         this.homePageTopTextLine2Color = data.homePageTopTextLine2Color;
+        this.homePageTopTextUnderLine2 = data.homePageTopTextUnderLine2;
+        this.homePageTopTextUnderLine2Color = data.homePageTopTextUnderLine2Color;
         this.homePageDisplayTopButton = data.homePageDisplayTopButton;
         this.homePageTopButtonText = data.homePageTopButtonText;
         this.homePageTopButtonTextColor = data.homePageTopButtonTextColor;

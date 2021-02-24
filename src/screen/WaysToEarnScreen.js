@@ -227,13 +227,13 @@ const styles = {
   title: {
     flex: 1,
     fontSize: 21,
-    color: '#576b81',
+    color: 'black',
   },
   description: {
     marginTop: 10,
     textAlign: 'justify',
     fontSize: 16,
-    color: '#576b81',
+    color: 'black',
   },
   subTitle: {
     flex: 1,
