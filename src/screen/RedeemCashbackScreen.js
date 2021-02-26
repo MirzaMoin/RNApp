@@ -219,13 +219,13 @@ export default class RedeemCashbackScreen extends Component {
                 />
                 <View style={styles.imageOverlay} />
               </View>
-              <View style={{ paddingHorizontal: 10, flex: 1, paddingTop: 5 }}>
-                <Text style={{ fontSize: 24, padding: 10, paddingBottom: 0 }}>How much chashback would you like to?</Text>
+              <View style={{ paddingHorizontal: 0, flex: 1, paddingTop: 0, margin:10 }}>
+                {/* <Text style={{ fontSize: 24, padding: 0, paddingBottom: 0,backgroundColor:'red' }}>How much chashback would you like to?</Text> */}
                 {/* <TouchableNativeFeedback */}
                 <TouchableOpacity
                   activeOpacity={0.8}
                   onPress={() => this.setState({ otherAmount: this.state.amount })}>
-                  <View style={{ borderRadius: 15, height: 180, width: '90%', alignItems: 'center', justifyContent: 'center', alignContent: 'center', alignSelf: 'center', marginVertical: 10 }}>
+                  <View style={{ borderRadius: 15, height: 180, width: '95%', alignItems: 'center', justifyContent: 'center', alignContent: 'center', alignSelf: 'center', marginVertical: 0 }}>
                     <Image
                       style={{
                         width: '100%',
@@ -254,7 +254,7 @@ export default class RedeemCashbackScreen extends Component {
                 borderTopLeftRadius: 15,
                 borderTopRightRadius: 15,
                 marginBottom: 0,
-                marginHorizontal: 25,
+                marginHorizontal: 20,
               }}>
               {this.state.isAllowPartialCashbackRedemption && <View>
                 <Text
@@ -271,7 +271,7 @@ export default class RedeemCashbackScreen extends Component {
                     borderRadius: 10,
                     flexDirection: 'row',
                     marginBottom: 0,
-                    width: '88%',
+                    width: '95%',
                     alignSelf: 'center',
                   }}>
                   <Text style={{ alignSelf: 'center', fontSize: 16 }}>$</Text>
@@ -296,7 +296,7 @@ export default class RedeemCashbackScreen extends Component {
                   containerStyle={{ backgroundColor: GlobalAppModel.primaryButtonColor || '#012345', }}
                   swipeSuccessThreshold={80}
                   thumbIconComponent={this._renderIcon}
-                  width={'88%'}
+                  width={'95%'}
                   title="Slide to Redeem"
                   titleColor={'white'}
                   railBackgroundColor={GlobalAppModel.primaryButtonColor || '#012345'}

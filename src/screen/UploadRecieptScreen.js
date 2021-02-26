@@ -271,7 +271,7 @@ export default class UploadReceiptScreen extends Component {
           label={this.state.settingsDetails.urSubTotalBeforeTax || 'Subtotal before tax'}
           leftIcon="credit-card"
           leftIconSize={20}
-          containerWidth={'80%'}
+          containerWidth={maxWidth}
           leftIconType="material"
           selectionColor={'gray'}
           labelActiveColor={'#012345'}
@@ -301,7 +301,7 @@ export default class UploadReceiptScreen extends Component {
           label={this.state.settingsDetails.urReceiptNumber || 'Receipt number'}
           leftIcon="receipt"
           leftIconSize={20}
-          containerWidth={'80%'}
+          containerWidth={maxWidth}
           leftIconType="material"
           selectionColor={'gray'}
           labelActiveColor={'#012345'}
@@ -334,7 +334,7 @@ export default class UploadReceiptScreen extends Component {
   _renderReceiptCategory = () => {
     if (this.state.settingsDetails.isShowURReceiptType) {
       return (
-        <View style={{ width: '80%' }}>
+        <View style={{ width: maxWidth-25 }}>
           <SectionedMultiSelect
             items={this.state.categories}
             uniqueKey="id"
@@ -396,7 +396,7 @@ export default class UploadReceiptScreen extends Component {
         }
       });
       return (
-        <View style={{ width: '80%' }}>
+        <View style={{ width: maxWidth-25, }}>
           <SectionedMultiSelect
             items={item}
             modalWithSafeAreaView={true}
@@ -444,7 +444,7 @@ export default class UploadReceiptScreen extends Component {
   _renderReceiptDate = () => {
     if (this.state.settingsDetails.isShowURReceiptDate) {
       return (
-        <View style={{ width: '80%', flexDirection: 'column', marginTop: 5, marginBottom: 5 }}>
+        <View style={{ width: maxWidth-25, flexDirection: 'column', marginTop: 5, marginBottom: 5 }}>
           {this._renderLabel(this.state.receiptDate, this.state.settingsDetails.urReceiptDate || 'Receipt Date')}
           <DatePicker
             date={this.state.receiptDate}

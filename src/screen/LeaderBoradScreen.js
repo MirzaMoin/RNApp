@@ -297,7 +297,7 @@ export default class LeaderBoardScreen extends Component {
             {this._buildThirdWinner()}
           </View>
           <FlatList
-            style={{ flex: 1, marginTop: 50, paddingHorizontal: 20 }}
+            style={{ flex: 1, marginTop: 50, paddingHorizontal: 0, }}
             data={this.state.leaderBoardReport}
             ListEmptyComponent={() => {
               return (

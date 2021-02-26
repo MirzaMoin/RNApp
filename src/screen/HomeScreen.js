@@ -456,8 +456,7 @@ export default class HomeScreen extends Component {
 
   // bottom container for showing dynamic internal and external links
   _renderBottomContainer = () => {
-    if(HomeModel.footerLinks==null){ return null }
-    else  return (
+    return (
       <ImageBackground
         ref={(ref) => (this.viewParent = ref)}
         onLayout={this.onPageLayout}
@@ -505,7 +504,6 @@ export default class HomeScreen extends Component {
                     resizeMode="cover"
                   >
                     <View>
-                      {/* uncomment this if api changes */}
                       <LinearGradient
                         // colors={[
                         //   parseColor(menuLink.menuTopColor),
@@ -520,12 +518,12 @@ export default class HomeScreen extends Component {
                         }}
                       />
                       <View>
-                        <View
+                        {/* <View
                           style={{
-                            height: 1,
+                            height: 10,
                             backgroundColor: "rgba(153,153,153,1)",
                           }}
-                        />
+                        /> */}
                         <TouchableOpacity
                           activeOpacity={0.8}
                           onPress={() => {

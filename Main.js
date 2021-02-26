@@ -279,7 +279,7 @@ const renderProfileScreenMenu = (props) => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <MDIcon name={'person'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold' }}>Edit Profile</Text>
+        <Text style={{ fontWeight: 'bold' }}>Update Profile</Text>
       </View>
     </TouchableOpacity>
   )
@@ -471,7 +471,7 @@ const renderRefereFriend = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <MDIcon name={'group-add'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold' }}>Refere Friend</Text>
+        <Text style={{ fontWeight: 'bold' }}>Refer Friend</Text>
       </View>
     </TouchableOpacity>
   );

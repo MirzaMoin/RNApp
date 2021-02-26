@@ -22,7 +22,11 @@ import APIConstant from './../api/apiConstant';
 import GlobalAppModel from './../model/GlobalAppModel';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import BottomNavigationTab from './../widget/BottomNavigationTab';
-
+const maxWidth = Dimensions.get('window').width;
+const imageHeight = (maxWidth / 16) * 9;
+const { width } = Dimensions.get("window");
+// const TotalWidth = width - (width * 1) / 100;
+const TotalWidth = width - 20
 export default class ContactUs extends Component {
   static navigationOptions = {
     header: null,
@@ -259,7 +263,7 @@ export default class ContactUs extends Component {
                         label="First Name"
                         leftIcon="account-outline"
                         leftIconSize={20}
-                        containerWidth={maxWidth}
+                        containerWidth={(width/2) -20}
                         value={this.state.firstName}
                         leftIconType="material"
                         error={this.state.errorFirstName}
@@ -275,7 +279,7 @@ export default class ContactUs extends Component {
                         label="Last Name"
                         leftIcon="account-outline"
                         leftIconSize={20}
-                        containerWidth={maxWidth}
+                        containerWidth={(width/2) -25}
                         leftIconType="material"
                         value={this.state.lastName}
                         error={this.state.errorLastName}
@@ -368,11 +372,14 @@ const styles = {
   },
   nameContainer: {
     flexDirection: 'row',
-    marginLeft: '8%',
-    marginRight: '8%',
+    // marginLeft: '8%',
+    // marginRight: '8%',
     marginTop: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
+    width:width,
+    paddingLeft:15,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    // backgroundColor:'red'
   },
   firstNameContainer: {
     flex: 1,

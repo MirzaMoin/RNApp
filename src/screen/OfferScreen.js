@@ -186,7 +186,7 @@ export default class OfferScreen extends Component {
                   onGoBack: () => this._onGoBack(),
                 });
               }}>
-              <View style={{ marginBottom: 10 }}>
+              <View style={{ marginBottom: 0 }}>
                 <View style={{ backgroundColor: 'white' }}>
                   <View style={{ flexDirection: 'column-reverse' }}>
                     <ImageLoader
@@ -196,14 +196,14 @@ export default class OfferScreen extends Component {
                       titleStyle={{ fontSize: 20 }} />
                     <View style={{ height: 250, width: Width, position: 'absolute' }}>
                       <Text style={{
-                        fontSize: 13,
+                        fontSize: 12,
                         backgroundColor: '#4b92d2',
                         borderRadius: 5,
                         color: 'white',
                         alignSelf: 'flex-start',
-                        margin: 20,
-                        padding: 7,
-                        paddingHorizontal: 10
+                        margin: 1,
+                        padding: 5,
+                        paddingHorizontal: 14
                       }}>{item.offerImagelabel}</Text>
                       <View style={{ flex: 1 }} />
                       <Text
@@ -211,12 +211,14 @@ export default class OfferScreen extends Component {
                         ellipsizeMode='tail'
                         style={{
                           fontSize: 18,
-                          // fontWeight: '600',
+                          fontWeight: 'bold',
                           color: parseColor(item.titleColor, 'white'),
                           backgroundColor: 'rgba(256, 20, 0, 1)',
                           // width: Width,
                           alignSelf: 'flex-start',
-                          padding: 5,
+                          // padding: 5,
+                          paddingHorizontal:15,
+                          // paddingVertical:10
                         }}>
                         {item.offerTitle}
                       </Text>

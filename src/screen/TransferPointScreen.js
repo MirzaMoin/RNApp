@@ -127,7 +127,7 @@ export default class TransferPointScreen extends Component {
 
           <ScreenHeader
             navigation={this.props.navigation}
-            title={'Transfer Point'}
+            title={'Transfer Points'}
             userPoint={GlobalAppModel.redeemablePoint} />
           <ScrollView>
             <View style={{ hegith: imageHeight }}>
@@ -142,16 +142,15 @@ export default class TransferPointScreen extends Component {
               {/* <View style={styles.imageOverlay} /> */}
             </View>
 
-            <View style={{ padding: 10, paddingHorizontal: '5%', flex: 1, justifyContent: 'center' }}>
-
-              <Text
+            <View style={{ padding: 10, paddingHorizontal: 10, flex: 1, justifyContent: 'center' }}>
+              {/* <Text
                 style={{
                   fontSize: 22,
                   marginBottom: 10,
                   paddingLeft: 10,
                 }}>
                 How many are you transfering?
-          </Text>
+          </Text> */}
               <Text style={{ padding: 5, paddingLeft: 10, color: this.state.transferAmountError ? 'red' : 'black' }}>Enter Point Amount</Text>
               <View
                 style={{
@@ -177,7 +176,7 @@ export default class TransferPointScreen extends Component {
 
               <View
                 style={{
-                  margin: 30,
+                  margin: 20,
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
@@ -229,7 +228,7 @@ export default class TransferPointScreen extends Component {
                 marginTop: 20,
                 marginRight: 10,
               }}>
-                {/* <SwipeButton
+                <SwipeButton
                   thumbIconBackgroundColor="#FFFFFF"
                   containerStyle={{ backgroundColor: '#012345' }}
                   swipeSuccessThreshold={90}
@@ -243,12 +242,12 @@ export default class TransferPointScreen extends Component {
                   onSwipeSuccess={() => {
                     this._prepareForm()
                   }}
-                /> */}
-                <View style={{backgroundColor:null}}>
-                  <TouchableOpacity style={{ backgroundColor: GlobalAppModel.primaryColor, alignSelf: 'flex-end', padding: 15, borderRadius: 10,width:150 }} onPress={()=>this._prepareForm()}>
-                    {this.state.isLoading ? <ActivityIndicator color={'white'} /> : <Text style={{ color: 'white',alignSelf:'center', }}>Transfer Points</Text>}
+                />
+                {/* <View style={{ backgroundColor: null }}>
+                  <TouchableOpacity style={{ backgroundColor: GlobalAppModel.primaryColor, alignSelf: 'flex-end', padding: 15, borderRadius: 10, width: 150 }} onPress={() => this._prepareForm()}>
+                    {this.state.isLoading ? <ActivityIndicator color={'white'} /> : <Text style={{ color: 'white', alignSelf: 'center', }}>Transfer Points</Text>}
                   </TouchableOpacity>
-                </View>
+                </View> */}
               </View>
             </View>
           </ScrollView>

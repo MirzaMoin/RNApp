@@ -8,7 +8,9 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import GlobalAppModel from '../model/GlobalAppModel';
 const maxWidth = Dimensions.get('window').width;
 const imageHeight = (maxWidth / 16) * 9;
-
+const { width } = Dimensions.get("window");
+// const TotalWidth = width - (width * 1) / 100;
+const TotalWidth = width-20
 export default class ChangePassword extends Component {
   static navigationOptions = {
     header: null,
@@ -163,7 +165,7 @@ export default class ChangePassword extends Component {
   }
 
   render() {
-    console.log(`color : ${GlobalAppModel.primaryButtonColor}`)
+    // console.log(`color : ${GlobalAppModel.primaryButtonColor}`)
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1, flexDirection: 'column' }}>
@@ -171,119 +173,120 @@ export default class ChangePassword extends Component {
             navigation={this.props.navigation}
             title={'Change Password'}
             userPoint={GlobalAppModel.redeemablePoint} />
-          {/* <KeyboardAvoidingView
-            style={{flex:1}}
+          <KeyboardAvoidingView
+            style={{ flex: 1 }}
             behavior="padding"
-            enabled={Platform.OS === 'ios' ? true : false}> */}
-          <ScrollView>
-            <View style={{ hegith: imageHeight }}>
-              <Image
-                style={{ height: imageHeight }}
-                source={{
-                  uri:
-                    APIConstant.HEADER_IMAGE,
-                }}
-                resizeMode="cover"
-              />
-              {/* <View style={styles.imageOverlay} /> */}
-            </View>
-            <View style={styles.MainContainer}>
-              <TextInput
-                label="Current Password"
-                leftIcon="key"
-                leftIconSize={20}
-                containerWidth={300}
-                leftIconType="material"
-                rightIcon={
-                  !this.state.isShowPassword ? 'eye-off-outline' : 'eye-outline'
-                }
-                rightIconSize={20}
-                paddingRight={30}
-                rightIconType="material"
-                selectionColor={'gray'}
-                labelActiveColor={'#012345'}
-                labelColor={'gray'}
-                underlineColor={'gray'}
-                rightIconColor={'gray'}
-                color={'gray'}
-                secureTextEntry={this.state.isShowPassword}
-                leftIconColor={'gray'}
-                rippleColor="rgba(255,255,255,70)"
-                activeColor={'#012345'}
-                onPressRightIcon={() => this.setState({ isShowPassword: !this.state.isShowPassword })}
-                value={this.state.password}
-                error={this.state.passwordError}
-                onChangeText={text => {
-                  this.setState({
-                    password: text
-                  });
-                }} />
+            enabled={Platform.OS === 'ios' ? true : false}>
+            <ScrollView>
+              <View style={{ hegith: imageHeight }}>
+                <Image
+                  style={{ height: imageHeight }}
+                  source={{
+                    uri:
+                      APIConstant.HEADER_IMAGE,
+                  }}
+                  resizeMode="cover"
+                />
+                {/* <View style={styles.imageOverlay} /> */}
+              </View>
+              <View style={styles.MainContainer}>
+                <TextInput
+                  label="Current Password"
+                  leftIcon="key"
+                  leftIconSize={20}
+                  containerWidth={TotalWidth}
+                  leftIconType="material"
+                  rightIcon={
+                    !this.state.isShowPassword ? 'eye-off-outline' : 'eye-outline'
+                  }
+                  rightIconSize={20}
+                  paddingRight={30}
+                  rightIconType="material"
+                  selectionColor={'gray'}
+                  labelActiveColor={'#012345'}
+                  labelColor={'gray'}
+                  underlineColor={'gray'}
+                  rightIconColor={'gray'}
+                  color={'gray'}
+                  secureTextEntry={this.state.isShowPassword}
+                  leftIconColor={'gray'}
+                  rippleColor="rgba(255,255,255,70)"
+                  activeColor={'#012345'}
+                  onPressRightIcon={() => this.setState({ isShowPassword: !this.state.isShowPassword })}
+                  value={this.state.password}
+                  error={this.state.passwordError}
+                  onChangeText={text => {
+                    this.setState({
+                      password: text
+                    });
+                  }} />
 
-              <TextInput
-                label="New Password"
-                leftIcon="key"
-                leftIconSize={20}
-                containerWidth={300}
-                leftIconType="material"
-                rightIcon={
-                  !this.state.isShowNewPassword ? 'eye-off-outline' : 'eye-outline'
-                }
-                rightIconSize={20}
-                paddingRight={30}
-                rightIconType="material"
-                selectionColor={'gray'}
-                labelActiveColor={'#012345'}
-                labelColor={'gray'}
-                underlineColor={'gray'}
-                rightIconColor={'gray'}
-                color={'gray'}
-                secureTextEntry={this.state.isShowNewPassword}
-                leftIconColor={'gray'}
-                rippleColor="rgba(255,255,255,70)"
-                activeColor={'#012345'}
-                onPressRightIcon={() => this.setState({ isShowNewPassword: !this.state.isShowNewPassword })}
-                value={this.state.newPassword}
-                error={this.state.newPasswordError}
-                onChangeText={text => {
-                  this.setState({
-                    newPassword: text
-                  });
-                }} />
+                <TextInput
+                  label="New Password"
+                  leftIcon="key"
+                  leftIconSize={20}
+                  containerWidth={TotalWidth}
+                  leftIconType="material"
+                  rightIcon={
+                    !this.state.isShowNewPassword ? 'eye-off-outline' : 'eye-outline'
+                  }
+                  rightIconSize={20}
+                  paddingRight={30}
+                  rightIconType="material"
+                  selectionColor={'gray'}
+                  labelActiveColor={'#012345'}
+                  labelColor={'gray'}
+                  underlineColor={'gray'}
+                  rightIconColor={'gray'}
+                  color={'gray'}
+                  secureTextEntry={this.state.isShowNewPassword}
+                  leftIconColor={'gray'}
+                  rippleColor="rgba(255,255,255,70)"
+                  activeColor={'#012345'}
+                  onPressRightIcon={() => this.setState({ isShowNewPassword: !this.state.isShowNewPassword })}
+                  value={this.state.newPassword}
+                  error={this.state.newPasswordError}
+                  onChangeText={text => {
+                    this.setState({
+                      newPassword: text
+                    });
+                  }} />
 
-              <TextInput
-                label="Confirm Password"
-                leftIcon="key"
-                leftIconSize={20}
-                containerWidth={300}
-                leftIconType="material"
-                rightIcon={
-                  !this.state.isShowConfirmPassword ? 'eye-off-outline' : 'eye-outline'
-                }
-                rightIconSize={20}
-                paddingRight={30}
-                rightIconType="material"
-                selectionColor={'gray'}
-                labelActiveColor={'#012345'}
-                labelColor={'gray'}
-                underlineColor={'gray'}
-                rightIconColor={'gray'}
-                color={'gray'}
-                secureTextEntry={this.state.isShowConfirmPassword}
-                leftIconColor={'gray'}
-                rippleColor="rgba(255,255,255,70)"
-                activeColor={'#012345'}
-                onPressRightIcon={() => this.setState({ isShowConfirmPassword: !this.state.isShowConfirmPassword })}
-                value={this.state.confirmPassword}
-                error={this.state.confirmPasswordError}
-                onChangeText={text => {
-                  this.setState({
-                    confirmPassword: text
-                  });
-                }} />
+                <TextInput
+                  label="Confirm Password"
+                  leftIcon="key"
+                  leftIconSize={20}
+                  containerWidth={TotalWidth}
+                  leftIconType="material"
+                  rightIcon={
+                    !this.state.isShowConfirmPassword ? 'eye-off-outline' : 'eye-outline'
+                  }
+                  rightIconSize={20}
+                  paddingRight={30}
+                  rightIconType="material"
+                  selectionColor={'gray'}
+                  labelActiveColor={'#012345'}
+                  labelColor={'gray'}
+                  underlineColor={'gray'}
+                  rightIconColor={'gray'}
+                  color={'gray'}
+                  secureTextEntry={this.state.isShowConfirmPassword}
+                  leftIconColor={'gray'}
+                  rippleColor="rgba(255,255,255,70)"
+                  activeColor={'#012345'}
+                  onPressRightIcon={() => this.setState({ isShowConfirmPassword: !this.state.isShowConfirmPassword })}
+                  value={this.state.confirmPassword}
+                  error={this.state.confirmPasswordError}
+                  onChangeText={text => {
+                    this.setState({
+                      confirmPassword: text
+                    });
+                  }} />
 
-              {this._renderButton()}
-            </View>
-          </ScrollView>{/* </KeyboardAvoidingView> */}
+                {this._renderButton()}
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
         </View>
       </SafeAreaView>);
   }
@@ -292,8 +295,9 @@ export default class ChangePassword extends Component {
 const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
-    paddingTop: 50,
+    paddingTop: 10,
     alignItems: 'center',
+    // backgroundColor:'lime'
   },
   button: {
     minWidth: 120,
