@@ -226,7 +226,9 @@ export default class TransferPointScreen extends Component {
 
               <View style={{
                 marginTop: 20,
-                marginRight: 10,
+                // marginRight: 10,
+                // marginVertical:10,
+                marginHorizontal:5
               }}>
                 <SwipeButton
                   thumbIconBackgroundColor="#FFFFFF"

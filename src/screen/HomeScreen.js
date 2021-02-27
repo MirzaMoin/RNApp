@@ -390,27 +390,29 @@ export default class HomeScreen extends Component {
           colors={['rgba(' + this.hex2rgba_convert(parseColor(HomeModel.homePageTopBackgroundGradientStartColor)) + ',' + HomeModel.homePageTopBackgroundOpacity + ')', 'rgba(' + this.hex2rgba_convert(parseColor(HomeModel.homePageTopBackgroundGradientStopColor)) + ',' + HomeModel.homePageTopBackgroundOpacity + ')']}
           style={{ flexDirection: 'column', padding: 10, height: maxWidth / 20 * 15, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
           <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} style={{ height: '100%', width: '80%', }}>
-            <View style={{ flexDirection: 'row', width: '100%', padding: 10, justifyContent: 'center', opacity: 1,alignSelf:'center', }}>
+            <View style={{ flexDirection: 'row', width: '100%', padding: 10, justifyContent: 'center', opacity: 1, alignSelf: 'center', }}>
               {/* <View style={{ height: 6, width: 6, borderRadius: 5, backgroundColor: '#FE9D3F', alignSelf: 'center', marginHorizontal: 5 }} /> */}
-              <Text style={{ fontSize: parseFloat(maxWidth / 16) + 5, color: parseColor(HomeModel.homePageTopTextLine1Color), fontWeight: 'bold',alignSelf:'center',alignItems:'center',alignContent:'center',justifyContent:'center' }}>
+              <Text style={{ fontSize: parseFloat(maxWidth / 16) + 5, color: parseColor(HomeModel.homePageTopTextLine1Color), fontWeight: 'bold', alignSelf: 'center', alignItems: 'center', alignContent: 'center', justifyContent: 'center' }}>
                 {this.topText1.join(" ").toString()}
               </Text>
             </View>
-            {HomeModel.homePageTopTextUnderLine1 && <View style={{ height: 2, backgroundColor: parseColor(HomeModel.homePageTopTextUnderLine1Color) || 'white', width: '100%', margin: 5,alignSelf:'center' }} />}
-            {/* <AnimateNumber
-              value={GlobalAppModel.redeemablePoint || 0}
-              formatter={(val) => {
-                return <Text
-                  style={{ fontSize: parseFloat(maxWidth / 12) + 5, color: parseColor(HomeModel.homePageTopTextLine2Color), fontWeight: 'bold', padding: 5,textAlign:'center',backgroundColor:'red', width:'100%'}}>
-                  {this.topText2.join(" ").toString()}
-                  {this.topText2.join(" ").toString()}
-                  {parseFloat(val).toFixed(2)}
-                </Text>
-              }} /> */}
-            <Text style={{ fontSize: parseFloat(maxWidth / 12) + 5, color: parseColor(HomeModel.homePageTopTextLine2Color), fontWeight: 'bold', padding: 5, textAlign: 'center', width: '100%' }}>
-              {this.topText2.join(" ").toString()}
-            </Text>
-            {(HomeModel.homePageTopTextUnderLine2) && <View style={{ height: 2, backgroundColor: parseColor(HomeModel.homePageTopTextUnderLine2Color) || 'white', width: '100%', margin: 5,alignSelf:'center' }} />}
+            {HomeModel.homePageTopTextUnderLine1 && <View style={{ height: 2, backgroundColor: parseColor(HomeModel.homePageTopTextUnderLine1Color) || 'white', width: '100%', margin: 5, alignSelf: 'center' }} />}
+            {HomeModel.homePageTopTextLine2.trim() == "%%TotalPoints%%" ?
+              <View style={{width:'100%',alignSelf:'center',alignContent:'center',alignItems:'center'}}>
+                <AnimateNumber
+                  value={GlobalAppModel.redeemablePoint || 0}
+                  formatter={(val) => {
+                    return <Text
+                      style={{ fontSize: parseFloat(maxWidth / 12) + 5, color: parseColor(HomeModel.homePageTopTextLine2Color), fontWeight: 'bold', padding: 5, }}>
+                      {parseFloat(val).toFixed(0)}
+                    </Text>
+                  }} /></View>
+              :
+              <Text style={{ fontSize: parseFloat(maxWidth / 12) + 5, color: parseColor(HomeModel.homePageTopTextLine2Color), fontWeight: 'bold', padding: 5, textAlign: 'center', width: '100%' }}>
+                {this.topText2.join(" ").toString()}
+              </Text>
+            }
+            {(HomeModel.homePageTopTextUnderLine2) && <View style={{ height: 2, backgroundColor: parseColor(HomeModel.homePageTopTextUnderLine2Color) || 'white', width: '100%', margin: 5, alignSelf: 'center' }} />}
             <TouchableOpacity
               activeOpacity={0.8}
               style={{ marginTop: '5%', }}
@@ -429,7 +431,7 @@ export default class HomeScreen extends Component {
               <LinearGradient
                 colors={[parseColor(HomeModel.homePageTopButtonGradientStartColor), parseColor(HomeModel.homePageTopButtonGradientStopColor)]}
                 style={{ padding: 10, paddingHorizontal: 25, borderRadius: 5, alignContent: 'center' }}>
-                <Text style={{ color: parseColor(HomeModel.homePageTopButtonTextColor), fontSize: 24,textAlign:'center' }}>{HomeModel.homePageTopButtonText}</Text>
+                <Text style={{ color: parseColor(HomeModel.homePageTopButtonTextColor), fontSize: 24, textAlign: 'center' }}>{HomeModel.homePageTopButtonText}</Text>
               </LinearGradient>
             </TouchableOpacity>
           </ScrollView>
@@ -714,7 +716,7 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1, flexDirection: 'row' }}>
-        <StatusBar barStyle={'dark-content'} backgroundColor={'#081b2e'} />
+        <StatusBar barStyle={'light-content'} backgroundColor={parseColor(GlobalAppModel.primaryColor)} />
         <SafeAreaView style={styles.mainContainer}>
           {this._renderToolBar()}
           <View style={{ flex: 1 }}>

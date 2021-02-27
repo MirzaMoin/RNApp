@@ -201,7 +201,8 @@ export default class OfferScreen extends Component {
                         borderRadius: 5,
                         color: 'white',
                         alignSelf: 'flex-start',
-                        margin: 1,
+                        // margin: 1,
+                        marginTop:5,
                         padding: 5,
                         paddingHorizontal: 14
                       }}>{item.offerImagelabel}</Text>
@@ -216,7 +217,7 @@ export default class OfferScreen extends Component {
                           backgroundColor: 'rgba(256, 20, 0, 1)',
                           // width: Width,
                           alignSelf: 'flex-start',
-                          // padding: 5,
+                          padding: 5,
                           paddingHorizontal:15,
                           // paddingVertical:10
                         }}>

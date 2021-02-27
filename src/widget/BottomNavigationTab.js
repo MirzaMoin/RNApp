@@ -41,9 +41,10 @@ export default class BottomNavigationTab extends Component<Props, State> {
             }
           }
         }}>
+        {/* {console.log("footerMenu.footerInternalLinkUrl " + footerMenu.footerInternalLinkUrl + " this.props.navigation.state.routeName " + this.props.navigation.state.routeName)} */}
         <View style={styles.footerMenuItem}>
-          <Icon name={footerMenu.footerIcon} style={{ fontSize: 18, color: 'white' }} />
-          <Text lineBreakMode={'tail'} numberOfLines={1} style={styles.footerMenuSelectedItemText}>{footerMenu.footerText}</Text>
+          <Icon name={footerMenu.footerIcon} style={{ fontSize: 18, color: footerMenu.footerInternalLinkUrl == this.props.navigation.state.routeName ? GlobalAppModel.primaryButtonColor : GlobalAppModel.secondaryButtonColor }} />
+          <Text lineBreakMode={'tail'} numberOfLines={1} style={styles.footerMenuSelectedItemText, { color: footerMenu.footerInternalLinkUrl == this.props.navigation.state.routeName ? GlobalAppModel.primaryButtonColor : GlobalAppModel.secondaryButtonColor }}>{footerMenu.footerText}</Text>
         </View>
         {/* </TouchableNativeFeedback> */}
       </TouchableOpacity>
@@ -85,7 +86,7 @@ const styles = {
   },
   footerMenuSelectedItemText: {
     color: 'white',
-    fontSize: 13,
+    fontSize: 12,
     marginTop: 3,
     paddingHorizontal: 5,
     marginLeft: 5,

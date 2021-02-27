@@ -929,7 +929,7 @@ export default class LoginScreen extends Component {
   };
 
   _showLoginCleanlogin = () => {
-    if (!this.state.isShowForgotPassword && !this.state.isShowSignUp && LoginScreenModel.themeType=='cleanlogin') {
+    if (!this.state.isShowForgotPassword && !this.state.isShowSignUp && LoginScreenModel.themeType == 'cleanlogin') {
       return (
         <View style={{ flex: 1, flexDirection: "column" }}>
           <TextInput
@@ -1050,50 +1050,67 @@ export default class LoginScreen extends Component {
         );
       } else {
         return (
-          <LinearGradient
-            style={{
-              borderRadius: 5,
-              margin: 5,
-              // width:"100%"
-              width: LoginScreenModel.themeType == 'cleanlogin' ? maxWidth : 120,
-              alignSelf: "center",
-            }}
-            colors={[
-              parseColor(LoginScreenModel.signInBtnGradientstartColor),
-              parseColor(LoginScreenModel.signInBtnGradientStopColor),
-            ]}
-          >
-            {/* <TouchableNativeFeedback */}
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                // this.props.navigation.navigate('App')
-                if (this.state.userName) {
-                  if (this.state.password) {
-                    this.setState({ passwordError: "", isLoadingLogin: true });
-                    this._callLogin();
-                  } else {
-                    this.setState({
-                      passwordError: "Enter Passsword",
-                      userNameError: "",
-                    });
-                  }
-                } else {
-                  this.setState({ userNameError: "Please Enter Valid email" });
-                }
+          <TouchableOpacity onPress={() => {
+            // this.props.navigation.navigate('App')
+            if (this.state.userName) {
+              if (this.state.password) {
+                this.setState({ passwordError: "", isLoadingLogin: true });
+                this._callLogin();
+              } else {
+                this.setState({
+                  passwordError: "Enter Passsword",
+                  userNameError: "",
+                });
+              }
+            } else {
+              this.setState({ userNameError: "Please Enter Valid email" });
+            }
+          }}>
+            <LinearGradient
+              style={{
+                borderRadius: 5,
+                margin: 5,
+                // width:"100%"
+                width: LoginScreenModel.themeType == 'cleanlogin' ? maxWidth : 120,
+                alignSelf: "center",
               }}
+              colors={[
+                parseColor(LoginScreenModel.signInBtnGradientstartColor),
+                parseColor(LoginScreenModel.signInBtnGradientStopColor),
+              ]}
             >
-              <Text
-                style={[
-                  styles.buttonText,
-                  { color: parseColor(LoginScreenModel.signInBtnTextColor) },
-                ]}
+              {/* <TouchableNativeFeedback */}
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  // this.props.navigation.navigate('App')
+                  if (this.state.userName) {
+                    if (this.state.password) {
+                      this.setState({ passwordError: "", isLoadingLogin: true });
+                      this._callLogin();
+                    } else {
+                      this.setState({
+                        passwordError: "Enter Passsword",
+                        userNameError: "",
+                      });
+                    }
+                  } else {
+                    this.setState({ userNameError: "Please Enter Valid email" });
+                  }
+                }}
               >
-                {LoginScreenModel.signInBtnText}
-              </Text>
-              {/* </TouchableNativeFeedback> */}
-            </TouchableOpacity>
-          </LinearGradient>
+                <Text
+                  style={[
+                    styles.buttonText,
+                    { color: parseColor(LoginScreenModel.signInBtnTextColor) },
+                  ]}
+                >
+                  {LoginScreenModel.signInBtnText}
+                </Text>
+                {/* </TouchableNativeFeedback> */}
+              </TouchableOpacity>
+            </LinearGradient>
+          </TouchableOpacity>
         );
       }
     }
@@ -1108,57 +1125,61 @@ export default class LoginScreen extends Component {
     } else {
       if (LoginScreenModel.themeType == 'videomotion') {
         return (
-          <LinearGradient
-            style={{ borderRadius: 5, margin: 5, }}
-            colors={[
-              parseColor(LoginScreenModel.joinNowBtnGradientstartColor),
-              parseColor(LoginScreenModel.joinNowBtnGradientStopColor),
-            ]}
-          >
-            <TouchableOpacity style={{
-              minWidth: 120,
-              borderRadius: 5,
-              alignSelf: "center",
-              maxWidth: 500,
-            }} onPress={this._onSignUpClick}>
-              <Text
-                style={[
-                  styles.buttonText,
-                  { color: parseColor(LoginScreenModel.joinNowBtnTextColor) },
-                ]}
-              >
-                {this.state.isShowSignUp
-                  ? "Register"
-                  : `${LoginScreenModel.joinNowBtnText}`}
-              </Text>
-            </TouchableOpacity>
-          </LinearGradient>
+          <TouchableOpacity onPress={this._onSignUpClick}>
+            <LinearGradient
+              style={{ borderRadius: 5, margin: 5, }}
+              colors={[
+                parseColor(LoginScreenModel.joinNowBtnGradientstartColor),
+                parseColor(LoginScreenModel.joinNowBtnGradientStopColor),
+              ]}
+            >
+              <TouchableOpacity style={{
+                minWidth: 120,
+                borderRadius: 5,
+                alignSelf: "center",
+                maxWidth: 500,
+              }} onPress={this._onSignUpClick}>
+                <Text
+                  style={[
+                    styles.buttonText,
+                    { color: parseColor(LoginScreenModel.joinNowBtnTextColor) },
+                  ]}
+                >
+                  {this.state.isShowSignUp
+                    ? "Register"
+                    : `${LoginScreenModel.joinNowBtnText}`}
+                </Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </TouchableOpacity>
         );
       }
       else {
         return (
-          <LinearGradient
-            style={{ borderRadius: 5, margin: 5 ,width:LoginScreenModel.themeType=='cleanlogin' ? '80%':null }}
-            colors={[
-              parseColor(LoginScreenModel.joinNowBtnGradientstartColor),
-              parseColor(LoginScreenModel.joinNowBtnGradientStopColor),
-            ]}
-          >
-            {/* <TouchableNativeFeedback */}
-            <TouchableOpacity style={styles.button} onPress={this._onSignUpClick}>
-              <Text
-                style={[
-                  styles.buttonText,
-                  { color: LoginScreenModel.joinNowBtnTextColor },
-                ]}
-              >
-                {this.state.isShowSignUp
-                  ? "Register"
-                  : `${LoginScreenModel.joinNowBtnText}`}
-              </Text>
-              {/* </TouchableNativeFeedback> */}
-            </TouchableOpacity>
-          </LinearGradient>
+          <TouchableOpacity onPress={this._onSignUpClick} style={{ width: LoginScreenModel.themeType == 'cleanlogin' ? '80%' : null}}>
+            <LinearGradient
+              style={{ borderRadius: 5, marginVertical: LoginScreenModel.themeType == 'cleanlogin' ? 5 : null, margin: LoginScreenModel.themeType == 'cleanlogin' ? 0 : 5, }}
+              colors={[
+                parseColor(LoginScreenModel.joinNowBtnGradientstartColor),
+                parseColor(LoginScreenModel.joinNowBtnGradientStopColor),
+              ]}
+            >
+              {/* <TouchableNativeFeedback */}
+              <TouchableOpacity style={styles.button} onPress={this._onSignUpClick}>
+                <Text
+                  style={[
+                    styles.buttonText,
+                    { color: LoginScreenModel.joinNowBtnTextColor },
+                  ]}
+                >
+                  {this.state.isShowSignUp
+                    ? "Register"
+                    : `${LoginScreenModel.joinNowBtnText}`}
+                </Text>
+                {/* </TouchableNativeFeedback> */}
+              </TouchableOpacity>
+            </LinearGradient>
+          </TouchableOpacity>
         );
       }
     }
@@ -2886,7 +2907,7 @@ export default class LoginScreen extends Component {
   render() {
     return (
       <>
-      {console.log("type "+LoginScreenModel.themeType)}
+        {console.log("type " + LoginScreenModel.themeType)}
         {/* this is for video motion */}
         {LoginScreenModel.themeType == 'videomotion' &&
           <MenuProvider>
@@ -3074,33 +3095,35 @@ export default class LoginScreen extends Component {
                       </Text>
                       {this._showSignUp()}
                       {this._renderSignupButton()}
-                      <LinearGradient
-                        style={{ borderRadius: 5, margin: 5 }}
-                        colors={[
-                          parseColor(LoginScreenModel.signInBtnGradientstartColor),
-                          parseColor(LoginScreenModel.signInBtnGradientStopColor),
-                        ]}
-                      >
-                        {/* <TouchableNativeFeedback */}
-                        <TouchableOpacity
-                          style={styles.button}
-                          onPress={this._onLoginClick}
+                      <TouchableOpacity onPress={this._onLoginClick}>
+                        <LinearGradient
+                          style={{ borderRadius: 5, margin: 5 }}
+                          colors={[
+                            parseColor(LoginScreenModel.signInBtnGradientstartColor),
+                            parseColor(LoginScreenModel.signInBtnGradientStopColor),
+                          ]}
                         >
-                          <Text
-                            style={[
-                              styles.buttonText,
-                              {
-                                color: parseColor(
-                                  LoginScreenModel.signInBtnTextColor
-                                ),
-                              },
-                            ]}
+                          {/* <TouchableNativeFeedback */}
+                          <TouchableOpacity
+                            style={styles.button}
+                            onPress={this._onLoginClick}
                           >
-                            {LoginScreenModel.signInBtnText}
-                          </Text>
-                          {/* </TouchableNativeFeedback> */}
-                        </TouchableOpacity>
-                      </LinearGradient>
+                            <Text
+                              style={[
+                                styles.buttonText,
+                                {
+                                  color: parseColor(
+                                    LoginScreenModel.signInBtnTextColor
+                                  ),
+                                },
+                              ]}
+                            >
+                              {LoginScreenModel.signInBtnText}
+                            </Text>
+                            {/* </TouchableNativeFeedback> */}
+                          </TouchableOpacity>
+                        </LinearGradient>
+                      </TouchableOpacity>
                       {this._showLogin()}
                       <Text
                         style={[
@@ -3220,34 +3243,36 @@ export default class LoginScreen extends Component {
                     </Text> */}
                       {/* {this._showSignUp()}
                     {this._renderSignupButton()} */}
-                      {this.state.isShowSignUp ? 
-                      <LinearGradient
-                        style={{ borderRadius: 5, margin: 5,width:'80%' }}
-                        colors={[
-                          parseColor(LoginScreenModel.signInBtnGradientstartColor),
-                          parseColor(LoginScreenModel.signInBtnGradientStopColor),
-                        ]}
-                      >
-
-                        <TouchableOpacity
-                          style={styles.button}
-                          onPress={this._onLoginClick}
-                        >
-                          <Text
-                            style={[
-                              styles.buttonText,
-                              {
-                                color: parseColor(
-                                  LoginScreenModel.signInBtnTextColor
-                                ),
-                              },
+                      {this.state.isShowSignUp ?
+                        <TouchableOpacity onPress={this._onLoginClick} style={{ width:'80%',alignItems:'center'}}>
+                          <LinearGradient
+                            style={{ borderRadius: 5, margin: 5, width: '100%' }}
+                            colors={[
+                              parseColor(LoginScreenModel.signInBtnGradientstartColor),
+                              parseColor(LoginScreenModel.signInBtnGradientStopColor),
                             ]}
                           >
-                            {LoginScreenModel.signInBtnText}
-                          </Text>
 
-                        </TouchableOpacity>
-                      </LinearGradient> : null}
+                            <TouchableOpacity
+                              style={styles.button}
+                              onPress={this._onLoginClick}
+                            >
+                              <Text
+                                style={[
+                                  styles.buttonText,
+                                  {
+                                    color: parseColor(
+                                      LoginScreenModel.signInBtnTextColor
+                                    ),
+                                  },
+                                ]}
+                              >
+                                {LoginScreenModel.signInBtnText}
+                              </Text>
+
+                            </TouchableOpacity>
+                          </LinearGradient>
+                        </TouchableOpacity> : null}
                       {/* {this._showLogin()} */}
                       {/* <Text
                       style={[
@@ -3262,43 +3287,45 @@ export default class LoginScreen extends Component {
                     >
                       {LoginScreenModel.forgotPwdBtnText}
                     </Text> */}
-                      <LinearGradient
-                        style={{ borderRadius: 5, margin: 5,width:'80%' }}
-                        colors={[
-                          parseColor(LoginScreenModel.forgotPwdBtnGradientstartColor),
-                          parseColor(LoginScreenModel.forgotPwdBtnGradientStopColor),
-                        ]}
-                      >
-                        {/* <TouchableNativeFeedback */}
-                        <TouchableOpacity
-                          style={styles.button}
-                          onPress={this._onForgotPasswordClick}
+                      <TouchableOpacity style={{width:'80%',alignItems:'center'}} onPress={this._onForgotPasswordClick}>
+                        <LinearGradient
+                          style={{ borderRadius: 5, margin: 5, width: '100%' }}
+                          colors={[
+                            parseColor(LoginScreenModel.forgotPwdBtnGradientstartColor),
+                            parseColor(LoginScreenModel.forgotPwdBtnGradientStopColor),
+                          ]}
                         >
-                          <Text
-                            style={[
-                              styles.buttonText,
-                              {
-                                color: parseColor(
-                                  LoginScreenModel.forgotPwdBtnTextColor
-                                ),
-                              },
-                            ]}
+                          {/* <TouchableNativeFeedback */}
+                          <TouchableOpacity
+                            style={styles.button}
+                            onPress={this._onForgotPasswordClick}
                           >
-                            {LoginScreenModel.forgotPwdBtnText}
-                          </Text>
-                          {/* </TouchableNativeFeedback> */}
-                        </TouchableOpacity>
-                      </LinearGradient>
+                            <Text
+                              style={[
+                                styles.buttonText,
+                                {
+                                  color: parseColor(
+                                    LoginScreenModel.forgotPwdBtnTextColor
+                                  ),
+                                },
+                              ]}
+                            >
+                              {LoginScreenModel.forgotPwdBtnText}
+                            </Text>
+                            {/* </TouchableNativeFeedback> */}
+                          </TouchableOpacity>
+                        </LinearGradient>
+                      </TouchableOpacity>
                       <View
-                      style={{
-                        width: '80%',
-                        padding:0,
-                        margin:2,
-                        // margine: -10,
-                        height: 2,
-                        backgroundColor: "#ffffff",
-                      }}
-                    />
+                        style={{
+                          width: '80%',
+                          padding: 0,
+                          margin: 2,
+                          // margine: -10,
+                          height: 2,
+                          backgroundColor: "#ffffff",
+                        }}
+                      />
                       {this._showSignUp()}
                       {this._renderSignupButton()}
                       {/* {this._showForgotPassword()} */}

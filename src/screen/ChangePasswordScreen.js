@@ -6,11 +6,15 @@ import APIConstant from './../api/apiConstant';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import GlobalAppModel from '../model/GlobalAppModel';
+import { round } from 'react-native-reanimated';
 const maxWidth = Dimensions.get('window').width;
 const imageHeight = (maxWidth / 16) * 9;
 const { width } = Dimensions.get("window");
+import MDIcon from 'react-native-vector-icons/MaterialIcons';
+import SwipeButton from 'rn-swipe-button';
+
 // const TotalWidth = width - (width * 1) / 100;
-const TotalWidth = width-20
+const TotalWidth = width - 20
 export default class ChangePassword extends Component {
   static navigationOptions = {
     header: null,
@@ -147,21 +151,33 @@ export default class ChangePassword extends Component {
     console.log('right Navigation : ' + this.props);
     this.props.navigation.navigate('Auth');
   }
+  _renderIcon = () => this.state.isProcessing ? <ActivityIndicator color={'#012345'} /> : <MDIcon name="keyboard-arrow-right" size={30} />;
+
 
   _renderButton = () => {
-    if (this.state.isProcessing) {
-      return <ActivityIndicator size={'large'} style={{ margin: 20 }} />
-    } else {
-      return (
-        <TouchableOpacity
-          underlayColor="#030a91"
-          activeOpacity={0.8}
-          style={styles.button}
-          onPress={() => this._prepareForm()}>
-          <Text style={styles.buttonText}>Change Password</Text>
-        </TouchableOpacity>
-      );
-    }
+    return (
+      <View style={{
+        marginTop: 20,
+        width: '90%',
+        marginHorizontal: 5
+      }}>
+        <SwipeButton
+          thumbIconBackgroundColor="#FFFFFF"
+          containerStyle={{ backgroundColor: '#012345' }}
+          swipeSuccessThreshold={90}
+          thumbIconComponent={this._renderIcon}
+          title="Change Password"
+          titleColor={'white'}
+          railBackgroundColor={'#012345'}
+          railFillBackgroundColor={'green'}
+          shouldResetAfterSuccess
+          disabled={this.state.isProcessing}
+          onSwipeSuccess={() => {
+            this._prepareForm()
+          }}
+        />
+      </View>
+    )
   }
 
   render() {
@@ -178,16 +194,26 @@ export default class ChangePassword extends Component {
             behavior="padding"
             enabled={Platform.OS === 'ios' ? true : false}>
             <ScrollView>
-              <View style={{ hegith: imageHeight }}>
+              <View style={{ hegith: imageHeight / 1.5 }}>
                 <Image
-                  style={{ height: imageHeight }}
+                  style={{ height: imageHeight / 1.5 }}
                   source={{
                     uri:
                       APIConstant.HEADER_IMAGE,
                   }}
                   resizeMode="cover"
                 />
-                {/* <View style={styles.imageOverlay} /> */}
+                <View style={{ height: imageHeight / 4, backgroundColor: 'rgba(255,0,0,.1)', alignSelf:'center',justifyContent:'center' }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width:'100%' }}>
+                      <View><Text style={{textAlign:'center'}}>50 </Text><Text style={{fontSize:Math.round(imageHeight/20)}}>Points Available</Text></View>
+                      <View style={{ margin: 1, padding: 1, backgroundColor: 'black',borderRadius:5 }} />
+                    <View><Text style={{ textAlign: 'center' }}>5</Text><Text style={{ fontSize: Math.round(imageHeight / 20) }}>This Month</Text></View>
+                      <View style={{ margin: 1, padding: 1, backgroundColor: 'black',borderRadius:5 }} />
+                    <View><Text style={{ textAlign: 'center' }}>500</Text><Text style={{ fontSize: Math.round(imageHeight / 20) }}>Total Redeemed</Text></View>
+                    <View style={{ margin: 1, padding: 1, backgroundColor: 'black', borderRadius: 5 }} />
+                    <View><Text style={{ textAlign: 'center' }}>5000</Text><Text style={{ fontSize: Math.round(imageHeight / 20) }}>Lifetime Earned</Text></View>
+                    </View>
+                </View>
               </View>
               <View style={styles.MainContainer}>
                 <TextInput

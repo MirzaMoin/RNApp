@@ -24,7 +24,7 @@ import GlobalAppModel from '../model/GlobalAppModel';
 const maxWidth = Dimensions.get('window').width;
 const imageHeight = (maxWidth / 16) * 9;
 
-class RefereFriendScreen extends Component {
+export default class RefereFriendScreen extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -361,14 +361,14 @@ class RefereFriendScreen extends Component {
               </View>
             </ScrollView>
           </View>
-          <BottomNavigationTab />
+          <BottomNavigationTab navigation={this.props.navigation} />
         </View>
       </SafeAreaView>
     );
   }
 }
 
-export default RefereFriendScreen;
+
 
 const styles = {
   container: {

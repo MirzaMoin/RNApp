@@ -654,7 +654,7 @@ const styles = {
   mainContainer: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'rgba(153,153,153,0.2)',
+    backgroundColor: 'rgba(255,255,255,0)',
   },
   imageOverlay: {
     height: imageHeight,

@@ -276,7 +276,7 @@ export default class RedeemCashbackScreen extends Component {
                   }}>
                   <Text style={{ alignSelf: 'center', fontSize: 16 }}>$</Text>
                   <TextInput
-                    style={{ fontSize: 17, fontWeight: 'bold', margin: 5, padding: 5 }}
+                    style={{ fontSize: 17, fontWeight: 'bold', margin: 5, padding: 5,width:'95%' }}
                     keyboardType={'numeric'}
                     returnKeyType='done'
                     value={`${this.state.otherAmount || ''}`}

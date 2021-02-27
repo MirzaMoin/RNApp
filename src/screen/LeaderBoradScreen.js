@@ -320,7 +320,6 @@ export default class LeaderBoardScreen extends Component {
                     padding: 10,
                     backgroundColor: 'rgba(153, 153, 153, 0.3)',
                   }}>
-
                     <View style={{ flexDirection: 'row' }}>
                       <Text style={{
                         padding: 10,
@@ -369,7 +368,7 @@ export default class LeaderBoardScreen extends Component {
         <View style={styles.mainContainer}>
           <ScreenHeader
             navigation={this.props.navigation}
-            title={'Leaderboard'}
+            title={'Leader Board'}
             hidePoint={true}
             buildFilter={true}
             onPress={() => { this.showPicker() }} />

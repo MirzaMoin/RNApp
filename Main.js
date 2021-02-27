@@ -260,7 +260,7 @@ const renderHomeScreen = props => {
       onPress={async () => {
         props.navigation.navigate('homeScreen');
       }}>
-      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center', }}>
         <MDIcon name={'home'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Home</Text>
@@ -276,7 +276,7 @@ const renderProfileScreenMenu = (props) => {
       onPress={async () => {
         props.navigation.navigate('profileScreen');
       }}>
-      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center', }}>
         <MDIcon name={'person'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
         <Text style={{ fontWeight: 'bold' }}>Update Profile</Text>
@@ -589,7 +589,6 @@ const CreateDrawerComponent = props => (
           renderNotification(props)
         } */}
         {
-          console.log('MenuPermissionModel.isVisibleMenuTxHistory ' + MenuPermissionModel.isVisibleMenuTxHistory),
           //MenuPermissionModel.isVisibleMenuTxHistory && 
           renderTransactionHistory(props)
         }
