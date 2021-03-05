@@ -40,8 +40,6 @@ import RPGScreen from './src/screen/RPGScreen';
 //import * as RNEP from '@estimote/react-native-proximity';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-// import Ionicons from 'react-native-vector-icons/Ionicons';
 // import {
 //   startProximityObserver,
 //   stopProximityObserver,
@@ -56,8 +54,6 @@ import SpinWheelScreen from './src/screen/SpinWheelScreen'
 import { MenuProvider } from 'react-native-popup-menu';
 import MenuPermissionModel from './src/model/MenuPermissionModel';
 import APIConstant from './src/api/apiConstant';
-import LoginScreenModel from './src/model/LoginScreenModel';
-import GlobalAppModel from './src/model/GlobalAppModel';
 
 // RNEP.locationPermission.request().then(permission => {
 //   if (permission != RNEP.locationPermission.DENIED) {
@@ -154,7 +150,7 @@ class DrawerHeaderComponent extends Component {
 
   constructor() {
     super();
-    this.state = { menuOption: 0, toggle: true }
+    this.state = {}
   }
 
   _getStoredData = async () => {
@@ -220,18 +216,14 @@ class DrawerHeaderComponent extends Component {
     }
   };
 
-  changeMenuOption = (menuNumber) => {
-    this.state.menuOption == menuNumber ? this.setState({ menuOption: menuNumber, toggle: !this.state.toggle }) : this.setState({ menuOption: menuNumber, toggle: this.state.toggle == false ? true : true })
-  }
-
   render() {
     this._getStoredData();
     return (
       <View style={{ flexDirection: 'column', }} ref={(ref) => (this.viewParent = ref)} onLayout={this.onPageLayout}>
-        {/* <ImageLoader
+        <ImageLoader
           title={this.state.name}
           src={this.state.userImage}
-          style={{ width: this.state.width || '100%', height: this.state.width || 200, backgroundColor: '#f0f0f0', }}
+          style={{ width: this.state.width || '100%', height: this.state.width || 200, backgroundColor:'#f0f0f0',}}
           titleStyle={{ fontSize: 50 }}
         />
         <Text
@@ -241,7 +233,7 @@ class DrawerHeaderComponent extends Component {
             paddingRight: 15,
             paddingTop: 5,
             fontSize: 16,
-            fontWeight: 'bold'
+            fontWeight:'bold'
             // fontFamily: 'bold'
           }}>
           {this.state.name}
@@ -256,150 +248,7 @@ class DrawerHeaderComponent extends Component {
             paddingBottom: 5,
           }}>
           {this.state.email}
-        </Text> */}
-        <View style={{ height: '100%', backgroundColor: '#B10828' }}>
-          <ScrollView style={{ flex: 1 }}>
-            <View style={{ marginTop: '20%', flex: 1, height: '100%', }} >
-              {renderHomeScreen(this.props)}
-              <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%' }} />
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => {
-                  this.changeMenuOption(1)
-                }}>
-                <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
-                  {/* <MDIcon name={'card-giftcard'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} /> */}
-                  <MaterialCommunityIcons name='gift-outline' color='black' size={APIConstant.MENU_ICON_SIZE - 2} style={{ marginLeft: 10 }} />
-                  <View style={{ width: '12%' }} />
-                  <Text style={{ fontWeight: 'bold', color: 'white' }}>USE POINTS</Text>
-                  <View style={{ flex: 1, alignSelf: 'flex-end' }}><MaterialCommunityIcons name={this.state.toggle == true && this.state.menuOption == 1 ? 'chevron-down' : 'chevron-right'} color='white' size={APIConstant.MENU_ICON_SIZE - 2} style={{ alignContent: 'flex-end', alignItems: 'flex-end', alignSelf: 'flex-end' }} /></View>
-                </View>
-              </TouchableOpacity>
-              {/* <TouchableOpacity onPress={() => { this.changeMenuOption(1) }} ><Text>USE POINTS</Text></TouchableOpacity> */}
-              {this.state.menuOption == 1 && this.state.toggle == true &&
-                <View style={{ marginLeft: '5%' }}>
-                  <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%', width: '88%', alignSelf: 'flex-end' }} />{renderOffers(this.props)}
-                  <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%', width: '88%', alignSelf: 'flex-end' }} />{renderRewardEntryGoals(this.props)}
-                  <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%', width: '88%', alignSelf: 'flex-end' }} />{renderRedeemCashback(this.props)}
-                  <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%', width: '88%', alignSelf: 'flex-end' }} />{renderTransferPoint(this.props)}
-                </View>}
-              <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%' }} />
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => {
-                  this.changeMenuOption(2)
-                }}>
-                <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center', }}>
-                  <MDIcon name={'shopping-cart'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
-                  <View style={{ width: '12%' }} />
-                  <Text style={{ fontWeight: 'bold', color: 'white' }}>EARN POINTS</Text>
-                  <View style={{ flex: 1, alignSelf: 'flex-end' }}><MaterialCommunityIcons name={this.state.toggle == true && this.state.menuOption == 2 ? 'chevron-down' : 'chevron-right'} color='white' size={APIConstant.MENU_ICON_SIZE - 2} style={{ alignContent: 'flex-end', alignItems: 'flex-end', alignSelf: 'flex-end' }} /></View>
-                </View>
-              </TouchableOpacity>
-              {/* <TouchableOpacity onPress={() => { this.changeMenuOption(2) }} ><Text>EARN POINTS</Text></TouchableOpacity> */}
-              {this.state.menuOption == 2 && this.state.toggle == true &&
-                <View style={{ marginLeft: '10%' }}>
-                  <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%', width: '88%', alignSelf: 'flex-end' }} />{renderWayToEarn(this.props)}
-                  <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%', width: '88%', alignSelf: 'flex-end' }} />{renderTakeSurvey(this.props)}
-                  <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%', width: '88%', alignSelf: 'flex-end' }} />{renderRefereFriend(this.props)}
-                  <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%', width: '88%', alignSelf: 'flex-end' }} />{renderUploadReceipt(this.props)}
-                </View>}
-              <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%' }} />
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => {
-                  this.changeMenuOption(3)
-                }}>
-                <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center', }}>
-                  {/* <MDIcon name={'reload'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} /> */}
-                  <MaterialCommunityIcons name="reload" color='black' size={APIConstant.MENU_ICON_SIZE} style={{ marginLeft: 10 }} />
-                  <View style={{ width: '12%' }} />
-                  <Text style={{ fontWeight: 'bold', color: 'white' }}>ACTIVITY</Text>
-                  <View style={{ flex: 1, alignSelf: 'flex-end' }}><MaterialCommunityIcons name={this.state.toggle == true && this.state.menuOption == 3 ? 'chevron-down' : 'chevron-right'} color='white' size={APIConstant.MENU_ICON_SIZE - 2} style={{ alignContent: 'flex-end', alignItems: 'flex-end', alignSelf: 'flex-end' }} /></View>
-                </View>
-              </TouchableOpacity>
-              {/* <TouchableOpacity onPress={() => { this.changeMenuOption(3) }} ><Text>ACTIVITY</Text></TouchableOpacity> */}
-              {this.state.menuOption == 3 && this.state.toggle == true &&
-                <View style={{ marginLeft: '10%' }}>
-                  <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%', width: '88%', alignSelf: 'flex-end' }} />{renderTransactionHistory(this.props)}
-                  <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%', width: '88%', alignSelf: 'flex-end' }} />{renderLeaderboard(this.props)}
-                </View>}
-
-              <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%' }} />
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => {
-                  this.changeMenuOption(4)
-                }}>
-                <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center', }}>
-                  <MDIcon name={'person'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
-                  <View style={{ width: '12%' }} />
-                  <Text style={{ fontWeight: 'bold', color: 'white' }}>PROFILE</Text>
-                  <View style={{ flex: 1, alignSelf: 'flex-end' }}><MaterialCommunityIcons name={this.state.toggle == true && this.state.menuOption == 4 ? 'chevron-down' : 'chevron-right'} color='white' size={APIConstant.MENU_ICON_SIZE - 2} style={{ alignContent: 'flex-end', alignItems: 'flex-end', alignSelf: 'flex-end' }} /></View>
-                </View>
-              </TouchableOpacity>
-              {/* <TouchableOpacity onPress={() => { this.changeMenuOption(4) }} ><Text>PROFILE</Text></TouchableOpacity> */}
-              {this.state.menuOption == 4 && this.state.toggle == true &&
-                <View style={{ marginLeft: '10%' }}>
-                  <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%', width: '88%', alignSelf: 'flex-end' }} />{renderProfileScreenMenu(this.props)}
-                  <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%', width: '88%', alignSelf: 'flex-end' }} />{renderChangePassword(this.props)}
-                <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%', width: '88%', alignSelf: 'flex-end' }} />
-                  <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={async () => {
-                      //_storeLououtData();
-                      try {
-                        await AsyncStorage.setItem('isLogin', JSON.stringify(false));
-                        await AsyncStorage.removeItem('reedemablePoints');
-                        await AsyncStorage.removeItem('userID');
-                      } catch (error) {
-                        // Error saving data
-                      }
-                      this.props.navigation.navigate('Auth');
-                    }}>
-                    <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
-                      <MDIcon name={'exit-to-app'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
-                      <View style={{ width: '12%' }} />
-                      <Text style={{ fontWeight: 'bold',color:'white' }}>Logout</Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>}
-              <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%' }} />
-              {/* <TouchableOpacity><Text>CONTACT</Text></TouchableOpacity> */}
-              {/* {renderContactUs(this.props)} */}
-              {/* <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%' }} /> */}
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => {
-                  this.changeMenuOption(5)
-                }}>
-                <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center', }}>
-                  <MDIcon name={'location-on'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
-                  <View style={{ width: '12%' }} />
-                  <Text style={{ fontWeight: 'bold', color: 'white' }}>CONTACT</Text>
-                  <View style={{ flex: 1, alignSelf: 'flex-end' }}><MaterialCommunityIcons name={this.state.toggle == true && this.state.menuOption == 4 ? 'chevron-down' : 'chevron-right'} color='white' size={APIConstant.MENU_ICON_SIZE - 2} style={{ alignContent: 'flex-end', alignItems: 'flex-end', alignSelf: 'flex-end' }} /></View>
-                </View>
-              </TouchableOpacity>
-              {/* <TouchableOpacity onPress={() => { this.changeMenuOption(4) }} ><Text>PROFILE</Text></TouchableOpacity> */}
-              {this.state.menuOption == 5 && this.state.toggle == true &&
-                <View style={{ marginLeft: '10%' }}>
-                  <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%', width: '88%', alignSelf: 'flex-end' }} />{renderContactUs(this.props)}
-                  <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%', width: '88%', alignSelf: 'flex-end' }} />{renderLocation(this.props)}
-                </View>}
-              <View style={{ padding: 1, backgroundColor: 'black', marginHorizontal: '5%' }} />
-              {/* {renderContactUs(this.props)} */}
-            </View>
-            <View style={{ flex: 1, padding: 10, marginTop: '10%' }} >
-              <Image source={{ uri: GlobalAppModel.appIcon }} style={{ height: maxWidth / 2, width: maxWidth / 2, alignSelf: 'center', }} />
-              <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', paddingTop: 5 }}>
-                <TouchableOpacity><Text style={{ color: 'white' }}>PRIVACY POLICY</Text></TouchableOpacity>
-                <Text style={{ color: 'white' }}>|</Text>
-                <TouchableOpacity><Text style={{ color: 'white' }}>TERMS OF SERVICE</Text></TouchableOpacity>
-              </View>
-            </View>
-          </ScrollView>
-          {/* {console.log("menu option " + this.state.menuOption + " toggle " + this.state.toggle)} */}
-        </View>
+        </Text>
       </View>
     );
   }
@@ -415,7 +264,7 @@ const renderHomeScreen = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center', }}>
         <MDIcon name={'home'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>HOME</Text>
+        <Text style={{ fontWeight: 'bold' }}>Home</Text>
       </View>
     </TouchableOpacity>
   )
@@ -429,11 +278,11 @@ const renderProfileScreenMenu = (props) => {
       onPress={async () => {
         props.navigation.navigate('profileScreen');
       }}>
-      {/* {console.log("props "+JSON.stringify(props.navigation))} */}
+        {/* {console.log("props "+JSON.stringify(props.navigation))} */}
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center', }}>
         <MDIcon name={'person'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>UPDATE PROFILE</Text>
+        <Text style={{ fontWeight: 'bold' }}>Update Profile</Text>
       </View>
     </TouchableOpacity>
   )
@@ -449,7 +298,7 @@ const renderWayToEarn = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <MDIcon name={'monetization-on'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>WAY TO EARN</Text>
+        <Text style={{ fontWeight: 'bold' }}>Way To Earn</Text>
       </View>
     </TouchableOpacity>
   );
@@ -465,7 +314,7 @@ const renderRewardEntryGoals = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <MDIcon name={'star'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>REWARD ENTRY GOAL</Text>
+        <Text style={{ fontWeight: 'bold' }}>Reward Entry Goal</Text>
       </View>
     </TouchableOpacity>
   );
@@ -481,7 +330,7 @@ const renderSpinWheel = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <MDIcon name={'star'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>Spin Wheel</Text>
+        <Text style={{ fontWeight: 'bold' }}>Spin Wheel</Text>
       </View>
     </TouchableOpacity>
   );
@@ -513,7 +362,7 @@ const renderRedeemCashback = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <MDIcon name={'redeem'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>REDEEM CASHBACK</Text>
+        <Text style={{ fontWeight: 'bold' }}>Redeem Cashback</Text>
       </View>
     </TouchableOpacity>
   );
@@ -529,7 +378,7 @@ const renderLeaderboard = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <Icon name={'trophy'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>LEADER BOARD</Text>
+        <Text style={{ fontWeight: 'bold' }}>Leader Board</Text>
       </View>
     </TouchableOpacity>
   );
@@ -545,7 +394,7 @@ const renderNotification = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <MDIcon name={'notifications'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>Notification</Text>
+        <Text style={{ fontWeight: 'bold' }}>Notification</Text>
       </View>
     </TouchableOpacity>
   );
@@ -561,7 +410,7 @@ const renderTransactionHistory = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <MDIcon name={'history'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>TRANSACTION HISTORY</Text>
+        <Text style={{ fontWeight: 'bold' }}>Transaction History</Text>
       </View>
     </TouchableOpacity>
   );
@@ -577,7 +426,7 @@ const renderOffers = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <MDIcon name={'local-offer'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>OFFERS</Text>
+        <Text style={{ fontWeight: 'bold' }}>Offers</Text>
       </View>
     </TouchableOpacity>
   );
@@ -593,7 +442,7 @@ const renderTransferPoint = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <MDIcon name={'swap-horiz'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>TRANSFER POINTS</Text>
+        <Text style={{ fontWeight: 'bold' }}>Transfer Point</Text>
       </View>
     </TouchableOpacity>
   );
@@ -609,7 +458,7 @@ const renderUploadReceipt = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <Icon name={'upload'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>UPLOAD RECEIPT</Text>
+        <Text style={{ fontWeight: 'bold' }}>Upload Receipt</Text>
       </View>
     </TouchableOpacity>
   );
@@ -625,7 +474,7 @@ const renderRefereFriend = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <MDIcon name={'group-add'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>REFER FRIEND</Text>
+        <Text style={{ fontWeight: 'bold' }}>Refer Friend</Text>
       </View>
     </TouchableOpacity>
   );
@@ -641,7 +490,7 @@ const renderContactUs = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <MDIcon name={'phone'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>CONTACT US</Text>
+        <Text style={{ fontWeight: 'bold' }}>Contact Us</Text>
       </View>
     </TouchableOpacity>
   );
@@ -657,7 +506,7 @@ const renderLocation = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <MDIcon name={'location-on'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>LOCATION</Text>
+        <Text style={{ fontWeight: 'bold' }}>Locations</Text>
       </View>
     </TouchableOpacity>
   );
@@ -673,7 +522,7 @@ const renderSocailShare = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <MDIcon name={'share'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>Social Share</Text>
+        <Text style={{ fontWeight: 'bold' }}>Social Share</Text>
       </View>
     </TouchableOpacity>
   );
@@ -689,7 +538,7 @@ const renderTakeSurvey = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <MDIcon name={'edit'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>TAKE SURVEY</Text>
+        <Text style={{ fontWeight: 'bold' }}>Take Survey</Text>
       </View>
     </TouchableOpacity>
   );
@@ -705,7 +554,7 @@ const renderChangePassword = props => {
       <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
         <MDIcon name={'lock'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
         <View style={{ width: '12%' }} />
-        <Text style={{ fontWeight: 'bold', color: 'white' }}>CHANGE PASSWORD</Text>
+        <Text style={{ fontWeight: 'bold' }}>Change Password</Text>
       </View>
     </TouchableOpacity>
   );
@@ -715,7 +564,104 @@ const renderChangePassword = props => {
 const CreateDrawerComponent = props => (
   <SafeAreaView style={{ flex: 1 }}>
     <View style={{ flex: 1 }}>
-      <DrawerHeaderComponent navigation={props.navigation} />
+      <ScrollView style={{ flex: 1 }}>
+        <DrawerHeaderComponent navigation={props.navigation} />
+        {/*<DrawerItems {...props} />*/}
+        {renderHomeScreen(props)}
+        {renderProfileScreenMenu(props)}
+        {
+          //MenuPermissionModel.isVisibleMenuWaysToEarnPoints && 
+          renderWayToEarn(props)
+        }
+        {
+          //MenuPermissionModel.isVisibleMenuStoreRewards &&
+          renderRewardEntryGoals(props)
+        }
+        {
+          //MenuPermissionModel.isVisibleMenuCashbackRedemption &&
+          renderRedeemCashback(props)
+        }
+        {
+          //MenuPermissionModel.isLead
+          renderLeaderboard(props)
+        }
+        {/* {
+          renderSpinWheel(props)
+        } */}
+        {/* {
+          renderNotification(props)
+        } */}
+        {
+          //MenuPermissionModel.isVisibleMenuTxHistory && 
+          renderTransactionHistory(props)
+        }
+        {
+          //MenuPermissionModel.isVisibleMenuO
+          renderOffers(props)
+        }
+        {
+          //MenuPermissionModel.isVisibleMenuTransferPoints &&
+          renderTransferPoint(props)
+        }
+        {
+          //MenuPermissionModel.isVisibleMenuUploadReciepts && 
+          renderUploadReceipt(props)
+        }
+        {
+          //MenuPermissionModel.isVisibleMenuReferFriends &&
+          renderRefereFriend(props)
+        }
+        {
+          //MenuPermissionModel.isVisibleMenuContactUs && 
+          renderContactUs(props)
+        }
+        {
+          //MenuPermissionModel.isVisibleMenuLocation && 
+          renderLocation(props)
+        }
+        {/* {
+          //MenuPermissionModel.isVisibleMenu
+          renderSocailShare(props)
+        } */}
+        {
+          //MenuPermissionModel.isVisibleMenuTakeSurvey && 
+          renderTakeSurvey(props)
+        }
+        {
+          //MenuPermissionModel.isVisibleChangePassword &&
+          renderChangePassword(props)
+        }
+        {/* <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => {
+            props.navigation.navigate('webScreen');
+          }}>
+          <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
+            <MDIcon name={'public'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
+            <View style={{ width: '12%' }} />
+            <Text style={{ fontWeight: 'bold' }}>WebBrowser</Text>
+          </View>
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={async () => {
+            //_storeLououtData();
+            try {
+              await AsyncStorage.setItem('isLogin', JSON.stringify(false));
+              await AsyncStorage.removeItem('reedemablePoints');
+              await AsyncStorage.removeItem('userID');
+            } catch (error) {
+              // Error saving data
+            }
+            props.navigation.navigate('Auth');
+          }}>
+          <View style={{ padding: 10, flexDirection: 'row', alignContent: 'center' }}>
+            <MDIcon name={'exit-to-app'} style={{ fontSize: APIConstant.MENU_ICON_SIZE, marginLeft: 10 }} />
+            <View style={{ width: '12%' }} />
+            <Text style={{ fontWeight: 'bold' }}>Logout</Text>
+          </View>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   </SafeAreaView>
 );

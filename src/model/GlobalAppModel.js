@@ -21,6 +21,7 @@ class GlobalAppModel {
     // Loading Images
     loadingImages;
     willShownLoadingImage; // which index will shown next
+    appIcon;
 
     // Global app reuired data
     rewardProgramId;
@@ -43,6 +44,10 @@ class GlobalAppModel {
     setGlobalAppData(appData) {
         this.rewardProgramId = appData.rewardProgramId;
         this.webFormID = appData.webFormID;
+    }
+
+    setappIcon(appIcon){
+        this.appIcon = appIcon;
     }
 
     setUserID(userID) {

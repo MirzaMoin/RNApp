@@ -118,7 +118,7 @@ export default class WayToEarnScreen extends Component {
 
   _handleClick = index => {
     if (index == 6) {
-      this.props.handleProfile();
+      // this.props.handleProfile();
     }
   }
 
@@ -135,6 +135,7 @@ export default class WayToEarnScreen extends Component {
       return (
         <View
           style={{
+            paddingHorizontal:15,
             padding: 20,
             backgroundColor: this._showItem % 2 ? 'white' : 'rgba(153,153,153,0.2)',
           }}>

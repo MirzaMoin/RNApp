@@ -201,7 +201,7 @@ export default class OfferScreen extends Component {
                         borderRadius: 5,
                         color: 'white',
                         alignSelf: 'flex-start',
-                        // margin: 1,
+                        margin: 1,
                         marginTop:5,
                         padding: 5,
                         paddingHorizontal: 14

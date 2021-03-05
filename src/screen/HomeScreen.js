@@ -45,6 +45,7 @@ import * as RNEP from '@estimote/react-native-proximity';
 // var db = openDatabase({ name: 'RRBeacon.db' });
 import { insertBeaconData, updateMessagePriority, selectBeacon, getBeaconMessagePriority, clearDatabase } from './../database/BeaconDatabase';
 const maxWidth = Dimensions.get('window').width;
+const imageHeight = (maxWidth / 16) * 9;
 var extipAppCount = 0;
 if (Platform.OS == "android") {
   var { Beaconconnect } = NativeModules;
@@ -398,7 +399,7 @@ export default class HomeScreen extends Component {
             </View>
             {HomeModel.homePageTopTextUnderLine1 && <View style={{ height: 2, backgroundColor: parseColor(HomeModel.homePageTopTextUnderLine1Color) || 'white', width: '100%', margin: 5, alignSelf: 'center' }} />}
             {HomeModel.homePageTopTextLine2.trim() == "%%TotalPoints%%" ?
-              <View style={{width:'100%',alignSelf:'center',alignContent:'center',alignItems:'center'}}>
+              <View style={{ width: '100%', alignSelf: 'center', alignContent: 'center', alignItems: 'center' }}>
                 <AnimateNumber
                   value={GlobalAppModel.redeemablePoint || 0}
                   formatter={(val) => {
@@ -413,7 +414,7 @@ export default class HomeScreen extends Component {
               </Text>
             }
             {(HomeModel.homePageTopTextUnderLine2) && <View style={{ height: 2, backgroundColor: parseColor(HomeModel.homePageTopTextUnderLine2Color) || 'white', width: '100%', margin: 5, alignSelf: 'center' }} />}
-            <TouchableOpacity
+            {(HomeModel.homePageDisplayTopButton) && <TouchableOpacity
               activeOpacity={0.8}
               style={{ marginTop: '5%', }}
               onPress={() => {
@@ -433,8 +434,17 @@ export default class HomeScreen extends Component {
                 style={{ padding: 10, paddingHorizontal: 25, borderRadius: 5, alignContent: 'center' }}>
                 <Text style={{ color: parseColor(HomeModel.homePageTopButtonTextColor), fontSize: 24, textAlign: 'center' }}>{HomeModel.homePageTopButtonText}</Text>
               </LinearGradient>
-            </TouchableOpacity>
+            </TouchableOpacity>}
           </ScrollView>
+          {true && <View style={{ backgroundColor: 'rgba(0,0,0,.2)', alignSelf: 'center', justifyContent: 'center', width: maxWidth + 25, marginBottom: -10 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: '100%', padding: 10, }}>
+              {true && <View><Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}>50</Text><Text style={{ fontWeight: 'bold', fontSize: Math.round(imageHeight / 20), color: 'white' }}>Avliable Points</Text></View>}
+              {true && <View><Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}>5</Text><Text style={{ fontWeight: 'bold', fontSize: Math.round(imageHeight / 20), color: 'white' }}>This Month</Text></View>}
+              {true && <View><Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}>500</Text><Text style={{ fontWeight: 'bold', fontSize: Math.round(imageHeight / 20), color: 'white' }}>Total Redeemed</Text></View>}
+              {true && <View><Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}>5000</Text><Text style={{ fontWeight: 'bold', fontSize: Math.round(imageHeight / 20), color: 'white' }}>Lifetime Earned</Text></View>}
+            </View>
+          </View>
+          }
         </LinearGradient>
       </ImageBackground>
     );
@@ -443,7 +453,7 @@ export default class HomeScreen extends Component {
   onPageLayout = (event) => {
     const { width, height } = event.nativeEvent.layout;
     // manage bottom container menu item height 
-    console.log(`Height ${height} : Width ${width}`)
+    // console.log(`Height ${height} : Width ${width}`)
     if (!(this.state.bottomContainerMenuItemHeight) && HomeModel.menuLinks.length > 0) {
       var bottomMenuItemHeight = 75;
       const tmpMenuItemHeight = height / HomeModel.menuLinks.length;
@@ -652,7 +662,7 @@ export default class HomeScreen extends Component {
   // rebbon for showing internal or external link at top/bottom of top container
   _renderRebbon = isShow => {
     if (HomeModel.homePageDisplayRibbon && isShow) {
-      console.log(`Ribbon Icon ${HomeModel.homePageRibbonDisplayIcon} : ${HomeModel.homePageRibbonIcon} : ${HomeModel.homePageRibbonIconPosition}`)
+      // console.log(`Ribbon Icon ${HomeModel.homePageRibbonDisplayIcon} : ${HomeModel.homePageRibbonIcon} : ${HomeModel.homePageRibbonIconPosition}`)
       return (
         <TouchableOpacity
           activeOpacity={0.8}
@@ -716,7 +726,7 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1, flexDirection: 'row' }}>
-        <StatusBar barStyle={'light-content'} backgroundColor={parseColor(GlobalAppModel.primaryColor)} />
+        <StatusBar  barStyle={'light-content'} backgroundColor={parseColor(GlobalAppModel.primaryColor)} />
         <SafeAreaView style={styles.mainContainer}>
           {this._renderToolBar()}
           <View style={{ flex: 1 }}>

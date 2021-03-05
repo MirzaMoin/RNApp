@@ -39,6 +39,7 @@ export default class SplashScreen extends Component {
     super();
     this.state={
       img:'',
+      icon:'',
     }
   }
   componentDidMount() {
@@ -145,8 +146,9 @@ export default class SplashScreen extends Component {
           LoginScreenModel.setLoginScreenData(response.responsedata.logInScreen);
           HomeModel.setHomeScreenData(response.responsedata.homeScreen);
           GlobalAppModel.setAppColor(response.responsedata.appColor);
-          GlobalAppModel.setLoadingImages(response.responsedata.loadingImages);
+          GlobalAppModel.setLoadingImages(response.responsedata.appIntakeImages.loadingImages);
           GlobalAppModel.setGlobalAppData(response.responsedata.appDetails);
+          GlobalAppModel.setappIcon(response.responsedata.appIntakeImages.appIcon);
           this._getInviteData(response.responsedata.appDetails.rewardProgramId);
           this._storeAppData();
           this._getLoginData();
@@ -233,9 +235,11 @@ export default class SplashScreen extends Component {
       await AsyncStorage.setItem(
         'Loading_image',
         GlobalAppModel.loadingImages[0]['imageUrl']
-        // JSON.stringify(GlobalAppModel.loadingImages[0]['imageUrl'])
       );
-      console.log("GlobalAppModel.loadingImages " + GlobalAppModel.loadingImages[0]['imageUrl'])
+      await AsyncStorage.setItem(
+        'appIcon',
+        GlobalAppModel.appIcon
+      );
     } catch (error) {
       console.log('error while store data : ' + error)
     }
@@ -246,17 +250,16 @@ export default class SplashScreen extends Component {
       this.setState({
         img:image
       })
-      setTimeout(function () {
-        that._callGetAppIntakeData();
-      }, 100);
-
+        setTimeout(function () {
+          that._callGetAppIntakeData();
+        }, 100);
     })
   }
 
   render() {
     return (
       <View style={styles.baseContainer}>
-        <LoadingScreen LoadingImage={this.state.img} />
+        <LoadingScreen LoadingImage={this.state.img} Icon={this.state.icon}/>
       </View>
     );
     return null;

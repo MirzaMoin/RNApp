@@ -229,14 +229,13 @@ export default class TransactionHistory extends Component {
         <>
           <View style={{ hegith: imageHeight }}>
             <Image
-              style={{ height: imageHeight }}
+              style={{ height: imageHeight  }}
               source={{
                 uri:
                   APIConstant.HEADER_IMAGE,
               }}
               resizeMode="cover"
             />
-            {/* <View style={styles.imageOverlay} /> */}
           </View>
           <View style={{ flexDirection: 'row', paddingHorizontal: 10, marginBottom: 10, marginTop: 10, marginHorizontal: 15, borderWidth: 2, borderRadius: 5, borderColor: 'rgba(153,153,153,1)', alignItems: 'center' }}>
             <MDIcon name={'search'} style={{ fontSize: 24 }} />

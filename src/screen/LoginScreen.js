@@ -931,7 +931,7 @@ export default class LoginScreen extends Component {
   _showLoginCleanlogin = () => {
     if (!this.state.isShowForgotPassword && !this.state.isShowSignUp && LoginScreenModel.themeType == 'cleanlogin') {
       return (
-        <View style={{ flex: 1, flexDirection: "column" }}>
+        <View style={{ flex: 1, flexDirection: "column", }}>
           <TextInput
             label="Email, Mobile Member ID"
             labelColor="#ffffff"
@@ -940,7 +940,7 @@ export default class LoginScreen extends Component {
             leftIconType="material"
             underlineColor="#ffffff"
             color="#ffffff"
-            containerWidth={maxWidth}
+            containerWidth={maxWidth + 5}
             labelActiveColor="#ffffff"
             leftIconColor="#ffffff"
             selectionColor={"#ffffff"}
@@ -959,7 +959,7 @@ export default class LoginScreen extends Component {
             label="Password"
             leftIcon="key"
             leftIconSize={20}
-            containerWidth={maxWidth}
+            containerWidth={maxWidth + 5}
             leftIconType="material"
             rightIcon={
               !this.state.isShowPassword ? "eye-off-outline" : "eye-outline"
@@ -1156,7 +1156,7 @@ export default class LoginScreen extends Component {
       }
       else {
         return (
-          <TouchableOpacity onPress={this._onSignUpClick} style={{ width: LoginScreenModel.themeType == 'cleanlogin' ? '80%' : null}}>
+          <TouchableOpacity onPress={this._onSignUpClick} style={{ width: LoginScreenModel.themeType == 'cleanlogin' ? '80%' : null }}>
             <LinearGradient
               style={{ borderRadius: 5, marginVertical: LoginScreenModel.themeType == 'cleanlogin' ? 5 : null, margin: LoginScreenModel.themeType == 'cleanlogin' ? 0 : 5, }}
               colors={[
@@ -2907,8 +2907,7 @@ export default class LoginScreen extends Component {
   render() {
     return (
       <>
-        {console.log("type " + LoginScreenModel.themeType)}
-        {/* this is for video motion */}
+        {/* {console.log("type " + LoginScreenModel.themeType)} */}
         {LoginScreenModel.themeType == 'videomotion' &&
           <MenuProvider>
             <KeyboardAvoidingView
@@ -2957,6 +2956,7 @@ export default class LoginScreen extends Component {
                       right: 0,
                       padding: 20,
                     }}>
+                      {LoginScreenModel.isBanner && <View style={{ width: '90%', padding: 10, margin: 10, marginBottom: "20%" }}><Text style={{ fontSize: width / 15, color: parseColor(LoginScreenModel.bannerTitleColor), textAlign: 'center' }} >{LoginScreenModel.bannerTitleText.toUpperCase()}</Text></View>}
                       <Text
                         style={[
                           styles.textStyle,
@@ -3035,7 +3035,6 @@ export default class LoginScreen extends Component {
             </KeyboardAvoidingView>
           </MenuProvider>
         }
-        {/* this is for cleanlogin */}
         {LoginScreenModel.themeType == 'cleanbuttons' &&
           <MenuProvider>
             <KeyboardAvoidingView
@@ -3075,7 +3074,9 @@ export default class LoginScreen extends Component {
                       alignItems: "center",
                     }}
                   >
+
                     <View style={styles.mainContainer}>
+                      {LoginScreenModel.isBanner && <View style={{ width: '90%', padding: 10, margin: 10 }}><Text style={{ fontSize: width / 15, color: parseColor(LoginScreenModel.bannerTitleColor), textAlign: 'center' }} >{LoginScreenModel.bannerTitleText.toUpperCase()}</Text></View>}
                       <Text
                         style={[
                           styles.textStyle,
@@ -3154,7 +3155,6 @@ export default class LoginScreen extends Component {
             </KeyboardAvoidingView>
           </MenuProvider>
         }
-        {/* this is for cleanbuttons */}
         {LoginScreenModel.themeType == 'cleanlogin' &&
           <MenuProvider>
             <KeyboardAvoidingView
@@ -3203,12 +3203,12 @@ export default class LoginScreen extends Component {
                   >
                     <View style={{
                       borderRadius: 10,
-                      // alignItems: "center",
-                      // justifyContent: "center",
+                      alignItems: "center",
+                      justifyContent: "center",
                       // alignContent: "stretch",
-                      // alignSelf: "center",
+                      alignSelf: "center",
                       // backgroundColor: "rgba(0, 0, 0,0.30)",
-                      margin: 20,
+                      margin: width > 400 ? width / 5 : 20,
                       top: 0,
                       bottom: 0,
                       left: 0,
@@ -3217,8 +3217,9 @@ export default class LoginScreen extends Component {
                       alignSelf: 'center',
                       alignItems: 'center'
                     }}>
-                      <Image source={{ uri: LoginScreenModel.logInLogoImage }} style={{ height: width / 2, width: width, alignSelf: 'center' }} resizeMode="contain" />
-                      {/* {console.log("state "+ JSON.stringify(this.state))} */}
+                      {LoginScreenModel.isBanner && <View style={{ width: '90%', padding: 10, margin: 10 }}><Text style={{ fontSize: width / 15, color: parseColor(LoginScreenModel.bannerTitleColor), textAlign: 'center' }} >{LoginScreenModel.bannerTitleText.toUpperCase()}</Text></View>}
+                      <Image source={{ uri: LoginScreenModel.logInLogoImage }} style={{ height: LoginScreenModel.logInLogoImage == null ? width / 4 : width / 2, width: width, alignSelf: 'center', marginBottom: width > 400 ? width / 5 : 20, }} resizeMode="contain" />
+                      {console.log(" LoginScreenModel.logInLogoImage " + LoginScreenModel.logInLogoImage)}
                       {/* {this._showLogin()} */}
                       {this._showLoginCleanlogin()}
                       {this._showForgotPassword()}
@@ -3244,7 +3245,7 @@ export default class LoginScreen extends Component {
                       {/* {this._showSignUp()}
                     {this._renderSignupButton()} */}
                       {this.state.isShowSignUp ?
-                        <TouchableOpacity onPress={this._onLoginClick} style={{ width:'80%',alignItems:'center'}}>
+                        <TouchableOpacity onPress={this._onLoginClick} style={{ width: '80%', alignItems: 'center' }}>
                           <LinearGradient
                             style={{ borderRadius: 5, margin: 5, width: '100%' }}
                             colors={[
@@ -3287,7 +3288,7 @@ export default class LoginScreen extends Component {
                     >
                       {LoginScreenModel.forgotPwdBtnText}
                     </Text> */}
-                      <TouchableOpacity style={{width:'80%',alignItems:'center'}} onPress={this._onForgotPasswordClick}>
+                      <TouchableOpacity style={{ width: '80%', alignItems: 'center' }} onPress={this._onForgotPasswordClick}>
                         <LinearGradient
                           style={{ borderRadius: 5, margin: 5, width: '100%' }}
                           colors={[

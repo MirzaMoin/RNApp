@@ -45,7 +45,7 @@ const { width } = Dimensions.get('window')
 const maxWidth = width - (width * 20 / 100)
 const maxWidth2 = Dimensions.get('window').width;
 const imageHeight = (maxWidth2 / 16) * 9;
-
+const apifontcolor='black'
 export default class ProfileScreen extends Component {
   static navigationOptions = {
     header: null,
@@ -87,7 +87,6 @@ export default class ProfileScreen extends Component {
   }*/
 
   componentDidMount() {
-    console.log(`prof ${GlobalAppModel.primaryButtonColor}`)
     const { navigation } = this.props;
     BackHandler.addEventListener('hardwareBackPress', () => {
       navigation.goBack();
@@ -148,7 +147,7 @@ export default class ProfileScreen extends Component {
             memberCardID: contactData.memberCardID,
             driverLicense: contactData.driverLicense,
             location: contactData.addressID,
-            rewardProgramIDNew: '78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20',
+            rewardProgramIDNew: GlobalAppModel.rewardProgramId, //'78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20',
             address2: contactData.address2,
             address3: contactData.address3,
             isAllowPush: true,
@@ -170,7 +169,7 @@ export default class ProfileScreen extends Component {
 
   _callWebFormData = () => {
     makeRequest(
-      `${APIConstant.BASE_URL}${APIConstant.GET_WEBFORMFIELD_DATA}?RewardProgramID=78b84a8c-7b9e-4c8c-82fd-3c9f9e32bf20&WebFormId=${GlobalAppModel.webFormID}`,
+      `${APIConstant.BASE_URL}${APIConstant.GET_WEBFORMFIELD_DATA}?RewardProgramID=${GlobalAppModel.rewardProgramId}&WebFormId=${GlobalAppModel.webFormID}`,
       'get',
     )
       .then(response => {

@@ -181,7 +181,6 @@ export default class ChangePassword extends Component {
   }
 
   render() {
-    // console.log(`color : ${GlobalAppModel.primaryButtonColor}`)
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1, flexDirection: 'column' }}>
@@ -203,7 +202,7 @@ export default class ChangePassword extends Component {
                   }}
                   resizeMode="cover"
                 />
-                <View style={{ height: imageHeight / 4, backgroundColor: 'rgba(255,0,0,.1)', alignSelf:'center',justifyContent:'center' }}>
+                {/* <View style={{ height: imageHeight / 4, backgroundColor: 'rgba(255,0,0,.1)', alignSelf:'center',justifyContent:'center' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width:'100%' }}>
                       <View><Text style={{textAlign:'center'}}>50 </Text><Text style={{fontSize:Math.round(imageHeight/20)}}>Points Available</Text></View>
                       <View style={{ margin: 1, padding: 1, backgroundColor: 'black',borderRadius:5 }} />
@@ -213,7 +212,7 @@ export default class ChangePassword extends Component {
                     <View style={{ margin: 1, padding: 1, backgroundColor: 'black', borderRadius: 5 }} />
                     <View><Text style={{ textAlign: 'center' }}>5000</Text><Text style={{ fontSize: Math.round(imageHeight / 20) }}>Lifetime Earned</Text></View>
                     </View>
-                </View>
+                </View> */}
               </View>
               <View style={styles.MainContainer}>
                 <TextInput

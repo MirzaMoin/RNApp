@@ -162,11 +162,13 @@ export default class RedeemCashbackScreen extends Component {
   _renderIcon = () => this.state.isLoading ? <ActivityIndicator color={'#012345'} /> : <MDIcon name="keyboard-arrow-right" size={30} />;
 
   _renderSuggession = () => {
+    const c = 100
+    { console.log("imageHeight " + Math.round(maxWidth / 100) + " imageHeight " + Math.round(maxWidth / c)) }
     if (this.state.amount > 0 && this.state.isAllowPartialCashbackRedemption) {
       var sugessions = [];
       var amount = 1;
-      if (this.state.amount > 9) {
-        amount = Math.round(this.state.amount / 10);
+      if (this.state.amount > Math.round(maxWidth / 80)) {
+        amount = Math.round(this.state.amount / Math.round(maxWidth / 80));
         for (var i = amount; i <= this.state.amount; i = i + amount) {
           const tmp = i;
           sugessions.push(
@@ -179,7 +181,7 @@ export default class RedeemCashbackScreen extends Component {
                 this.setState({ otherAmount: tmp })
               }}
             >
-              <View style={{ padding: 10, paddingHorizontal: 15, minHeight: 50, borderRadius: 25, backgroundColor: '#012345', justifyContent: 'center', alignSelf: 'center', alignContent: 'center' }}>
+              <View style={{ padding: 10, paddingHorizontal: 15, minHeight: 50, borderRadius: 25, backgroundColor: '#012345', justifyContent: 'center', alignSelf: 'center', alignContent: 'center', width: maxWidth / c > 4 ? (maxWidth / c) * 15 : (maxWidth / c) * 20 }}>
                 <Text style={{ color: 'white', alignSelf: 'center', fontSize: 18 }}>${tmp}</Text>
               </View>
               {/* </TouchableNativeFeedback> */}
@@ -187,14 +189,17 @@ export default class RedeemCashbackScreen extends Component {
           )
         }
         return (
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            horizontal={true}>
-            <View style={{ flexDirection: 'row', paddingLeft: 15, marginVertical: 5 }}>
-              {sugessions}
-            </View>
-          </ScrollView>
+          <View style={{ flexDirection: 'row', marginVertical: 5, alignSelf: 'center', }}>
+            {sugessions}
+          </View>
+          // <ScrollView
+          //   showsVerticalScrollIndicator={false}
+          //   showsHorizontalScrollIndicator={false}
+          //   horizontal={true}>
+          //   <View style={{ flexDirection: 'row', marginVertical: 5,alignSelf:'center'}}>
+          //     {sugessions}
+          //   </View>
+          // </ScrollView>
         );
       }
 
@@ -206,7 +211,7 @@ export default class RedeemCashbackScreen extends Component {
       return <LoadingScreen LoadingImage={loadingImage} />
     } else {
       return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1,backgroundColor:'white' }}>
           <ScrollView>
             <View style={{ flexDirection: 'column' }}>
               <View style={{ hegith: imageHeight }}>
@@ -217,9 +222,9 @@ export default class RedeemCashbackScreen extends Component {
                   }}
                   resizeMode="cover"
                 />
-                <View style={styles.imageOverlay} />
+                {/* <View style={styles.imageOverlay} /> */}
               </View>
-              <View style={{ paddingHorizontal: 0, flex: 1, paddingTop: 0, margin:10 }}>
+              <View style={{ paddingHorizontal: 0, flex: 1, paddingTop: 0, margin: 10 }}>
                 {/* <Text style={{ fontSize: 24, padding: 0, paddingBottom: 0,backgroundColor:'red' }}>How much chashback would you like to?</Text> */}
                 {/* <TouchableNativeFeedback */}
                 <TouchableOpacity
@@ -249,18 +254,19 @@ export default class RedeemCashbackScreen extends Component {
                 {this._renderSuggession()}
               </View>
             </View>
-            <Card
+            {/* <Card
               containerStyle={{
                 borderTopLeftRadius: 15,
                 borderTopRightRadius: 15,
                 marginBottom: 0,
                 marginHorizontal: 20,
-              }}>
-              {this.state.isAllowPartialCashbackRedemption && <View>
+              }}> */}
+              {this.state.isAllowPartialCashbackRedemption && 
+              <View style={{marginHorizontal:10}}>
                 <Text
                   style={{ paddingLeft: 10, color: this.state.otherAmounterror ? 'red' : 'black' }}>
                   Enter other amount
-            </Text>
+                </Text>
                 <View
                   style={{
                     marginTop: 10,
@@ -276,7 +282,7 @@ export default class RedeemCashbackScreen extends Component {
                   }}>
                   <Text style={{ alignSelf: 'center', fontSize: 16 }}>$</Text>
                   <TextInput
-                    style={{ fontSize: 17, fontWeight: 'bold', margin: 5, padding: 5,width:'95%' }}
+                    style={{ fontSize: 17, fontWeight: 'bold', margin: 5, padding: 5, width: '95%' }}
                     keyboardType={'numeric'}
                     returnKeyType='done'
                     value={`${this.state.otherAmount || ''}`}
@@ -290,13 +296,13 @@ export default class RedeemCashbackScreen extends Component {
                 </View>
               </View>}
 
-              <View style={{ alignSelf: 'center', width: '100%', justifyContent: 'center', alignContent: 'center', alignItems: 'center' }} >
+              <View style={{ alignSelf: 'center', width: '100%', justifyContent: 'center', alignContent: 'center', alignItems: 'center' ,}} >
                 <SwipeButton
                   thumbIconBackgroundColor="#FFFFFF"
                   containerStyle={{ backgroundColor: GlobalAppModel.primaryButtonColor || '#012345', }}
                   swipeSuccessThreshold={80}
                   thumbIconComponent={this._renderIcon}
-                  width={'95%'}
+                  width={'90%'}
                   title="Slide to Redeem"
                   titleColor={'white'}
                   railBackgroundColor={GlobalAppModel.primaryButtonColor || '#012345'}
@@ -307,7 +313,7 @@ export default class RedeemCashbackScreen extends Component {
                     this._prepareForm()
                   }} />
               </View>
-            </Card>
+            {/* </Card> */}
 
           </ScrollView>
         </View>

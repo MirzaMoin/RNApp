@@ -240,7 +240,7 @@ export default class LeaderBoardScreen extends Component {
               borderBottomLeftRadius: 20,
               borderBottomRightRadius: 20,
               padding: 5,
-              marginRight: 7,
+              marginRight: 5,
             }}>
               {/* <TouchableNativeFeedback */}
               <TouchableOpacity
@@ -262,7 +262,7 @@ export default class LeaderBoardScreen extends Component {
               borderBottomLeftRadius: 20,
               borderBottomRightRadius: 20,
               padding: 5,
-              marginRight: 7,
+              marginLeft: 5,
             }}>
               {/* <TouchableNativeFeedback */}
               <TouchableOpacity
@@ -297,7 +297,7 @@ export default class LeaderBoardScreen extends Component {
             {this._buildThirdWinner()}
           </View>
           <FlatList
-            style={{ flex: 1, marginTop: 50, paddingHorizontal: 0, }}
+            style={{ flex: 1, marginTop: 50, paddingHorizontal: 0,marginHorizontal:5 }}
             data={this.state.leaderBoardReport}
             ListEmptyComponent={() => {
               return (
