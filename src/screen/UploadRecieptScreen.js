@@ -334,7 +334,7 @@ export default class UploadReceiptScreen extends Component {
   _renderReceiptCategory = () => {
     if (this.state.settingsDetails.isShowURReceiptType) {
       return (
-        <View style={{ width: maxWidth-25 }}>
+        <View style={{ width: maxWidth - 40 }}>
           <SectionedMultiSelect
             items={this.state.categories}
             uniqueKey="id"
@@ -396,7 +396,7 @@ export default class UploadReceiptScreen extends Component {
         }
       });
       return (
-        <View style={{ width: maxWidth-25, }}>
+        <View style={{ width: maxWidth - 40, }}>
           <SectionedMultiSelect
             items={item}
             modalWithSafeAreaView={true}
@@ -444,7 +444,7 @@ export default class UploadReceiptScreen extends Component {
   _renderReceiptDate = () => {
     if (this.state.settingsDetails.isShowURReceiptDate) {
       return (
-        <View style={{ width: maxWidth-25, flexDirection: 'column', marginTop: 5, marginBottom: 5 }}>
+        <View style={{ width: maxWidth - 40, flexDirection: 'column', marginTop: 5, marginBottom: 5 }}>
           {this._renderLabel(this.state.receiptDate, this.state.settingsDetails.urReceiptDate || 'Receipt Date')}
           <DatePicker
             date={this.state.receiptDate}
@@ -615,7 +615,7 @@ export default class UploadReceiptScreen extends Component {
               />
               <View style={styles.imageOverlay} />
             </View>
-            <View style={{ flexDirection: 'column', alignItems: 'center', paddingTop: 10 }}>
+            <View style={{ flexDirection: 'column', alignItems: 'center', paddingTop: 10, }}>
               {this._renderSubTotal()}
               {this._renderReceiptCategory()}
               {this._renderLocation()}

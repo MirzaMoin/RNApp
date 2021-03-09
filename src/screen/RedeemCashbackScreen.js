@@ -28,6 +28,7 @@ var loadingImage = '';
 
 const maxWidth = Dimensions.get('window').width;
 const imageHeight = (maxWidth / 16) * 9;
+const textColor = '#848482';
 
 export default class RedeemCashbackScreen extends Component {
 
@@ -211,7 +212,7 @@ export default class RedeemCashbackScreen extends Component {
       return <LoadingScreen LoadingImage={loadingImage} />
     } else {
       return (
-        <View style={{ flex: 1,backgroundColor:'white' }}>
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
           <ScrollView>
             <View style={{ flexDirection: 'column' }}>
               <View style={{ hegith: imageHeight }}>
@@ -224,13 +225,13 @@ export default class RedeemCashbackScreen extends Component {
                 />
                 {/* <View style={styles.imageOverlay} /> */}
               </View>
-              <View style={{ paddingHorizontal: 0, flex: 1, paddingTop: 0, margin: 10 }}>
+              <View style={{ paddingHorizontal: 20, flex: 1, paddingTop: 0, marginTop: 10 }}>
                 {/* <Text style={{ fontSize: 24, padding: 0, paddingBottom: 0,backgroundColor:'red' }}>How much chashback would you like to?</Text> */}
                 {/* <TouchableNativeFeedback */}
                 <TouchableOpacity
                   activeOpacity={0.8}
                   onPress={() => this.setState({ otherAmount: this.state.amount })}>
-                  <View style={{ borderRadius: 15, height: 180, width: '95%', alignItems: 'center', justifyContent: 'center', alignContent: 'center', alignSelf: 'center', marginVertical: 0 }}>
+                  <View style={{ borderRadius: 15, height: 180, width: '100%', alignItems: 'center', justifyContent: 'center', alignContent: 'center', alignSelf: 'center', marginVertical: 0, paddingHorizontal: 0 }}>
                     <Image
                       style={{
                         width: '100%',
@@ -261,10 +262,14 @@ export default class RedeemCashbackScreen extends Component {
                 marginBottom: 0,
                 marginHorizontal: 20,
               }}> */}
-              {this.state.isAllowPartialCashbackRedemption && 
-              <View style={{marginHorizontal:10}}>
+            {this.state.isAllowPartialCashbackRedemption &&
+              <View style={{ marginHorizontal: 10, marginTop: 10 }}>
                 <Text
-                  style={{ paddingLeft: 10, color: this.state.otherAmounterror ? 'red' : 'black' }}>
+                  style={{
+                    paddingLeft: 10,
+                    //color: this.state.otherAmounterror ? 'red' : 'black' 
+                    color: textColor, fontSize: 16
+                  }}>
                   Enter other amount
                 </Text>
                 <View
@@ -296,23 +301,23 @@ export default class RedeemCashbackScreen extends Component {
                 </View>
               </View>}
 
-              <View style={{ alignSelf: 'center', width: '100%', justifyContent: 'center', alignContent: 'center', alignItems: 'center' ,}} >
-                <SwipeButton
-                  thumbIconBackgroundColor="#FFFFFF"
-                  containerStyle={{ backgroundColor: GlobalAppModel.primaryButtonColor || '#012345', }}
-                  swipeSuccessThreshold={80}
-                  thumbIconComponent={this._renderIcon}
-                  width={'90%'}
-                  title="Slide to Redeem"
-                  titleColor={'white'}
-                  railBackgroundColor={GlobalAppModel.primaryButtonColor || '#012345'}
-                  railFillBackgroundColor={'green'}
-                  shouldResetAfterSuccess
-                  disabled={this.state.isLoading}
-                  onSwipeSuccess={() => {
-                    this._prepareForm()
-                  }} />
-              </View>
+            <View style={{ alignSelf: 'center', width: '100%', justifyContent: 'center', alignContent: 'center', alignItems: 'center', }} >
+              <SwipeButton
+                thumbIconBackgroundColor="#FFFFFF"
+                containerStyle={{ backgroundColor: GlobalAppModel.primaryButtonColor || '#012345', }}
+                swipeSuccessThreshold={80}
+                thumbIconComponent={this._renderIcon}
+                width={'90%'}
+                title="Slide to Redeem"
+                titleColor={'white'}
+                railBackgroundColor={GlobalAppModel.primaryButtonColor || '#012345'}
+                railFillBackgroundColor={'green'}
+                shouldResetAfterSuccess
+                disabled={this.state.isLoading}
+                onSwipeSuccess={() => {
+                  this._prepareForm()
+                }} />
+            </View>
             {/* </Card> */}
 
           </ScrollView>

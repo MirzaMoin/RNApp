@@ -258,7 +258,7 @@ export default class ContactUs extends Component {
 
                 <View style={styles.formContainer}>
                   <View style={styles.nameContainer}>
-                    <View style={{ marginRight: '2%' }}>
+                    <View style={{ marginRight: '1%' }}>
                       <TextInput
                         label="First Name"
                         leftIcon="account-outline"
@@ -274,7 +274,7 @@ export default class ContactUs extends Component {
                       />
                     </View>
 
-                    <View style={{ marginLeft: '2%' }}>
+                    <View style={{ marginLeft: '1%' }}>
                       <TextInput
                         label="Last Name"
                         leftIcon="account-outline"

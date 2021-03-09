@@ -6,12 +6,13 @@ import APIConstant from './../api/apiConstant';
 import { ScreenHeader } from '../widget/ScreenHeader';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import GlobalAppModel from '../model/GlobalAppModel';
-import { round } from 'react-native-reanimated';
 const maxWidth = Dimensions.get('window').width;
 const imageHeight = (maxWidth / 16) * 9;
 const { width } = Dimensions.get("window");
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import SwipeButton from 'rn-swipe-button';
+import { SliderBox } from "react-native-image-slider-box";
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 // const TotalWidth = width - (width * 1) / 100;
 const TotalWidth = width - 20
@@ -33,6 +34,45 @@ export default class ChangePassword extends Component {
       passwordError: '',
       newPasswordError: '',
       confirmPasswordError: '',
+      images: [
+        "https://source.unsplash.com/1024x768/?nature",
+        "https://source.unsplash.com/1024x768/?water",
+        "https://source.unsplash.com/1024x768/?sky",
+        "https://source.unsplash.com/1024x768/?tree",
+        "https://source.unsplash.com/1024x768/?fire",
+        "https://source.unsplash.com/1024x768/?bird",
+        "https://source.unsplash.com/1024x768/?dog",
+        "https://source.unsplash.com/1024x768/?music",
+      ],
+      opv: 1,
+      activeIndex: 0,
+      carouselItems: [
+        {
+          title: "",
+          text: "",
+          image: "https://source.unsplash.com/1024x768/?water",
+        },
+        {
+          title: "",
+          text: "",
+          image: "https://source.unsplash.com/1024x768/?fire",
+        },
+        {
+          title: "",
+          text: "",
+          image: "https://source.unsplash.com/1024x768/?music",
+        },
+        {
+          title: "",
+          text: "",
+          image: "https://source.unsplash.com/1024x768/?sky",
+        },
+        {
+          title: "",
+          text: "",
+          image: "https://source.unsplash.com/1024x768/?tree",
+        },
+      ]
     }
   }
 
@@ -179,6 +219,23 @@ export default class ChangePassword extends Component {
       </View>
     )
   }
+  _renderItem({ item, index }) {
+    that = this
+    return (
+      <View style={{
+        backgroundColor: 'floralwhite',
+        borderRadius: 5,
+        height: '100%',
+      }}>
+        <TouchableOpacity onPress={() => { console.log("item pressed " + index + " active ") }} style={{ height: '100%', width: '100%', opacity: 1 }}>
+          <Image source={{ uri: item.image }} style={{ height: '100%', width: "100%", position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }} />
+          {/* <Text style={{ fontSize: 30 }}>{item.title}</Text>
+          <Text>{item.text}</Text> */}
+        </TouchableOpacity>
+      </View>
+
+    )
+  }
 
   render() {
     return (
@@ -194,32 +251,85 @@ export default class ChangePassword extends Component {
             enabled={Platform.OS === 'ios' ? true : false}>
             <ScrollView>
               <View style={{ hegith: imageHeight / 1.5 }}>
-                <Image
-                  style={{ height: imageHeight / 1.5 }}
+                {false ? <Image
+                  style={{ height: imageHeight / 1.5, opacity: .5 }}
                   source={{
                     uri:
                       APIConstant.HEADER_IMAGE,
                   }}
                   resizeMode="cover"
                 />
-                {/* <View style={{ height: imageHeight / 4, backgroundColor: 'rgba(255,0,0,.1)', alignSelf:'center',justifyContent:'center' }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width:'100%' }}>
-                      <View><Text style={{textAlign:'center'}}>50 </Text><Text style={{fontSize:Math.round(imageHeight/20)}}>Points Available</Text></View>
-                      <View style={{ margin: 1, padding: 1, backgroundColor: 'black',borderRadius:5 }} />
-                    <View><Text style={{ textAlign: 'center' }}>5</Text><Text style={{ fontSize: Math.round(imageHeight / 20) }}>This Month</Text></View>
-                      <View style={{ margin: 1, padding: 1, backgroundColor: 'black',borderRadius:5 }} />
-                    <View><Text style={{ textAlign: 'center' }}>500</Text><Text style={{ fontSize: Math.round(imageHeight / 20) }}>Total Redeemed</Text></View>
-                    <View style={{ margin: 1, padding: 1, backgroundColor: 'black', borderRadius: 5 }} />
-                    <View><Text style={{ textAlign: 'center' }}>5000</Text><Text style={{ fontSize: Math.round(imageHeight / 20) }}>Lifetime Earned</Text></View>
-                    </View>
-                </View> */}
+                  :
+                  <View style={{ flex: 1, justifyContent: 'center', height: imageHeight / 1.5 }}>
+                    <Carousel
+                      autoplay
+                      loop
+                      // autoplayDelay={1000}
+                      layout={'stack'}
+                      ref={ref => this.carousel = ref}
+                      data={this.state.carouselItems}
+                      sliderWidth={maxWidth}
+                      itemWidth={maxWidth}
+                      renderItem={this._renderItem}
+                      onSnapToItem={index => { this.setState({ activeIndex: index }) }}
+                    />
+                    <Pagination
+                      dotsLength={this.state.carouselItems.length}
+                      activeDotIndex={this.state.activeIndex}
+                      containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.01)', position: 'absolute', bottom: 0, left: 0, right: 0 }}
+                      dotStyle={{
+                        width: 10,
+                        height: 10,
+                        borderRadius: 5,
+                        marginHorizontal: 8,
+                        backgroundColor: 'rgba(255, 255, 255, 0.92)'
+                      }}
+                      inactiveDotStyle={{
+                        // Define styles for inactive dots here
+                      }}
+                      inactiveDotOpacity={0.4}
+                      inactiveDotScale={0.6}
+                    />
+                  </View>
+                  // <SliderBox
+                  //   images={this.state.images}
+                  //   onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
+                  //   currentImageEmitter={index => { index == 2 ? this.setState({ opv: .2 }) : this.setState({ opv: 1 }) , console.log("index " + index + " opv " + this.state.opv) }}
+                  //   dotColor="white"
+                  //   inactiveDotColor="#90A4AE"
+                  //   autoplay
+                  //   circleLoop
+                  //   // resizeMethod={'resize'}
+                  //   // resizeMode={'cover'}
+                  //   paginationBoxStyle={{
+                  //     position: "absolute",
+                  //     bottom: 0,
+                  //     padding: 0,
+                  //     alignItems: "center",
+                  //     alignSelf: "center",
+                  //     justifyContent: "center",
+                  //     paddingVertical: 20
+                  //   }}
+                  //   dotStyle={{
+                  //     width: 10,
+                  //     height: 10,
+                  //     borderRadius: 5,
+                  //     marginHorizontal: 0,
+                  //     padding: 0,
+                  //     margin: 0,
+                  //     backgroundColor: "rgba(128, 128, 128, 0.8)"
+                  //   }}
+                  //   ImageComponentStyle={{ borderRadius: 0, marginTop: 0, height: imageHeight / 1.5, opacity: this.state.opv }}
+                  //   imageLoadingColor="#2196F3"
+                  // />
+                }
               </View>
               <View style={styles.MainContainer}>
                 <TextInput
                   label="Current Password"
                   leftIcon="key"
                   leftIconSize={20}
-                  containerWidth={TotalWidth}
+                  containerWidth={TotalWidth - 20}
                   leftIconType="material"
                   rightIcon={
                     !this.state.isShowPassword ? 'eye-off-outline' : 'eye-outline'
@@ -250,7 +360,7 @@ export default class ChangePassword extends Component {
                   label="New Password"
                   leftIcon="key"
                   leftIconSize={20}
-                  containerWidth={TotalWidth}
+                  containerWidth={TotalWidth - 20}
                   leftIconType="material"
                   rightIcon={
                     !this.state.isShowNewPassword ? 'eye-off-outline' : 'eye-outline'
@@ -281,7 +391,7 @@ export default class ChangePassword extends Component {
                   label="Confirm Password"
                   leftIcon="key"
                   leftIconSize={20}
-                  containerWidth={TotalWidth}
+                  containerWidth={TotalWidth - 20}
                   leftIconType="material"
                   rightIcon={
                     !this.state.isShowConfirmPassword ? 'eye-off-outline' : 'eye-outline'

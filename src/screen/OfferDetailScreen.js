@@ -30,6 +30,7 @@ var loadingImage = '';
 
 const Width = Dimensions.get('window').width;
 const maxWidth = Width - (Width * 20 / 100)
+const textColor = '#848482';
 
 export default class OfferDetailScreen extends Component {
   static navigationOptions = {
@@ -389,22 +390,26 @@ export default class OfferDetailScreen extends Component {
                   alignSelf: 'flex-start',
                   margin: 20,
                   padding: 7,
-                  paddingHorizontal: 10,
+                  paddingHorizontal: 20,
                   position: 'absolute'
                 }}>{this.state.offer.offerImagelabel}</Text>
               </View>
               <Text
                 style={{
                   paddingTop: 10,
-                  paddingHorizontal: 15,
+                  paddingHorizontal: 20,
                   fontSize: 18,
                   fontWeight: '600',
                   width: Width,
-                  color: this.state.offer.titleColor ? `${this.state.offer.titleColor.indexOf('#') == -1 ? '#' : ''}${this.state.offer.titleColor}` : 'black',
+                  color: textColor
+                  // color: this.state.offer.titleColor ? `${this.state.offer.titleColor.indexOf('#') == -1 ? '#' : ''}${this.state.offer.titleColor}` : 'black',
                 }}>
                 {this.state.offer.offerTitle}
               </Text>
-              <Text style={[styles.offerDetail, { color: this.state.offer.descColor ? `${this.state.offer.descColor.indexOf('#') == -1 ? '#' : ''}${this.state.offer.descColor}` : 'black' }]}>
+              <Text style={[styles.offerDetail, {
+                color: textColor
+                // color: this.state.offer.descColor ? `${this.state.offer.descColor.indexOf('#') == -1 ? '#' : ''}${this.state.offer.descColor}` : 'black' 
+              }]}>
                 {this.state.offer.offerDescription}
               </Text>
               <View style={styles.baseOfferType}>
@@ -417,17 +422,17 @@ export default class OfferDetailScreen extends Component {
                 <Text style={styles.offerExpiry}>{this.state.offer.offerExpire}</Text>
               </View>
               {this.state.offer.displayBarcode && <Barcode value={this.state.offer.offerBarcode} text={this.state.offer.offerBarcode} format="CODE128" style={{ height: 80, width: '70%', alignSelf: 'center' }} />}
-              <View style={{ paddingHorizontal: 15, marginBottom: 15 }}>
-                <Text style={{ fontSizeL: 16 }}>{this.state.addressDetails.name || ''}</Text>
-                <Text style={{ fontSizeL: 14, color: 'grey' }}>{this.state.addressDetails.address || ''}</Text>
-                <Text style={{ fontSizeL: 14, color: 'grey' }}>
+              <View style={{ paddingHorizontal: 20, marginBottom: 15 }}>
+                <Text style={{ fontSizeL: 16, color: textColor }}>{this.state.addressDetails.name || ''}</Text>
+                <Text style={{ fontSizeL: 14, color: textColor }}>{this.state.addressDetails.address || ''}</Text>
+                <Text style={{ fontSizeL: 14, color: textColor }}>
                   {`${this.state.addressDetails.city} ${this.state.addressDetails.state} ${this.state.addressDetails.zipCode}`}
                 </Text>
                 {this._parsePhoneNum(this.state.addressDetails.businessPhone)}
                 {this._parseWebURL(this.state.addressDetails.websiteURL)}
               </View>
 
-              <View style={{ marginHorizontal: 15, borderWidth: 1, borderColor: 'grey', borderRadius: 10, padding: 10, alignItems: 'center' }}>
+              <View style={{ marginHorizontal: 20, borderWidth: 1, borderColor: 'grey', borderRadius: 10, padding: 10, alignItems: 'center' }}>
                 <Text style={{ fontSizeL: 14, color: 'grey' }}>Internal Use Only: {this.state.offer.offerBarcode || ''}</Text>
                 <Text style={{ fontSizeL: 14, color: 'grey', marginTop: 5 }}>Mobile: {this.state.userDetails.mobilePhone || ''}</Text>
                 <View style={{ flexDirection: 'row', marginTop: 5, paddingHorizontal: 5 }}>
@@ -498,13 +503,14 @@ const styles = {
     fontWeight: 'bold',
   },
   offerDetail: {
-    paddingLeft: 15,
-    paddingRight: 15,
+    // paddingLeft: 15,
+    // paddingRight: 15,
+    paddingHorizontal: 20,
     paddingTop: 10,
-    fontSize: 15,
+    fontSize: 16,
     textAlign: 'justify',
   },
-  baseOfferType: { flexDirection: 'row', padding: 15 },
+  baseOfferType: { flexDirection: 'row', padding: 20 },
   offerType: {
     fontSize: 15,
     fontWeight: 'bold',

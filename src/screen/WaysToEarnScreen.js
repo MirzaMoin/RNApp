@@ -14,6 +14,7 @@ var loadingImage = '';
 
 const maxWidth = Dimensions.get('window').width;
 const imageHeight = (maxWidth / 16) * 9;
+const textColor = '#848482';
 
 export default class WayToEarnScreen extends Component {
   static navigationOptions = {
@@ -59,7 +60,7 @@ export default class WayToEarnScreen extends Component {
         if (response.statusCode == 0) {
           Alert.alert('Oppss...', response.statusMessage);
         } else {
-          
+
           this.setState({
             screenData: response.responsedata,
             isLoading: false,
@@ -135,8 +136,9 @@ export default class WayToEarnScreen extends Component {
       return (
         <View
           style={{
-            paddingHorizontal:15,
-            padding: 20,
+            paddingHorizontal: 20,
+            //padding: 20,
+            paddingVertical: 20,
             backgroundColor: this._showItem % 2 ? 'white' : 'rgba(153,153,153,0.2)',
           }}>
           <View style={styles.titleContainer}>
@@ -227,20 +229,24 @@ const styles = {
   },
   title: {
     flex: 1,
-    fontSize: 21,
-    color: 'black',
+    fontSize: 24,
+    color: textColor,
+    textAlign: 'left',
+    fontWeight: 'normal',
   },
   description: {
     marginTop: 10,
     textAlign: 'justify',
     fontSize: 16,
-    color: 'black',
+    color: textColor,
+    lineHeight: 16 * 1.5,
   },
   subTitle: {
     flex: 1,
     textAlign: 'right',
-    fontSize: 15,
-    paddingTop: 15,
+    fontSize: 16,
+    paddingTop: 20,
+    color: textColor
   },
   btnRecentActivity: {
     padding: 5,

@@ -251,7 +251,7 @@ export default class TakeSurveyScreen extends Component {
               data={this.state.dataSoureUntaken}
               ListEmptyComponent={() => {
                 return (<View style={{ flex: 1, height: '100%', alignContent: 'center', justifyContent: 'center', }}>
-                  <Text style={{ fontSize: 20, alignSelf: 'center', marginTop: 150 }}>No Survey Found</Text>
+                  <Text style={{ fontSize: 20, alignSelf: 'center', marginTop: 150, color: '#848482' }}>No Survey Found</Text>
                 </View>)
               }}
               renderItem={({ item, index }) => this.renderUntakenRow(item, index)}

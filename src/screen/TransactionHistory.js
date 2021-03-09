@@ -111,12 +111,12 @@ export default class TransactionHistory extends Component {
 
   _renderChieldMenus = item => {
     return (
-      <View style={{ flexDirection: 'column' }}>
+      <View style={{ flexDirection: 'column', marginHorizontal: 4 }}>
         {item.childMenus.map((menu) => {
           if (menu.name == 'Images' && menu.value.length > 0) {
             return (
-              <View style={{ flex: 1, flexDirection: 'column' }}>
-                <View style={{ flexDirection: 'row' }}>
+              <View style={{ flex: 1, flexDirection: 'column', }}>
+                <View style={{ flexDirection: 'row', }}>
                   <MDIcon style={styles.rowItemIcon} name={'image'} />
                   <Text style={styles.rowChildTitle}>{menu.name}</Text>
                 </View>
@@ -229,7 +229,7 @@ export default class TransactionHistory extends Component {
         <>
           <View style={{ hegith: imageHeight }}>
             <Image
-              style={{ height: imageHeight  }}
+              style={{ height: imageHeight }}
               source={{
                 uri:
                   APIConstant.HEADER_IMAGE,
@@ -237,7 +237,7 @@ export default class TransactionHistory extends Component {
               resizeMode="cover"
             />
           </View>
-          <View style={{ flexDirection: 'row', paddingHorizontal: 10, marginBottom: 10, marginTop: 10, marginHorizontal: 15, borderWidth: 2, borderRadius: 5, borderColor: 'rgba(153,153,153,1)', alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', marginBottom: 10, marginTop: 10, marginHorizontal: 20, borderWidth: 2, borderRadius: 5, borderColor: 'rgba(153,153,153,1)', alignItems: 'center' }}>
             <MDIcon name={'search'} style={{ fontSize: 24 }} />
             <TextInput
               placeholder="Location Name"
@@ -257,7 +257,7 @@ export default class TransactionHistory extends Component {
             scrollEnabled={true}
             ListEmptyComponent={() => {
               return (<View style={{ flex: 1, height: '100%', alignContent: 'center', justifyContent: 'center', }}>
-                <Text style={{ fontSize: 24, alignSelf: 'center', marginTop:'20%' }}>No Transaction Found</Text>
+                <Text style={{ fontSize: 24, alignSelf: 'center', marginTop: '20%' }}>No Transaction Found</Text>
               </View>)
             }}
             data={this.state.search ? this.state.filteredData : this.state.data}
@@ -272,7 +272,7 @@ export default class TransactionHistory extends Component {
                     justifyContent: 'flex-end'
                   },
                 ]}>
-                <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ flex: 1, flexDirection: 'row', marginHorizontal: 4 }}>
                   <MDIcon style={styles.rowItemIcon} name={'date-range'} />
                   <Text style={styles.rowTitle}>Date: </Text>
                   <Text style={[styles.rowItemtext, { color: 'red' }]}>
@@ -280,7 +280,7 @@ export default class TransactionHistory extends Component {
                   </Text>
                 </View>
 
-                {this.state.selectedIndex == index && <View style={{ flex: 1, flexDirection: 'row' }}>
+                {this.state.selectedIndex == index && <View style={{ flex: 1, flexDirection: 'row', marginHorizontal: 4 }}>
                   <MDIcon style={styles.rowItemIcon} name={'location-on'} />
                   <Text style={styles.rowTitle}>Location: </Text>
                   <Text style={[styles.rowItemtext, { color: 'grey' }]}>
@@ -288,7 +288,7 @@ export default class TransactionHistory extends Component {
                   </Text>
                 </View>}
 
-                <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ flex: 1, flexDirection: 'row', marginHorizontal: 4 }}>
                   <Icon name="gift" style={[styles.rowItemIcon, { marginLeft: 1 }]} size={20} />
                   <Text style={styles.rowTitle}>Point: </Text>
                   <Text
@@ -302,7 +302,7 @@ export default class TransactionHistory extends Component {
                   </Text>
                 </View>
 
-                <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ flex: 1, flexDirection: 'row', marginHorizontal: 4 }}>
                   <MDIcon style={styles.rowItemIcon} name={'credit-card'} />
                   <Text style={styles.rowTitle}>Balance: </Text>
                   <Text style={[styles.rowItemtext, { color: 'gray' }]}>
@@ -310,7 +310,7 @@ export default class TransactionHistory extends Component {
                   </Text>
                 </View>
 
-                {this.state.selectedIndex == index && <View style={{ flex: 1, flexDirection: 'row' }}>
+                {this.state.selectedIndex == index && <View style={{ flex: 1, flexDirection: 'row', marginHorizontal: 4 }}>
                   <MDIcon style={styles.rowItemIcon} name={'style'} />
                   <Text style={styles.rowTitle}>Type: </Text>
                   <Text style={[styles.rowItemtext]}>
@@ -318,7 +318,7 @@ export default class TransactionHistory extends Component {
                   </Text>
                 </View>}
 
-                {this.state.selectedIndex == index && <View style={{ flex: 1, flexDirection: 'row' }}>
+                {this.state.selectedIndex == index && <View style={{ flex: 1, flexDirection: 'row', marginHorizontal: 4 }}>
                   <MDIcon style={styles.rowItemIcon} name={'loop'} />
                   <Text style={styles.rowTitle}>Status: </Text>
                   <Text style={[styles.rowItemtext]}>
@@ -334,9 +334,9 @@ export default class TransactionHistory extends Component {
                     })
                   }}>
                   <View style={{ flexDirection: 'row', justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flex: 1, height: 1, backgroundColor: 'black', marginRight: 15 }} />
+                    <View style={{ flex: 1, height: 1, backgroundColor: 'black', marginHorizontal: 4 }} />
                     <MDIcon style={{ fontSize: 26, alignSelf: 'center' }} name={this.state.selectedIndex == index ? 'keyboard-arrow-up' : 'keyboard-arrow-down'} />
-                    <View style={{ flex: 1, height: 1, backgroundColor: 'black', marginLeft: 15 }} />
+                    <View style={{ flex: 1, height: 1, backgroundColor: 'black', marginHorizontal: 4 }} />
                   </View>
                 </TouchableOpacity>
                 {/*this.state.selectedIndex == index && this._renderChieldMenus(item)*/}
@@ -386,7 +386,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 20,
     minWidth: 20,
-    color:'grey'
+    color: 'grey'
   },
   rowTitle: {
     paddingLeft: 7,

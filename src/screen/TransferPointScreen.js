@@ -23,6 +23,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 const maxWidth = Dimensions.get('window').width;
 const imageHeight = (maxWidth / 16) * 9;
+const textColor = '#848482';
 export default class TransferPointScreen extends Component {
   static navigationOptions = {
     header: null,
@@ -142,7 +143,7 @@ export default class TransferPointScreen extends Component {
               {/* <View style={styles.imageOverlay} /> */}
             </View>
 
-            <View style={{ padding: 10, paddingHorizontal: 10, flex: 1, justifyContent: 'center' }}>
+            <View style={{ marginTop: 10, paddingHorizontal: 10, flex: 1, justifyContent: 'center' }}>
               {/* <Text
                 style={{
                   fontSize: 22,
@@ -151,7 +152,11 @@ export default class TransferPointScreen extends Component {
                 }}>
                 How many are you transfering?
           </Text> */}
-              <Text style={{ padding: 5, paddingLeft: 10, color: this.state.transferAmountError ? 'red' : 'black' }}>Enter Point Amount</Text>
+              <Text style={{
+                padding: 5, paddingLeft: 10,
+                // color: this.state.transferAmountError ? 'red' : 'black' 
+                color: textColor
+              }}>Enter Point Amount</Text>
               <View
                 style={{
                   marginLeft: 10,
@@ -195,13 +200,18 @@ export default class TransferPointScreen extends Component {
                     backgroundColor: '#fff',
                     paddingLeft: 25,
                     paddingRight: 25,
+                    color: textColor
                   }}>
                   Transfering to
             </Text>
               </View>
 
               <Text
-                style={{ padding: 5, paddingLeft: 10, color: this.state.transferToError ? 'red' : 'black' }}>
+                style={{
+                  padding: 5, paddingLeft: 10,
+                  //color: this.state.transferToError ? 'red' : 'black' 
+                  color: textColor
+                }}>
                 Enter User Details
           </Text>
               <View
@@ -228,7 +238,7 @@ export default class TransferPointScreen extends Component {
                 marginTop: 20,
                 // marginRight: 10,
                 // marginVertical:10,
-                marginHorizontal:5
+                marginHorizontal: 5
               }}>
                 <SwipeButton
                   thumbIconBackgroundColor="#FFFFFF"

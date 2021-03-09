@@ -141,6 +141,7 @@ export default class RefereFriendScreen extends Component {
 
                     }}>
                     Receive $10 for each friend who joins & make a purchase. Get the invite link & share in your favorite places.
+
                   </Text>
                   <View
                     style={{

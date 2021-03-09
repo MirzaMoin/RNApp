@@ -26,6 +26,8 @@ var loadingImage = '';
 const Width = Dimensions.get('window').width;
 var isRefresh = true;
 
+const textColor = '#848482';
+
 export default class OfferScreen extends Component {
   static navigationOptions = {
     header: null,
@@ -201,10 +203,10 @@ export default class OfferScreen extends Component {
                         borderRadius: 5,
                         color: 'white',
                         alignSelf: 'flex-start',
-                        margin: 1,
-                        marginTop:5,
+                        margin: 20,
+                        marginTop: 10,
                         padding: 5,
-                        paddingHorizontal: 14
+                        paddingHorizontal: 10
                       }}>{item.offerImagelabel}</Text>
                       <View style={{ flex: 1 }} />
                       <Text
@@ -218,14 +220,14 @@ export default class OfferScreen extends Component {
                           // width: Width,
                           alignSelf: 'flex-start',
                           padding: 5,
-                          paddingHorizontal:15,
+                          paddingHorizontal: 20,
                           // paddingVertical:10
                         }}>
                         {item.offerTitle}
                       </Text>
                     </View>
                   </View>
-                  <Text style={[styles.offerDetail, { color: parseColor(item.descColor) }]}>
+                  <Text style={[styles.offerDetail, { color: textColor }]}>
                     {item.offerDescription}
                   </Text>
                   <View style={styles.baseOfferType}>
@@ -299,13 +301,14 @@ const styles = {
     fontWeight: 'bold',
   },
   offerDetail: {
-    paddingLeft: 15,
-    paddingRight: 15,
+    // paddingLeft: 15,
+    // paddingRight: 15,
+    paddingHorizontal: 20,
     paddingTop: 15,
-    fontSize: 15,
+    fontSize: 16,
     textAlign: 'justify',
   },
-  baseOfferType: { flexDirection: 'row', padding: 15 },
+  baseOfferType: { flexDirection: 'row', padding: 20 },
   offerType: {
     fontSize: 15,
     fontWeight: 'bold',

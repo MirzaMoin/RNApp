@@ -858,7 +858,7 @@ export default class LoginScreen extends Component {
             leftIconType="material"
             underlineColor="#ffffff"
             color="#ffffff"
-            containerWidth={maxWidth}
+            containerWidth={maxWidth-20}
             labelActiveColor="#ffffff"
             leftIconColor="#ffffff"
             selectionColor={"#ffffff"}
@@ -877,7 +877,7 @@ export default class LoginScreen extends Component {
             label="Password"
             leftIcon="key"
             leftIconSize={20}
-            containerWidth={maxWidth}
+            containerWidth={maxWidth-20}
             leftIconType="material"
             rightIcon={
               !this.state.isShowPassword ? "eye-off-outline" : "eye-outline"
@@ -931,7 +931,7 @@ export default class LoginScreen extends Component {
   _showLoginCleanlogin = () => {
     if (!this.state.isShowForgotPassword && !this.state.isShowSignUp && LoginScreenModel.themeType == 'cleanlogin') {
       return (
-        <View style={{ flex: 1, flexDirection: "column", }}>
+        <View style={{ flex: 1, flexDirection: "column",alignSelf:'center',alignContent:'center',alignItems:'center' }}>
           <TextInput
             label="Email, Mobile Member ID"
             labelColor="#ffffff"
@@ -940,7 +940,7 @@ export default class LoginScreen extends Component {
             leftIconType="material"
             underlineColor="#ffffff"
             color="#ffffff"
-            containerWidth={maxWidth + 5}
+            containerWidth={maxWidth}
             labelActiveColor="#ffffff"
             leftIconColor="#ffffff"
             selectionColor={"#ffffff"}
@@ -959,7 +959,7 @@ export default class LoginScreen extends Component {
             label="Password"
             leftIcon="key"
             leftIconSize={20}
-            containerWidth={maxWidth + 5}
+            containerWidth={maxWidth}
             leftIconType="material"
             rightIcon={
               !this.state.isShowPassword ? "eye-off-outline" : "eye-outline"
@@ -3004,6 +3004,27 @@ export default class LoginScreen extends Component {
                       </TouchableOpacity>
                       {/* </LinearGradient> */}
                       {this._showLogin()}
+                    {this.state.isShowLogin && <><Text
+                      style={[
+                        styles.forgotPassword,
+                        {
+                          color: parseColor(
+                            LoginScreenModel.forgotPwdBtnTextColor
+                          ),
+                        },
+                      ]}
+                      onPress={this._onForgotPasswordClick}
+                    >HAVING TROUBLE IN LOGGING IN
+                        {/* {LoginScreenModel.forgotPwdBtnText} */}
+                    </Text>
+                      <View
+                        style={{
+                          width: '90%',
+                          margine: -10,
+                          height: 1,
+                          backgroundColor: "#ffffff",
+                        }}
+                      /></>}
                       {/* <Text
                         style={[
                           styles.forgotPassword,
@@ -3025,7 +3046,7 @@ export default class LoginScreen extends Component {
                           backgroundColor: "#ffffff",
                         }}
                       /> */}
-                      {/* {this._showForgotPassword()} */}
+                      {this._showForgotPassword()}
                     </View>
                   </ScrollView>
                 </View>
@@ -3126,7 +3147,7 @@ export default class LoginScreen extends Component {
                         </LinearGradient>
                       </TouchableOpacity>
                       {this._showLogin()}
-                      <Text
+                      { this.state.isShowLogin && <><Text
                         style={[
                           styles.forgotPassword,
                           {
@@ -3136,17 +3157,17 @@ export default class LoginScreen extends Component {
                           },
                         ]}
                         onPress={this._onForgotPasswordClick}
-                      >
-                        {LoginScreenModel.forgotPwdBtnText}
+                      >HAVING TROUBLE IN LOGGING IN
+                        {/* {LoginScreenModel.forgotPwdBtnText} */}
                       </Text>
                       <View
                         style={{
-                          width: 170,
+                          width: '80%',
                           margine: -10,
                           height: 1,
                           backgroundColor: "#ffffff",
                         }}
-                      />
+                      /></>}
                       {this._showForgotPassword()}
                     </View>
                   </ScrollView>

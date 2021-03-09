@@ -233,14 +233,14 @@ export default class LeaderBoardScreen extends Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
-          <View style={{ height: 35, flexDirection: 'row', backgroundColor: '#012345', alignItems: 'center' }}>
+          <View style={{ height: 35, flexDirection: 'row', backgroundColor: '#012345', alignItems: 'center', paddingHorizontal: 5 }}>
             <Card containerStyle={{
               flex: 1,
               marginVertical: 0,
               borderBottomLeftRadius: 20,
               borderBottomRightRadius: 20,
               padding: 5,
-              marginRight: 5,
+              marginRight: 8,
             }}>
               {/* <TouchableNativeFeedback */}
               <TouchableOpacity
@@ -262,7 +262,7 @@ export default class LeaderBoardScreen extends Component {
               borderBottomLeftRadius: 20,
               borderBottomRightRadius: 20,
               padding: 5,
-              marginLeft: 5,
+              marginLeft: 8,
             }}>
               {/* <TouchableNativeFeedback */}
               <TouchableOpacity
@@ -297,7 +297,7 @@ export default class LeaderBoardScreen extends Component {
             {this._buildThirdWinner()}
           </View>
           <FlatList
-            style={{ flex: 1, marginTop: 50, paddingHorizontal: 0,marginHorizontal:5 }}
+            style={{ flex: 1, marginTop: 50, paddingHorizontal: 0, marginHorizontal: 10 }}
             data={this.state.leaderBoardReport}
             ListEmptyComponent={() => {
               return (

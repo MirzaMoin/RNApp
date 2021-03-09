@@ -852,7 +852,7 @@ export default class ProfileScreen extends Component {
           labelColor="grey"
           leftIcon="credit-card"
           leftIconSize={20}
-          containerWidth={width}
+          containerWidth={width-40}
           leftIconType="material"
           underlineColor="black"
           color="black"
@@ -903,7 +903,7 @@ export default class ProfileScreen extends Component {
           labelColor="grey"
           leftIcon="car"
           leftIconSize={20}
-          containerWidth={width}
+          containerWidth={width-40}
           leftIconType="material"
           underlineColor="black"
           color="black"
@@ -955,7 +955,7 @@ export default class ProfileScreen extends Component {
           labelColor="grey"
           leftIcon="account"
           leftIconSize={20}
-          containerWidth={width}
+          containerWidth={width-40}
           leftIconType="material"
           underlineColor="black"
           color="black"
@@ -1007,7 +1007,7 @@ export default class ProfileScreen extends Component {
           labelColor="grey"
           leftIcon="account"
           leftIconSize={20}
-          containerWidth={width}
+          containerWidth={width-40}
           leftIconType="material"
           underlineColor="black"
           color="black"
@@ -1059,7 +1059,7 @@ export default class ProfileScreen extends Component {
           labelColor="grey"
           leftIcon="email"
           leftIconSize={20}
-          containerWidth={width}
+          containerWidth={width-40}
           leftIconType="material"
           underlineColor="black"
           color="black"
@@ -1093,7 +1093,7 @@ export default class ProfileScreen extends Component {
           keyboardType={'phone-pad'}
           returnKeyType='done'
           leftIconSize={20}
-          containerWidth={width}
+          containerWidth={width-40}
           leftIconType="material"
           underlineColor="black"
           color="black"
@@ -1128,7 +1128,7 @@ export default class ProfileScreen extends Component {
           labelColor="grey"
           leftIcon="home"
           leftIconSize={20}
-          containerWidth={width}
+          containerWidth={width-40}
           multiline={true}
           minHeight={100}
           maxHeight={100}
@@ -1166,7 +1166,7 @@ export default class ProfileScreen extends Component {
           labelColor="grey"
           leftIcon="home"
           leftIconSize={20}
-          containerWidth={width}
+          containerWidth={width-40}
           multiline={true}
           minHeight={100}
           maxHeight={100}
@@ -1205,7 +1205,7 @@ export default class ProfileScreen extends Component {
             labelColor="grey"
             leftIcon="home"
             leftIconSize={20}
-            containerWidth={width}
+            containerWidth={width-40}
             multiline={true}
             minHeight={100}
             maxHeight={100}
@@ -1240,7 +1240,7 @@ export default class ProfileScreen extends Component {
             labelColor="grey"
             leftIcon="city"
             leftIconSize={20}
-            containerWidth={width}
+            containerWidth={width-40}
             leftIconType="material"
             underlineColor="black"
             color="black"
@@ -1269,7 +1269,7 @@ export default class ProfileScreen extends Component {
             labelColor="grey"
             leftIcon="domain"
             leftIconSize={20}
-            containerWidth={width}
+            containerWidth={width-40}
             leftIconType="material"
             underlineColor="black"
             color="black"
@@ -1300,7 +1300,7 @@ export default class ProfileScreen extends Component {
             keyboardType={'numeric'}
             returnKeyType='done'
             leftIconSize={20}
-            containerWidth={width}
+            containerWidth={width-40}
             leftIconType="material"
             underlineColor="black"
             color="black"
@@ -1339,7 +1339,7 @@ export default class ProfileScreen extends Component {
   _renderBirthDate = fieldsData => {
     if (this._visibleFields.indexOf(fieldsData.birthdateRequired) > -1) {
       return (
-        <View style={{ width: width-25, flexDirection: 'column', marginTop: 5, marginBottom: 5 }}>
+        <View style={{ width: width-40, flexDirection: 'column', marginTop: 5, marginBottom: 5 }}>
           {this._renderLabel(this.state.signup.birthdate, fieldsData.birthdateLabel || 'Birth Date')}
           <DatePicker
             date={this.state.signup.birthdate}
@@ -1379,7 +1379,7 @@ export default class ProfileScreen extends Component {
   _renderAnniversary = fieldsData => {
     if (this._visibleFields.indexOf(fieldsData.anniversaryRequired) > -1) {
       return (
-        <View style={{ width: width-25, flexDirection: 'column', marginTop: 5, marginBottom: 5 }}>
+        <View style={{ width: width-40, flexDirection: 'column', marginTop: 5, marginBottom: 5 }}>
           {this._renderLabel(this.state.signup.anniversary, fieldsData.anniversaryLabel || 'Anniversary Date')}
           <DatePicker
             date={this.state.signup.anniversary}
@@ -1419,7 +1419,7 @@ export default class ProfileScreen extends Component {
   _renderGender = fieldsData => {
     if (!this._visibleFields.indexOf(fieldsData.genderRequired) > -1) {
       return (
-        <View style={{ marginVertical: 10, width: width-25 }}>
+        <View style={{ marginVertical: 10, width: width-40 }}>
           {this._renderLabel(this.state.signup.gender, fieldsData.genderLabel || 'Gender')}
           <View style={{ flexDirection: 'row', alignContent: 'center', marginVertical: 5 }}>
             <MDIcon name={'group'} style={{ fontSize: 22, color: 'grey', marginRight: 10 }} />
@@ -1469,7 +1469,7 @@ export default class ProfileScreen extends Component {
         item.push(it);
       });
       return (
-        <View style={{ width: width-25, }}>
+        <View style={{ width: width-40, }}>
           <SectionedMultiSelect
             items={item}
             uniqueKey="id"
@@ -1618,7 +1618,7 @@ export default class ProfileScreen extends Component {
                     keyboardType={field.controlTypeID == 3 ? 'numeric' : ''}
                     multiline={field.controlTypeID == 2}
                     leftIconSize={20}
-                    containerWidth={width}
+                    containerWidth={width-40}
                     minHeight={field.controlTypeID == 2 ? 100 : undefined}
                     maxHeight={field.controlTypeID == 2 ? 100 : undefined}
                     leftIconType="material"
@@ -1659,7 +1659,7 @@ export default class ProfileScreen extends Component {
                   item.push(it);
                 });
                 return (
-                  <View style={{ width: width-25 }}>
+                  <View style={{ width: width-40 }}>
                     <SectionedMultiSelect
                       modalWithSafeAreaView={true}
                       items={item}
@@ -1719,7 +1719,7 @@ export default class ProfileScreen extends Component {
                   item.push(it);
                 });
                 return (
-                  <View style={{ width: width-25 }}>
+                  <View style={{ width: width-40 }}>
                     <SectionedMultiSelect
                       items={item}
                       modalWithSafeAreaView={true}
@@ -1782,7 +1782,7 @@ export default class ProfileScreen extends Component {
                   item.push(it);
                 });
                 return (
-                  <View style={{ width: width-25 }}>
+                  <View style={{ width: width-40 }}>
                     <SectionedMultiSelect
                       items={item}
                       modalWithSafeAreaView={true}
@@ -1836,7 +1836,7 @@ export default class ProfileScreen extends Component {
               } else if (field.controlTypeID == 7) {
                 // date picker
                 return (
-                  <View style={{ width: width-25, flexDirection: 'column', marginTop: 5, marginBottom: 5 }}>
+                  <View style={{ width: width-40, flexDirection: 'column', marginTop: 5, marginBottom: 5 }}>
                     {this._renderLabel(this.state.signup.customData[field.customFieldID], field.fieldLabel)}
                     <DatePicker
                       date={this.state.signup.customData[field.customFieldID]}
@@ -1914,7 +1914,7 @@ export default class ProfileScreen extends Component {
         this.state.signup.additionalBirthDates.map((field, index) => {
           //console.log(`Map dyanmic value ${Object.keys(field)} : ${field[Object.keys(field)]}`)
           fields.push(
-            <View style={{ flexDirection: 'row', width: width-25 }}>
+            <View style={{ flexDirection: 'row', width: width-40 }}>
               <View style={{ width: 250, flexDirection: 'column', marginTop: 5, marginBottom: 5 }}>
                 {this._renderLabel(field.AdditionalDate, field.AdditionalName)}
                 <DatePicker
@@ -1984,7 +1984,7 @@ export default class ProfileScreen extends Component {
                 labelColor="grey"
                 leftIcon="account"
                 leftIconSize={20}
-                containerWidth={width}
+                containerWidth={width-40}
                 leftIconType="material"
                 underlineColor="black"
                 color="black"

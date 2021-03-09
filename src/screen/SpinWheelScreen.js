@@ -237,13 +237,13 @@ export default class SpinWheelScreen extends Component {
                 >
                     <View style={{ flex: 1 }}>
                         <ImageBackground source={require('../../Image/sloticons/nice_try_wait.gif')} style={{ height: '100%', width: '100%', alignSelf: 'center', }} />
-                        <View style={{ position: 'absolute', top: '38%', left: '35%', right: '35%', alignSelf: 'center' }}                        >
+                        <View style={{ position: 'absolute', top: '38%', left: '35%', right: '35%', alignSelf: 'center' }}>
                             <Text style={{ alignSelf: 'center', color: 'white',}}>MAY BE NEXT TIME !</Text>
                         </View>
-                        <View style={{ position: 'absolute', top: '55%', left: '35%', right: '35%', alignSelf: 'center' }}                        >
+                        <View style={{ position: 'absolute', top: '55%', left: '35%', right: '35%', alignSelf: 'center' }}>
                             <Text style={{ alignSelf: 'center', color: 'white' }}>50 POINTS AND GIFT OFFERS</Text>
                         </View>
-                        <View style={{ position: 'absolute', top: '65%', left: '35%', right: '35%', alignSelf: 'center' }}                        >
+                        <View style={{ position: 'absolute', top: '65%', left: '35%', right: '35%', alignSelf: 'center' }}>
                             <TouchableOpacity onPress={() => { this.setState({ visibleIamge: false }), this.props.navigation.goBack() }}>
                                 <ImageBackground source={require('../../Image/sloticons/button.png')} style={{ height: 50, width: 120, alignSelf: 'center', }} resizeMode={'contain'} />
                                 <Text style={{ alignSelf: 'center', color: 'yellow', marginTop: -35, }}>Looser button</Text>
